@@ -15,6 +15,9 @@ const composeZodSchema = (fields: any) => {
   )
 }
 
+// localhost:300/llm/tools/slack
+// llm.do/api/tools/slack
+
 export const POST = API(async (request, { db, user, origin, url, domain, params }) => {
   const { app } = params
 

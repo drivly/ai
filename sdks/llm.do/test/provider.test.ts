@@ -5,7 +5,7 @@ import { getModel } from '@/pkgs/language-models'
 import { z } from 'zod'
 
 const llm = createLLMProvider({
-  baseURL: `${ process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000' }/llm` 
+  baseURL: `${ process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000' }/api/llm` 
 })
 
 const geminiToolFixPrompt = ' Do not ask for arguments to a tool, use your best judgement. If you are unsure, return null.'
@@ -47,33 +47,38 @@ describe('llm.do Chat Completions 💭', () => {
   // Structured outputs
   it('should support structured outputs', async () => {
     const result = await generateObject({
-      model: llm('gemini'),
+      model: llm('gpt-4.1'),
       prompt: 'Respond with a short greeting',
       schema: z.object({
-        greeting: z.string()
-      })
+        greeting: z.string() 
+      })     
     })
 
     expect(result.object.greeting).toBeTruthy()
-  })
+  }) 
 
   // Currently broken inside AI SDK.
-  it.only('should support structured outputs with tools', async () => {
-    const result = await generateObject({
+  it.skip('should support structured outputs with tools', async () => {
+    const result = await generateObject({ 
       model: llm(
-        'gemini',
+        'gpt-4.1',
         {
-          tools: [ 'hackernews.getFrontpage' ]
+          tools: [ 'hackernews.getFrontpage' ] 
         }
       ),
-      prompt: 'Get the frontpage of hackernews.' + geminiToolFixPrompt,
+      prompt: 'Get the frontpage of hackernews, and tell me the most interesting article in your opinion.' + geminiToolFixPrompt,
       schema: z.object({
-        greeting: z.string()
+        article: z.object({
+          title: z.string(),
+          url: z.string()
+        }),
+        opinion: z.string()
       })
     })
 
-    console.log(
-      result
+    console.dir(
+      result.object,
+      { depth: null }
     )
 
     expect(result.object.greeting).toBeTruthy()

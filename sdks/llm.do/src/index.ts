@@ -86,6 +86,7 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
         errorToMessage: (error) => error.message,
       },
       defaultObjectGenerationMode: 'tool',
+      supportsStructuredOutputs: true,
       fetch: async (url, init) => {
         // Mixin our model options into the body.
         // By default, AI SDK wont let us add properties that are not inside the OpenAI schema.

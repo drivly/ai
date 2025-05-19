@@ -270,7 +270,7 @@ export async function POST(req: Request) {
   }
 
   const openAiResponse = (result: any) => {
-    return Response.json({
+    const body = {
       id: result.id || `msg-${ Math.random().toString(36).substring(2, 15) }`,
       object: 'llm.completion',
       created: Date.now(),
@@ -301,7 +301,14 @@ export async function POST(req: Request) {
         completion_tokens: result.usage.completion_tokens,
         total_tokens: result.usage.total_tokens
       } : undefined
-    }, {
+    }
+
+    console.dir(
+      body,
+      { depth: null }
+    )
+
+    return Response.json(body, {
       // Send partial data via headers as AI SDK does not support viewing the raw body.
       headers: {
         'llm-provider': modelData.provider.name,
@@ -459,6 +466,7 @@ export async function POST(req: Request) {
           prompt,
           user: session?.user.email || '',
           maxSteps: 50,
+          tools,
           onTool
         })
   
@@ -493,7 +501,7 @@ export async function POST(req: Request) {
   
         return openAiResponse(result)
       } else {
-        const result = await generateText({
+        let result = await generateText({
           ...rest,
           model: llmModel,
           modelOptions,
@@ -503,9 +511,14 @@ export async function POST(req: Request) {
           user: session?.user.email || '',
           maxSteps: 10,
           tools,
-          onTool
+          onTool,
+          experimental_output: 'json'
         })
-  
+
+        const hasJsonTool = !!tools.json
+
+        if (hasJsonTool && !result.toolCalls.length) {}
+
         return openAiResponse(result)
       }
     }

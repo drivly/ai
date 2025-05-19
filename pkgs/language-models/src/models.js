@@ -189,11 +189,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 0,
-        "newest": 235,
+        "newest": 234,
         "throughputHighToLow": 154,
         "latencyLowToHigh": 62,
         "pricingLowToHigh": 140,
-        "pricingHighToLow": 178
+        "pricingHighToLow": 177
       },
       "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
       "providers": [
@@ -234,8 +234,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 59.0295,
-          "latency": 443.5
+          "throughput": 59.1835,
+          "latency": 445
         },
         {
           "name": "Azure",
@@ -271,8 +271,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 163.815,
-          "latency": 1385
+          "throughput": 163.7185,
+          "latency": 1384
         }
       ]
     },
@@ -482,8 +482,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 60.1565,
-          "latency": 1575
+          "throughput": 60.3095,
+          "latency": 1588.5
         },
         {
           "name": "Amazon Bedrock",
@@ -513,8 +513,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 34.607,
-          "latency": 1949
+          "throughput": 34.4045,
+          "latency": 1982.5
         },
         {
           "name": "Anthropic",
@@ -544,8 +544,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 56.2995,
-          "latency": 2304
+          "throughput": 56.338,
+          "latency": 2296
         },
         {
           "name": "Google Vertex (Europe)",
@@ -575,8 +575,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 49.1645,
-          "latency": 1888
+          "throughput": 49.126,
+          "latency": 1897.5
         }
       ]
     },
@@ -797,7 +797,7 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.4,
-          "throughput": 170.518,
+          "throughput": 170.541,
           "latency": 525
         },
         {
@@ -834,8 +834,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 180.844,
-          "latency": 477
+          "throughput": 180.6175,
+          "latency": 475
         }
       ]
     },
@@ -1054,8 +1054,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 94.659,
-          "latency": 555
+          "throughput": 94.3075,
+          "latency": 556
         },
         {
           "name": "AI Studio Non-Thinking",
@@ -1088,8 +1088,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 636.3615,
-          "latency": 3783.5
+          "throughput": 632.0835,
+          "latency": 3774.5
         }
       ]
     },
@@ -1316,8 +1316,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 10,
-          "throughput": 88.838,
-          "latency": 2088
+          "throughput": 89.0345,
+          "latency": 1974
         },
         {
           "name": "Google AI Studio",
@@ -1351,8 +1351,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 10,
-          "throughput": 690.5095,
-          "latency": 31023
+          "throughput": 686.4775,
+          "latency": 29836.5
         }
       ]
     },
@@ -1551,8 +1551,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.88,
-          "throughput": 29.112,
-          "latency": 883
+          "throughput": 28.1775,
+          "latency": 880.5
         },
         {
           "name": "NovitaAI",
@@ -1588,8 +1588,8 @@ export default {
           ],
           "inputCost": 0.33,
           "outputCost": 1.3,
-          "throughput": 20.476,
-          "latency": 1277
+          "throughput": 20.557,
+          "latency": 1275
         },
         {
           "name": "kluster.ai",
@@ -1625,8 +1625,8 @@ export default {
           ],
           "inputCost": 0.33,
           "outputCost": 1.4,
-          "throughput": 19.2245,
-          "latency": 1255
+          "throughput": 19.268,
+          "latency": 1259
         },
         {
           "name": "Lambda",
@@ -1662,8 +1662,8 @@ export default {
           ],
           "inputCost": 0.34,
           "outputCost": 0.88,
-          "throughput": 27.8535,
-          "latency": 723
+          "throughput": 27.794,
+          "latency": 725
         },
         {
           "name": "inference.net",
@@ -1697,8 +1697,8 @@ export default {
           ],
           "inputCost": 0.45,
           "outputCost": 1.45,
-          "throughput": 20.831,
-          "latency": 1536
+          "throughput": 20.5425,
+          "latency": 1535
         },
         {
           "name": "Nebius AI Studio",
@@ -1732,8 +1732,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 21.4705,
-          "latency": 842
+          "throughput": 21.4125,
+          "latency": 836
         },
         {
           "name": "Parasail",
@@ -1763,8 +1763,8 @@ export default {
           ],
           "inputCost": 0.74,
           "outputCost": 1.5,
-          "throughput": 51.8525,
-          "latency": 831
+          "throughput": 51.805,
+          "latency": 830
         },
         {
           "name": "CentML",
@@ -1797,8 +1797,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 9.427,
-          "latency": 946
+          "throughput": 9.4215,
+          "latency": 944
         },
         {
           "name": "Fireworks",
@@ -1836,8 +1836,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 67.7845,
-          "latency": 657
+          "throughput": 66.8985,
+          "latency": 669
         },
         {
           "name": "GMICloud",
@@ -1866,8 +1866,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 60.5415,
-          "latency": 876.5
+          "throughput": 60.65,
+          "latency": 868
         },
         {
           "name": "Hyperbolic",
@@ -1903,8 +1903,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 1.25,
-          "throughput": 22.038,
-          "latency": 1805
+          "throughput": 22.3255,
+          "latency": 1801
         },
         {
           "name": "Together",
@@ -1938,8 +1938,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 1.25,
-          "throughput": 31.4195,
-          "latency": 2173
+          "throughput": 31.397,
+          "latency": 2222.5
         },
         {
           "name": "SambaNova",
@@ -1967,8 +1967,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 4.5,
-          "throughput": 182.593,
-          "latency": 2253
+          "throughput": 182.8635,
+          "latency": 2272.5
         },
         {
           "name": "DeepSeek",
@@ -2002,8 +2002,8 @@ export default {
           ],
           "inputCost": 0.27,
           "outputCost": 1.1,
-          "throughput": 20.0865,
-          "latency": 4546.5
+          "throughput": 20.214,
+          "latency": 4590.5
         }
       ]
     },
@@ -2206,8 +2206,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.88,
-          "throughput": 29.112,
-          "latency": 883
+          "throughput": 28.1775,
+          "latency": 880.5
         },
         {
           "name": "NovitaAI",
@@ -2243,8 +2243,8 @@ export default {
           ],
           "inputCost": 0.33,
           "outputCost": 1.3,
-          "throughput": 20.476,
-          "latency": 1277
+          "throughput": 20.557,
+          "latency": 1275
         },
         {
           "name": "kluster.ai",
@@ -2280,8 +2280,8 @@ export default {
           ],
           "inputCost": 0.33,
           "outputCost": 1.4,
-          "throughput": 19.2245,
-          "latency": 1255
+          "throughput": 19.268,
+          "latency": 1259
         },
         {
           "name": "Lambda",
@@ -2317,8 +2317,8 @@ export default {
           ],
           "inputCost": 0.34,
           "outputCost": 0.88,
-          "throughput": 27.8535,
-          "latency": 723
+          "throughput": 27.794,
+          "latency": 725
         },
         {
           "name": "inference.net",
@@ -2352,8 +2352,8 @@ export default {
           ],
           "inputCost": 0.45,
           "outputCost": 1.45,
-          "throughput": 20.831,
-          "latency": 1536
+          "throughput": 20.5425,
+          "latency": 1535
         },
         {
           "name": "Nebius AI Studio",
@@ -2387,8 +2387,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 21.4705,
-          "latency": 842
+          "throughput": 21.4125,
+          "latency": 836
         },
         {
           "name": "Parasail",
@@ -2418,8 +2418,8 @@ export default {
           ],
           "inputCost": 0.74,
           "outputCost": 1.5,
-          "throughput": 51.8525,
-          "latency": 831
+          "throughput": 51.805,
+          "latency": 830
         },
         {
           "name": "CentML",
@@ -2452,8 +2452,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 9.427,
-          "latency": 946
+          "throughput": 9.4215,
+          "latency": 944
         },
         {
           "name": "Fireworks",
@@ -2491,8 +2491,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 67.7845,
-          "latency": 657
+          "throughput": 66.8985,
+          "latency": 669
         },
         {
           "name": "GMICloud",
@@ -2521,8 +2521,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 60.5415,
-          "latency": 876.5
+          "throughput": 60.65,
+          "latency": 868
         },
         {
           "name": "Hyperbolic",
@@ -2558,8 +2558,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 1.25,
-          "throughput": 22.038,
-          "latency": 1805
+          "throughput": 22.3255,
+          "latency": 1801
         },
         {
           "name": "Together",
@@ -2593,8 +2593,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 1.25,
-          "throughput": 31.4195,
-          "latency": 2173
+          "throughput": 31.397,
+          "latency": 2222.5
         },
         {
           "name": "SambaNova",
@@ -2622,8 +2622,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 4.5,
-          "throughput": 182.593,
-          "latency": 2253
+          "throughput": 182.8635,
+          "latency": 2272.5
         },
         {
           "name": "DeepSeek",
@@ -2657,8 +2657,8 @@ export default {
           ],
           "inputCost": 0.27,
           "outputCost": 1.1,
-          "throughput": 20.0865,
-          "latency": 4546.5
+          "throughput": 20.214,
+          "latency": 4590.5
         }
       ]
     },
@@ -2877,8 +2877,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 94.659,
-          "latency": 555
+          "throughput": 94.3075,
+          "latency": 556
         },
         {
           "name": "AI Studio Non-Thinking",
@@ -2911,8 +2911,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 636.3615,
-          "latency": 3783.5
+          "throughput": 632.0835,
+          "latency": 3774.5
         }
       ]
     },
@@ -3151,8 +3151,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 8,
-          "throughput": 54.4435,
-          "latency": 819
+          "throughput": 54.752,
+          "latency": 805
         }
       ]
     },
@@ -3362,8 +3362,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 60.1565,
-          "latency": 1575
+          "throughput": 60.3095,
+          "latency": 1588.5
         },
         {
           "name": "Amazon Bedrock",
@@ -3393,8 +3393,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 34.607,
-          "latency": 1949
+          "throughput": 34.4045,
+          "latency": 1982.5
         },
         {
           "name": "Anthropic",
@@ -3424,8 +3424,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 56.2995,
-          "latency": 2304
+          "throughput": 56.338,
+          "latency": 2296
         },
         {
           "name": "Google Vertex (Europe)",
@@ -3455,8 +3455,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 49.1645,
-          "latency": 1888
+          "throughput": 49.126,
+          "latency": 1897.5
         }
       ]
     },
@@ -3670,8 +3670,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 2.18,
-          "throughput": 44.112,
-          "latency": 566
+          "throughput": 43.1985,
+          "latency": 569
         },
         {
           "name": "inference.net",
@@ -3709,7 +3709,7 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 3,
-          "throughput": 22.272,
+          "throughput": 22.188,
           "latency": 1255
         },
         {
@@ -3748,8 +3748,8 @@ export default {
           ],
           "inputCost": 0.54,
           "outputCost": 2.18,
-          "throughput": 37.48,
-          "latency": 688
+          "throughput": 37.456,
+          "latency": 685
         },
         {
           "name": "NovitaAI",
@@ -3787,8 +3787,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 2.5,
-          "throughput": 27.0525,
-          "latency": 1259.5
+          "throughput": 27.091,
+          "latency": 1257
         },
         {
           "name": "Nebius AI Studio",
@@ -3824,8 +3824,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 2.4,
-          "throughput": 27.2645,
-          "latency": 782
+          "throughput": 27.3395,
+          "latency": 781
         },
         {
           "name": "DeepInfra Turbo",
@@ -3861,8 +3861,8 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 3,
-          "throughput": 130.0505,
-          "latency": 459
+          "throughput": 129.968,
+          "latency": 454
         },
         {
           "name": "kluster.ai",
@@ -3900,8 +3900,8 @@ export default {
           ],
           "inputCost": 1.75,
           "outputCost": 5,
-          "throughput": 33.149,
-          "latency": 1314
+          "throughput": 33.169,
+          "latency": 1312
         },
         {
           "name": "Parasail",
@@ -3933,7 +3933,7 @@ export default {
           ],
           "inputCost": 1.95,
           "outputCost": 5,
-          "throughput": 57.599,
+          "throughput": 57.528,
           "latency": 672
         },
         {
@@ -3970,8 +3970,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 6,
-          "throughput": 49.038,
-          "latency": 794
+          "throughput": 49.014,
+          "latency": 795
         },
         {
           "name": "CentML",
@@ -4006,7 +4006,7 @@ export default {
           ],
           "inputCost": 2.99,
           "outputCost": 2.99,
-          "throughput": 57.029,
+          "throughput": 57.206,
           "latency": 996.5
         },
         {
@@ -4043,8 +4043,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 7,
-          "throughput": 47.3505,
-          "latency": 1617
+          "throughput": 46.7855,
+          "latency": 1722
         },
         {
           "name": "Friendli",
@@ -4083,8 +4083,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 7,
-          "throughput": 61.553,
-          "latency": 903
+          "throughput": 61.6535,
+          "latency": 908
         },
         {
           "name": "Fireworks",
@@ -4122,8 +4122,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 8,
-          "throughput": 56.5785,
-          "latency": 650
+          "throughput": 56.709,
+          "latency": 649
         },
         {
           "name": "SambaNova",
@@ -4153,8 +4153,8 @@ export default {
           ],
           "inputCost": 5,
           "outputCost": 7,
-          "throughput": 115.188,
-          "latency": 4736
+          "throughput": 115.211,
+          "latency": 4749.5
         },
         {
           "name": "Minimax",
@@ -4209,8 +4209,8 @@ export default {
           ],
           "inputCost": 0.55,
           "outputCost": 2.19,
-          "throughput": 22.195,
-          "latency": 4206
+          "throughput": 22.2625,
+          "latency": 4199.5
         },
         {
           "name": "Azure",
@@ -4238,8 +4238,8 @@ export default {
           ],
           "inputCost": 1.48,
           "outputCost": 5.94,
-          "throughput": 86.532,
-          "latency": 1683
+          "throughput": 88.09,
+          "latency": 1686
         },
         {
           "name": "Featherless",
@@ -4274,8 +4274,8 @@ export default {
           ],
           "inputCost": 6.5,
           "outputCost": 8,
-          "throughput": 13.699,
-          "latency": 1874
+          "throughput": 13.7,
+          "latency": 1899
         }
       ]
     },
@@ -4505,7 +4505,7 @@ export default {
           "inputCost": 0.04,
           "outputCost": 0.15,
           "throughput": 198.738,
-          "latency": 213
+          "latency": 212
         }
       ]
     },
@@ -4716,8 +4716,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.07,
-          "throughput": 107.6725,
-          "latency": 733
+          "throughput": 107.241,
+          "latency": 736
         },
         {
           "name": "Enfer",
@@ -4750,8 +4750,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.07,
-          "throughput": 57.203,
-          "latency": 6444
+          "throughput": 57.915,
+          "latency": 6463
         },
         {
           "name": "NextBit",
@@ -4782,8 +4782,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.07,
-          "throughput": 42.802,
-          "latency": 1562
+          "throughput": 42.674,
+          "latency": 1566
         },
         {
           "name": "DeepInfra",
@@ -4817,8 +4817,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.08,
-          "throughput": 54.4165,
-          "latency": 253
+          "throughput": 54.54,
+          "latency": 251
         },
         {
           "name": "inference.net",
@@ -4852,8 +4852,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.1,
-          "throughput": 59.689,
-          "latency": 990
+          "throughput": 59.641,
+          "latency": 988
         },
         {
           "name": "Nebius AI Studio",
@@ -4887,8 +4887,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.12,
-          "throughput": 33.048,
-          "latency": 602
+          "throughput": 32.7585,
+          "latency": 609
         },
         {
           "name": "NovitaAI",
@@ -4924,8 +4924,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.17,
-          "throughput": 41.788,
-          "latency": 1182
+          "throughput": 41.828,
+          "latency": 1184
         },
         {
           "name": "Atoma",
@@ -4951,8 +4951,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 61.096,
-          "latency": 648
+          "throughput": 60.9475,
+          "latency": 647
         },
         {
           "name": "Parasail",
@@ -4982,8 +4982,8 @@ export default {
           ],
           "inputCost": 0.11,
           "outputCost": 0.11,
-          "throughput": 90.7455,
-          "latency": 748
+          "throughput": 90.909,
+          "latency": 747
         },
         {
           "name": "Mistral",
@@ -5017,8 +5017,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.15,
-          "throughput": 143.752,
-          "latency": 217
+          "throughput": 143.7075,
+          "latency": 221
         },
         {
           "name": "Azure",
@@ -5049,8 +5049,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 98.5675,
-          "latency": 1148
+          "throughput": 98.5665,
+          "latency": 1147
         }
       ]
     },
@@ -5267,8 +5267,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.3,
-          "throughput": 164.49,
-          "latency": 367
+          "throughput": 163.7305,
+          "latency": 366
         },
         {
           "name": "Google Vertex",
@@ -5302,8 +5302,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.3,
-          "throughput": 191.358,
-          "latency": 946
+          "throughput": 189.99,
+          "latency": 934.5
         }
       ]
     },
@@ -5542,8 +5542,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 1.6,
-          "throughput": 65.4305,
-          "latency": 671
+          "throughput": 64.8985,
+          "latency": 664
         }
       ]
     },
@@ -5745,8 +5745,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 60.1565,
-          "latency": 1575
+          "throughput": 60.3095,
+          "latency": 1588.5
         },
         {
           "name": "Amazon Bedrock",
@@ -5776,8 +5776,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 34.607,
-          "latency": 1949
+          "throughput": 34.4045,
+          "latency": 1982.5
         },
         {
           "name": "Anthropic",
@@ -5807,8 +5807,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 56.2995,
-          "latency": 2304
+          "throughput": 56.338,
+          "latency": 2296
         },
         {
           "name": "Google Vertex (Europe)",
@@ -5838,8 +5838,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 49.1645,
-          "latency": 1888
+          "throughput": 49.126,
+          "latency": 1897.5
         }
       ]
     },
@@ -6068,7 +6068,7 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.3,
-          "throughput": 152.658,
+          "throughput": 152.686,
           "latency": 342
         },
         {
@@ -6105,7 +6105,7 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.3,
-          "throughput": 154.026,
+          "throughput": 153.911,
           "latency": 428
         }
       ]
@@ -6271,7 +6271,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 17,
-        "newest": 180,
+        "newest": 181,
         "throughputHighToLow": 148,
         "latencyLowToHigh": 180,
         "pricingLowToHigh": 270,
@@ -6309,8 +6309,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 57.7215,
-          "latency": 1219
+          "throughput": 57.6645,
+          "latency": 1219.5
         },
         {
           "name": "Google Vertex",
@@ -6342,8 +6342,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 63.073,
-          "latency": 1377
+          "throughput": 63.061,
+          "latency": 1371
         },
         {
           "name": "Amazon Bedrock",
@@ -6373,8 +6373,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 39.614,
-          "latency": 1658.5
+          "throughput": 39.345,
+          "latency": 1667.5
         },
         {
           "name": "Amazon Bedrock",
@@ -6406,8 +6406,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 41.8795,
-          "latency": 1543
+          "throughput": 41.6435,
+          "latency": 1548
         },
         {
           "name": "Google Vertex",
@@ -6439,8 +6439,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 61.51,
-          "latency": 1013
+          "throughput": 61.516,
+          "latency": 1006
         }
       ]
     },
@@ -6650,8 +6650,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.33,
-          "throughput": 32.5525,
-          "latency": 637
+          "throughput": 32.5195,
+          "latency": 632.5
         },
         {
           "name": "DeepInfra",
@@ -6687,7 +6687,7 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.25,
-          "throughput": 33.467,
+          "throughput": 33.724,
           "latency": 261
         },
         {
@@ -6722,8 +6722,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.3,
-          "throughput": 61.519,
-          "latency": 475.5
+          "throughput": 61.5175,
+          "latency": 473.5
         },
         {
           "name": "Phala",
@@ -6758,8 +6758,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.35,
-          "throughput": 30.792,
-          "latency": 682
+          "throughput": 30.769,
+          "latency": 684
         },
         {
           "name": "NovitaAI",
@@ -6795,8 +6795,8 @@ export default {
           ],
           "inputCost": 0.13,
           "outputCost": 0.39,
-          "throughput": 83.1075,
-          "latency": 654
+          "throughput": 83.333,
+          "latency": 653.5
         },
         {
           "name": "Nebius AI Studio",
@@ -6830,8 +6830,8 @@ export default {
           ],
           "inputCost": 0.13,
           "outputCost": 0.4,
-          "throughput": 40.9425,
-          "latency": 637
+          "throughput": 40.3885,
+          "latency": 548
         },
         {
           "name": "Parasail",
@@ -6861,8 +6861,8 @@ export default {
           ],
           "inputCost": 0.28,
           "outputCost": 0.78,
-          "throughput": 78.589,
-          "latency": 481
+          "throughput": 78.5845,
+          "latency": 483
         },
         {
           "name": "Cloudflare",
@@ -6893,8 +6893,8 @@ export default {
           ],
           "inputCost": 0.29,
           "outputCost": 2.25,
-          "throughput": 33.718,
-          "latency": 659.5
+          "throughput": 33.4935,
+          "latency": 664
         },
         {
           "name": "CentML",
@@ -6929,7 +6929,7 @@ export default {
           ],
           "inputCost": 0.35,
           "outputCost": 0.35,
-          "throughput": 71.815,
+          "throughput": 71.7905,
           "latency": 639
         },
         {
@@ -6966,8 +6966,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 38.591,
-          "latency": 1188
+          "throughput": 38.461,
+          "latency": 1190
         },
         {
           "name": "Atoma",
@@ -6993,7 +6993,7 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 28.779,
+          "throughput": 28.784,
           "latency": 858
         },
         {
@@ -7030,8 +7030,8 @@ export default {
           ],
           "inputCost": 0.59,
           "outputCost": 0.79,
-          "throughput": 344.107,
-          "latency": 316
+          "throughput": 343.1035,
+          "latency": 325
         },
         {
           "name": "Friendli",
@@ -7068,8 +7068,8 @@ export default {
           ],
           "inputCost": 0.6,
           "outputCost": 0.6,
-          "throughput": 100.7865,
-          "latency": 757
+          "throughput": 100.6985,
+          "latency": 761
         },
         {
           "name": "NextBit",
@@ -7100,7 +7100,7 @@ export default {
           ],
           "inputCost": 0.6,
           "outputCost": 0.75,
-          "throughput": 33.397,
+          "throughput": 33.373,
           "latency": 2122
         },
         {
@@ -7129,8 +7129,8 @@ export default {
           ],
           "inputCost": 0.6,
           "outputCost": 1.2,
-          "throughput": 324.69,
-          "latency": 645
+          "throughput": 324.881,
+          "latency": 644
         },
         {
           "name": "Google Vertex",
@@ -7161,8 +7161,8 @@ export default {
           ],
           "inputCost": 0.72,
           "outputCost": 0.72,
-          "throughput": 69.817,
-          "latency": 779.5
+          "throughput": 69.4065,
+          "latency": 785.5
         },
         {
           "name": "Cerebras",
@@ -7196,8 +7196,8 @@ export default {
           ],
           "inputCost": 0.85,
           "outputCost": 1.2,
-          "throughput": 3000,
-          "latency": 155
+          "throughput": 3050,
+          "latency": 158
         },
         {
           "name": "Together",
@@ -7231,7 +7231,7 @@ export default {
           ],
           "inputCost": 0.88,
           "outputCost": 0.88,
-          "throughput": 98.827,
+          "throughput": 98.816,
           "latency": 436
         },
         {
@@ -7268,8 +7268,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 105.071,
-          "latency": 1698
+          "throughput": 104.6625,
+          "latency": 1611
         },
         {
           "name": "inference.net",
@@ -7535,8 +7535,8 @@ export default {
           ],
           "inputCost": 0.14,
           "outputCost": 0.6,
-          "throughput": 25.398,
-          "latency": 977
+          "throughput": 25.493,
+          "latency": 985
         },
         {
           "name": "kluster.ai",
@@ -7576,8 +7576,8 @@ export default {
           ],
           "inputCost": 0.14,
           "outputCost": 2,
-          "throughput": 25.329,
-          "latency": 1012
+          "throughput": 25.4455,
+          "latency": 1034
         },
         {
           "name": "Parasail",
@@ -7609,8 +7609,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.85,
-          "throughput": 48.387,
-          "latency": 589
+          "throughput": 48.5375,
+          "latency": 597
         },
         {
           "name": "Together",
@@ -7646,8 +7646,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 31.5105,
-          "latency": 923
+          "throughput": 31.421,
+          "latency": 926
         },
         {
           "name": "Nebius AI Studio",
@@ -7683,8 +7683,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 25.213,
-          "latency": 597
+          "throughput": 25.22,
+          "latency": 595
         },
         {
           "name": "NovitaAI",
@@ -7722,8 +7722,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.8,
-          "throughput": 22.8365,
-          "latency": 980
+          "throughput": 22.7955,
+          "latency": 983.5
         },
         {
           "name": "Fireworks",
@@ -7763,8 +7763,8 @@ export default {
           ],
           "inputCost": 0.22,
           "outputCost": 0.88,
-          "throughput": 57.6605,
-          "latency": 987
+          "throughput": 57.4345,
+          "latency": 999
         },
         {
           "name": "GMICloud",
@@ -7793,8 +7793,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 1.09,
-          "throughput": 46.489,
-          "latency": 2094.5
+          "throughput": 47.4405,
+          "latency": 1686
         }
       ]
     },
@@ -8000,8 +8000,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.5,
-          "throughput": 848.5865,
-          "latency": 7054
+          "throughput": 858.0215,
+          "latency": 7056
         },
         {
           "name": "xAI Fast",
@@ -8036,8 +8036,8 @@ export default {
           ],
           "inputCost": 0.6,
           "outputCost": 4,
-          "throughput": 194.011,
-          "latency": 1291.5
+          "throughput": 193.614,
+          "latency": 1222
         }
       ]
     },
@@ -8242,8 +8242,8 @@ export default {
           ],
           "inputCost": 0.16,
           "outputCost": 0.6,
-          "throughput": 100.0265,
-          "latency": 261
+          "throughput": 99.5545,
+          "latency": 260
         },
         {
           "name": "kluster.ai",
@@ -8279,8 +8279,8 @@ export default {
           ],
           "inputCost": 0.16,
           "outputCost": 0.8,
-          "throughput": 131.2685,
-          "latency": 917
+          "throughput": 131.1085,
+          "latency": 914
         },
         {
           "name": "NovitaAI",
@@ -8314,8 +8314,8 @@ export default {
           ],
           "inputCost": 0.17,
           "outputCost": 0.85,
-          "throughput": 64.712,
-          "latency": 716
+          "throughput": 64.6645,
+          "latency": 715.5
         },
         {
           "name": "Lambda",
@@ -8349,8 +8349,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.6,
-          "throughput": 101.7485,
-          "latency": 751
+          "throughput": 104.402,
+          "latency": 697
         },
         {
           "name": "Parasail",
@@ -8380,8 +8380,8 @@ export default {
           ],
           "inputCost": 0.19,
           "outputCost": 0.85,
-          "throughput": 148.3735,
-          "latency": 560.5
+          "throughput": 147.971,
+          "latency": 561
         },
         {
           "name": "CentML",
@@ -8414,8 +8414,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 76.233,
-          "latency": 306
+          "throughput": 76.4005,
+          "latency": 308
         },
         {
           "name": "Groq",
@@ -8451,8 +8451,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 209.824,
-          "latency": 708
+          "throughput": 214.3295,
+          "latency": 701.5
         },
         {
           "name": "nCompass",
@@ -8485,8 +8485,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.7,
-          "throughput": 135.1555,
-          "latency": 569
+          "throughput": 134.9065,
+          "latency": 568
         },
         {
           "name": "Fireworks",
@@ -8524,8 +8524,8 @@ export default {
           ],
           "inputCost": 0.22,
           "outputCost": 0.88,
-          "throughput": 91.7085,
-          "latency": 643.5
+          "throughput": 90.909,
+          "latency": 651
         },
         {
           "name": "GMICloud",
@@ -8552,8 +8552,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.8,
-          "throughput": 75.692,
-          "latency": 772
+          "throughput": 73.96,
+          "latency": 775
         },
         {
           "name": "Together",
@@ -8589,8 +8589,8 @@ export default {
           ],
           "inputCost": 0.27,
           "outputCost": 0.85,
-          "throughput": 104.139,
-          "latency": 495
+          "throughput": 103.9755,
+          "latency": 494
         },
         {
           "name": "SambaNova",
@@ -8618,8 +8618,8 @@ export default {
           ],
           "inputCost": 0.63,
           "outputCost": 1.8,
-          "throughput": 651.8395,
-          "latency": 753
+          "throughput": 651.9665,
+          "latency": 756
         }
       ]
     },
@@ -8822,8 +8822,8 @@ export default {
           ],
           "inputCost": 0.38,
           "outputCost": 0.89,
-          "throughput": 24.92,
-          "latency": 610
+          "throughput": 24.7325,
+          "latency": 609
         },
         {
           "name": "NovitaAI",
@@ -8859,8 +8859,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 1.3,
-          "throughput": 27.511,
-          "latency": 834
+          "throughput": 27.5785,
+          "latency": 832
         },
         {
           "name": "Nebius AI Studio",
@@ -8894,7 +8894,7 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 20.6245,
+          "throughput": 20.537,
           "latency": 481
         },
         {
@@ -8933,8 +8933,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 56.603,
-          "latency": 1384
+          "throughput": 55.649,
+          "latency": 1483
         }
       ]
     },
@@ -9347,7 +9347,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 24,
-        "newest": 229,
+        "newest": 230,
         "throughputHighToLow": 226,
         "latencyLowToHigh": 22,
         "pricingLowToHigh": 118,
@@ -9389,8 +9389,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.28,
-          "throughput": 37.8615,
-          "latency": 301
+          "throughput": 37.6545,
+          "latency": 303
         },
         {
           "name": "NovitaAI",
@@ -9424,8 +9424,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.39,
-          "throughput": 28.8315,
-          "latency": 1625
+          "throughput": 27.5665,
+          "latency": 1621
         },
         {
           "name": "Lambda",
@@ -9459,8 +9459,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.3,
-          "throughput": 50.757,
-          "latency": 348
+          "throughput": 50.5745,
+          "latency": 352
         },
         {
           "name": "Nebius AI Studio",
@@ -9494,8 +9494,8 @@ export default {
           ],
           "inputCost": 0.13,
           "outputCost": 0.4,
-          "throughput": 37.5,
-          "latency": 738
+          "throughput": 37.065,
+          "latency": 733
         },
         {
           "name": "inference.net",
@@ -9529,8 +9529,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.4,
-          "throughput": 17.93,
-          "latency": 1447
+          "throughput": 17.873,
+          "latency": 1408
         },
         {
           "name": "Hyperbolic",
@@ -9566,8 +9566,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 110.8865,
-          "latency": 823
+          "throughput": 111.313,
+          "latency": 824
         },
         {
           "name": "Together",
@@ -9603,8 +9603,8 @@ export default {
           ],
           "inputCost": 0.88,
           "outputCost": 0.88,
-          "throughput": 102.6475,
-          "latency": 416.5
+          "throughput": 102.9015,
+          "latency": 415
         },
         {
           "name": "Fireworks",
@@ -9847,8 +9847,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.03,
-          "throughput": 71.996,
-          "latency": 1290.5
+          "throughput": 74.0125,
+          "latency": 1282
         },
         {
           "name": "DeepInfra (Turbo)",
@@ -9884,8 +9884,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.03,
-          "throughput": 93.1875,
-          "latency": 480
+          "throughput": 92.8555,
+          "latency": 493
         },
         {
           "name": "NovitaAI",
@@ -9919,8 +9919,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.05,
-          "throughput": 79.5575,
-          "latency": 703
+          "throughput": 79.4305,
+          "latency": 690.5
         },
         {
           "name": "Nebius AI Studio",
@@ -9954,8 +9954,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.06,
-          "throughput": 45.0565,
-          "latency": 538
+          "throughput": 40.3535,
+          "latency": 531
         },
         {
           "name": "Lambda",
@@ -9989,8 +9989,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.04,
-          "throughput": 155.555,
-          "latency": 338
+          "throughput": 155.4625,
+          "latency": 340
         },
         {
           "name": "DeepInfra",
@@ -10027,8 +10027,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.05,
-          "throughput": 58.303,
-          "latency": 235
+          "throughput": 58.1365,
+          "latency": 235.5
         },
         {
           "name": "Cloudflare",
@@ -10061,8 +10061,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.38,
-          "throughput": 23.786,
-          "latency": 709
+          "throughput": 23.782,
+          "latency": 692
         },
         {
           "name": "Groq",
@@ -10098,8 +10098,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.08,
-          "throughput": 1477.272,
-          "latency": 914
+          "throughput": 1477.9835,
+          "latency": 929
         },
         {
           "name": "NextBit",
@@ -10130,8 +10130,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.1,
-          "throughput": 89.648,
-          "latency": 1352
+          "throughput": 89.2235,
+          "latency": 1333.5
         },
         {
           "name": "Hyperbolic",
@@ -10167,8 +10167,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 234.4535,
-          "latency": 1089
+          "throughput": 235.75,
+          "latency": 1086.5
         },
         {
           "name": "Cerebras",
@@ -10201,7 +10201,7 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 4464.285,
+          "throughput": 4443.152,
           "latency": 199
         },
         {
@@ -10239,8 +10239,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 280.758,
-          "latency": 292
+          "throughput": 280.796,
+          "latency": 295
         },
         {
           "name": "SambaNova",
@@ -10268,8 +10268,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.2,
-          "throughput": 848.484,
-          "latency": 196
+          "throughput": 850.953,
+          "latency": 198
         },
         {
           "name": "kluster.ai",
@@ -10305,8 +10305,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 63.861,
-          "latency": 597.5
+          "throughput": 63.9615,
+          "latency": 593
         },
         {
           "name": "Together",
@@ -10342,8 +10342,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 203.727,
-          "latency": 359.5
+          "throughput": 203.366,
+          "latency": 364.5
         },
         {
           "name": "Fireworks",
@@ -10379,7 +10379,7 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 265.712,
+          "throughput": 265.734,
           "latency": 390
         },
         {
@@ -10414,114 +10414,115 @@ export default {
       ]
     },
     {
-      "slug": "openai/gpt-4.1-nano",
-      "hfSlug": "",
-      "updatedAt": "2025-05-12T18:45:58.542641+00:00",
-      "createdAt": "2025-04-14T17:22:49+00:00",
+      "slug": "qwen/qwen-2.5-72b-instruct",
+      "hfSlug": "Qwen/Qwen2.5-72B-Instruct",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-09-19T00:00:00+00:00",
       "hfUpdatedAt": null,
-      "name": "OpenAI: GPT-4.1 Nano",
-      "shortName": "GPT-4.1 Nano",
-      "author": "openai",
-      "description": "For tasks that demand low latency, GPT‑4.1 nano is the fastest and cheapest model in the GPT-4.1 series. It delivers exceptional performance at a small size with its 1 million token context window, and scores 80.1% on MMLU, 50.3% on GPQA, and 9.8% on Aider polyglot coding – even higher than GPT‑4o mini. It’s ideal for tasks like classification or autocompletion.",
+      "name": "Qwen2.5 72B Instruct",
+      "shortName": "Qwen2.5 72B Instruct",
+      "author": "qwen",
+      "description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
       "modelVersionGroupId": null,
-      "contextLength": 1047576,
+      "contextLength": 32768,
       "inputModalities": [
-        "image",
-        "text",
-        "file"
+        "text"
       ],
       "outputModalities": [
         "text"
       ],
       "hasTextOutput": true,
-      "group": "GPT",
-      "instructType": null,
+      "group": "Qwen",
+      "instructType": "chatml",
       "defaultSystem": null,
-      "defaultStops": [],
+      "defaultStops": [
+        "<|im_start|>",
+        "<|im_end|>",
+        "<|endoftext|>"
+      ],
       "hidden": false,
       "router": null,
       "warningMessage": null,
-      "permaslug": "openai/gpt-4.1-nano-2025-04-14",
+      "permaslug": "qwen/qwen-2.5-72b-instruct",
       "reasoningConfig": null,
       "features": {},
       "endpoint": {
-        "id": "9251cee5-5503-4be9-9439-7ae21ff062a3",
-        "name": "OpenAI | openai/gpt-4.1-nano-2025-04-14",
-        "contextLength": 1047576,
+        "id": "8b6b26e9-621a-4b31-b55a-c9aaa7482ede",
+        "name": "DeepInfra | qwen/qwen-2.5-72b-instruct",
+        "contextLength": 32768,
         "model": {
-          "slug": "openai/gpt-4.1-nano",
-          "hfSlug": "",
-          "updatedAt": "2025-05-12T18:45:58.542641+00:00",
-          "createdAt": "2025-04-14T17:22:49+00:00",
+          "slug": "qwen/qwen-2.5-72b-instruct",
+          "hfSlug": "Qwen/Qwen2.5-72B-Instruct",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-09-19T00:00:00+00:00",
           "hfUpdatedAt": null,
-          "name": "OpenAI: GPT-4.1 Nano",
-          "shortName": "GPT-4.1 Nano",
-          "author": "openai",
-          "description": "For tasks that demand low latency, GPT‑4.1 nano is the fastest and cheapest model in the GPT-4.1 series. It delivers exceptional performance at a small size with its 1 million token context window, and scores 80.1% on MMLU, 50.3% on GPQA, and 9.8% on Aider polyglot coding – even higher than GPT‑4o mini. It’s ideal for tasks like classification or autocompletion.",
+          "name": "Qwen2.5 72B Instruct",
+          "shortName": "Qwen2.5 72B Instruct",
+          "author": "qwen",
+          "description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
           "modelVersionGroupId": null,
-          "contextLength": 1047576,
+          "contextLength": 131072,
           "inputModalities": [
-            "image",
-            "text",
-            "file"
+            "text"
           ],
           "outputModalities": [
             "text"
           ],
           "hasTextOutput": true,
-          "group": "GPT",
-          "instructType": null,
+          "group": "Qwen",
+          "instructType": "chatml",
           "defaultSystem": null,
-          "defaultStops": [],
+          "defaultStops": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|endoftext|>"
+          ],
           "hidden": false,
           "router": null,
           "warningMessage": null,
-          "permaslug": "openai/gpt-4.1-nano-2025-04-14",
+          "permaslug": "qwen/qwen-2.5-72b-instruct",
           "reasoningConfig": null,
           "features": {}
         },
-        "modelVariantSlug": "openai/gpt-4.1-nano",
-        "modelVariantPermaslug": "openai/gpt-4.1-nano-2025-04-14",
-        "providerName": "OpenAI",
+        "modelVariantSlug": "qwen/qwen-2.5-72b-instruct",
+        "modelVariantPermaslug": "qwen/qwen-2.5-72b-instruct",
+        "providerName": "DeepInfra",
         "providerInfo": {
-          "name": "OpenAI",
-          "displayName": "OpenAI",
-          "slug": "openai",
+          "name": "DeepInfra",
+          "displayName": "DeepInfra",
+          "slug": "deepinfra",
           "baseUrl": "url",
           "dataPolicy": {
-            "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
-            "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
-            "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+            "privacyPolicyUrl": "https://deepinfra.com/privacy",
+            "termsOfServiceUrl": "https://deepinfra.com/terms",
+            "dataPolicyUrl": "https://deepinfra.com/docs/data",
             "paidModels": {
               "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            },
-            "requiresUserIds": true
+              "retainsPrompts": false
+            }
           },
           "headquarters": "US",
           "hasChatCompletions": true,
           "hasCompletions": true,
           "isAbortable": true,
-          "moderationRequired": true,
+          "moderationRequired": false,
           "editors": [],
           "owners": [],
           "isMultipartSupported": true,
-          "statusPageUrl": "https://status.openai.com/",
+          "statusPageUrl": null,
           "byokEnabled": true,
           "icon": {
-            "url": "/images/icons/OpenAI.svg",
-            "invertRequired": true
+            "url": "/images/icons/DeepInfra.webp"
           }
         },
-        "providerDisplayName": "OpenAI",
-        "providerModelId": "gpt-4.1-nano-2025-04-14",
-        "quantization": null,
+        "providerDisplayName": "DeepInfra",
+        "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
+        "quantization": "fp8",
         "variant": "standard",
         "isFree": false,
         "canAbort": true,
         "maxPromptTokens": null,
-        "maxCompletionTokens": 32768,
+        "maxCompletionTokens": 16384,
         "maxPromptImages": null,
         "maxTokensPerImage": null,
         "supportedParameters": [
@@ -10533,35 +10534,30 @@ export default {
           "stop",
           "frequency_penalty",
           "presence_penalty",
-          "seed",
-          "logit_bias",
-          "logprobs",
-          "top_logprobs",
+          "repetition_penalty",
           "response_format",
-          "structured_outputs"
+          "top_k",
+          "seed",
+          "min_p"
         ],
         "isByok": false,
-        "moderationRequired": true,
+        "moderationRequired": false,
         "dataPolicy": {
-          "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
-          "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
-          "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+          "privacyPolicyUrl": "https://deepinfra.com/privacy",
+          "termsOfServiceUrl": "https://deepinfra.com/terms",
+          "dataPolicyUrl": "https://deepinfra.com/docs/data",
           "paidModels": {
             "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
+            "retainsPrompts": false
           },
-          "requiresUserIds": true,
           "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
+          "retainsPrompts": false
         },
         "pricing": {
-          "prompt": "0.0000001",
-          "completion": "0.0000004",
+          "prompt": "0.00000012",
+          "completion": "0.00000039",
           "image": "0",
           "request": "0",
-          "inputCacheRead": "0.000000025",
           "webSearch": "0",
           "internalReasoning": "0",
           "discount": 0
@@ -10579,35 +10575,105 @@ export default {
         "hasCompletions": true,
         "hasChatCompletions": true,
         "features": {
-          "supportedParameters": {},
           "supportsDocumentUrl": null
         },
         "providerRegion": null
       },
       "sorting": {
         "topWeekly": 26,
-        "newest": 52,
-        "throughputHighToLow": 54,
-        "latencyLowToHigh": 36,
-        "pricingLowToHigh": 124,
-        "pricingHighToLow": 190
+        "newest": 202,
+        "throughputHighToLow": 157,
+        "latencyLowToHigh": 70,
+        "pricingLowToHigh": 62,
+        "pricingHighToLow": 187
       },
-      "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
+      "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": [
         {
-          "name": "OpenAI",
-          "icon": "https://openrouter.ai/images/icons/OpenAI.svg",
-          "slug": "openAi",
-          "quantization": null,
-          "context": 1047576,
-          "maxCompletionTokens": 32768,
-          "providerModelId": "gpt-4.1-nano-2025-04-14",
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "fp8",
+          "context": 32768,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
           "pricing": {
-            "prompt": "0.0000001",
+            "prompt": "0.00000012",
+            "completion": "0.00000039",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.12,
+          "outputCost": 0.39,
+          "throughput": 34.308,
+          "latency": 591
+        },
+        {
+          "name": "Nebius AI Studio",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
+          "slug": "nebiusAiStudio",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
+          "pricing": {
+            "prompt": "0.00000013",
             "completion": "0.0000004",
             "image": "0",
             "request": "0",
-            "inputCacheRead": "0.000000025",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 0.13,
+          "outputCost": 0.4,
+          "throughput": 19.5475,
+          "latency": 1439
+        },
+        {
+          "name": "NovitaAI",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
+          "slug": "novitaAi",
+          "quantization": "unknown",
+          "context": 32000,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "qwen/qwen-2.5-72b-instruct",
+          "pricing": {
+            "prompt": "0.00000038",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
             "webSearch": "0",
             "internalReasoning": "0",
             "discount": 0
@@ -10622,16 +10688,126 @@ export default {
             "frequency_penalty",
             "presence_penalty",
             "seed",
-            "logit_bias",
+            "top_k",
+            "min_p",
+            "repetition_penalty",
+            "logit_bias"
+          ],
+          "inputCost": 0.38,
+          "outputCost": 0.4,
+          "throughput": 22.0005,
+          "latency": 1614
+        },
+        {
+          "name": "Hyperbolic",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://hyperbolic.xyz/&size=256",
+          "slug": "hyperbolic",
+          "quantization": "bf16",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
+          "pricing": {
+            "prompt": "0.0000004",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
             "logprobs",
             "top_logprobs",
-            "response_format",
-            "structured_outputs"
+            "seed",
+            "logit_bias",
+            "top_k",
+            "min_p",
+            "repetition_penalty"
           ],
-          "inputCost": 0.1,
+          "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 142.6035,
-          "latency": 357
+          "throughput": 22.415,
+          "latency": 2054
+        },
+        {
+          "name": "Fireworks",
+          "icon": "https://openrouter.ai/images/icons/Fireworks.png",
+          "slug": "fireworks",
+          "quantization": "unknown",
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "accounts/fireworks/models/qwen2p5-72b-instruct",
+          "pricing": {
+            "prompt": "0.0000009",
+            "completion": "0.0000009",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "response_format",
+            "structured_outputs",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 0.9,
+          "outputCost": 0.9,
+          "throughput": 73.427,
+          "latency": 638
+        },
+        {
+          "name": "Together",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
+          "slug": "together",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": 2048,
+          "providerModelId": "Qwen/Qwen2.5-72B-Instruct-Turbo",
+          "pricing": {
+            "prompt": "0.0000012",
+            "completion": "0.0000012",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "logit_bias",
+            "min_p",
+            "response_format"
+          ],
+          "inputCost": 1.2,
+          "outputCost": 1.2,
+          "throughput": 104.974,
+          "latency": 668
         }
       ]
     },
@@ -10844,8 +11020,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.2,
-          "throughput": 33.0245,
-          "latency": 901
+          "throughput": 33,
+          "latency": 909
         },
         {
           "name": "InoCloud",
@@ -10874,8 +11050,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.2,
-          "throughput": 25.932,
-          "latency": 1522.5
+          "throughput": 25.519,
+          "latency": 1519
         },
         {
           "name": "Nebius AI Studio",
@@ -10909,8 +11085,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 70.9825,
-          "latency": 777
+          "throughput": 70.6995,
+          "latency": 778
         },
         {
           "name": "NovitaAI",
@@ -10944,8 +11120,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.2,
-          "throughput": 29.6575,
-          "latency": 3108.5
+          "throughput": 29.6775,
+          "latency": 3088
         },
         {
           "name": "inference.net",
@@ -10979,8 +11155,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.3,
-          "throughput": 16.261,
-          "latency": 2481
+          "throughput": 16.2395,
+          "latency": 2466
         },
         {
           "name": "kluster.ai",
@@ -11016,8 +11192,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.35,
-          "throughput": 61.5175,
-          "latency": 2651
+          "throughput": 61.334,
+          "latency": 2594
         },
         {
           "name": "Parasail",
@@ -11047,8 +11223,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.4,
-          "throughput": 52.403,
-          "latency": 1241
+          "throughput": 52.3555,
+          "latency": 1226
         },
         {
           "name": "nCompass",
@@ -11081,121 +11257,120 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 43.772,
-          "latency": 1001
+          "throughput": 43.737,
+          "latency": 993
         }
       ]
     },
     {
-      "slug": "qwen/qwen-2.5-72b-instruct",
-      "hfSlug": "Qwen/Qwen2.5-72B-Instruct",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-09-19T00:00:00+00:00",
+      "slug": "openai/gpt-4.1-nano",
+      "hfSlug": "",
+      "updatedAt": "2025-05-12T18:45:58.542641+00:00",
+      "createdAt": "2025-04-14T17:22:49+00:00",
       "hfUpdatedAt": null,
-      "name": "Qwen2.5 72B Instruct",
-      "shortName": "Qwen2.5 72B Instruct",
-      "author": "qwen",
-      "description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
+      "name": "OpenAI: GPT-4.1 Nano",
+      "shortName": "GPT-4.1 Nano",
+      "author": "openai",
+      "description": "For tasks that demand low latency, GPT‑4.1 nano is the fastest and cheapest model in the GPT-4.1 series. It delivers exceptional performance at a small size with its 1 million token context window, and scores 80.1% on MMLU, 50.3% on GPQA, and 9.8% on Aider polyglot coding – even higher than GPT‑4o mini. It’s ideal for tasks like classification or autocompletion.",
       "modelVersionGroupId": null,
-      "contextLength": 32768,
+      "contextLength": 1047576,
       "inputModalities": [
-        "text"
+        "image",
+        "text",
+        "file"
       ],
       "outputModalities": [
         "text"
       ],
       "hasTextOutput": true,
-      "group": "Qwen",
-      "instructType": "chatml",
+      "group": "GPT",
+      "instructType": null,
       "defaultSystem": null,
-      "defaultStops": [
-        "<|im_start|>",
-        "<|im_end|>",
-        "<|endoftext|>"
-      ],
+      "defaultStops": [],
       "hidden": false,
       "router": null,
       "warningMessage": null,
-      "permaslug": "qwen/qwen-2.5-72b-instruct",
+      "permaslug": "openai/gpt-4.1-nano-2025-04-14",
       "reasoningConfig": null,
       "features": {},
       "endpoint": {
-        "id": "8b6b26e9-621a-4b31-b55a-c9aaa7482ede",
-        "name": "DeepInfra | qwen/qwen-2.5-72b-instruct",
-        "contextLength": 32768,
+        "id": "9251cee5-5503-4be9-9439-7ae21ff062a3",
+        "name": "OpenAI | openai/gpt-4.1-nano-2025-04-14",
+        "contextLength": 1047576,
         "model": {
-          "slug": "qwen/qwen-2.5-72b-instruct",
-          "hfSlug": "Qwen/Qwen2.5-72B-Instruct",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-09-19T00:00:00+00:00",
+          "slug": "openai/gpt-4.1-nano",
+          "hfSlug": "",
+          "updatedAt": "2025-05-12T18:45:58.542641+00:00",
+          "createdAt": "2025-04-14T17:22:49+00:00",
           "hfUpdatedAt": null,
-          "name": "Qwen2.5 72B Instruct",
-          "shortName": "Qwen2.5 72B Instruct",
-          "author": "qwen",
-          "description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
+          "name": "OpenAI: GPT-4.1 Nano",
+          "shortName": "GPT-4.1 Nano",
+          "author": "openai",
+          "description": "For tasks that demand low latency, GPT‑4.1 nano is the fastest and cheapest model in the GPT-4.1 series. It delivers exceptional performance at a small size with its 1 million token context window, and scores 80.1% on MMLU, 50.3% on GPQA, and 9.8% on Aider polyglot coding – even higher than GPT‑4o mini. It’s ideal for tasks like classification or autocompletion.",
           "modelVersionGroupId": null,
-          "contextLength": 131072,
+          "contextLength": 1047576,
           "inputModalities": [
-            "text"
+            "image",
+            "text",
+            "file"
           ],
           "outputModalities": [
             "text"
           ],
           "hasTextOutput": true,
-          "group": "Qwen",
-          "instructType": "chatml",
+          "group": "GPT",
+          "instructType": null,
           "defaultSystem": null,
-          "defaultStops": [
-            "<|im_start|>",
-            "<|im_end|>",
-            "<|endoftext|>"
-          ],
+          "defaultStops": [],
           "hidden": false,
           "router": null,
           "warningMessage": null,
-          "permaslug": "qwen/qwen-2.5-72b-instruct",
+          "permaslug": "openai/gpt-4.1-nano-2025-04-14",
           "reasoningConfig": null,
           "features": {}
         },
-        "modelVariantSlug": "qwen/qwen-2.5-72b-instruct",
-        "modelVariantPermaslug": "qwen/qwen-2.5-72b-instruct",
-        "providerName": "DeepInfra",
+        "modelVariantSlug": "openai/gpt-4.1-nano",
+        "modelVariantPermaslug": "openai/gpt-4.1-nano-2025-04-14",
+        "providerName": "OpenAI",
         "providerInfo": {
-          "name": "DeepInfra",
-          "displayName": "DeepInfra",
-          "slug": "deepinfra",
+          "name": "OpenAI",
+          "displayName": "OpenAI",
+          "slug": "openai",
           "baseUrl": "url",
           "dataPolicy": {
-            "privacyPolicyUrl": "https://deepinfra.com/privacy",
-            "termsOfServiceUrl": "https://deepinfra.com/terms",
-            "dataPolicyUrl": "https://deepinfra.com/docs/data",
+            "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
+            "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
+            "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
             "paidModels": {
               "training": false,
-              "retainsPrompts": false
-            }
+              "retainsPrompts": true,
+              "retentionDays": 30
+            },
+            "requiresUserIds": true
           },
           "headquarters": "US",
           "hasChatCompletions": true,
           "hasCompletions": true,
           "isAbortable": true,
-          "moderationRequired": false,
+          "moderationRequired": true,
           "editors": [],
           "owners": [],
           "isMultipartSupported": true,
-          "statusPageUrl": null,
+          "statusPageUrl": "https://status.openai.com/",
           "byokEnabled": true,
           "icon": {
-            "url": "/images/icons/DeepInfra.webp"
+            "url": "/images/icons/OpenAI.svg",
+            "invertRequired": true
           }
         },
-        "providerDisplayName": "DeepInfra",
-        "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
-        "quantization": "fp8",
+        "providerDisplayName": "OpenAI",
+        "providerModelId": "gpt-4.1-nano-2025-04-14",
+        "quantization": null,
         "variant": "standard",
         "isFree": false,
         "canAbort": true,
         "maxPromptTokens": null,
-        "maxCompletionTokens": 16384,
+        "maxCompletionTokens": 32768,
         "maxPromptImages": null,
         "maxTokensPerImage": null,
         "supportedParameters": [
@@ -11207,30 +11382,35 @@ export default {
           "stop",
           "frequency_penalty",
           "presence_penalty",
-          "repetition_penalty",
-          "response_format",
-          "top_k",
           "seed",
-          "min_p"
+          "logit_bias",
+          "logprobs",
+          "top_logprobs",
+          "response_format",
+          "structured_outputs"
         ],
         "isByok": false,
-        "moderationRequired": false,
+        "moderationRequired": true,
         "dataPolicy": {
-          "privacyPolicyUrl": "https://deepinfra.com/privacy",
-          "termsOfServiceUrl": "https://deepinfra.com/terms",
-          "dataPolicyUrl": "https://deepinfra.com/docs/data",
+          "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
+          "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
+          "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
           "paidModels": {
             "training": false,
-            "retainsPrompts": false
+            "retainsPrompts": true,
+            "retentionDays": 30
           },
+          "requiresUserIds": true,
           "training": false,
-          "retainsPrompts": false
+          "retainsPrompts": true,
+          "retentionDays": 30
         },
         "pricing": {
-          "prompt": "0.00000012",
-          "completion": "0.00000039",
+          "prompt": "0.0000001",
+          "completion": "0.0000004",
           "image": "0",
           "request": "0",
+          "inputCacheRead": "0.000000025",
           "webSearch": "0",
           "internalReasoning": "0",
           "discount": 0
@@ -11248,33 +11428,35 @@ export default {
         "hasCompletions": true,
         "hasChatCompletions": true,
         "features": {
+          "supportedParameters": {},
           "supportsDocumentUrl": null
         },
         "providerRegion": null
       },
       "sorting": {
         "topWeekly": 28,
-        "newest": 202,
-        "throughputHighToLow": 157,
-        "latencyLowToHigh": 70,
-        "pricingLowToHigh": 62,
-        "pricingHighToLow": 187
+        "newest": 52,
+        "throughputHighToLow": 54,
+        "latencyLowToHigh": 36,
+        "pricingLowToHigh": 124,
+        "pricingHighToLow": 190
       },
-      "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
+      "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
       "providers": [
         {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "fp8",
-          "context": 32768,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
+          "name": "OpenAI",
+          "icon": "https://openrouter.ai/images/icons/OpenAI.svg",
+          "slug": "openAi",
+          "quantization": null,
+          "context": 1047576,
+          "maxCompletionTokens": 32768,
+          "providerModelId": "gpt-4.1-nano-2025-04-14",
           "pricing": {
-            "prompt": "0.00000012",
-            "completion": "0.00000039",
+            "prompt": "0.0000001",
+            "completion": "0.0000004",
             "image": "0",
             "request": "0",
+            "inputCacheRead": "0.000000025",
             "webSearch": "0",
             "internalReasoning": "0",
             "discount": 0
@@ -11288,199 +11470,17 @@ export default {
             "stop",
             "frequency_penalty",
             "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
             "seed",
-            "min_p"
-          ],
-          "inputCost": 0.12,
-          "outputCost": 0.39,
-          "throughput": 34.562,
-          "latency": 598
-        },
-        {
-          "name": "Nebius AI Studio",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
-          "slug": "nebiusAiStudio",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
-          "pricing": {
-            "prompt": "0.00000013",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
             "logit_bias",
-            "logprobs",
-            "top_logprobs"
-          ],
-          "inputCost": 0.13,
-          "outputCost": 0.4,
-          "throughput": 19.4855,
-          "latency": 1422
-        },
-        {
-          "name": "NovitaAI",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
-          "slug": "novitaAi",
-          "quantization": "unknown",
-          "context": 32000,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "qwen/qwen-2.5-72b-instruct",
-          "pricing": {
-            "prompt": "0.00000038",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty",
-            "logit_bias"
-          ],
-          "inputCost": 0.38,
-          "outputCost": 0.4,
-          "throughput": 21.992,
-          "latency": 1598
-        },
-        {
-          "name": "Hyperbolic",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://hyperbolic.xyz/&size=256",
-          "slug": "hyperbolic",
-          "quantization": "bf16",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "Qwen/Qwen2.5-72B-Instruct",
-          "pricing": {
-            "prompt": "0.0000004",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
             "logprobs",
             "top_logprobs",
-            "seed",
-            "logit_bias",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.4,
-          "outputCost": 0.4,
-          "throughput": 22.62,
-          "latency": 2039.5
-        },
-        {
-          "name": "Fireworks",
-          "icon": "https://openrouter.ai/images/icons/Fireworks.png",
-          "slug": "fireworks",
-          "quantization": "unknown",
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "accounts/fireworks/models/qwen2p5-72b-instruct",
-          "pricing": {
-            "prompt": "0.0000009",
-            "completion": "0.0000009",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
             "response_format",
-            "structured_outputs",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs"
+            "structured_outputs"
           ],
-          "inputCost": 0.9,
-          "outputCost": 0.9,
-          "throughput": 73.597,
-          "latency": 637
-        },
-        {
-          "name": "Together",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
-          "slug": "together",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": 2048,
-          "providerModelId": "Qwen/Qwen2.5-72B-Instruct-Turbo",
-          "pricing": {
-            "prompt": "0.0000012",
-            "completion": "0.0000012",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
-            "logit_bias",
-            "min_p",
-            "response_format"
-          ],
-          "inputCost": 1.2,
-          "outputCost": 1.2,
-          "throughput": 104.818,
-          "latency": 668
+          "inputCost": 0.1,
+          "outputCost": 0.4,
+          "throughput": 140.3385,
+          "latency": 357.5
         }
       ]
     },
@@ -11709,8 +11709,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 2.18,
-          "throughput": 44.112,
-          "latency": 566
+          "throughput": 43.1985,
+          "latency": 569
         },
         {
           "name": "inference.net",
@@ -11748,7 +11748,7 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 3,
-          "throughput": 22.272,
+          "throughput": 22.188,
           "latency": 1255
         },
         {
@@ -11787,8 +11787,8 @@ export default {
           ],
           "inputCost": 0.54,
           "outputCost": 2.18,
-          "throughput": 37.48,
-          "latency": 688
+          "throughput": 37.456,
+          "latency": 685
         },
         {
           "name": "NovitaAI",
@@ -11826,8 +11826,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 2.5,
-          "throughput": 27.0525,
-          "latency": 1259.5
+          "throughput": 27.091,
+          "latency": 1257
         },
         {
           "name": "Nebius AI Studio",
@@ -11863,8 +11863,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 2.4,
-          "throughput": 27.2645,
-          "latency": 782
+          "throughput": 27.3395,
+          "latency": 781
         },
         {
           "name": "DeepInfra Turbo",
@@ -11900,8 +11900,8 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 3,
-          "throughput": 130.0505,
-          "latency": 459
+          "throughput": 129.968,
+          "latency": 454
         },
         {
           "name": "kluster.ai",
@@ -11939,8 +11939,8 @@ export default {
           ],
           "inputCost": 1.75,
           "outputCost": 5,
-          "throughput": 33.149,
-          "latency": 1314
+          "throughput": 33.169,
+          "latency": 1312
         },
         {
           "name": "Parasail",
@@ -11972,7 +11972,7 @@ export default {
           ],
           "inputCost": 1.95,
           "outputCost": 5,
-          "throughput": 57.599,
+          "throughput": 57.528,
           "latency": 672
         },
         {
@@ -12009,8 +12009,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 6,
-          "throughput": 49.038,
-          "latency": 794
+          "throughput": 49.014,
+          "latency": 795
         },
         {
           "name": "CentML",
@@ -12045,7 +12045,7 @@ export default {
           ],
           "inputCost": 2.99,
           "outputCost": 2.99,
-          "throughput": 57.029,
+          "throughput": 57.206,
           "latency": 996.5
         },
         {
@@ -12082,8 +12082,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 7,
-          "throughput": 47.3505,
-          "latency": 1617
+          "throughput": 46.7855,
+          "latency": 1722
         },
         {
           "name": "Friendli",
@@ -12122,8 +12122,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 7,
-          "throughput": 61.553,
-          "latency": 903
+          "throughput": 61.6535,
+          "latency": 908
         },
         {
           "name": "Fireworks",
@@ -12161,8 +12161,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 8,
-          "throughput": 56.5785,
-          "latency": 650
+          "throughput": 56.709,
+          "latency": 649
         },
         {
           "name": "SambaNova",
@@ -12192,8 +12192,8 @@ export default {
           ],
           "inputCost": 5,
           "outputCost": 7,
-          "throughput": 115.188,
-          "latency": 4736
+          "throughput": 115.211,
+          "latency": 4749.5
         },
         {
           "name": "Minimax",
@@ -12248,8 +12248,8 @@ export default {
           ],
           "inputCost": 0.55,
           "outputCost": 2.19,
-          "throughput": 22.195,
-          "latency": 4206
+          "throughput": 22.2625,
+          "latency": 4199.5
         },
         {
           "name": "Azure",
@@ -12277,8 +12277,8 @@ export default {
           ],
           "inputCost": 1.48,
           "outputCost": 5.94,
-          "throughput": 86.532,
-          "latency": 1683
+          "throughput": 88.09,
+          "latency": 1686
         },
         {
           "name": "Featherless",
@@ -12313,8 +12313,8 @@ export default {
           ],
           "inputCost": 6.5,
           "outputCost": 8,
-          "throughput": 13.699,
-          "latency": 1874
+          "throughput": 13.7,
+          "latency": 1899
         }
       ]
     },
@@ -12694,8 +12694,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 0.5,
-          "throughput": 32.7475,
-          "latency": 323
+          "throughput": 32.5835,
+          "latency": 324
         },
         {
           "name": "Parasail",
@@ -12725,7 +12725,7 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 0.6,
-          "throughput": 32.894,
+          "throughput": 32.8165,
           "latency": 624
         },
         {
@@ -12760,8 +12760,8 @@ export default {
           ],
           "inputCost": 0.62,
           "outputCost": 0.62,
-          "throughput": 32.5045,
-          "latency": 519
+          "throughput": 32.373,
+          "latency": 521
         }
       ]
     },
@@ -12967,8 +12967,8 @@ export default {
           ],
           "inputCost": 1.1,
           "outputCost": 4.4,
-          "throughput": 101.127,
-          "latency": 4441
+          "throughput": 100.233,
+          "latency": 4503
         }
       ]
     },
@@ -13136,7 +13136,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 33,
-        "newest": 200,
+        "newest": 197,
         "throughputHighToLow": 6,
         "latencyLowToHigh": 68,
         "pricingLowToHigh": 60,
@@ -13176,8 +13176,8 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.01,
-          "throughput": 31.072,
-          "latency": 661
+          "throughput": 31.0735,
+          "latency": 660.5
         },
         {
           "name": "DeepInfra",
@@ -13211,7 +13211,7 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.01,
-          "throughput": 142.3645,
+          "throughput": 142.39,
           "latency": 832
         },
         {
@@ -13246,8 +13246,8 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.01,
-          "throughput": 140.564,
-          "latency": 1210
+          "throughput": 140.5635,
+          "latency": 1210.5
         },
         {
           "name": "Cloudflare",
@@ -13515,8 +13515,8 @@ export default {
           ],
           "inputCost": 0.16,
           "outputCost": 0.6,
-          "throughput": 100.0265,
-          "latency": 261
+          "throughput": 99.5545,
+          "latency": 260
         },
         {
           "name": "kluster.ai",
@@ -13552,8 +13552,8 @@ export default {
           ],
           "inputCost": 0.16,
           "outputCost": 0.8,
-          "throughput": 131.2685,
-          "latency": 917
+          "throughput": 131.1085,
+          "latency": 914
         },
         {
           "name": "NovitaAI",
@@ -13587,8 +13587,8 @@ export default {
           ],
           "inputCost": 0.17,
           "outputCost": 0.85,
-          "throughput": 64.712,
-          "latency": 716
+          "throughput": 64.6645,
+          "latency": 715.5
         },
         {
           "name": "Lambda",
@@ -13622,8 +13622,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.6,
-          "throughput": 101.7485,
-          "latency": 751
+          "throughput": 104.402,
+          "latency": 697
         },
         {
           "name": "Parasail",
@@ -13653,8 +13653,8 @@ export default {
           ],
           "inputCost": 0.19,
           "outputCost": 0.85,
-          "throughput": 148.3735,
-          "latency": 560.5
+          "throughput": 147.971,
+          "latency": 561
         },
         {
           "name": "CentML",
@@ -13687,8 +13687,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 76.233,
-          "latency": 306
+          "throughput": 76.4005,
+          "latency": 308
         },
         {
           "name": "Groq",
@@ -13724,8 +13724,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 209.824,
-          "latency": 708
+          "throughput": 214.3295,
+          "latency": 701.5
         },
         {
           "name": "nCompass",
@@ -13758,8 +13758,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.7,
-          "throughput": 135.1555,
-          "latency": 569
+          "throughput": 134.9065,
+          "latency": 568
         },
         {
           "name": "Fireworks",
@@ -13797,8 +13797,8 @@ export default {
           ],
           "inputCost": 0.22,
           "outputCost": 0.88,
-          "throughput": 91.7085,
-          "latency": 643.5
+          "throughput": 90.909,
+          "latency": 651
         },
         {
           "name": "GMICloud",
@@ -13825,8 +13825,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.8,
-          "throughput": 75.692,
-          "latency": 772
+          "throughput": 73.96,
+          "latency": 775
         },
         {
           "name": "Together",
@@ -13862,8 +13862,8 @@ export default {
           ],
           "inputCost": 0.27,
           "outputCost": 0.85,
-          "throughput": 104.139,
-          "latency": 495
+          "throughput": 103.9755,
+          "latency": 494
         },
         {
           "name": "SambaNova",
@@ -13891,8 +13891,8 @@ export default {
           ],
           "inputCost": 0.63,
           "outputCost": 1.8,
-          "throughput": 651.8395,
-          "latency": 753
+          "throughput": 651.9665,
+          "latency": 756
         }
       ]
     },
@@ -14087,8 +14087,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.12,
-          "throughput": 29.855,
-          "latency": 7239
+          "throughput": 29.984,
+          "latency": 7249
         },
         {
           "name": "NextBit",
@@ -14119,8 +14119,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.13,
-          "throughput": 28.591,
-          "latency": 2225
+          "throughput": 28.844,
+          "latency": 2209.5
         },
         {
           "name": "DeepInfra",
@@ -14154,8 +14154,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.14,
-          "throughput": 78.1345,
-          "latency": 269
+          "throughput": 78.1535,
+          "latency": 268
         },
         {
           "name": "Mistral",
@@ -14189,8 +14189,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 150.837,
-          "latency": 257
+          "throughput": 151.0155,
+          "latency": 258
         },
         {
           "name": "Ubicloud",
@@ -14223,8 +14223,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 32.453,
-          "latency": 1200
+          "throughput": 32.4575,
+          "latency": 1199.5
         },
         {
           "name": "Together",
@@ -14461,8 +14461,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.1,
-          "throughput": 40.1545,
-          "latency": 1522
+          "throughput": 40.1985,
+          "latency": 1519.5
         },
         {
           "name": "DeepInfra",
@@ -14496,8 +14496,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.1,
-          "throughput": 67.898,
-          "latency": 271
+          "throughput": 68.218,
+          "latency": 270
         },
         {
           "name": "nCompass",
@@ -14530,7 +14530,7 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 149.918,
+          "throughput": 149.9095,
           "latency": 216
         },
         {
@@ -14565,8 +14565,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 177.565,
-          "latency": 263
+          "throughput": 177.555,
+          "latency": 264
         },
         {
           "name": "Phala",
@@ -14599,7 +14599,7 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 116.2085,
+          "throughput": 117.2165,
           "latency": 247
         }
       ]
@@ -14838,8 +14838,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 54.6565,
-          "latency": 528
+          "throughput": 54.4315,
+          "latency": 528.5
         }
       ]
     },
@@ -15077,8 +15077,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 73.9605,
-          "latency": 633
+          "throughput": 73.053,
+          "latency": 634
         },
         {
           "name": "Azure",
@@ -15116,8 +15116,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 213.389,
-          "latency": 1381
+          "throughput": 211.932,
+          "latency": 1383
         }
       ]
     },
@@ -15316,8 +15316,8 @@ export default {
           ],
           "inputCost": 0.38,
           "outputCost": 0.89,
-          "throughput": 24.92,
-          "latency": 610
+          "throughput": 24.7325,
+          "latency": 609
         },
         {
           "name": "NovitaAI",
@@ -15353,8 +15353,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 1.3,
-          "throughput": 27.511,
-          "latency": 834
+          "throughput": 27.5785,
+          "latency": 832
         },
         {
           "name": "Nebius AI Studio",
@@ -15388,7 +15388,7 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 20.6245,
+          "throughput": 20.537,
           "latency": 481
         },
         {
@@ -15427,8 +15427,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 56.603,
-          "latency": 1384
+          "throughput": 55.649,
+          "latency": 1483
         }
       ]
     },
@@ -15616,249 +15616,6 @@ export default {
       "providers": []
     },
     {
-      "slug": "x-ai/grok-3-beta",
-      "hfSlug": "",
-      "updatedAt": "2025-04-18T22:22:00.948066+00:00",
-      "createdAt": "2025-04-09T23:07:48.450334+00:00",
-      "hfUpdatedAt": null,
-      "name": "xAI: Grok 3 Beta",
-      "shortName": "Grok 3 Beta",
-      "author": "x-ai",
-      "description": "Grok 3 is the latest model from xAI. It's their flagship model that excels at enterprise use cases like data extraction, coding, and text summarization. Possesses deep domain knowledge in finance, healthcare, law, and science.\n\nExcels in structured tasks and benchmarks like GPQA, LCB, and MMLU-Pro where it outperforms Grok 3 Mini even on high thinking. \n\nNote: That there are two xAI endpoints for this model. By default when using this model we will always route you to the base endpoint. If you want the fast endpoint you can add `provider: { sort: throughput}`, to sort by throughput instead. \n",
-      "modelVersionGroupId": null,
-      "contextLength": 131072,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Grok",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "x-ai/grok-3-beta",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "ac4e073c-740f-4e9f-9e38-bde83e4ab515",
-        "name": "xAI | x-ai/grok-3-beta",
-        "contextLength": 131072,
-        "model": {
-          "slug": "x-ai/grok-3-beta",
-          "hfSlug": "",
-          "updatedAt": "2025-04-18T22:22:00.948066+00:00",
-          "createdAt": "2025-04-09T23:07:48.450334+00:00",
-          "hfUpdatedAt": null,
-          "name": "xAI: Grok 3 Beta",
-          "shortName": "Grok 3 Beta",
-          "author": "x-ai",
-          "description": "Grok 3 is the latest model from xAI. It's their flagship model that excels at enterprise use cases like data extraction, coding, and text summarization. Possesses deep domain knowledge in finance, healthcare, law, and science.\n\nExcels in structured tasks and benchmarks like GPQA, LCB, and MMLU-Pro where it outperforms Grok 3 Mini even on high thinking. \n\nNote: That there are two xAI endpoints for this model. By default when using this model we will always route you to the base endpoint. If you want the fast endpoint you can add `provider: { sort: throughput}`, to sort by throughput instead. \n",
-          "modelVersionGroupId": null,
-          "contextLength": 131072,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Grok",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "x-ai/grok-3-beta",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "x-ai/grok-3-beta",
-        "modelVariantPermaslug": "x-ai/grok-3-beta",
-        "providerName": "xAI",
-        "providerInfo": {
-          "name": "xAI",
-          "displayName": "xAI",
-          "slug": "xai",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://x.ai/legal/terms-of-service",
-            "privacyPolicyUrl": "https://x.ai/legal/privacy-policy",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.x.ai/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://x.ai/&size=256"
-          }
-        },
-        "providerDisplayName": "xAI",
-        "providerModelId": "grok-3-beta",
-        "quantization": null,
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "tool_choice",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed",
-          "logprobs",
-          "top_logprobs",
-          "response_format"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://x.ai/legal/terms-of-service",
-          "privacyPolicyUrl": "https://x.ai/legal/privacy-policy",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.000003",
-          "completion": "0.000015",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 41,
-        "newest": 59,
-        "throughputHighToLow": 223,
-        "latencyLowToHigh": 128,
-        "pricingLowToHigh": 265,
-        "pricingHighToLow": 39
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://x.ai/\\u0026size=256",
-      "providers": [
-        {
-          "name": "xAI",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://x.ai/&size=256",
-          "slug": "xAi",
-          "quantization": null,
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "grok-3-beta",
-          "pricing": {
-            "prompt": "0.000003",
-            "completion": "0.000015",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "logprobs",
-            "top_logprobs",
-            "response_format"
-          ],
-          "inputCost": 3,
-          "outputCost": 15,
-          "throughput": 38.1595,
-          "latency": 807
-        },
-        {
-          "name": "xAI Fast",
-          "icon": "",
-          "slug": "xAiFast",
-          "quantization": null,
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "grok-3-fast-beta",
-          "pricing": {
-            "prompt": "0.000005",
-            "completion": "0.000025",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "logprobs",
-            "top_logprobs",
-            "response_format"
-          ],
-          "inputCost": 5,
-          "outputCost": 25,
-          "throughput": 64.19,
-          "latency": 1117
-        }
-      ]
-    },
-    {
       "slug": "nousresearch/hermes-3-llama-3.1-70b",
       "hfSlug": "NousResearch/Hermes-3-Llama-3.1-70B",
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
@@ -16018,7 +15775,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 42,
+        "topWeekly": 41,
         "newest": 216,
         "throughputHighToLow": 186,
         "latencyLowToHigh": 74,
@@ -16059,8 +15816,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.3,
-          "throughput": 48.4415,
-          "latency": 510
+          "throughput": 48.4765,
+          "latency": 515
         },
         {
           "name": "Hyperbolic",
@@ -16098,7 +15855,7 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 37.5135,
+          "throughput": 37.527,
           "latency": 1079
         },
         {
@@ -16132,8 +15889,251 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 0.5,
-          "throughput": 37.691,
-          "latency": 979
+          "throughput": 37.563,
+          "latency": 927
+        }
+      ]
+    },
+    {
+      "slug": "x-ai/grok-3-beta",
+      "hfSlug": "",
+      "updatedAt": "2025-04-18T22:22:00.948066+00:00",
+      "createdAt": "2025-04-09T23:07:48.450334+00:00",
+      "hfUpdatedAt": null,
+      "name": "xAI: Grok 3 Beta",
+      "shortName": "Grok 3 Beta",
+      "author": "x-ai",
+      "description": "Grok 3 is the latest model from xAI. It's their flagship model that excels at enterprise use cases like data extraction, coding, and text summarization. Possesses deep domain knowledge in finance, healthcare, law, and science.\n\nExcels in structured tasks and benchmarks like GPQA, LCB, and MMLU-Pro where it outperforms Grok 3 Mini even on high thinking. \n\nNote: That there are two xAI endpoints for this model. By default when using this model we will always route you to the base endpoint. If you want the fast endpoint you can add `provider: { sort: throughput}`, to sort by throughput instead. \n",
+      "modelVersionGroupId": null,
+      "contextLength": 131072,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Grok",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "x-ai/grok-3-beta",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "ac4e073c-740f-4e9f-9e38-bde83e4ab515",
+        "name": "xAI | x-ai/grok-3-beta",
+        "contextLength": 131072,
+        "model": {
+          "slug": "x-ai/grok-3-beta",
+          "hfSlug": "",
+          "updatedAt": "2025-04-18T22:22:00.948066+00:00",
+          "createdAt": "2025-04-09T23:07:48.450334+00:00",
+          "hfUpdatedAt": null,
+          "name": "xAI: Grok 3 Beta",
+          "shortName": "Grok 3 Beta",
+          "author": "x-ai",
+          "description": "Grok 3 is the latest model from xAI. It's their flagship model that excels at enterprise use cases like data extraction, coding, and text summarization. Possesses deep domain knowledge in finance, healthcare, law, and science.\n\nExcels in structured tasks and benchmarks like GPQA, LCB, and MMLU-Pro where it outperforms Grok 3 Mini even on high thinking. \n\nNote: That there are two xAI endpoints for this model. By default when using this model we will always route you to the base endpoint. If you want the fast endpoint you can add `provider: { sort: throughput}`, to sort by throughput instead. \n",
+          "modelVersionGroupId": null,
+          "contextLength": 131072,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Grok",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "x-ai/grok-3-beta",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "x-ai/grok-3-beta",
+        "modelVariantPermaslug": "x-ai/grok-3-beta",
+        "providerName": "xAI",
+        "providerInfo": {
+          "name": "xAI",
+          "displayName": "xAI",
+          "slug": "xai",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://x.ai/legal/terms-of-service",
+            "privacyPolicyUrl": "https://x.ai/legal/privacy-policy",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.x.ai/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://x.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "xAI",
+        "providerModelId": "grok-3-beta",
+        "quantization": null,
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "tool_choice",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed",
+          "logprobs",
+          "top_logprobs",
+          "response_format"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://x.ai/legal/terms-of-service",
+          "privacyPolicyUrl": "https://x.ai/legal/privacy-policy",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.000003",
+          "completion": "0.000015",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 42,
+        "newest": 59,
+        "throughputHighToLow": 223,
+        "latencyLowToHigh": 128,
+        "pricingLowToHigh": 265,
+        "pricingHighToLow": 39
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://x.ai/\\u0026size=256",
+      "providers": [
+        {
+          "name": "xAI",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://x.ai/&size=256",
+          "slug": "xAi",
+          "quantization": null,
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "grok-3-beta",
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "logprobs",
+            "top_logprobs",
+            "response_format"
+          ],
+          "inputCost": 3,
+          "outputCost": 15,
+          "throughput": 38.241,
+          "latency": 818
+        },
+        {
+          "name": "xAI Fast",
+          "icon": "",
+          "slug": "xAiFast",
+          "quantization": null,
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "grok-3-fast-beta",
+          "pricing": {
+            "prompt": "0.000005",
+            "completion": "0.000025",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "logprobs",
+            "top_logprobs",
+            "response_format"
+          ],
+          "inputCost": 5,
+          "outputCost": 25,
+          "throughput": 63.9705,
+          "latency": 1103
         }
       ]
     },
@@ -16362,8 +16362,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 43.925,
-          "latency": 890
+          "throughput": 43.562,
+          "latency": 887
         },
         {
           "name": "Nebius AI Studio",
@@ -16399,8 +16399,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 39.8435,
-          "latency": 754
+          "throughput": 39.6545,
+          "latency": 740
         },
         {
           "name": "NovitaAI",
@@ -16436,8 +16436,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.45,
-          "throughput": 26.241,
-          "latency": 1660
+          "throughput": 26.381,
+          "latency": 1661
         },
         {
           "name": "Parasail",
@@ -16469,8 +16469,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.5,
-          "throughput": 47.995,
-          "latency": 925
+          "throughput": 47.544,
+          "latency": 933
         },
         {
           "name": "GMICloud",
@@ -16499,8 +16499,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.6,
-          "throughput": 54.811,
-          "latency": 936
+          "throughput": 54.765,
+          "latency": 935
         },
         {
           "name": "Cerebras",
@@ -16532,8 +16532,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.8,
-          "throughput": 2756.71,
-          "latency": 582
+          "throughput": 2758.4765,
+          "latency": 567
         },
         {
           "name": "SambaNova",
@@ -16563,7 +16563,7 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.8,
-          "throughput": 320.641,
+          "throughput": 320.693,
           "latency": 1116
         }
       ]
@@ -16764,8 +16764,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.3,
-          "throughput": 95.696,
-          "latency": 555
+          "throughput": 94.9955,
+          "latency": 590.5
         },
         {
           "name": "DeepInfra",
@@ -16799,7 +16799,7 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.3,
-          "throughput": 38.7415,
+          "throughput": 38.79,
           "latency": 744
         },
         {
@@ -16836,8 +16836,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.45,
-          "throughput": 72.069,
-          "latency": 760
+          "throughput": 70.9115,
+          "latency": 756
         },
         {
           "name": "Parasail",
@@ -16867,8 +16867,8 @@ export default {
           ],
           "inputCost": 0.09,
           "outputCost": 0.48,
-          "throughput": 101.4105,
-          "latency": 580
+          "throughput": 100.5815,
+          "latency": 597
         },
         {
           "name": "CentML",
@@ -16901,8 +16901,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 83.9355,
-          "latency": 322
+          "throughput": 84.0205,
+          "latency": 320
         },
         {
           "name": "NovitaAI",
@@ -16936,8 +16936,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.5,
-          "throughput": 47.8165,
-          "latency": 1004
+          "throughput": 47.4825,
+          "latency": 992
         },
         {
           "name": "Groq",
@@ -16973,8 +16973,8 @@ export default {
           ],
           "inputCost": 0.11,
           "outputCost": 0.34,
-          "throughput": 687.176,
-          "latency": 322
+          "throughput": 686.749,
+          "latency": 323
         },
         {
           "name": "Fireworks",
@@ -17012,8 +17012,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 95.665,
-          "latency": 531
+          "throughput": 95.443,
+          "latency": 530
         },
         {
           "name": "GMICloud",
@@ -17040,8 +17040,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 107.75,
-          "latency": 791
+          "throughput": 107.699,
+          "latency": 792
         },
         {
           "name": "Together",
@@ -17077,8 +17077,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.59,
-          "throughput": 103.0865,
-          "latency": 387
+          "throughput": 102.752,
+          "latency": 386
         },
         {
           "name": "Cerebras",
@@ -17112,8 +17112,8 @@ export default {
           ],
           "inputCost": 0.65,
           "outputCost": 0.85,
-          "throughput": 1757.575,
-          "latency": 380
+          "throughput": 1751.4255,
+          "latency": 378
         }
       ]
     },
@@ -17339,8 +17339,8 @@ export default {
           ],
           "inputCost": 0.14,
           "outputCost": 0.6,
-          "throughput": 25.398,
-          "latency": 977
+          "throughput": 25.493,
+          "latency": 985
         },
         {
           "name": "kluster.ai",
@@ -17380,8 +17380,8 @@ export default {
           ],
           "inputCost": 0.14,
           "outputCost": 2,
-          "throughput": 25.329,
-          "latency": 1012
+          "throughput": 25.4455,
+          "latency": 1034
         },
         {
           "name": "Parasail",
@@ -17413,8 +17413,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.85,
-          "throughput": 48.387,
-          "latency": 589
+          "throughput": 48.5375,
+          "latency": 597
         },
         {
           "name": "Together",
@@ -17450,8 +17450,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 31.5105,
-          "latency": 923
+          "throughput": 31.421,
+          "latency": 926
         },
         {
           "name": "Nebius AI Studio",
@@ -17487,8 +17487,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 25.213,
-          "latency": 597
+          "throughput": 25.22,
+          "latency": 595
         },
         {
           "name": "NovitaAI",
@@ -17526,8 +17526,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.8,
-          "throughput": 22.8365,
-          "latency": 980
+          "throughput": 22.7955,
+          "latency": 983.5
         },
         {
           "name": "Fireworks",
@@ -17567,8 +17567,8 @@ export default {
           ],
           "inputCost": 0.22,
           "outputCost": 0.88,
-          "throughput": 57.6605,
-          "latency": 987
+          "throughput": 57.4345,
+          "latency": 999
         },
         {
           "name": "GMICloud",
@@ -17597,8 +17597,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 1.09,
-          "throughput": 46.489,
-          "latency": 2094.5
+          "throughput": 47.4405,
+          "latency": 1686
         }
       ]
     },
@@ -17792,6 +17792,282 @@ export default {
       "providers": []
     },
     {
+      "slug": "nousresearch/hermes-3-llama-3.1-405b",
+      "hfSlug": "NousResearch/Hermes-3-Llama-3.1-405B",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-08-16T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Nous: Hermes 3 405B Instruct",
+      "shortName": "Hermes 3 405B Instruct",
+      "author": "nousresearch",
+      "description": "Hermes 3 is a generalist language model with many improvements over Hermes 2, including advanced agentic capabilities, much better roleplaying, reasoning, multi-turn conversation, long context coherence, and improvements across the board.\n\nHermes 3 405B is a frontier-level, full-parameter finetune of the Llama-3.1 405B foundation model, focused on aligning LLMs to the user, with powerful steering capabilities and control given to the end user.\n\nThe Hermes 3 series builds and expands on the Hermes 2 set of capabilities, including more powerful and reliable function calling and structured output capabilities, generalist assistant capabilities, and improved code generation skills.\n\nHermes 3 is competitive, if not superior, to Llama-3.1 Instruct models at general capabilities, with varying strengths and weaknesses attributable between the two.",
+      "modelVersionGroupId": null,
+      "contextLength": 131072,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Llama3",
+      "instructType": "chatml",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<|im_start|>",
+        "<|im_end|>",
+        "<|endoftext|>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "nousresearch/hermes-3-llama-3.1-405b",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "b0373fc3-d0ac-4873-9253-25cdda872398",
+        "name": "Lambda | nousresearch/hermes-3-llama-3.1-405b",
+        "contextLength": 131072,
+        "model": {
+          "slug": "nousresearch/hermes-3-llama-3.1-405b",
+          "hfSlug": "NousResearch/Hermes-3-Llama-3.1-405B",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-08-16T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Nous: Hermes 3 405B Instruct",
+          "shortName": "Hermes 3 405B Instruct",
+          "author": "nousresearch",
+          "description": "Hermes 3 is a generalist language model with many improvements over Hermes 2, including advanced agentic capabilities, much better roleplaying, reasoning, multi-turn conversation, long context coherence, and improvements across the board.\n\nHermes 3 405B is a frontier-level, full-parameter finetune of the Llama-3.1 405B foundation model, focused on aligning LLMs to the user, with powerful steering capabilities and control given to the end user.\n\nThe Hermes 3 series builds and expands on the Hermes 2 set of capabilities, including more powerful and reliable function calling and structured output capabilities, generalist assistant capabilities, and improved code generation skills.\n\nHermes 3 is competitive, if not superior, to Llama-3.1 Instruct models at general capabilities, with varying strengths and weaknesses attributable between the two.",
+          "modelVersionGroupId": null,
+          "contextLength": 131072,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Llama3",
+          "instructType": "chatml",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|endoftext|>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "nousresearch/hermes-3-llama-3.1-405b",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "nousresearch/hermes-3-llama-3.1-405b",
+        "modelVariantPermaslug": "nousresearch/hermes-3-llama-3.1-405b",
+        "providerName": "Lambda",
+        "providerInfo": {
+          "name": "Lambda",
+          "displayName": "Lambda",
+          "slug": "lambda",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://lambda.ai/legal/privacy-policy",
+            "termsOfServiceUrl": "https://lambda.ai/legal/terms-of-service",
+            "paidModels": {
+              "training": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": false,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256"
+          }
+        },
+        "providerDisplayName": "Lambda",
+        "providerModelId": "hermes3-405b",
+        "quantization": "fp8",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": false,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 131072,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed",
+          "logit_bias",
+          "logprobs",
+          "top_logprobs",
+          "response_format"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://lambda.ai/legal/privacy-policy",
+          "termsOfServiceUrl": "https://lambda.ai/legal/terms-of-service",
+          "paidModels": {
+            "training": false
+          },
+          "training": false
+        },
+        "pricing": {
+          "prompt": "0.0000008",
+          "completion": "0.0000008",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 47,
+        "newest": 217,
+        "throughputHighToLow": 239,
+        "latencyLowToHigh": 187,
+        "pricingLowToHigh": 195,
+        "pricingHighToLow": 119
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nousresearch.com/\\u0026size=256",
+      "providers": [
+        {
+          "name": "Lambda",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256",
+          "slug": "lambda",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": 131072,
+          "providerModelId": "hermes3-405b",
+          "pricing": {
+            "prompt": "0.0000008",
+            "completion": "0.0000008",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs",
+            "response_format"
+          ],
+          "inputCost": 0.8,
+          "outputCost": 0.8,
+          "throughput": 32.826,
+          "latency": 1281
+        },
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "NousResearch/Hermes-3-Llama-3.1-405B",
+          "pricing": {
+            "prompt": "0.0000008",
+            "completion": "0.0000008",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.8,
+          "outputCost": 0.8,
+          "throughput": 11.8945,
+          "latency": 1324
+        },
+        {
+          "name": "Nebius AI Studio",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
+          "slug": "nebiusAiStudio",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "NousResearch/Hermes-3-Llama-405B",
+          "pricing": {
+            "prompt": "0.000001",
+            "completion": "0.000003",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 1,
+          "outputCost": 3,
+          "throughput": 32.3955,
+          "latency": 721
+        }
+      ]
+    },
+    {
       "slug": "meta-llama/llama-3.2-3b-instruct",
       "hfSlug": "meta-llama/Llama-3.2-3B-Instruct",
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
@@ -17954,7 +18230,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 47,
+        "topWeekly": 48,
         "newest": 195,
         "throughputHighToLow": 4,
         "latencyLowToHigh": 11,
@@ -17995,7 +18271,7 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.02,
-          "throughput": 104.25,
+          "throughput": 104.619,
           "latency": 222
         },
         {
@@ -18030,8 +18306,8 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.02,
-          "throughput": 102.461,
-          "latency": 191
+          "throughput": 103.12,
+          "latency": 190
         },
         {
           "name": "Lambda",
@@ -18100,8 +18376,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.02,
-          "throughput": 84.89,
-          "latency": 883.5
+          "throughput": 84.9515,
+          "latency": 880
         },
         {
           "name": "NovitaAI",
@@ -18137,8 +18413,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.05,
-          "throughput": 100.908,
-          "latency": 524
+          "throughput": 100.986,
+          "latency": 522
         },
         {
           "name": "Cloudflare",
@@ -18169,8 +18445,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.34,
-          "throughput": 171.25,
-          "latency": 398
+          "throughput": 170.6325,
+          "latency": 407.5
         },
         {
           "name": "Together",
@@ -18204,8 +18480,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.06,
-          "throughput": 168.959,
-          "latency": 423
+          "throughput": 168.944,
+          "latency": 423.5
         },
         {
           "name": "SambaNova",
@@ -18272,282 +18548,6 @@ export default {
           "outputCost": 0.1,
           "throughput": 99.621,
           "latency": 985
-        }
-      ]
-    },
-    {
-      "slug": "nousresearch/hermes-3-llama-3.1-405b",
-      "hfSlug": "NousResearch/Hermes-3-Llama-3.1-405B",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-08-16T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Nous: Hermes 3 405B Instruct",
-      "shortName": "Hermes 3 405B Instruct",
-      "author": "nousresearch",
-      "description": "Hermes 3 is a generalist language model with many improvements over Hermes 2, including advanced agentic capabilities, much better roleplaying, reasoning, multi-turn conversation, long context coherence, and improvements across the board.\n\nHermes 3 405B is a frontier-level, full-parameter finetune of the Llama-3.1 405B foundation model, focused on aligning LLMs to the user, with powerful steering capabilities and control given to the end user.\n\nThe Hermes 3 series builds and expands on the Hermes 2 set of capabilities, including more powerful and reliable function calling and structured output capabilities, generalist assistant capabilities, and improved code generation skills.\n\nHermes 3 is competitive, if not superior, to Llama-3.1 Instruct models at general capabilities, with varying strengths and weaknesses attributable between the two.",
-      "modelVersionGroupId": null,
-      "contextLength": 131072,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Llama3",
-      "instructType": "chatml",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<|im_start|>",
-        "<|im_end|>",
-        "<|endoftext|>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "nousresearch/hermes-3-llama-3.1-405b",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "b0373fc3-d0ac-4873-9253-25cdda872398",
-        "name": "Lambda | nousresearch/hermes-3-llama-3.1-405b",
-        "contextLength": 131072,
-        "model": {
-          "slug": "nousresearch/hermes-3-llama-3.1-405b",
-          "hfSlug": "NousResearch/Hermes-3-Llama-3.1-405B",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-08-16T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Nous: Hermes 3 405B Instruct",
-          "shortName": "Hermes 3 405B Instruct",
-          "author": "nousresearch",
-          "description": "Hermes 3 is a generalist language model with many improvements over Hermes 2, including advanced agentic capabilities, much better roleplaying, reasoning, multi-turn conversation, long context coherence, and improvements across the board.\n\nHermes 3 405B is a frontier-level, full-parameter finetune of the Llama-3.1 405B foundation model, focused on aligning LLMs to the user, with powerful steering capabilities and control given to the end user.\n\nThe Hermes 3 series builds and expands on the Hermes 2 set of capabilities, including more powerful and reliable function calling and structured output capabilities, generalist assistant capabilities, and improved code generation skills.\n\nHermes 3 is competitive, if not superior, to Llama-3.1 Instruct models at general capabilities, with varying strengths and weaknesses attributable between the two.",
-          "modelVersionGroupId": null,
-          "contextLength": 131072,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Llama3",
-          "instructType": "chatml",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<|im_start|>",
-            "<|im_end|>",
-            "<|endoftext|>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "nousresearch/hermes-3-llama-3.1-405b",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "nousresearch/hermes-3-llama-3.1-405b",
-        "modelVariantPermaslug": "nousresearch/hermes-3-llama-3.1-405b",
-        "providerName": "Lambda",
-        "providerInfo": {
-          "name": "Lambda",
-          "displayName": "Lambda",
-          "slug": "lambda",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://lambda.ai/legal/privacy-policy",
-            "termsOfServiceUrl": "https://lambda.ai/legal/terms-of-service",
-            "paidModels": {
-              "training": false
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": false,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256"
-          }
-        },
-        "providerDisplayName": "Lambda",
-        "providerModelId": "hermes3-405b",
-        "quantization": "fp8",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": false,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 131072,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed",
-          "logit_bias",
-          "logprobs",
-          "top_logprobs",
-          "response_format"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://lambda.ai/legal/privacy-policy",
-          "termsOfServiceUrl": "https://lambda.ai/legal/terms-of-service",
-          "paidModels": {
-            "training": false
-          },
-          "training": false
-        },
-        "pricing": {
-          "prompt": "0.0000008",
-          "completion": "0.0000008",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 48,
-        "newest": 217,
-        "throughputHighToLow": 239,
-        "latencyLowToHigh": 187,
-        "pricingLowToHigh": 195,
-        "pricingHighToLow": 119
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nousresearch.com/\\u0026size=256",
-      "providers": [
-        {
-          "name": "Lambda",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256",
-          "slug": "lambda",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": 131072,
-          "providerModelId": "hermes3-405b",
-          "pricing": {
-            "prompt": "0.0000008",
-            "completion": "0.0000008",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs",
-            "response_format"
-          ],
-          "inputCost": 0.8,
-          "outputCost": 0.8,
-          "throughput": 32.8305,
-          "latency": 1282.5
-        },
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "NousResearch/Hermes-3-Llama-3.1-405B",
-          "pricing": {
-            "prompt": "0.0000008",
-            "completion": "0.0000008",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.8,
-          "outputCost": 0.8,
-          "throughput": 11.9335,
-          "latency": 1323
-        },
-        {
-          "name": "Nebius AI Studio",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
-          "slug": "nebiusAiStudio",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "NousResearch/Hermes-3-Llama-405B",
-          "pricing": {
-            "prompt": "0.000001",
-            "completion": "0.000003",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs"
-          ],
-          "inputCost": 1,
-          "outputCost": 3,
-          "throughput": 32.4235,
-          "latency": 721
         }
       ]
     },
@@ -18712,7 +18712,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 17,
-        "newest": 180,
+        "newest": 181,
         "throughputHighToLow": 148,
         "latencyLowToHigh": 180,
         "pricingLowToHigh": 270,
@@ -18750,8 +18750,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 57.7215,
-          "latency": 1219
+          "throughput": 57.6645,
+          "latency": 1219.5
         },
         {
           "name": "Google Vertex",
@@ -18783,8 +18783,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 63.073,
-          "latency": 1377
+          "throughput": 63.061,
+          "latency": 1371
         },
         {
           "name": "Amazon Bedrock",
@@ -18814,8 +18814,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 39.614,
-          "latency": 1658.5
+          "throughput": 39.345,
+          "latency": 1667.5
         },
         {
           "name": "Amazon Bedrock",
@@ -18847,8 +18847,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 41.8795,
-          "latency": 1543
+          "throughput": 41.6435,
+          "latency": 1548
         },
         {
           "name": "Google Vertex",
@@ -18880,8 +18880,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 61.51,
-          "latency": 1013
+          "throughput": 61.516,
+          "latency": 1006
         }
       ]
     },
@@ -19089,8 +19089,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.07,
-          "throughput": 17.704,
-          "latency": 472
+          "throughput": 17.6935,
+          "latency": 477
         },
         {
           "name": "NovitaAI",
@@ -19124,8 +19124,8 @@ export default {
           ],
           "inputCost": 0.09,
           "outputCost": 0.09,
-          "throughput": 76.0265,
-          "latency": 1115
+          "throughput": 76.4745,
+          "latency": 1122
         },
         {
           "name": "Parasail",
@@ -19155,8 +19155,8 @@ export default {
           ],
           "inputCost": 0.11,
           "outputCost": 0.11,
-          "throughput": 48.028,
-          "latency": 570
+          "throughput": 47.9475,
+          "latency": 575
         },
         {
           "name": "Together",
@@ -19190,7 +19190,7 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.4,
-          "throughput": 111.9675,
+          "throughput": 111.8795,
           "latency": 532
         },
         {
@@ -19225,8 +19225,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 137.2665,
-          "latency": 421
+          "throughput": 137.8745,
+          "latency": 418
         },
         {
           "name": "Mancer (private)",
@@ -19261,8 +19261,8 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 1.5,
-          "throughput": 41.666,
-          "latency": 1022
+          "throughput": 41.934,
+          "latency": 1003
         }
       ]
     },
@@ -19427,11 +19427,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 51,
-        "newest": 177,
+        "newest": 175,
         "throughputHighToLow": 162,
         "latencyLowToHigh": 182,
         "pricingLowToHigh": 215,
-        "pricingHighToLow": 97
+        "pricingHighToLow": 95
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -19465,8 +19465,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 54.784,
-          "latency": 1242
+          "throughput": 54.9685,
+          "latency": 1240
         },
         {
           "name": "Google Vertex",
@@ -19498,8 +19498,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 56.576,
-          "latency": 1551
+          "throughput": 56.5665,
+          "latency": 1563
         },
         {
           "name": "Amazon Bedrock",
@@ -19529,8 +19529,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 63.146,
-          "latency": 2132.5
+          "throughput": 63.165,
+          "latency": 2129
         },
         {
           "name": "Amazon Bedrock (US-WEST)",
@@ -19771,8 +19771,8 @@ export default {
           ],
           "inputCost": 1.1,
           "outputCost": 4.4,
-          "throughput": 93.335,
-          "latency": 8456.5
+          "throughput": 94.044,
+          "latency": 8807.5
         }
       ]
     },
@@ -19936,7 +19936,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 53,
-        "newest": 210,
+        "newest": 211,
         "throughputHighToLow": 155,
         "latencyLowToHigh": 34,
         "pricingLowToHigh": 139,
@@ -19976,8 +19976,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 56.4335,
-          "latency": 352
+          "throughput": 56.354,
+          "latency": 351
         }
       ]
     },
@@ -20170,11 +20170,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 54,
-        "newest": 234,
+        "newest": 235,
         "throughputHighToLow": 139,
         "latencyLowToHigh": 57,
         "pricingLowToHigh": 141,
-        "pricingHighToLow": 177
+        "pricingHighToLow": 178
       },
       "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
       "providers": [
@@ -20215,8 +20215,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 62.3015,
-          "latency": 426
+          "throughput": 62.5865,
+          "latency": 430
         }
       ]
     },
@@ -20407,8 +20407,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.2,
-          "throughput": 105.67,
-          "latency": 855
+          "throughput": 105.496,
+          "latency": 853
         }
       ]
     },
@@ -20611,8 +20611,8 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.01,
-          "throughput": 54.311,
-          "latency": 767
+          "throughput": 54.5665,
+          "latency": 766
         }
       ]
     },
@@ -20816,7 +20816,7 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.25,
-          "throughput": 133.492,
+          "throughput": 133.333,
           "latency": 276
         }
       ]
@@ -21000,7 +21000,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 58,
-        "newest": 269,
+        "newest": 268,
         "throughputHighToLow": 135,
         "latencyLowToHigh": 211,
         "pricingLowToHigh": 234,
@@ -21040,8 +21040,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 5,
-          "throughput": 60.9895,
-          "latency": 1263
+          "throughput": 60.964,
+          "latency": 1295
         },
         {
           "name": "Google AI Studio",
@@ -21077,8 +21077,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 5,
-          "throughput": 62.899,
-          "latency": 19230
+          "throughput": 62.368,
+          "latency": 19068.5
         }
       ]
     },
@@ -21282,8 +21282,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.15,
-          "throughput": 70.5955,
-          "latency": 355
+          "throughput": 70.175,
+          "latency": 352.5
         },
         {
           "name": "Parasail",
@@ -21313,8 +21313,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 68.023,
-          "latency": 1167
+          "throughput": 67.9165,
+          "latency": 1166
         },
         {
           "name": "Mistral",
@@ -21348,8 +21348,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 135.607,
-          "latency": 232
+          "throughput": 135.416,
+          "latency": 233
         },
         {
           "name": "Cloudflare",
@@ -21380,8 +21380,8 @@ export default {
           ],
           "inputCost": 0.35,
           "outputCost": 0.56,
-          "throughput": 44.784,
-          "latency": 790
+          "throughput": 44.5825,
+          "latency": 791.5
         }
       ]
     },
@@ -21594,8 +21594,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.04,
-          "throughput": 79.2125,
-          "latency": 304
+          "throughput": 79.054,
+          "latency": 303
         }
       ]
     },
@@ -21804,8 +21804,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.2,
-          "throughput": 33.0245,
-          "latency": 901
+          "throughput": 33,
+          "latency": 909
         },
         {
           "name": "InoCloud",
@@ -21834,8 +21834,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.2,
-          "throughput": 25.932,
-          "latency": 1522.5
+          "throughput": 25.519,
+          "latency": 1519
         },
         {
           "name": "Nebius AI Studio",
@@ -21869,8 +21869,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 70.9825,
-          "latency": 777
+          "throughput": 70.6995,
+          "latency": 778
         },
         {
           "name": "NovitaAI",
@@ -21904,8 +21904,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.2,
-          "throughput": 29.6575,
-          "latency": 3108.5
+          "throughput": 29.6775,
+          "latency": 3088
         },
         {
           "name": "inference.net",
@@ -21939,8 +21939,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.3,
-          "throughput": 16.261,
-          "latency": 2481
+          "throughput": 16.2395,
+          "latency": 2466
         },
         {
           "name": "kluster.ai",
@@ -21976,8 +21976,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.35,
-          "throughput": 61.5175,
-          "latency": 2651
+          "throughput": 61.334,
+          "latency": 2594
         },
         {
           "name": "Parasail",
@@ -22007,8 +22007,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.4,
-          "throughput": 52.403,
-          "latency": 1241
+          "throughput": 52.3555,
+          "latency": 1226
         },
         {
           "name": "nCompass",
@@ -22041,8 +22041,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 43.772,
-          "latency": 1001
+          "throughput": 43.737,
+          "latency": 993
         }
       ]
     },
@@ -22245,8 +22245,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 1.25,
-          "throughput": 149.068,
-          "latency": 603
+          "throughput": 149.04,
+          "latency": 599
         },
         {
           "name": "Google Vertex",
@@ -22278,8 +22278,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 1.25,
-          "throughput": 153.201,
-          "latency": 1287.5
+          "throughput": 153.246,
+          "latency": 1287
         }
       ]
     },
@@ -22476,8 +22476,8 @@ export default {
           ],
           "inputCost": 0.45,
           "outputCost": 0.45,
-          "throughput": 71.41,
-          "latency": 5483
+          "throughput": 71.653,
+          "latency": 5493
         },
         {
           "name": "Infermatic",
@@ -22511,210 +22511,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 0.5,
-          "throughput": 97.2345,
-          "latency": 516
-        }
-      ]
-    },
-    {
-      "slug": "cohere/command-r7b-12-2024",
-      "hfSlug": "",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-12-14T06:35:52.905418+00:00",
-      "hfUpdatedAt": null,
-      "name": "Cohere: Command R7B (12-2024)",
-      "shortName": "Command R7B (12-2024)",
-      "author": "cohere",
-      "description": "Command R7B (12-2024) is a small, fast update of the Command R+ model, delivered in December 2024. It excels at RAG, tool use, agents, and similar tasks requiring complex reasoning and multiple steps.\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-      "modelVersionGroupId": null,
-      "contextLength": 128000,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Cohere",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "cohere/command-r7b-12-2024",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "d4a57205-8124-413a-ab4e-5ae94eb7aa9d",
-        "name": "Cohere | cohere/command-r7b-12-2024",
-        "contextLength": 128000,
-        "model": {
-          "slug": "cohere/command-r7b-12-2024",
-          "hfSlug": "",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-12-14T06:35:52.905418+00:00",
-          "hfUpdatedAt": null,
-          "name": "Cohere: Command R7B (12-2024)",
-          "shortName": "Command R7B (12-2024)",
-          "author": "cohere",
-          "description": "Command R7B (12-2024) is a small, fast update of the Command R+ model, delivered in December 2024. It excels at RAG, tool use, agents, and similar tasks requiring complex reasoning and multiple steps.\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-          "modelVersionGroupId": null,
-          "contextLength": 128000,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Cohere",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "cohere/command-r7b-12-2024",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "cohere/command-r7b-12-2024",
-        "modelVariantPermaslug": "cohere/command-r7b-12-2024",
-        "providerName": "Cohere",
-        "providerInfo": {
-          "name": "Cohere",
-          "displayName": "Cohere",
-          "slug": "cohere",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://cohere.com/privacy",
-            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": false,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.cohere.ai/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Cohere.png"
-          }
-        },
-        "providerDisplayName": "Cohere",
-        "providerModelId": "command-r7b-12-2024",
-        "quantization": null,
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 4000,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "top_k",
-          "seed",
-          "response_format",
-          "structured_outputs"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://cohere.com/privacy",
-          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.0000000375",
-          "completion": "0.00000015",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": false,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 64,
-        "newest": 155,
-        "throughputHighToLow": 22,
-        "latencyLowToHigh": 1,
-        "pricingLowToHigh": 91,
-        "pricingHighToLow": 224
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
-      "providers": [
-        {
-          "name": "Cohere",
-          "icon": "https://openrouter.ai/images/icons/Cohere.png",
-          "slug": "cohere",
-          "quantization": null,
-          "context": 128000,
-          "maxCompletionTokens": 4000,
-          "providerModelId": "command-r7b-12-2024",
-          "pricing": {
-            "prompt": "0.0000000375",
-            "completion": "0.00000015",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "seed",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 0.04,
-          "outputCost": 0.15,
-          "throughput": 178.947,
-          "latency": 173
+          "throughput": 96.3055,
+          "latency": 522
         }
       ]
     },
@@ -22899,7 +22697,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 65,
+        "topWeekly": 64,
         "newest": 141,
         "throughputHighToLow": 215,
         "latencyLowToHigh": 96,
@@ -22942,8 +22740,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.4,
-          "throughput": 32.369,
-          "latency": 581
+          "throughput": 32.2275,
+          "latency": 572
         },
         {
           "name": "inference.net",
@@ -22981,8 +22779,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.4,
-          "throughput": 35.35,
-          "latency": 792
+          "throughput": 35.4075,
+          "latency": 795
         },
         {
           "name": "Lambda",
@@ -23018,8 +22816,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 61.05,
-          "latency": 569
+          "throughput": 61.218,
+          "latency": 559.5
         },
         {
           "name": "Phala",
@@ -23054,8 +22852,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.7,
-          "throughput": 32.83,
-          "latency": 710
+          "throughput": 33.624,
+          "latency": 698
         },
         {
           "name": "Nebius AI Studio",
@@ -23091,8 +22889,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.75,
-          "throughput": 52.5495,
-          "latency": 605
+          "throughput": 52.8865,
+          "latency": 600
         },
         {
           "name": "SambaNova",
@@ -23122,8 +22920,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 1.4,
-          "throughput": 230.306,
-          "latency": 1859
+          "throughput": 230.143,
+          "latency": 1857
         },
         {
           "name": "Groq",
@@ -23161,8 +22959,8 @@ export default {
           ],
           "inputCost": 0.75,
           "outputCost": 0.99,
-          "throughput": 281.653,
-          "latency": 695
+          "throughput": 282.685,
+          "latency": 707.5
         },
         {
           "name": "NovitaAI",
@@ -23198,8 +22996,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 63.199,
-          "latency": 1035.5
+          "throughput": 64.2345,
+          "latency": 1021.5
         },
         {
           "name": "Together",
@@ -23274,6 +23072,208 @@ export default {
           "outputCost": 2.5,
           "throughput": 4128.378,
           "latency": 368
+        }
+      ]
+    },
+    {
+      "slug": "cohere/command-r7b-12-2024",
+      "hfSlug": "",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-12-14T06:35:52.905418+00:00",
+      "hfUpdatedAt": null,
+      "name": "Cohere: Command R7B (12-2024)",
+      "shortName": "Command R7B (12-2024)",
+      "author": "cohere",
+      "description": "Command R7B (12-2024) is a small, fast update of the Command R+ model, delivered in December 2024. It excels at RAG, tool use, agents, and similar tasks requiring complex reasoning and multiple steps.\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
+      "modelVersionGroupId": null,
+      "contextLength": 128000,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Cohere",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "cohere/command-r7b-12-2024",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "d4a57205-8124-413a-ab4e-5ae94eb7aa9d",
+        "name": "Cohere | cohere/command-r7b-12-2024",
+        "contextLength": 128000,
+        "model": {
+          "slug": "cohere/command-r7b-12-2024",
+          "hfSlug": "",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-12-14T06:35:52.905418+00:00",
+          "hfUpdatedAt": null,
+          "name": "Cohere: Command R7B (12-2024)",
+          "shortName": "Command R7B (12-2024)",
+          "author": "cohere",
+          "description": "Command R7B (12-2024) is a small, fast update of the Command R+ model, delivered in December 2024. It excels at RAG, tool use, agents, and similar tasks requiring complex reasoning and multiple steps.\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
+          "modelVersionGroupId": null,
+          "contextLength": 128000,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Cohere",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "cohere/command-r7b-12-2024",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "cohere/command-r7b-12-2024",
+        "modelVariantPermaslug": "cohere/command-r7b-12-2024",
+        "providerName": "Cohere",
+        "providerInfo": {
+          "name": "Cohere",
+          "displayName": "Cohere",
+          "slug": "cohere",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://cohere.com/privacy",
+            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": false,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.cohere.ai/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/Cohere.png"
+          }
+        },
+        "providerDisplayName": "Cohere",
+        "providerModelId": "command-r7b-12-2024",
+        "quantization": null,
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 4000,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "top_k",
+          "seed",
+          "response_format",
+          "structured_outputs"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://cohere.com/privacy",
+          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.0000000375",
+          "completion": "0.00000015",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": false,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 65,
+        "newest": 155,
+        "throughputHighToLow": 22,
+        "latencyLowToHigh": 1,
+        "pricingLowToHigh": 91,
+        "pricingHighToLow": 224
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
+      "providers": [
+        {
+          "name": "Cohere",
+          "icon": "https://openrouter.ai/images/icons/Cohere.png",
+          "slug": "cohere",
+          "quantization": null,
+          "context": 128000,
+          "maxCompletionTokens": 4000,
+          "providerModelId": "command-r7b-12-2024",
+          "pricing": {
+            "prompt": "0.0000000375",
+            "completion": "0.00000015",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "seed",
+            "response_format",
+            "structured_outputs"
+          ],
+          "inputCost": 0.04,
+          "outputCost": 0.15,
+          "throughput": 179.0705,
+          "latency": 173
         }
       ]
     },
@@ -23481,8 +23481,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.24,
-          "throughput": 125.2145,
-          "latency": 259.5
+          "throughput": 124.886,
+          "latency": 260
         },
         {
           "name": "DeepInfra",
@@ -23518,8 +23518,8 @@ export default {
           ],
           "inputCost": 0.24,
           "outputCost": 0.24,
-          "throughput": 126.304,
-          "latency": 509
+          "throughput": 125.812,
+          "latency": 512
         },
         {
           "name": "Together",
@@ -23555,8 +23555,8 @@ export default {
           ],
           "inputCost": 0.6,
           "outputCost": 0.6,
-          "throughput": 77.569,
-          "latency": 377
+          "throughput": 77.642,
+          "latency": 375
         }
       ]
     },
@@ -23781,8 +23781,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.14,
-          "throughput": 42.194,
-          "latency": 1374.5
+          "throughput": 42.355,
+          "latency": 1368.5
         }
       ]
     },
@@ -23947,7 +23947,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 68,
-        "newest": 248,
+        "newest": 249,
         "throughputHighToLow": 31,
         "latencyLowToHigh": 23,
         "pricingLowToHigh": 79,
@@ -23987,8 +23987,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.04,
-          "throughput": 152.436,
-          "latency": 303
+          "throughput": 152.463,
+          "latency": 302
         },
         {
           "name": "NovitaAI",
@@ -24022,7 +24022,7 @@ export default {
           ],
           "inputCost": 0.14,
           "outputCost": 0.14,
-          "throughput": 86.694,
+          "throughput": 86.7205,
           "latency": 694
         }
       ]
@@ -24216,8 +24216,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 2.18,
-          "throughput": 77.37,
-          "latency": 878
+          "throughput": 77.472,
+          "latency": 857
         },
         {
           "name": "DeepInfra",
@@ -24251,8 +24251,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 2.18,
-          "throughput": 76.419,
-          "latency": 864
+          "throughput": 76.4555,
+          "latency": 862.5
         },
         {
           "name": "NovitaAI",
@@ -24286,8 +24286,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 2.5,
-          "throughput": 35.6435,
-          "latency": 937
+          "throughput": 35.659,
+          "latency": 937.5
         }
       ]
     },
@@ -24471,8 +24471,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 1.1,
-          "throughput": 26.212,
-          "latency": 1551
+          "throughput": 26.3355,
+          "latency": 1551.5
         }
       ]
     },
@@ -24655,7 +24655,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 65,
+        "topWeekly": 64,
         "newest": 141,
         "throughputHighToLow": 215,
         "latencyLowToHigh": 96,
@@ -24698,8 +24698,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.4,
-          "throughput": 32.369,
-          "latency": 581
+          "throughput": 32.2275,
+          "latency": 572
         },
         {
           "name": "inference.net",
@@ -24737,8 +24737,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.4,
-          "throughput": 35.35,
-          "latency": 792
+          "throughput": 35.4075,
+          "latency": 795
         },
         {
           "name": "Lambda",
@@ -24774,8 +24774,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 61.05,
-          "latency": 569
+          "throughput": 61.218,
+          "latency": 559.5
         },
         {
           "name": "Phala",
@@ -24810,8 +24810,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.7,
-          "throughput": 32.83,
-          "latency": 710
+          "throughput": 33.624,
+          "latency": 698
         },
         {
           "name": "Nebius AI Studio",
@@ -24847,8 +24847,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.75,
-          "throughput": 52.5495,
-          "latency": 605
+          "throughput": 52.8865,
+          "latency": 600
         },
         {
           "name": "SambaNova",
@@ -24878,8 +24878,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 1.4,
-          "throughput": 230.306,
-          "latency": 1859
+          "throughput": 230.143,
+          "latency": 1857
         },
         {
           "name": "Groq",
@@ -24917,8 +24917,8 @@ export default {
           ],
           "inputCost": 0.75,
           "outputCost": 0.99,
-          "throughput": 281.653,
-          "latency": 695
+          "throughput": 282.685,
+          "latency": 707.5
         },
         {
           "name": "NovitaAI",
@@ -24954,8 +24954,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 63.199,
-          "latency": 1035.5
+          "throughput": 64.2345,
+          "latency": 1021.5
         },
         {
           "name": "Together",
@@ -25236,8 +25236,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.07,
-          "throughput": 107.6725,
-          "latency": 733
+          "throughput": 107.241,
+          "latency": 736
         },
         {
           "name": "Enfer",
@@ -25270,8 +25270,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.07,
-          "throughput": 57.203,
-          "latency": 6444
+          "throughput": 57.915,
+          "latency": 6463
         },
         {
           "name": "NextBit",
@@ -25302,8 +25302,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.07,
-          "throughput": 42.802,
-          "latency": 1562
+          "throughput": 42.674,
+          "latency": 1566
         },
         {
           "name": "DeepInfra",
@@ -25337,8 +25337,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.08,
-          "throughput": 54.4165,
-          "latency": 253
+          "throughput": 54.54,
+          "latency": 251
         },
         {
           "name": "inference.net",
@@ -25372,8 +25372,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.1,
-          "throughput": 59.689,
-          "latency": 990
+          "throughput": 59.641,
+          "latency": 988
         },
         {
           "name": "Nebius AI Studio",
@@ -25407,8 +25407,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.12,
-          "throughput": 33.048,
-          "latency": 602
+          "throughput": 32.7585,
+          "latency": 609
         },
         {
           "name": "NovitaAI",
@@ -25444,8 +25444,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.17,
-          "throughput": 41.788,
-          "latency": 1182
+          "throughput": 41.828,
+          "latency": 1184
         },
         {
           "name": "Atoma",
@@ -25471,8 +25471,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 61.096,
-          "latency": 648
+          "throughput": 60.9475,
+          "latency": 647
         },
         {
           "name": "Parasail",
@@ -25502,8 +25502,8 @@ export default {
           ],
           "inputCost": 0.11,
           "outputCost": 0.11,
-          "throughput": 90.7455,
-          "latency": 748
+          "throughput": 90.909,
+          "latency": 747
         },
         {
           "name": "Mistral",
@@ -25537,8 +25537,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.15,
-          "throughput": 143.752,
-          "latency": 217
+          "throughput": 143.7075,
+          "latency": 221
         },
         {
           "name": "Azure",
@@ -25569,8 +25569,254 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 98.5675,
-          "latency": 1148
+          "throughput": 98.5665,
+          "latency": 1147
+        }
+      ]
+    },
+    {
+      "slug": "google/gemma-3-12b-it",
+      "hfSlug": "google/gemma-3-12b-it",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2025-03-13T21:50:25.140801+00:00",
+      "hfUpdatedAt": null,
+      "name": "Google: Gemma 3 12B",
+      "shortName": "Gemma 3 12B",
+      "author": "google",
+      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, and chat capabilities, including structured outputs and function calling. Gemma 3 12B is the second largest in the family of Gemma 3 models after [Gemma 3 27B](google/gemma-3-27b-it)",
+      "modelVersionGroupId": "c99b277a-cfaf-4e93-9360-8a79cfa2b2c4",
+      "contextLength": 131072,
+      "inputModalities": [
+        "text",
+        "image"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Gemini",
+      "instructType": "gemma",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<start_of_turn>",
+        "<end_of_turn>",
+        "<eos>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "google/gemma-3-12b-it",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "eb06dc92-5a16-47ec-a776-6ef956457c47",
+        "name": "DeepInfra | google/gemma-3-12b-it",
+        "contextLength": 131072,
+        "model": {
+          "slug": "google/gemma-3-12b-it",
+          "hfSlug": "google/gemma-3-12b-it",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2025-03-13T21:50:25.140801+00:00",
+          "hfUpdatedAt": null,
+          "name": "Google: Gemma 3 12B",
+          "shortName": "Gemma 3 12B",
+          "author": "google",
+          "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, and chat capabilities, including structured outputs and function calling. Gemma 3 12B is the second largest in the family of Gemma 3 models after [Gemma 3 27B](google/gemma-3-27b-it)",
+          "modelVersionGroupId": "c99b277a-cfaf-4e93-9360-8a79cfa2b2c4",
+          "contextLength": 131072,
+          "inputModalities": [
+            "text",
+            "image"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Gemini",
+          "instructType": "gemma",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<start_of_turn>",
+            "<end_of_turn>",
+            "<eos>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "google/gemma-3-12b-it",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "google/gemma-3-12b-it",
+        "modelVariantPermaslug": "google/gemma-3-12b-it",
+        "providerName": "DeepInfra",
+        "providerInfo": {
+          "name": "DeepInfra",
+          "displayName": "DeepInfra",
+          "slug": "deepinfra",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://deepinfra.com/privacy",
+            "termsOfServiceUrl": "https://deepinfra.com/terms",
+            "dataPolicyUrl": "https://deepinfra.com/docs/data",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/DeepInfra.webp"
+          }
+        },
+        "providerDisplayName": "DeepInfra",
+        "providerModelId": "google/gemma-3-12b-it",
+        "quantization": "bf16",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "repetition_penalty",
+          "response_format",
+          "top_k",
+          "seed",
+          "min_p"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://deepinfra.com/privacy",
+          "termsOfServiceUrl": "https://deepinfra.com/terms",
+          "dataPolicyUrl": "https://deepinfra.com/docs/data",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.00000005",
+          "completion": "0.0000001",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 73,
+        "newest": 87,
+        "throughputHighToLow": 153,
+        "latencyLowToHigh": 217,
+        "pricingLowToHigh": 39,
+        "pricingHighToLow": 220
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/GoogleGemini.svg",
+      "providers": [
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "bf16",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "google/gemma-3-12b-it",
+          "pricing": {
+            "prompt": "0.00000005",
+            "completion": "0.0000001",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.05,
+          "outputCost": 0.1,
+          "throughput": 30.5895,
+          "latency": 1462
+        },
+        {
+          "name": "Cloudflare",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.cloudflare.com/&size=256",
+          "slug": "cloudflare",
+          "quantization": null,
+          "context": 80000,
+          "maxCompletionTokens": null,
+          "providerModelId": "@cf/google/gemma-3-12b-it",
+          "pricing": {
+            "prompt": "0.00000035",
+            "completion": "0.00000056",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "seed",
+            "repetition_penalty",
+            "frequency_penalty",
+            "presence_penalty"
+          ],
+          "inputCost": 0.35,
+          "outputCost": 0.56,
+          "throughput": 65.642,
+          "latency": 963
         }
       ]
     },
@@ -25756,7 +26002,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 73,
+        "topWeekly": 74,
         "newest": 28,
         "throughputHighToLow": 117,
         "latencyLowToHigh": 94,
@@ -25799,8 +26045,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.24,
-          "throughput": 70.299,
-          "latency": 611
+          "throughput": 70.368,
+          "latency": 614
         },
         {
           "name": "NovitaAI",
@@ -25836,8 +26082,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.28,
-          "throughput": 58.101,
-          "latency": 892
+          "throughput": 58.0435,
+          "latency": 894.5
         },
         {
           "name": "Nebius AI Studio",
@@ -25873,7 +26119,7 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.24,
-          "throughput": 89.843,
+          "throughput": 89.811,
           "latency": 376
         }
       ]
@@ -26037,7 +26283,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 74,
+        "topWeekly": 75,
         "newest": 129,
         "throughputHighToLow": 311,
         "latencyLowToHigh": 297,
@@ -26074,254 +26320,8 @@ export default {
           ],
           "inputCost": 1.1,
           "outputCost": 4.4,
-          "throughput": 117.36,
-          "latency": 4823
-        }
-      ]
-    },
-    {
-      "slug": "google/gemma-3-12b-it",
-      "hfSlug": "google/gemma-3-12b-it",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2025-03-13T21:50:25.140801+00:00",
-      "hfUpdatedAt": null,
-      "name": "Google: Gemma 3 12B",
-      "shortName": "Gemma 3 12B",
-      "author": "google",
-      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, and chat capabilities, including structured outputs and function calling. Gemma 3 12B is the second largest in the family of Gemma 3 models after [Gemma 3 27B](google/gemma-3-27b-it)",
-      "modelVersionGroupId": "c99b277a-cfaf-4e93-9360-8a79cfa2b2c4",
-      "contextLength": 131072,
-      "inputModalities": [
-        "text",
-        "image"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Gemini",
-      "instructType": "gemma",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<start_of_turn>",
-        "<end_of_turn>",
-        "<eos>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "google/gemma-3-12b-it",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "eb06dc92-5a16-47ec-a776-6ef956457c47",
-        "name": "DeepInfra | google/gemma-3-12b-it",
-        "contextLength": 131072,
-        "model": {
-          "slug": "google/gemma-3-12b-it",
-          "hfSlug": "google/gemma-3-12b-it",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2025-03-13T21:50:25.140801+00:00",
-          "hfUpdatedAt": null,
-          "name": "Google: Gemma 3 12B",
-          "shortName": "Gemma 3 12B",
-          "author": "google",
-          "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, and chat capabilities, including structured outputs and function calling. Gemma 3 12B is the second largest in the family of Gemma 3 models after [Gemma 3 27B](google/gemma-3-27b-it)",
-          "modelVersionGroupId": "c99b277a-cfaf-4e93-9360-8a79cfa2b2c4",
-          "contextLength": 131072,
-          "inputModalities": [
-            "text",
-            "image"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Gemini",
-          "instructType": "gemma",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<start_of_turn>",
-            "<end_of_turn>",
-            "<eos>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "google/gemma-3-12b-it",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "google/gemma-3-12b-it",
-        "modelVariantPermaslug": "google/gemma-3-12b-it",
-        "providerName": "DeepInfra",
-        "providerInfo": {
-          "name": "DeepInfra",
-          "displayName": "DeepInfra",
-          "slug": "deepinfra",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://deepinfra.com/privacy",
-            "termsOfServiceUrl": "https://deepinfra.com/terms",
-            "dataPolicyUrl": "https://deepinfra.com/docs/data",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/DeepInfra.webp"
-          }
-        },
-        "providerDisplayName": "DeepInfra",
-        "providerModelId": "google/gemma-3-12b-it",
-        "quantization": "bf16",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "repetition_penalty",
-          "response_format",
-          "top_k",
-          "seed",
-          "min_p"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://deepinfra.com/privacy",
-          "termsOfServiceUrl": "https://deepinfra.com/terms",
-          "dataPolicyUrl": "https://deepinfra.com/docs/data",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.00000005",
-          "completion": "0.0000001",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 75,
-        "newest": 87,
-        "throughputHighToLow": 153,
-        "latencyLowToHigh": 217,
-        "pricingLowToHigh": 39,
-        "pricingHighToLow": 220
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/GoogleGemini.svg",
-      "providers": [
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "bf16",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "google/gemma-3-12b-it",
-          "pricing": {
-            "prompt": "0.00000005",
-            "completion": "0.0000001",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.05,
-          "outputCost": 0.1,
-          "throughput": 30.613,
-          "latency": 1463
-        },
-        {
-          "name": "Cloudflare",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.cloudflare.com/&size=256",
-          "slug": "cloudflare",
-          "quantization": null,
-          "context": 80000,
-          "maxCompletionTokens": null,
-          "providerModelId": "@cf/google/gemma-3-12b-it",
-          "pricing": {
-            "prompt": "0.00000035",
-            "completion": "0.00000056",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "seed",
-            "repetition_penalty",
-            "frequency_penalty",
-            "presence_penalty"
-          ],
-          "inputCost": 0.35,
-          "outputCost": 0.56,
-          "throughput": 65.794,
-          "latency": 969.5
+          "throughput": 116.662,
+          "latency": 4874.5
         }
       ]
     },
@@ -26531,8 +26531,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.15,
-          "throughput": 52.389,
-          "latency": 430
+          "throughput": 51.033,
+          "latency": 498
         },
         {
           "name": "Nebius AI Studio",
@@ -26566,8 +26566,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.18,
-          "throughput": 55.7425,
-          "latency": 427
+          "throughput": 55.439,
+          "latency": 426
         },
         {
           "name": "Lambda",
@@ -26601,8 +26601,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.16,
-          "throughput": 44.001,
-          "latency": 402
+          "throughput": 43.987,
+          "latency": 403
         },
         {
           "name": "Hyperbolic",
@@ -26638,8 +26638,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 55.871,
-          "latency": 1164.5
+          "throughput": 55.8255,
+          "latency": 1168
         },
         {
           "name": "Parasail",
@@ -26669,7 +26669,7 @@ export default {
           ],
           "inputCost": 0.35,
           "outputCost": 0.5,
-          "throughput": 56.923,
+          "throughput": 56.925,
           "latency": 541
         },
         {
@@ -26705,8 +26705,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 2,
-          "throughput": 19.697,
-          "latency": 791
+          "throughput": 19.698,
+          "latency": 790
         },
         {
           "name": "Cloudflare",
@@ -26772,8 +26772,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 85.252,
-          "latency": 881
+          "throughput": 85.148,
+          "latency": 879
         },
         {
           "name": "Featherless",
@@ -26970,11 +26970,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 77,
-        "newest": 175,
+        "newest": 177,
         "throughputHighToLow": 168,
         "latencyLowToHigh": 199,
         "pricingLowToHigh": 217,
-        "pricingHighToLow": 95
+        "pricingHighToLow": 97
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -27008,8 +27008,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 52.2315,
-          "latency": 1393
+          "throughput": 52.581,
+          "latency": 1394
         },
         {
           "name": "Google Vertex",
@@ -27254,250 +27254,8 @@ export default {
           ],
           "inputCost": 5,
           "outputCost": 15,
-          "throughput": 105.14,
-          "latency": 493
-        }
-      ]
-    },
-    {
-      "slug": "neversleep/llama-3-lumimaid-8b",
-      "hfSlug": "NeverSleep/Llama-3-Lumimaid-8B-v0.1",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-05-04T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "NeverSleep: Llama 3 Lumimaid 8B (extended)",
-      "shortName": "Llama 3 Lumimaid 8B (extended)",
-      "author": "neversleep",
-      "description": "The NeverSleep team is back, with a Llama 3 8B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
-      "modelVersionGroupId": null,
-      "contextLength": 24576,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Llama3",
-      "instructType": "llama3",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<|eot_id|>",
-        "<|end_of_text|>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "neversleep/llama-3-lumimaid-8b",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "9df3f5be-0516-40c3-b5d2-d4b9e2a84736",
-        "name": "Mancer 2 | neversleep/llama-3-lumimaid-8b:extended",
-        "contextLength": 24576,
-        "model": {
-          "slug": "neversleep/llama-3-lumimaid-8b",
-          "hfSlug": "NeverSleep/Llama-3-Lumimaid-8B-v0.1",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-05-04T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "NeverSleep: Llama 3 Lumimaid 8B",
-          "shortName": "Llama 3 Lumimaid 8B",
-          "author": "neversleep",
-          "description": "The NeverSleep team is back, with a Llama 3 8B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
-          "modelVersionGroupId": null,
-          "contextLength": 24576,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Llama3",
-          "instructType": "llama3",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<|eot_id|>",
-            "<|end_of_text|>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "neversleep/llama-3-lumimaid-8b",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "neversleep/llama-3-lumimaid-8b:extended",
-        "modelVariantPermaslug": "neversleep/llama-3-lumimaid-8b:extended",
-        "providerName": "Mancer 2",
-        "providerInfo": {
-          "name": "Mancer 2",
-          "displayName": "Mancer (private)",
-          "slug": "mancer",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://mancer.tech/terms",
-            "privacyPolicyUrl": "https://mancer.tech/privacy",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://mancer.tech/&size=256"
-          }
-        },
-        "providerDisplayName": "Mancer (private)",
-        "providerModelId": "lumi-8b",
-        "quantization": "unknown",
-        "variant": "extended",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 2048,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "repetition_penalty",
-          "logit_bias",
-          "top_k",
-          "min_p",
-          "seed",
-          "top_a"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://mancer.tech/terms",
-          "privacyPolicyUrl": "https://mancer.tech/privacy",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.0000002",
-          "completion": "0.00000125",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 79,
-        "newest": 261,
-        "throughputHighToLow": 130,
-        "latencyLowToHigh": 105,
-        "pricingLowToHigh": 160,
-        "pricingHighToLow": 157
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
-      "providers": [
-        {
-          "name": "Mancer (private)",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://mancer.tech/&size=256",
-          "slug": "mancer (private)",
-          "quantization": "unknown",
-          "context": 24576,
-          "maxCompletionTokens": 2048,
-          "providerModelId": "lumi-8b",
-          "pricing": {
-            "prompt": "0.0000002",
-            "completion": "0.00000125",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "logit_bias",
-            "top_k",
-            "min_p",
-            "seed",
-            "top_a"
-          ],
-          "inputCost": 0.2,
-          "outputCost": 1.25,
-          "throughput": 64.6645,
-          "latency": 627
-        },
-        {
-          "name": "Featherless",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256",
-          "slug": "featherless",
-          "quantization": "fp8",
-          "context": 8192,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "NeverSleep/Llama-3-Lumimaid-8B-v0.1",
-          "pricing": {
-            "prompt": "0.0000008",
-            "completion": "0.0000012",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "top_k",
-            "min_p",
-            "seed"
-          ],
-          "inputCost": 0.8,
-          "outputCost": 1.2,
-          "throughput": 25.778,
-          "latency": 1190
+          "throughput": 104.762,
+          "latency": 495
         }
       ]
     },
@@ -27662,7 +27420,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 80,
+        "topWeekly": 79,
         "newest": 3,
         "throughputHighToLow": 134,
         "latencyLowToHigh": 40,
@@ -27703,8 +27461,250 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 2,
-          "throughput": 67.423,
-          "latency": 436
+          "throughput": 67.669,
+          "latency": 459
+        }
+      ]
+    },
+    {
+      "slug": "neversleep/llama-3-lumimaid-8b",
+      "hfSlug": "NeverSleep/Llama-3-Lumimaid-8B-v0.1",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-05-04T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "NeverSleep: Llama 3 Lumimaid 8B (extended)",
+      "shortName": "Llama 3 Lumimaid 8B (extended)",
+      "author": "neversleep",
+      "description": "The NeverSleep team is back, with a Llama 3 8B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
+      "modelVersionGroupId": null,
+      "contextLength": 24576,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Llama3",
+      "instructType": "llama3",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<|eot_id|>",
+        "<|end_of_text|>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "neversleep/llama-3-lumimaid-8b",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "9df3f5be-0516-40c3-b5d2-d4b9e2a84736",
+        "name": "Mancer 2 | neversleep/llama-3-lumimaid-8b:extended",
+        "contextLength": 24576,
+        "model": {
+          "slug": "neversleep/llama-3-lumimaid-8b",
+          "hfSlug": "NeverSleep/Llama-3-Lumimaid-8B-v0.1",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-05-04T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "NeverSleep: Llama 3 Lumimaid 8B",
+          "shortName": "Llama 3 Lumimaid 8B",
+          "author": "neversleep",
+          "description": "The NeverSleep team is back, with a Llama 3 8B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
+          "modelVersionGroupId": null,
+          "contextLength": 24576,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Llama3",
+          "instructType": "llama3",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<|eot_id|>",
+            "<|end_of_text|>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "neversleep/llama-3-lumimaid-8b",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "neversleep/llama-3-lumimaid-8b:extended",
+        "modelVariantPermaslug": "neversleep/llama-3-lumimaid-8b:extended",
+        "providerName": "Mancer 2",
+        "providerInfo": {
+          "name": "Mancer 2",
+          "displayName": "Mancer (private)",
+          "slug": "mancer",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://mancer.tech/terms",
+            "privacyPolicyUrl": "https://mancer.tech/privacy",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://mancer.tech/&size=256"
+          }
+        },
+        "providerDisplayName": "Mancer (private)",
+        "providerModelId": "lumi-8b",
+        "quantization": "unknown",
+        "variant": "extended",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 2048,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "repetition_penalty",
+          "logit_bias",
+          "top_k",
+          "min_p",
+          "seed",
+          "top_a"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://mancer.tech/terms",
+          "privacyPolicyUrl": "https://mancer.tech/privacy",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.0000002",
+          "completion": "0.00000125",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 80,
+        "newest": 261,
+        "throughputHighToLow": 130,
+        "latencyLowToHigh": 105,
+        "pricingLowToHigh": 160,
+        "pricingHighToLow": 157
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
+      "providers": [
+        {
+          "name": "Mancer (private)",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://mancer.tech/&size=256",
+          "slug": "mancer (private)",
+          "quantization": "unknown",
+          "context": 24576,
+          "maxCompletionTokens": 2048,
+          "providerModelId": "lumi-8b",
+          "pricing": {
+            "prompt": "0.0000002",
+            "completion": "0.00000125",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "logit_bias",
+            "top_k",
+            "min_p",
+            "seed",
+            "top_a"
+          ],
+          "inputCost": 0.2,
+          "outputCost": 1.25,
+          "throughput": 64.5935,
+          "latency": 631
+        },
+        {
+          "name": "Featherless",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256",
+          "slug": "featherless",
+          "quantization": "fp8",
+          "context": 8192,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "NeverSleep/Llama-3-Lumimaid-8B-v0.1",
+          "pricing": {
+            "prompt": "0.0000008",
+            "completion": "0.0000012",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "top_k",
+            "min_p",
+            "seed"
+          ],
+          "inputCost": 0.8,
+          "outputCost": 1.2,
+          "throughput": 25.78,
+          "latency": 1187
         }
       ]
     },
@@ -27912,8 +27912,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 0.8,
-          "throughput": 38.823,
-          "latency": 788
+          "throughput": 38.842,
+          "latency": 789
         },
         {
           "name": "NovitaAI",
@@ -27947,8 +27947,8 @@ export default {
           ],
           "inputCost": 1.48,
           "outputCost": 1.48,
-          "throughput": 33.791,
-          "latency": 1375.5
+          "throughput": 33.68,
+          "latency": 1368
         },
         {
           "name": "Infermatic",
@@ -27982,8 +27982,8 @@ export default {
           ],
           "inputCost": 1.5,
           "outputCost": 1.5,
-          "throughput": 21.603,
-          "latency": 1537.5
+          "throughput": 21.6035,
+          "latency": 1534
         }
       ]
     },
@@ -28186,8 +28186,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.02,
-          "throughput": 19.861,
-          "latency": 982
+          "throughput": 19.8775,
+          "latency": 980
         }
       ]
     },
@@ -28415,8 +28415,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.2,
-          "throughput": 43.0215,
-          "latency": 833
+          "throughput": 42.0345,
+          "latency": 831
         },
         {
           "name": "Nebius AI Studio",
@@ -28452,8 +28452,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.45,
-          "throughput": 55.67,
-          "latency": 774
+          "throughput": 55.1015,
+          "latency": 755
         },
         {
           "name": "NovitaAI",
@@ -28491,8 +28491,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.2,
-          "throughput": 34.0795,
-          "latency": 993
+          "throughput": 33.9905,
+          "latency": 975
         },
         {
           "name": "inference.net",
@@ -28563,8 +28563,8 @@ export default {
           ],
           "inputCost": 0.29,
           "outputCost": 0.39,
-          "throughput": 543.624,
-          "latency": 941
+          "throughput": 545.2415,
+          "latency": 912.5
         },
         {
           "name": "Hyperbolic",
@@ -28602,8 +28602,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 54.611,
-          "latency": 1279
+          "throughput": 53.883,
+          "latency": 1271
         },
         {
           "name": "SambaNova",
@@ -28633,8 +28633,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1,
-          "throughput": 245.4135,
-          "latency": 651.5
+          "throughput": 247.3345,
+          "latency": 675
         },
         {
           "name": "Nebius AI Studio (Fast)",
@@ -28670,8 +28670,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 87.314,
-          "latency": 571
+          "throughput": 87.2635,
+          "latency": 536
         },
         {
           "name": "CentML",
@@ -28706,8 +28706,8 @@ export default {
           ],
           "inputCost": 0.65,
           "outputCost": 0.65,
-          "throughput": 65.881,
-          "latency": 778.5
+          "throughput": 65.8885,
+          "latency": 768
         },
         {
           "name": "Fireworks",
@@ -28745,8 +28745,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 466.96,
-          "latency": 7003.5
+          "throughput": 452.795,
+          "latency": 6905
         },
         {
           "name": "Together",
@@ -28782,8 +28782,8 @@ export default {
           ],
           "inputCost": 1.2,
           "outputCost": 1.2,
-          "throughput": 98.476,
-          "latency": 717
+          "throughput": 97.9285,
+          "latency": 722
         }
       ]
     },
@@ -28990,8 +28990,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.3,
-          "throughput": 95.696,
-          "latency": 555
+          "throughput": 94.9955,
+          "latency": 590.5
         },
         {
           "name": "DeepInfra",
@@ -29025,7 +29025,7 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.3,
-          "throughput": 38.7415,
+          "throughput": 38.79,
           "latency": 744
         },
         {
@@ -29062,8 +29062,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.45,
-          "throughput": 72.069,
-          "latency": 760
+          "throughput": 70.9115,
+          "latency": 756
         },
         {
           "name": "Parasail",
@@ -29093,8 +29093,8 @@ export default {
           ],
           "inputCost": 0.09,
           "outputCost": 0.48,
-          "throughput": 101.4105,
-          "latency": 580
+          "throughput": 100.5815,
+          "latency": 597
         },
         {
           "name": "CentML",
@@ -29127,8 +29127,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 83.9355,
-          "latency": 322
+          "throughput": 84.0205,
+          "latency": 320
         },
         {
           "name": "NovitaAI",
@@ -29162,8 +29162,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.5,
-          "throughput": 47.8165,
-          "latency": 1004
+          "throughput": 47.4825,
+          "latency": 992
         },
         {
           "name": "Groq",
@@ -29199,8 +29199,8 @@ export default {
           ],
           "inputCost": 0.11,
           "outputCost": 0.34,
-          "throughput": 687.176,
-          "latency": 322
+          "throughput": 686.749,
+          "latency": 323
         },
         {
           "name": "Fireworks",
@@ -29238,8 +29238,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 95.665,
-          "latency": 531
+          "throughput": 95.443,
+          "latency": 530
         },
         {
           "name": "GMICloud",
@@ -29266,8 +29266,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 107.75,
-          "latency": 791
+          "throughput": 107.699,
+          "latency": 792
         },
         {
           "name": "Together",
@@ -29303,8 +29303,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.59,
-          "throughput": 103.0865,
-          "latency": 387
+          "throughput": 102.752,
+          "latency": 386
         },
         {
           "name": "Cerebras",
@@ -29338,8 +29338,8 @@ export default {
           ],
           "inputCost": 0.65,
           "outputCost": 0.85,
-          "throughput": 1757.575,
-          "latency": 380
+          "throughput": 1751.4255,
+          "latency": 378
         }
       ]
     },
@@ -29506,7 +29506,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 85,
-        "newest": 193,
+        "newest": 192,
         "throughputHighToLow": 99,
         "latencyLowToHigh": 39,
         "pricingLowToHigh": 156,
@@ -29546,8 +29546,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.5,
-          "throughput": 77.4725,
-          "latency": 370
+          "throughput": 77.362,
+          "latency": 369
         },
         {
           "name": "Featherless",
@@ -29580,8 +29580,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 18.2075,
-          "latency": 1292.5
+          "throughput": 18.186,
+          "latency": 1313
         }
       ]
     },
@@ -29749,863 +29749,6 @@ export default {
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nvidia.com/\\u0026size=256",
       "providers": []
-    },
-    {
-      "slug": "meta-llama/llama-3.3-70b-instruct",
-      "hfSlug": "meta-llama/Llama-3.3-70B-Instruct",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-12-06T17:28:57.828422+00:00",
-      "hfUpdatedAt": null,
-      "name": "Meta: Llama 3.3 70B Instruct (free)",
-      "shortName": "Llama 3.3 70B Instruct (free)",
-      "author": "meta-llama",
-      "description": "The Meta Llama 3.3 multilingual large language model (LLM) is a pretrained and instruction tuned generative model in 70B (text in/text out). The Llama 3.3 instruction tuned text only model is optimized for multilingual dialogue use cases and outperforms many of the available open source and closed chat models on common industry benchmarks.\n\nSupported languages: English, German, French, Italian, Portuguese, Hindi, Spanish, and Thai.\n\n[Model Card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/MODEL_CARD.md)",
-      "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
-      "contextLength": 131072,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Llama3",
-      "instructType": "llama3",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<|eot_id|>",
-        "<|end_of_text|>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "meta-llama/llama-3.3-70b-instruct",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "4625027b-9188-4d61-b21a-ae6808bd4e5d",
-        "name": "Crusoe | meta-llama/llama-3.3-70b-instruct:free",
-        "contextLength": 131072,
-        "model": {
-          "slug": "meta-llama/llama-3.3-70b-instruct",
-          "hfSlug": "meta-llama/Llama-3.3-70B-Instruct",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-12-06T17:28:57.828422+00:00",
-          "hfUpdatedAt": null,
-          "name": "Meta: Llama 3.3 70B Instruct",
-          "shortName": "Llama 3.3 70B Instruct",
-          "author": "meta-llama",
-          "description": "The Meta Llama 3.3 multilingual large language model (LLM) is a pretrained and instruction tuned generative model in 70B (text in/text out). The Llama 3.3 instruction tuned text only model is optimized for multilingual dialogue use cases and outperforms many of the available open source and closed chat models on common industry benchmarks.\n\nSupported languages: English, German, French, Italian, Portuguese, Hindi, Spanish, and Thai.\n\n[Model Card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/MODEL_CARD.md)",
-          "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
-          "contextLength": 131072,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Llama3",
-          "instructType": "llama3",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<|eot_id|>",
-            "<|end_of_text|>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "meta-llama/llama-3.3-70b-instruct",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "meta-llama/llama-3.3-70b-instruct:free",
-        "modelVariantPermaslug": "meta-llama/llama-3.3-70b-instruct:free",
-        "providerName": "Crusoe",
-        "providerInfo": {
-          "name": "Crusoe",
-          "displayName": "Crusoe",
-          "slug": "crusoe",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://legal.crusoe.ai/open-router#cloud-privacy-policy",
-            "termsOfServiceUrl": "https://legal.crusoe.ai/open-router#managed-inference-tos-open-router",
-            "paidModels": {
-              "training": false
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://crusoe.ai/&size=256"
-          }
-        },
-        "providerDisplayName": "Crusoe",
-        "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
-        "quantization": "bf16",
-        "variant": "free",
-        "isFree": true,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 2048,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://legal.crusoe.ai/open-router#cloud-privacy-policy",
-          "termsOfServiceUrl": "https://legal.crusoe.ai/open-router#managed-inference-tos-open-router",
-          "paidModels": {
-            "training": false
-          },
-          "training": false
-        },
-        "pricing": {
-          "prompt": "0",
-          "completion": "0",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 18,
-        "newest": 157,
-        "throughputHighToLow": 245,
-        "latencyLowToHigh": 99,
-        "pricingLowToHigh": 56,
-        "pricingHighToLow": 211
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai.meta.com/\\u0026size=256",
-      "providers": [
-        {
-          "name": "kluster.ai",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.kluster.ai/&size=256",
-          "slug": "klusterAi",
-          "quantization": "fp8",
-          "context": 131000,
-          "maxCompletionTokens": 131000,
-          "providerModelId": "klusterai/Meta-Llama-3.3-70B-Instruct-Turbo",
-          "pricing": {
-            "prompt": "0.00000007",
-            "completion": "0.00000033",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs",
-            "min_p",
-            "seed"
-          ],
-          "inputCost": 0.07,
-          "outputCost": 0.33,
-          "throughput": 32.5525,
-          "latency": 637
-        },
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
-          "pricing": {
-            "prompt": "0.00000008",
-            "completion": "0.00000025",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.08,
-          "outputCost": 0.25,
-          "throughput": 33.467,
-          "latency": 261
-        },
-        {
-          "name": "Lambda",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256",
-          "slug": "lambda",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": 131072,
-          "providerModelId": "llama3.3-70b-instruct-fp8",
-          "pricing": {
-            "prompt": "0.00000012",
-            "completion": "0.0000003",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs",
-            "response_format"
-          ],
-          "inputCost": 0.12,
-          "outputCost": 0.3,
-          "throughput": 61.519,
-          "latency": 475.5
-        },
-        {
-          "name": "Phala",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://phala.network/&size=256",
-          "slug": "phala",
-          "quantization": null,
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "phala/llama-3.3-70b-instruct",
-          "pricing": {
-            "prompt": "0.00000012",
-            "completion": "0.00000035",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.12,
-          "outputCost": 0.35,
-          "throughput": 30.792,
-          "latency": 682
-        },
-        {
-          "name": "NovitaAI",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
-          "slug": "novitaAi",
-          "quantization": "bf16",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "meta-llama/llama-3.3-70b-instruct",
-          "pricing": {
-            "prompt": "0.00000013",
-            "completion": "0.00000039",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty",
-            "logit_bias"
-          ],
-          "inputCost": 0.13,
-          "outputCost": 0.39,
-          "throughput": 83.1075,
-          "latency": 654
-        },
-        {
-          "name": "Nebius AI Studio",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
-          "slug": "nebiusAiStudio",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
-          "pricing": {
-            "prompt": "0.00000013",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs"
-          ],
-          "inputCost": 0.13,
-          "outputCost": 0.4,
-          "throughput": 40.9425,
-          "latency": 637
-        },
-        {
-          "name": "Parasail",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.parasail.io/&size=256",
-          "slug": "parasail",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": 131072,
-          "providerModelId": "parasail-llama-33-70b-fp8",
-          "pricing": {
-            "prompt": "0.00000028",
-            "completion": "0.00000078",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "presence_penalty",
-            "frequency_penalty",
-            "repetition_penalty",
-            "top_k"
-          ],
-          "inputCost": 0.28,
-          "outputCost": 0.78,
-          "throughput": 78.589,
-          "latency": 481
-        },
-        {
-          "name": "Cloudflare",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.cloudflare.com/&size=256",
-          "slug": "cloudflare",
-          "quantization": "fp8",
-          "context": 24000,
-          "maxCompletionTokens": null,
-          "providerModelId": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-          "pricing": {
-            "prompt": "0.00000029",
-            "completion": "0.00000225",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "seed",
-            "repetition_penalty",
-            "frequency_penalty",
-            "presence_penalty"
-          ],
-          "inputCost": 0.29,
-          "outputCost": 2.25,
-          "throughput": 33.718,
-          "latency": 659.5
-        },
-        {
-          "name": "CentML",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://centml.ai/&size=256",
-          "slug": "centMl",
-          "quantization": "bf16",
-          "context": 131072,
-          "maxCompletionTokens": 131072,
-          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
-          "pricing": {
-            "prompt": "0.00000035",
-            "completion": "0.00000035",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "structured_outputs",
-            "response_format",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.35,
-          "outputCost": 0.35,
-          "throughput": 71.815,
-          "latency": 639
-        },
-        {
-          "name": "Hyperbolic",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://hyperbolic.xyz/&size=256",
-          "slug": "hyperbolic",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
-          "pricing": {
-            "prompt": "0.0000004",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "logprobs",
-            "top_logprobs",
-            "seed",
-            "logit_bias",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.4,
-          "outputCost": 0.4,
-          "throughput": 38.591,
-          "latency": 1188
-        },
-        {
-          "name": "Atoma",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://atoma.network/&size=256",
-          "slug": "atoma",
-          "quantization": "fp8",
-          "context": 104962,
-          "maxCompletionTokens": 100000,
-          "providerModelId": "Infermatic/Llama-3.3-70B-Instruct-FP8-Dynamic",
-          "pricing": {
-            "prompt": "0.0000004",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p"
-          ],
-          "inputCost": 0.4,
-          "outputCost": 0.4,
-          "throughput": 28.779,
-          "latency": 858
-        },
-        {
-          "name": "Groq",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://groq.com/&size=256",
-          "slug": "groq",
-          "quantization": null,
-          "context": 131072,
-          "maxCompletionTokens": 32768,
-          "providerModelId": "llama-3.3-70b-versatile",
-          "pricing": {
-            "prompt": "0.00000059",
-            "completion": "0.00000079",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "response_format",
-            "top_logprobs",
-            "logprobs",
-            "logit_bias",
-            "seed"
-          ],
-          "inputCost": 0.59,
-          "outputCost": 0.79,
-          "throughput": 344.107,
-          "latency": 316
-        },
-        {
-          "name": "Friendli",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://friendli.ai/&size=256",
-          "slug": "friendli",
-          "quantization": null,
-          "context": 131072,
-          "maxCompletionTokens": 131072,
-          "providerModelId": "meta-llama-3.3-70b-instruct",
-          "pricing": {
-            "prompt": "0.0000006",
-            "completion": "0.0000006",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 0.6,
-          "outputCost": 0.6,
-          "throughput": 100.7865,
-          "latency": 757
-        },
-        {
-          "name": "NextBit",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nextbit256.com/&size=256",
-          "slug": "nextBit",
-          "quantization": "fp8",
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "llama3.3:70b",
-          "pricing": {
-            "prompt": "0.0000006",
-            "completion": "0.00000075",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 0.6,
-          "outputCost": 0.75,
-          "throughput": 33.397,
-          "latency": 2122
-        },
-        {
-          "name": "SambaNova",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://sambanova.ai/&size=256",
-          "slug": "sambaNova",
-          "quantization": "bf16",
-          "context": 131072,
-          "maxCompletionTokens": 3072,
-          "providerModelId": "Meta-Llama-3.3-70B-Instruct",
-          "pricing": {
-            "prompt": "0.0000006",
-            "completion": "0.0000012",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 0.6,
-          "outputCost": 1.2,
-          "throughput": 324.69,
-          "latency": 645
-        },
-        {
-          "name": "Google Vertex",
-          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
-          "slug": "vertex",
-          "quantization": null,
-          "context": 128000,
-          "maxCompletionTokens": null,
-          "providerModelId": "llama-3.3-70b-instruct-maas",
-          "pricing": {
-            "prompt": "0.00000072",
-            "completion": "0.00000072",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "response_format"
-          ],
-          "inputCost": 0.72,
-          "outputCost": 0.72,
-          "throughput": 69.817,
-          "latency": 779.5
-        },
-        {
-          "name": "Cerebras",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.cerebras.ai/&size=256",
-          "slug": "cerebras",
-          "quantization": "fp16",
-          "context": 32000,
-          "maxCompletionTokens": 32000,
-          "providerModelId": "llama-3.3-70b",
-          "pricing": {
-            "prompt": "0.00000085",
-            "completion": "0.0000012",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "structured_outputs",
-            "response_format",
-            "stop",
-            "seed",
-            "logprobs",
-            "top_logprobs"
-          ],
-          "inputCost": 0.85,
-          "outputCost": 1.2,
-          "throughput": 3000,
-          "latency": 155
-        },
-        {
-          "name": "Together",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
-          "slug": "together",
-          "quantization": "fp8",
-          "context": 131072,
-          "maxCompletionTokens": 2048,
-          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
-          "pricing": {
-            "prompt": "0.00000088",
-            "completion": "0.00000088",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
-            "logit_bias",
-            "min_p",
-            "response_format"
-          ],
-          "inputCost": 0.88,
-          "outputCost": 0.88,
-          "throughput": 98.827,
-          "latency": 436
-        },
-        {
-          "name": "Fireworks",
-          "icon": "https://openrouter.ai/images/icons/Fireworks.png",
-          "slug": "fireworks",
-          "quantization": "fp16",
-          "context": 131072,
-          "maxCompletionTokens": null,
-          "providerModelId": "accounts/fireworks/models/llama-v3p3-70b-instruct",
-          "pricing": {
-            "prompt": "0.0000009",
-            "completion": "0.0000009",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
-            "response_format",
-            "structured_outputs",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs"
-          ],
-          "inputCost": 0.9,
-          "outputCost": 0.9,
-          "throughput": 105.071,
-          "latency": 1698
-        },
-        {
-          "name": "inference.net",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://inference.net/&size=256",
-          "slug": "inferenceNet",
-          "quantization": "fp8",
-          "context": 128000,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "meta-llama/llama-3.3-70b-instruct/fp-8",
-          "pricing": {
-            "prompt": "0.0000001",
-            "completion": "0.00000025",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "structured_outputs",
-            "response_format",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "logit_bias",
-            "top_logprobs"
-          ],
-          "inputCost": 0.1,
-          "outputCost": 0.25,
-          "throughput": 17.9165,
-          "latency": 1810.5
-        }
-      ]
     },
     {
       "slug": "mistralai/mistral-small-3.1-24b-instruct",
@@ -30807,8 +29950,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.15,
-          "throughput": 70.5955,
-          "latency": 355
+          "throughput": 70.175,
+          "latency": 352.5
         },
         {
           "name": "Parasail",
@@ -30838,8 +29981,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 68.023,
-          "latency": 1167
+          "throughput": 67.9165,
+          "latency": 1166
         },
         {
           "name": "Mistral",
@@ -30873,8 +30016,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 135.607,
-          "latency": 232
+          "throughput": 135.416,
+          "latency": 233
         },
         {
           "name": "Cloudflare",
@@ -30905,8 +30048,865 @@ export default {
           ],
           "inputCost": 0.35,
           "outputCost": 0.56,
-          "throughput": 44.784,
-          "latency": 790
+          "throughput": 44.5825,
+          "latency": 791.5
+        }
+      ]
+    },
+    {
+      "slug": "meta-llama/llama-3.3-70b-instruct",
+      "hfSlug": "meta-llama/Llama-3.3-70B-Instruct",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-12-06T17:28:57.828422+00:00",
+      "hfUpdatedAt": null,
+      "name": "Meta: Llama 3.3 70B Instruct (free)",
+      "shortName": "Llama 3.3 70B Instruct (free)",
+      "author": "meta-llama",
+      "description": "The Meta Llama 3.3 multilingual large language model (LLM) is a pretrained and instruction tuned generative model in 70B (text in/text out). The Llama 3.3 instruction tuned text only model is optimized for multilingual dialogue use cases and outperforms many of the available open source and closed chat models on common industry benchmarks.\n\nSupported languages: English, German, French, Italian, Portuguese, Hindi, Spanish, and Thai.\n\n[Model Card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/MODEL_CARD.md)",
+      "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
+      "contextLength": 131072,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Llama3",
+      "instructType": "llama3",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<|eot_id|>",
+        "<|end_of_text|>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "meta-llama/llama-3.3-70b-instruct",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "4625027b-9188-4d61-b21a-ae6808bd4e5d",
+        "name": "Crusoe | meta-llama/llama-3.3-70b-instruct:free",
+        "contextLength": 131072,
+        "model": {
+          "slug": "meta-llama/llama-3.3-70b-instruct",
+          "hfSlug": "meta-llama/Llama-3.3-70B-Instruct",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-12-06T17:28:57.828422+00:00",
+          "hfUpdatedAt": null,
+          "name": "Meta: Llama 3.3 70B Instruct",
+          "shortName": "Llama 3.3 70B Instruct",
+          "author": "meta-llama",
+          "description": "The Meta Llama 3.3 multilingual large language model (LLM) is a pretrained and instruction tuned generative model in 70B (text in/text out). The Llama 3.3 instruction tuned text only model is optimized for multilingual dialogue use cases and outperforms many of the available open source and closed chat models on common industry benchmarks.\n\nSupported languages: English, German, French, Italian, Portuguese, Hindi, Spanish, and Thai.\n\n[Model Card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/MODEL_CARD.md)",
+          "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
+          "contextLength": 131072,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Llama3",
+          "instructType": "llama3",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<|eot_id|>",
+            "<|end_of_text|>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "meta-llama/llama-3.3-70b-instruct",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "meta-llama/llama-3.3-70b-instruct:free",
+        "modelVariantPermaslug": "meta-llama/llama-3.3-70b-instruct:free",
+        "providerName": "Crusoe",
+        "providerInfo": {
+          "name": "Crusoe",
+          "displayName": "Crusoe",
+          "slug": "crusoe",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://legal.crusoe.ai/open-router#cloud-privacy-policy",
+            "termsOfServiceUrl": "https://legal.crusoe.ai/open-router#managed-inference-tos-open-router",
+            "paidModels": {
+              "training": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://crusoe.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Crusoe",
+        "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
+        "quantization": "bf16",
+        "variant": "free",
+        "isFree": true,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 2048,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://legal.crusoe.ai/open-router#cloud-privacy-policy",
+          "termsOfServiceUrl": "https://legal.crusoe.ai/open-router#managed-inference-tos-open-router",
+          "paidModels": {
+            "training": false
+          },
+          "training": false
+        },
+        "pricing": {
+          "prompt": "0",
+          "completion": "0",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 18,
+        "newest": 157,
+        "throughputHighToLow": 245,
+        "latencyLowToHigh": 99,
+        "pricingLowToHigh": 56,
+        "pricingHighToLow": 211
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai.meta.com/\\u0026size=256",
+      "providers": [
+        {
+          "name": "kluster.ai",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.kluster.ai/&size=256",
+          "slug": "klusterAi",
+          "quantization": "fp8",
+          "context": 131000,
+          "maxCompletionTokens": 131000,
+          "providerModelId": "klusterai/Meta-Llama-3.3-70B-Instruct-Turbo",
+          "pricing": {
+            "prompt": "0.00000007",
+            "completion": "0.00000033",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs",
+            "min_p",
+            "seed"
+          ],
+          "inputCost": 0.07,
+          "outputCost": 0.33,
+          "throughput": 32.5195,
+          "latency": 632.5
+        },
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+          "pricing": {
+            "prompt": "0.00000008",
+            "completion": "0.00000025",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.08,
+          "outputCost": 0.25,
+          "throughput": 33.724,
+          "latency": 261
+        },
+        {
+          "name": "Lambda",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256",
+          "slug": "lambda",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": 131072,
+          "providerModelId": "llama3.3-70b-instruct-fp8",
+          "pricing": {
+            "prompt": "0.00000012",
+            "completion": "0.0000003",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs",
+            "response_format"
+          ],
+          "inputCost": 0.12,
+          "outputCost": 0.3,
+          "throughput": 61.5175,
+          "latency": 473.5
+        },
+        {
+          "name": "Phala",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://phala.network/&size=256",
+          "slug": "phala",
+          "quantization": null,
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "phala/llama-3.3-70b-instruct",
+          "pricing": {
+            "prompt": "0.00000012",
+            "completion": "0.00000035",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty"
+          ],
+          "inputCost": 0.12,
+          "outputCost": 0.35,
+          "throughput": 30.769,
+          "latency": 684
+        },
+        {
+          "name": "NovitaAI",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
+          "slug": "novitaAi",
+          "quantization": "bf16",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "meta-llama/llama-3.3-70b-instruct",
+          "pricing": {
+            "prompt": "0.00000013",
+            "completion": "0.00000039",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty",
+            "logit_bias"
+          ],
+          "inputCost": 0.13,
+          "outputCost": 0.39,
+          "throughput": 83.333,
+          "latency": 653.5
+        },
+        {
+          "name": "Nebius AI Studio",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
+          "slug": "nebiusAiStudio",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
+          "pricing": {
+            "prompt": "0.00000013",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 0.13,
+          "outputCost": 0.4,
+          "throughput": 40.3885,
+          "latency": 548
+        },
+        {
+          "name": "Parasail",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.parasail.io/&size=256",
+          "slug": "parasail",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": 131072,
+          "providerModelId": "parasail-llama-33-70b-fp8",
+          "pricing": {
+            "prompt": "0.00000028",
+            "completion": "0.00000078",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "presence_penalty",
+            "frequency_penalty",
+            "repetition_penalty",
+            "top_k"
+          ],
+          "inputCost": 0.28,
+          "outputCost": 0.78,
+          "throughput": 78.5845,
+          "latency": 483
+        },
+        {
+          "name": "Cloudflare",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.cloudflare.com/&size=256",
+          "slug": "cloudflare",
+          "quantization": "fp8",
+          "context": 24000,
+          "maxCompletionTokens": null,
+          "providerModelId": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "pricing": {
+            "prompt": "0.00000029",
+            "completion": "0.00000225",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "seed",
+            "repetition_penalty",
+            "frequency_penalty",
+            "presence_penalty"
+          ],
+          "inputCost": 0.29,
+          "outputCost": 2.25,
+          "throughput": 33.4935,
+          "latency": 664
+        },
+        {
+          "name": "CentML",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://centml.ai/&size=256",
+          "slug": "centMl",
+          "quantization": "bf16",
+          "context": 131072,
+          "maxCompletionTokens": 131072,
+          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
+          "pricing": {
+            "prompt": "0.00000035",
+            "completion": "0.00000035",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "structured_outputs",
+            "response_format",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty"
+          ],
+          "inputCost": 0.35,
+          "outputCost": 0.35,
+          "throughput": 71.7905,
+          "latency": 639
+        },
+        {
+          "name": "Hyperbolic",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://hyperbolic.xyz/&size=256",
+          "slug": "hyperbolic",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct",
+          "pricing": {
+            "prompt": "0.0000004",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "logprobs",
+            "top_logprobs",
+            "seed",
+            "logit_bias",
+            "top_k",
+            "min_p",
+            "repetition_penalty"
+          ],
+          "inputCost": 0.4,
+          "outputCost": 0.4,
+          "throughput": 38.461,
+          "latency": 1190
+        },
+        {
+          "name": "Atoma",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://atoma.network/&size=256",
+          "slug": "atoma",
+          "quantization": "fp8",
+          "context": 104962,
+          "maxCompletionTokens": 100000,
+          "providerModelId": "Infermatic/Llama-3.3-70B-Instruct-FP8-Dynamic",
+          "pricing": {
+            "prompt": "0.0000004",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p"
+          ],
+          "inputCost": 0.4,
+          "outputCost": 0.4,
+          "throughput": 28.784,
+          "latency": 858
+        },
+        {
+          "name": "Groq",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://groq.com/&size=256",
+          "slug": "groq",
+          "quantization": null,
+          "context": 131072,
+          "maxCompletionTokens": 32768,
+          "providerModelId": "llama-3.3-70b-versatile",
+          "pricing": {
+            "prompt": "0.00000059",
+            "completion": "0.00000079",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "response_format",
+            "top_logprobs",
+            "logprobs",
+            "logit_bias",
+            "seed"
+          ],
+          "inputCost": 0.59,
+          "outputCost": 0.79,
+          "throughput": 343.1035,
+          "latency": 325
+        },
+        {
+          "name": "Friendli",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://friendli.ai/&size=256",
+          "slug": "friendli",
+          "quantization": null,
+          "context": 131072,
+          "maxCompletionTokens": 131072,
+          "providerModelId": "meta-llama-3.3-70b-instruct",
+          "pricing": {
+            "prompt": "0.0000006",
+            "completion": "0.0000006",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty",
+            "response_format",
+            "structured_outputs"
+          ],
+          "inputCost": 0.6,
+          "outputCost": 0.6,
+          "throughput": 100.6985,
+          "latency": 761
+        },
+        {
+          "name": "NextBit",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nextbit256.com/&size=256",
+          "slug": "nextBit",
+          "quantization": "fp8",
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "llama3.3:70b",
+          "pricing": {
+            "prompt": "0.0000006",
+            "completion": "0.00000075",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "response_format",
+            "structured_outputs"
+          ],
+          "inputCost": 0.6,
+          "outputCost": 0.75,
+          "throughput": 33.373,
+          "latency": 2122
+        },
+        {
+          "name": "SambaNova",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://sambanova.ai/&size=256",
+          "slug": "sambaNova",
+          "quantization": "bf16",
+          "context": 131072,
+          "maxCompletionTokens": 3072,
+          "providerModelId": "Meta-Llama-3.3-70B-Instruct",
+          "pricing": {
+            "prompt": "0.0000006",
+            "completion": "0.0000012",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "inputCost": 0.6,
+          "outputCost": 1.2,
+          "throughput": 324.881,
+          "latency": 644
+        },
+        {
+          "name": "Google Vertex",
+          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
+          "slug": "vertex",
+          "quantization": null,
+          "context": 128000,
+          "maxCompletionTokens": null,
+          "providerModelId": "llama-3.3-70b-instruct-maas",
+          "pricing": {
+            "prompt": "0.00000072",
+            "completion": "0.00000072",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "response_format"
+          ],
+          "inputCost": 0.72,
+          "outputCost": 0.72,
+          "throughput": 69.4065,
+          "latency": 785.5
+        },
+        {
+          "name": "Cerebras",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.cerebras.ai/&size=256",
+          "slug": "cerebras",
+          "quantization": "fp16",
+          "context": 32000,
+          "maxCompletionTokens": 32000,
+          "providerModelId": "llama-3.3-70b",
+          "pricing": {
+            "prompt": "0.00000085",
+            "completion": "0.0000012",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "structured_outputs",
+            "response_format",
+            "stop",
+            "seed",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 0.85,
+          "outputCost": 1.2,
+          "throughput": 3050,
+          "latency": 158
+        },
+        {
+          "name": "Together",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
+          "slug": "together",
+          "quantization": "fp8",
+          "context": 131072,
+          "maxCompletionTokens": 2048,
+          "providerModelId": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+          "pricing": {
+            "prompt": "0.00000088",
+            "completion": "0.00000088",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "logit_bias",
+            "min_p",
+            "response_format"
+          ],
+          "inputCost": 0.88,
+          "outputCost": 0.88,
+          "throughput": 98.816,
+          "latency": 436
+        },
+        {
+          "name": "Fireworks",
+          "icon": "https://openrouter.ai/images/icons/Fireworks.png",
+          "slug": "fireworks",
+          "quantization": "fp16",
+          "context": 131072,
+          "maxCompletionTokens": null,
+          "providerModelId": "accounts/fireworks/models/llama-v3p3-70b-instruct",
+          "pricing": {
+            "prompt": "0.0000009",
+            "completion": "0.0000009",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "response_format",
+            "structured_outputs",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 0.9,
+          "outputCost": 0.9,
+          "throughput": 104.6625,
+          "latency": 1611
+        },
+        {
+          "name": "inference.net",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://inference.net/&size=256",
+          "slug": "inferenceNet",
+          "quantization": "fp8",
+          "context": 128000,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "meta-llama/llama-3.3-70b-instruct/fp-8",
+          "pricing": {
+            "prompt": "0.0000001",
+            "completion": "0.00000025",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "structured_outputs",
+            "response_format",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "logit_bias",
+            "top_logprobs"
+          ],
+          "inputCost": 0.1,
+          "outputCost": 0.25,
+          "throughput": 17.9165,
+          "latency": 1810.5
         }
       ]
     },
@@ -31110,8 +31110,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.9,
-          "throughput": 69.4695,
-          "latency": 333.5
+          "throughput": 70.416,
+          "latency": 338
         }
       ]
     },
@@ -31315,8 +31315,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.75,
-          "throughput": 14.3115,
-          "latency": 2143.5
+          "throughput": 14.3205,
+          "latency": 2140
         },
         {
           "name": "Parasail",
@@ -31346,8 +31346,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 0.7,
-          "throughput": 37.898,
-          "latency": 1873
+          "throughput": 37.918,
+          "latency": 1866
         },
         {
           "name": "NovitaAI",
@@ -31381,8 +31381,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 19.445,
-          "latency": 3763
+          "throughput": 19.45,
+          "latency": 3756.5
         },
         {
           "name": "Together",
@@ -31585,7 +31585,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 75,
+        "topWeekly": 73,
         "newest": 87,
         "throughputHighToLow": 153,
         "latencyLowToHigh": 217,
@@ -31626,8 +31626,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.1,
-          "throughput": 30.613,
-          "latency": 1463
+          "throughput": 30.5895,
+          "latency": 1462
         },
         {
           "name": "Cloudflare",
@@ -31658,8 +31658,8 @@ export default {
           ],
           "inputCost": 0.35,
           "outputCost": 0.56,
-          "throughput": 65.794,
-          "latency": 969.5
+          "throughput": 65.642,
+          "latency": 963
         }
       ]
     },
@@ -31885,8 +31885,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.29,
-          "throughput": 16.044,
-          "latency": 1326
+          "throughput": 16.045,
+          "latency": 1329
         },
         {
           "name": "DeepInfra",
@@ -31922,8 +31922,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 94.93,
-          "latency": 1108
+          "throughput": 95.264,
+          "latency": 1110
         },
         {
           "name": "Nebius AI Studio",
@@ -31959,7 +31959,7 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 84.1225,
+          "throughput": 84.339,
           "latency": 417
         },
         {
@@ -31996,8 +31996,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.45,
-          "throughput": 96.634,
-          "latency": 801.5
+          "throughput": 97.193,
+          "latency": 802
         },
         {
           "name": "Parasail",
@@ -32029,8 +32029,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.5,
-          "throughput": 146.844,
-          "latency": 814
+          "throughput": 148.024,
+          "latency": 812
         },
         {
           "name": "Fireworks",
@@ -32070,8 +32070,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 142.951,
-          "latency": 599
+          "throughput": 141.623,
+          "latency": 600
         }
       ]
     },
@@ -32280,8 +32280,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.05,
-          "throughput": 61.0045,
-          "latency": 255
+          "throughput": 61.05,
+          "latency": 254
         },
         {
           "name": "NovitaAI",
@@ -32315,8 +32315,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.05,
-          "throughput": 76.3735,
-          "latency": 746
+          "throughput": 76.4225,
+          "latency": 744
         }
       ]
     },
@@ -32528,7 +32528,7 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.06,
-          "throughput": 126.0375,
+          "throughput": 125.199,
           "latency": 400
         },
         {
@@ -32563,8 +32563,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.04,
-          "throughput": 69.7525,
-          "latency": 948
+          "throughput": 69.5275,
+          "latency": 946
         },
         {
           "name": "Groq",
@@ -32598,8 +32598,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.08,
-          "throughput": 3347.826,
-          "latency": 441
+          "throughput": 3358.058,
+          "latency": 442
         },
         {
           "name": "Mancer (private)",
@@ -32634,7 +32634,7 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.25,
-          "throughput": 70.159,
+          "throughput": 70.151,
           "latency": 481
         },
         {
@@ -32669,8 +32669,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 166.8155,
-          "latency": 553
+          "throughput": 164.733,
+          "latency": 570
         },
         {
           "name": "Cloudflare",
@@ -32701,8 +32701,8 @@ export default {
           ],
           "inputCost": 0.28,
           "outputCost": 0.83,
-          "throughput": 15.82,
-          "latency": 854
+          "throughput": 15.7735,
+          "latency": 872
         }
       ]
     },
@@ -32896,7 +32896,7 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.24,
-          "throughput": 200.664,
+          "throughput": 200.992,
           "latency": 460
         }
       ]
@@ -33091,8 +33091,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.75,
-          "throughput": 14.3115,
-          "latency": 2143.5
+          "throughput": 14.3205,
+          "latency": 2140
         },
         {
           "name": "Parasail",
@@ -33122,8 +33122,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 0.7,
-          "throughput": 37.898,
-          "latency": 1873
+          "throughput": 37.918,
+          "latency": 1866
         },
         {
           "name": "NovitaAI",
@@ -33157,8 +33157,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 19.445,
-          "latency": 3763
+          "throughput": 19.45,
+          "latency": 3756.5
         },
         {
           "name": "Together",
@@ -33401,8 +33401,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 0.8,
-          "throughput": 39.087,
-          "latency": 321
+          "throughput": 39.1075,
+          "latency": 348
         },
         {
           "name": "Infermatic",
@@ -33436,8 +33436,8 @@ export default {
           ],
           "inputCost": 1.5,
           "outputCost": 1.5,
-          "throughput": 49.5115,
-          "latency": 513
+          "throughput": 49.455,
+          "latency": 515
         }
       ]
     },
@@ -33626,8 +33626,8 @@ export default {
           ],
           "inputCost": 0.21,
           "outputCost": 0.63,
-          "throughput": 55.6745,
-          "latency": 1145.5
+          "throughput": 56.3,
+          "latency": 1147
         }
       ]
     },
@@ -33835,8 +33835,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 36.6905,
-          "latency": 599
+          "throughput": 36.7515,
+          "latency": 593
         }
       ]
     },
@@ -34038,8 +34038,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.14,
-          "throughput": 42.037,
-          "latency": 734
+          "throughput": 41.9265,
+          "latency": 725
         },
         {
           "name": "Nebius AI Studio",
@@ -34073,7 +34073,7 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 119.7985,
+          "throughput": 119.8235,
           "latency": 188
         }
       ]
@@ -34487,8 +34487,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.29,
-          "throughput": 16.044,
-          "latency": 1326
+          "throughput": 16.045,
+          "latency": 1329
         },
         {
           "name": "DeepInfra",
@@ -34524,8 +34524,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 94.93,
-          "latency": 1108
+          "throughput": 95.264,
+          "latency": 1110
         },
         {
           "name": "Nebius AI Studio",
@@ -34561,7 +34561,7 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 84.1225,
+          "throughput": 84.339,
           "latency": 417
         },
         {
@@ -34598,8 +34598,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.45,
-          "throughput": 96.634,
-          "latency": 801.5
+          "throughput": 97.193,
+          "latency": 802
         },
         {
           "name": "Parasail",
@@ -34631,8 +34631,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.5,
-          "throughput": 146.844,
-          "latency": 814
+          "throughput": 148.024,
+          "latency": 812
         },
         {
           "name": "Fireworks",
@@ -34672,8 +34672,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 142.951,
-          "latency": 599
+          "throughput": 141.623,
+          "latency": 600
         }
       ]
     },
@@ -34856,7 +34856,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 73,
+        "topWeekly": 74,
         "newest": 28,
         "throughputHighToLow": 117,
         "latencyLowToHigh": 94,
@@ -34899,8 +34899,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.24,
-          "throughput": 70.299,
-          "latency": 611
+          "throughput": 70.368,
+          "latency": 614
         },
         {
           "name": "NovitaAI",
@@ -34936,8 +34936,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.28,
-          "throughput": 58.101,
-          "latency": 892
+          "throughput": 58.0435,
+          "latency": 894.5
         },
         {
           "name": "Nebius AI Studio",
@@ -34973,7 +34973,7 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.24,
-          "throughput": 89.843,
+          "throughput": 89.811,
           "latency": 376
         }
       ]
@@ -35349,8 +35349,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.06,
-          "throughput": 140.0125,
-          "latency": 207
+          "throughput": 139.86,
+          "latency": 206
         },
         {
           "name": "NovitaAI",
@@ -35384,8 +35384,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.08,
-          "throughput": 31.951,
-          "latency": 751
+          "throughput": 31.959,
+          "latency": 747
         },
         {
           "name": "Groq",
@@ -35419,8 +35419,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 1143.322,
-          "latency": 288
+          "throughput": 1138.297,
+          "latency": 285.5
         }
       ]
     },
@@ -35602,8 +35602,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 2.18,
-          "throughput": 77.37,
-          "latency": 878
+          "throughput": 77.472,
+          "latency": 857
         },
         {
           "name": "DeepInfra",
@@ -35637,8 +35637,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 2.18,
-          "throughput": 76.419,
-          "latency": 864
+          "throughput": 76.4555,
+          "latency": 862.5
         },
         {
           "name": "NovitaAI",
@@ -35672,8 +35672,363 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 2.5,
-          "throughput": 35.6435,
-          "latency": 937
+          "throughput": 35.659,
+          "latency": 937.5
+        }
+      ]
+    },
+    {
+      "slug": "meta-llama/llama-3-70b-instruct",
+      "hfSlug": "meta-llama/Meta-Llama-3-70B-Instruct",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-04-18T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Meta: Llama 3 70B Instruct",
+      "shortName": "Llama 3 70B Instruct",
+      "author": "meta-llama",
+      "description": "Meta's latest class of model (Llama 3) launched with a variety of sizes & flavors. This 70B instruct-tuned version was optimized for high quality dialogue usecases.\n\nIt has demonstrated strong performance compared to leading closed-source models in human evaluations.\n\nTo read more about the model release, [click here](https://ai.meta.com/blog/meta-llama-3/). Usage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
+      "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
+      "contextLength": 8192,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Llama3",
+      "instructType": "llama3",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<|eot_id|>",
+        "<|end_of_text|>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "meta-llama/llama-3-70b-instruct",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "65aab538-54e0-41fa-9b74-687e4552302f",
+        "name": "DeepInfra | meta-llama/llama-3-70b-instruct",
+        "contextLength": 8192,
+        "model": {
+          "slug": "meta-llama/llama-3-70b-instruct",
+          "hfSlug": "meta-llama/Meta-Llama-3-70B-Instruct",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-04-18T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Meta: Llama 3 70B Instruct",
+          "shortName": "Llama 3 70B Instruct",
+          "author": "meta-llama",
+          "description": "Meta's latest class of model (Llama 3) launched with a variety of sizes & flavors. This 70B instruct-tuned version was optimized for high quality dialogue usecases.\n\nIt has demonstrated strong performance compared to leading closed-source models in human evaluations.\n\nTo read more about the model release, [click here](https://ai.meta.com/blog/meta-llama-3/). Usage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
+          "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
+          "contextLength": 8192,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Llama3",
+          "instructType": "llama3",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<|eot_id|>",
+            "<|end_of_text|>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "meta-llama/llama-3-70b-instruct",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "meta-llama/llama-3-70b-instruct",
+        "modelVariantPermaslug": "meta-llama/llama-3-70b-instruct",
+        "providerName": "DeepInfra",
+        "providerInfo": {
+          "name": "DeepInfra",
+          "displayName": "DeepInfra",
+          "slug": "deepinfra",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://deepinfra.com/privacy",
+            "termsOfServiceUrl": "https://deepinfra.com/terms",
+            "dataPolicyUrl": "https://deepinfra.com/docs/data",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/DeepInfra.webp"
+          }
+        },
+        "providerDisplayName": "DeepInfra",
+        "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct",
+        "quantization": "bf16",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 16384,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "tool_choice",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "repetition_penalty",
+          "response_format",
+          "top_k",
+          "seed",
+          "min_p"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://deepinfra.com/privacy",
+          "termsOfServiceUrl": "https://deepinfra.com/terms",
+          "dataPolicyUrl": "https://deepinfra.com/docs/data",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.0000003",
+          "completion": "0.0000004",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 107,
+        "newest": 265,
+        "throughputHighToLow": 237,
+        "latencyLowToHigh": 117,
+        "pricingLowToHigh": 162,
+        "pricingHighToLow": 154
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai.meta.com/\\u0026size=256",
+      "providers": [
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "bf16",
+          "context": 8192,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct",
+          "pricing": {
+            "prompt": "0.0000003",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.3,
+          "outputCost": 0.4,
+          "throughput": 33.969,
+          "latency": 692
+        },
+        {
+          "name": "Hyperbolic",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://hyperbolic.xyz/&size=256",
+          "slug": "hyperbolic",
+          "quantization": null,
+          "context": 8192,
+          "maxCompletionTokens": null,
+          "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct",
+          "pricing": {
+            "prompt": "0.0000004",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "logprobs",
+            "top_logprobs",
+            "seed",
+            "logit_bias",
+            "top_k",
+            "min_p",
+            "repetition_penalty"
+          ],
+          "inputCost": 0.4,
+          "outputCost": 0.4,
+          "throughput": 21.823,
+          "latency": 1468.5
+        },
+        {
+          "name": "NovitaAI",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
+          "slug": "novitaAi",
+          "quantization": "unknown",
+          "context": 8192,
+          "maxCompletionTokens": 8192,
+          "providerModelId": "meta-llama/llama-3-70b-instruct",
+          "pricing": {
+            "prompt": "0.00000051",
+            "completion": "0.00000074",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty",
+            "logit_bias"
+          ],
+          "inputCost": 0.51,
+          "outputCost": 0.74,
+          "throughput": 20.5735,
+          "latency": 1088
+        },
+        {
+          "name": "Groq",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://groq.com/&size=256",
+          "slug": "groq",
+          "quantization": null,
+          "context": 8192,
+          "maxCompletionTokens": 8192,
+          "providerModelId": "llama3-70b-8192",
+          "pricing": {
+            "prompt": "0.00000059",
+            "completion": "0.00000079",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "response_format",
+            "top_logprobs",
+            "logprobs",
+            "logit_bias",
+            "seed"
+          ],
+          "inputCost": 0.59,
+          "outputCost": 0.79,
+          "throughput": 373.318,
+          "latency": 187
+        },
+        {
+          "name": "Together",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
+          "slug": "together",
+          "quantization": "fp8",
+          "context": 8192,
+          "maxCompletionTokens": null,
+          "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct-Turbo",
+          "pricing": {
+            "prompt": "0.00000088",
+            "completion": "0.00000088",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "logit_bias",
+            "min_p",
+            "response_format"
+          ],
+          "inputCost": 0.88,
+          "outputCost": 0.88,
+          "throughput": 93.399,
+          "latency": 692
         }
       ]
     },
@@ -35885,8 +36240,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.2,
-          "throughput": 43.0215,
-          "latency": 833
+          "throughput": 42.0345,
+          "latency": 831
         },
         {
           "name": "Nebius AI Studio",
@@ -35922,8 +36277,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.45,
-          "throughput": 55.67,
-          "latency": 774
+          "throughput": 55.1015,
+          "latency": 755
         },
         {
           "name": "NovitaAI",
@@ -35961,8 +36316,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.2,
-          "throughput": 34.0795,
-          "latency": 993
+          "throughput": 33.9905,
+          "latency": 975
         },
         {
           "name": "inference.net",
@@ -36033,8 +36388,8 @@ export default {
           ],
           "inputCost": 0.29,
           "outputCost": 0.39,
-          "throughput": 543.624,
-          "latency": 941
+          "throughput": 545.2415,
+          "latency": 912.5
         },
         {
           "name": "Hyperbolic",
@@ -36072,8 +36427,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 54.611,
-          "latency": 1279
+          "throughput": 53.883,
+          "latency": 1271
         },
         {
           "name": "SambaNova",
@@ -36103,8 +36458,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1,
-          "throughput": 245.4135,
-          "latency": 651.5
+          "throughput": 247.3345,
+          "latency": 675
         },
         {
           "name": "Nebius AI Studio (Fast)",
@@ -36140,8 +36495,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 87.314,
-          "latency": 571
+          "throughput": 87.2635,
+          "latency": 536
         },
         {
           "name": "CentML",
@@ -36176,8 +36531,8 @@ export default {
           ],
           "inputCost": 0.65,
           "outputCost": 0.65,
-          "throughput": 65.881,
-          "latency": 778.5
+          "throughput": 65.8885,
+          "latency": 768
         },
         {
           "name": "Fireworks",
@@ -36215,8 +36570,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 466.96,
-          "latency": 7003.5
+          "throughput": 452.795,
+          "latency": 6905
         },
         {
           "name": "Together",
@@ -36252,363 +36607,8 @@ export default {
           ],
           "inputCost": 1.2,
           "outputCost": 1.2,
-          "throughput": 98.476,
-          "latency": 717
-        }
-      ]
-    },
-    {
-      "slug": "meta-llama/llama-3-70b-instruct",
-      "hfSlug": "meta-llama/Meta-Llama-3-70B-Instruct",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-04-18T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Meta: Llama 3 70B Instruct",
-      "shortName": "Llama 3 70B Instruct",
-      "author": "meta-llama",
-      "description": "Meta's latest class of model (Llama 3) launched with a variety of sizes & flavors. This 70B instruct-tuned version was optimized for high quality dialogue usecases.\n\nIt has demonstrated strong performance compared to leading closed-source models in human evaluations.\n\nTo read more about the model release, [click here](https://ai.meta.com/blog/meta-llama-3/). Usage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
-      "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
-      "contextLength": 8192,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Llama3",
-      "instructType": "llama3",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<|eot_id|>",
-        "<|end_of_text|>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "meta-llama/llama-3-70b-instruct",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "65aab538-54e0-41fa-9b74-687e4552302f",
-        "name": "DeepInfra | meta-llama/llama-3-70b-instruct",
-        "contextLength": 8192,
-        "model": {
-          "slug": "meta-llama/llama-3-70b-instruct",
-          "hfSlug": "meta-llama/Meta-Llama-3-70B-Instruct",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-04-18T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Meta: Llama 3 70B Instruct",
-          "shortName": "Llama 3 70B Instruct",
-          "author": "meta-llama",
-          "description": "Meta's latest class of model (Llama 3) launched with a variety of sizes & flavors. This 70B instruct-tuned version was optimized for high quality dialogue usecases.\n\nIt has demonstrated strong performance compared to leading closed-source models in human evaluations.\n\nTo read more about the model release, [click here](https://ai.meta.com/blog/meta-llama-3/). Usage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
-          "modelVersionGroupId": "397604e2-45fa-454e-a85d-9921f5138747",
-          "contextLength": 8192,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Llama3",
-          "instructType": "llama3",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<|eot_id|>",
-            "<|end_of_text|>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "meta-llama/llama-3-70b-instruct",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "meta-llama/llama-3-70b-instruct",
-        "modelVariantPermaslug": "meta-llama/llama-3-70b-instruct",
-        "providerName": "DeepInfra",
-        "providerInfo": {
-          "name": "DeepInfra",
-          "displayName": "DeepInfra",
-          "slug": "deepinfra",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://deepinfra.com/privacy",
-            "termsOfServiceUrl": "https://deepinfra.com/terms",
-            "dataPolicyUrl": "https://deepinfra.com/docs/data",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/DeepInfra.webp"
-          }
-        },
-        "providerDisplayName": "DeepInfra",
-        "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct",
-        "quantization": "bf16",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 16384,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "tool_choice",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "repetition_penalty",
-          "response_format",
-          "top_k",
-          "seed",
-          "min_p"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://deepinfra.com/privacy",
-          "termsOfServiceUrl": "https://deepinfra.com/terms",
-          "dataPolicyUrl": "https://deepinfra.com/docs/data",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.0000003",
-          "completion": "0.0000004",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 108,
-        "newest": 265,
-        "throughputHighToLow": 237,
-        "latencyLowToHigh": 117,
-        "pricingLowToHigh": 162,
-        "pricingHighToLow": 154
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai.meta.com/\\u0026size=256",
-      "providers": [
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "bf16",
-          "context": 8192,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct",
-          "pricing": {
-            "prompt": "0.0000003",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.3,
-          "outputCost": 0.4,
-          "throughput": 33.969,
-          "latency": 688
-        },
-        {
-          "name": "Hyperbolic",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://hyperbolic.xyz/&size=256",
-          "slug": "hyperbolic",
-          "quantization": null,
-          "context": 8192,
-          "maxCompletionTokens": null,
-          "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct",
-          "pricing": {
-            "prompt": "0.0000004",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "logprobs",
-            "top_logprobs",
-            "seed",
-            "logit_bias",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.4,
-          "outputCost": 0.4,
-          "throughput": 21.818,
-          "latency": 1464
-        },
-        {
-          "name": "NovitaAI",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
-          "slug": "novitaAi",
-          "quantization": "unknown",
-          "context": 8192,
-          "maxCompletionTokens": 8192,
-          "providerModelId": "meta-llama/llama-3-70b-instruct",
-          "pricing": {
-            "prompt": "0.00000051",
-            "completion": "0.00000074",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty",
-            "logit_bias"
-          ],
-          "inputCost": 0.51,
-          "outputCost": 0.74,
-          "throughput": 20.574,
-          "latency": 1089
-        },
-        {
-          "name": "Groq",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://groq.com/&size=256",
-          "slug": "groq",
-          "quantization": null,
-          "context": 8192,
-          "maxCompletionTokens": 8192,
-          "providerModelId": "llama3-70b-8192",
-          "pricing": {
-            "prompt": "0.00000059",
-            "completion": "0.00000079",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "response_format",
-            "top_logprobs",
-            "logprobs",
-            "logit_bias",
-            "seed"
-          ],
-          "inputCost": 0.59,
-          "outputCost": 0.79,
-          "throughput": 373.017,
-          "latency": 187
-        },
-        {
-          "name": "Together",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
-          "slug": "together",
-          "quantization": "fp8",
-          "context": 8192,
-          "maxCompletionTokens": null,
-          "providerModelId": "meta-llama/Meta-Llama-3-70B-Instruct-Turbo",
-          "pricing": {
-            "prompt": "0.00000088",
-            "completion": "0.00000088",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
-            "logit_bias",
-            "min_p",
-            "response_format"
-          ],
-          "inputCost": 0.88,
-          "outputCost": 0.88,
-          "throughput": 94.757,
-          "latency": 675
+          "throughput": 97.9285,
+          "latency": 722
         }
       ]
     },
@@ -36778,7 +36778,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 109,
-        "newest": 197,
+        "newest": 200,
         "throughputHighToLow": 57,
         "latencyLowToHigh": 134,
         "pricingLowToHigh": 61,
@@ -36818,8 +36818,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.05,
-          "throughput": 11.417,
-          "latency": 3160
+          "throughput": 11.4485,
+          "latency": 3140
         },
         {
           "name": "Cloudflare",
@@ -36850,8 +36850,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.68,
-          "throughput": 33.7005,
-          "latency": 267
+          "throughput": 32.923,
+          "latency": 270
         },
         {
           "name": "Lambda",
@@ -36885,8 +36885,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.05,
-          "throughput": 110.67,
-          "latency": 432
+          "throughput": 111.6905,
+          "latency": 428
         },
         {
           "name": "inference.net",
@@ -36920,8 +36920,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.06,
-          "throughput": 31.191,
-          "latency": 2098
+          "throughput": 31.321,
+          "latency": 1980
         },
         {
           "name": "NovitaAI",
@@ -36955,8 +36955,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.06,
-          "throughput": 49.624,
-          "latency": 792.5
+          "throughput": 48.26,
+          "latency": 805
         },
         {
           "name": "Together",
@@ -36990,8 +36990,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 140.056,
-          "latency": 386
+          "throughput": 140.246,
+          "latency": 387
         }
       ]
     },
@@ -37154,7 +37154,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 110,
-        "newest": 185,
+        "newest": 184,
         "throughputHighToLow": 56,
         "latencyLowToHigh": 12,
         "pricingLowToHigh": 113,
@@ -37194,7 +37194,7 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 124.2515,
+          "throughput": 124.1725,
           "latency": 226
         }
       ]
@@ -37433,8 +37433,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 67.0525,
-          "latency": 579
+          "throughput": 66.6485,
+          "latency": 582
         },
         {
           "name": "Azure",
@@ -37472,8 +37472,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 127.835,
-          "latency": 1228
+          "throughput": 127.691,
+          "latency": 1230
         }
       ]
     },
@@ -37677,8 +37677,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 6,
-          "throughput": 48.21,
-          "latency": 573
+          "throughput": 47.849,
+          "latency": 574
         }
       ]
     },
@@ -37886,8 +37886,8 @@ export default {
           ],
           "inputCost": 10,
           "outputCost": 40,
-          "throughput": 55.3665,
-          "latency": 5133.5
+          "throughput": 55.203,
+          "latency": 5138
         }
       ]
     },
@@ -38095,8 +38095,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.09,
-          "throughput": 54.4525,
-          "latency": 302
+          "throughput": 54.4805,
+          "latency": 303
         },
         {
           "name": "Azure",
@@ -38124,8 +38124,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 17.088,
-          "latency": 342.5
+          "throughput": 17.0965,
+          "latency": 342
         }
       ]
     },
@@ -38295,7 +38295,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 115,
-        "newest": 315,
+        "newest": 313,
         "throughputHighToLow": 40,
         "latencyLowToHigh": 51,
         "pricingLowToHigh": 186,
@@ -38337,8 +38337,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 151.449,
-          "latency": 396
+          "throughput": 149.6545,
+          "latency": 400
         }
       ]
     },
@@ -38530,8 +38530,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 0.8,
-          "throughput": 17.335,
-          "latency": 3883
+          "throughput": 17.3,
+          "latency": 3889
         }
       ]
     },
@@ -38701,7 +38701,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 117,
-        "newest": 230,
+        "newest": 229,
         "throughputHighToLow": 272,
         "latencyLowToHigh": 149,
         "pricingLowToHigh": 196,
@@ -38743,8 +38743,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 22.0745,
-          "latency": 908
+          "throughput": 21.2355,
+          "latency": 903
         },
         {
           "name": "Lambda",
@@ -38778,8 +38778,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 33.9215,
-          "latency": 553
+          "throughput": 33.906,
+          "latency": 551
         },
         {
           "name": "Nebius AI Studio",
@@ -38813,8 +38813,8 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 3,
-          "throughput": 33.843,
-          "latency": 414
+          "throughput": 33.565,
+          "latency": 390
         },
         {
           "name": "Fireworks",
@@ -38853,7 +38853,7 @@ export default {
           "inputCost": 3,
           "outputCost": 3,
           "throughput": 82.44,
-          "latency": 660
+          "latency": 694.5
         },
         {
           "name": "Together",
@@ -38889,8 +38889,8 @@ export default {
           ],
           "inputCost": 3.5,
           "outputCost": 3.5,
-          "throughput": 46.685,
-          "latency": 494
+          "throughput": 45.351,
+          "latency": 495
         },
         {
           "name": "Hyperbolic",
@@ -38926,7 +38926,7 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 4,
-          "throughput": 80.064,
+          "throughput": 79.936,
           "latency": 1013
         },
         {
@@ -38957,6 +38957,230 @@ export default {
           "outputCost": 10,
           "throughput": 103.519,
           "latency": 1532
+        }
+      ]
+    },
+    {
+      "slug": "microsoft/phi-4-reasoning-plus",
+      "hfSlug": "microsoft/Phi-4-reasoning-plus",
+      "updatedAt": "2025-05-02T05:32:14.23708+00:00",
+      "createdAt": "2025-05-01T20:22:41.235613+00:00",
+      "hfUpdatedAt": null,
+      "name": "Microsoft: Phi 4 Reasoning Plus",
+      "shortName": "Phi 4 Reasoning Plus",
+      "author": "microsoft",
+      "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
+      "modelVersionGroupId": null,
+      "contextLength": 32768,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Other",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
+      "reasoningConfig": {
+        "startToken": "<think>",
+        "endToken": "</think>"
+      },
+      "features": {
+        "reasoningConfig": {
+          "startToken": "<think>",
+          "endToken": "</think>"
+        }
+      },
+      "endpoint": {
+        "id": "88e7bba7-808f-4eb7-8964-040e99d53e72",
+        "name": "DeepInfra | microsoft/phi-4-reasoning-plus-04-30",
+        "contextLength": 32768,
+        "model": {
+          "slug": "microsoft/phi-4-reasoning-plus",
+          "hfSlug": "microsoft/Phi-4-reasoning-plus",
+          "updatedAt": "2025-05-02T05:32:14.23708+00:00",
+          "createdAt": "2025-05-01T20:22:41.235613+00:00",
+          "hfUpdatedAt": null,
+          "name": "Microsoft: Phi 4 Reasoning Plus",
+          "shortName": "Phi 4 Reasoning Plus",
+          "author": "microsoft",
+          "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
+          "modelVersionGroupId": null,
+          "contextLength": 32768,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Other",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
+          "reasoningConfig": {
+            "startToken": "<think>",
+            "endToken": "</think>"
+          },
+          "features": {
+            "reasoningConfig": {
+              "startToken": "<think>",
+              "endToken": "</think>"
+            }
+          }
+        },
+        "modelVariantSlug": "microsoft/phi-4-reasoning-plus",
+        "modelVariantPermaslug": "microsoft/phi-4-reasoning-plus-04-30",
+        "providerName": "DeepInfra",
+        "providerInfo": {
+          "name": "DeepInfra",
+          "displayName": "DeepInfra",
+          "slug": "deepinfra",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://deepinfra.com/privacy",
+            "termsOfServiceUrl": "https://deepinfra.com/terms",
+            "dataPolicyUrl": "https://deepinfra.com/docs/data",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/DeepInfra.webp"
+          }
+        },
+        "providerDisplayName": "DeepInfra",
+        "providerModelId": "microsoft/phi-4-reasoning-plus",
+        "quantization": "bf16",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "reasoning",
+          "include_reasoning",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "repetition_penalty",
+          "response_format",
+          "top_k",
+          "seed",
+          "min_p"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://deepinfra.com/privacy",
+          "termsOfServiceUrl": "https://deepinfra.com/terms",
+          "dataPolicyUrl": "https://deepinfra.com/docs/data",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.00000007",
+          "completion": "0.00000035",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": true,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 118,
+        "newest": 12,
+        "throughputHighToLow": 49,
+        "latencyLowToHigh": 166,
+        "pricingLowToHigh": 2,
+        "pricingHighToLow": 206
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Microsoft.svg",
+      "providers": [
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "bf16",
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "microsoft/phi-4-reasoning-plus",
+          "pricing": {
+            "prompt": "0.00000007",
+            "completion": "0.00000035",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "reasoning",
+            "include_reasoning",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.07,
+          "outputCost": 0.35,
+          "throughput": 33.905,
+          "latency": 3579
         }
       ]
     },
@@ -39182,8 +39406,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 43.925,
-          "latency": 890
+          "throughput": 43.562,
+          "latency": 887
         },
         {
           "name": "Nebius AI Studio",
@@ -39219,8 +39443,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 39.8435,
-          "latency": 754
+          "throughput": 39.6545,
+          "latency": 740
         },
         {
           "name": "NovitaAI",
@@ -39256,8 +39480,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.45,
-          "throughput": 26.241,
-          "latency": 1660
+          "throughput": 26.381,
+          "latency": 1661
         },
         {
           "name": "Parasail",
@@ -39289,8 +39513,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.5,
-          "throughput": 47.995,
-          "latency": 925
+          "throughput": 47.544,
+          "latency": 933
         },
         {
           "name": "GMICloud",
@@ -39319,8 +39543,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.6,
-          "throughput": 54.811,
-          "latency": 936
+          "throughput": 54.765,
+          "latency": 935
         },
         {
           "name": "Cerebras",
@@ -39352,8 +39576,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.8,
-          "throughput": 2756.71,
-          "latency": 582
+          "throughput": 2758.4765,
+          "latency": 567
         },
         {
           "name": "SambaNova",
@@ -39383,7 +39607,7 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.8,
-          "throughput": 320.641,
+          "throughput": 320.693,
           "latency": 1116
         }
       ]
@@ -39547,8 +39771,8 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 119,
-        "newest": 184,
+        "topWeekly": 120,
+        "newest": 185,
         "throughputHighToLow": 9,
         "latencyLowToHigh": 3,
         "pricingLowToHigh": 86,
@@ -39588,232 +39812,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.04,
-          "throughput": 240.143,
+          "throughput": 239.892,
           "latency": 179
-        }
-      ]
-    },
-    {
-      "slug": "microsoft/phi-4-reasoning-plus",
-      "hfSlug": "microsoft/Phi-4-reasoning-plus",
-      "updatedAt": "2025-05-02T05:32:14.23708+00:00",
-      "createdAt": "2025-05-01T20:22:41.235613+00:00",
-      "hfUpdatedAt": null,
-      "name": "Microsoft: Phi 4 Reasoning Plus",
-      "shortName": "Phi 4 Reasoning Plus",
-      "author": "microsoft",
-      "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
-      "modelVersionGroupId": null,
-      "contextLength": 32768,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Other",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
-      "reasoningConfig": {
-        "startToken": "<think>",
-        "endToken": "</think>"
-      },
-      "features": {
-        "reasoningConfig": {
-          "startToken": "<think>",
-          "endToken": "</think>"
-        }
-      },
-      "endpoint": {
-        "id": "88e7bba7-808f-4eb7-8964-040e99d53e72",
-        "name": "DeepInfra | microsoft/phi-4-reasoning-plus-04-30",
-        "contextLength": 32768,
-        "model": {
-          "slug": "microsoft/phi-4-reasoning-plus",
-          "hfSlug": "microsoft/Phi-4-reasoning-plus",
-          "updatedAt": "2025-05-02T05:32:14.23708+00:00",
-          "createdAt": "2025-05-01T20:22:41.235613+00:00",
-          "hfUpdatedAt": null,
-          "name": "Microsoft: Phi 4 Reasoning Plus",
-          "shortName": "Phi 4 Reasoning Plus",
-          "author": "microsoft",
-          "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
-          "modelVersionGroupId": null,
-          "contextLength": 32768,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Other",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
-          "reasoningConfig": {
-            "startToken": "<think>",
-            "endToken": "</think>"
-          },
-          "features": {
-            "reasoningConfig": {
-              "startToken": "<think>",
-              "endToken": "</think>"
-            }
-          }
-        },
-        "modelVariantSlug": "microsoft/phi-4-reasoning-plus",
-        "modelVariantPermaslug": "microsoft/phi-4-reasoning-plus-04-30",
-        "providerName": "DeepInfra",
-        "providerInfo": {
-          "name": "DeepInfra",
-          "displayName": "DeepInfra",
-          "slug": "deepinfra",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://deepinfra.com/privacy",
-            "termsOfServiceUrl": "https://deepinfra.com/terms",
-            "dataPolicyUrl": "https://deepinfra.com/docs/data",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/DeepInfra.webp"
-          }
-        },
-        "providerDisplayName": "DeepInfra",
-        "providerModelId": "microsoft/phi-4-reasoning-plus",
-        "quantization": "bf16",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "reasoning",
-          "include_reasoning",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "repetition_penalty",
-          "response_format",
-          "top_k",
-          "seed",
-          "min_p"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://deepinfra.com/privacy",
-          "termsOfServiceUrl": "https://deepinfra.com/terms",
-          "dataPolicyUrl": "https://deepinfra.com/docs/data",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.00000007",
-          "completion": "0.00000035",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": true,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 120,
-        "newest": 12,
-        "throughputHighToLow": 49,
-        "latencyLowToHigh": 166,
-        "pricingLowToHigh": 2,
-        "pricingHighToLow": 206
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Microsoft.svg",
-      "providers": [
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "bf16",
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "microsoft/phi-4-reasoning-plus",
-          "pricing": {
-            "prompt": "0.00000007",
-            "completion": "0.00000035",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "reasoning",
-            "include_reasoning",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.07,
-          "outputCost": 0.35,
-          "throughput": 33.901,
-          "latency": 3579
         }
       ]
     },
@@ -39973,11 +39973,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 121,
-        "newest": 249,
+        "newest": 247,
         "throughputHighToLow": 61,
         "latencyLowToHigh": 129,
         "pricingLowToHigh": 68,
-        "pricingHighToLow": 235
+        "pricingHighToLow": 234
       },
       "authorIcon": "https://openrouter.ai/images/icons/Mistral.png",
       "providers": [
@@ -40010,8 +40010,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.05,
-          "throughput": 105.8885,
-          "latency": 4612.5
+          "throughput": 105.8465,
+          "latency": 4598.5
         },
         {
           "name": "DeepInfra",
@@ -40047,8 +40047,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.06,
-          "throughput": 119.8565,
-          "latency": 590
+          "throughput": 118.659,
+          "latency": 584
         },
         {
           "name": "NextBit",
@@ -40079,8 +40079,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.06,
-          "throughput": 86.9095,
-          "latency": 1310
+          "throughput": 87.311,
+          "latency": 1313
         },
         {
           "name": "NovitaAI",
@@ -40114,7 +40114,7 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.06,
-          "throughput": 146.31,
+          "throughput": 146.15,
           "latency": 841
         },
         {
@@ -40149,8 +40149,245 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 216.646,
-          "latency": 261
+          "throughput": 216.136,
+          "latency": 260
+        }
+      ]
+    },
+    {
+      "slug": "anthropic/claude-3.5-sonnet-20240620",
+      "hfSlug": null,
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-06-20T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Anthropic: Claude 3.5 Sonnet (2024-06-20)",
+      "shortName": "Claude 3.5 Sonnet (2024-06-20)",
+      "author": "anthropic",
+      "description": "Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Autonomously writes, edits, and runs code with reasoning and troubleshooting\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\nFor the latest version (2024-10-23), check out [Claude 3.5 Sonnet](/anthropic/claude-3.5-sonnet).\n\n#multimodal",
+      "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
+      "contextLength": 200000,
+      "inputModalities": [
+        "text",
+        "image"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Claude",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "anthropic/claude-3.5-sonnet-20240620",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "20a76230-7394-42f9-bcac-76081ff24cd8",
+        "name": "Anthropic | anthropic/claude-3.5-sonnet-20240620",
+        "contextLength": 200000,
+        "model": {
+          "slug": "anthropic/claude-3.5-sonnet-20240620",
+          "hfSlug": null,
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-06-20T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Anthropic: Claude 3.5 Sonnet (2024-06-20)",
+          "shortName": "Claude 3.5 Sonnet (2024-06-20)",
+          "author": "anthropic",
+          "description": "Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Autonomously writes, edits, and runs code with reasoning and troubleshooting\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\nFor the latest version (2024-10-23), check out [Claude 3.5 Sonnet](/anthropic/claude-3.5-sonnet).\n\n#multimodal",
+          "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
+          "contextLength": 200000,
+          "inputModalities": [
+            "text",
+            "image"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Claude",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "anthropic/claude-3.5-sonnet-20240620",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "anthropic/claude-3.5-sonnet-20240620",
+        "modelVariantPermaslug": "anthropic/claude-3.5-sonnet-20240620",
+        "providerName": "Anthropic",
+        "providerInfo": {
+          "name": "Anthropic",
+          "displayName": "Anthropic",
+          "slug": "anthropic",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
+            "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            },
+            "requiresUserIds": true
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": true,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.anthropic.com/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/Anthropic.svg"
+          }
+        },
+        "providerDisplayName": "Anthropic",
+        "providerModelId": "claude-3-5-sonnet-20240620",
+        "quantization": "unknown",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 8192,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "tool_choice",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "top_k",
+          "stop"
+        ],
+        "isByok": false,
+        "moderationRequired": true,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
+          "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "requiresUserIds": true,
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.000003",
+          "completion": "0.000015",
+          "image": "0.0048",
+          "request": "0",
+          "inputCacheRead": "0.0000003",
+          "inputCacheWrite": "0.00000375",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 122,
+        "newest": 242,
+        "throughputHighToLow": 121,
+        "latencyLowToHigh": 151,
+        "pricingLowToHigh": 272,
+        "pricingHighToLow": 46
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
+      "providers": [
+        {
+          "name": "Anthropic",
+          "icon": "https://openrouter.ai/images/icons/Anthropic.svg",
+          "slug": "anthropic",
+          "quantization": "unknown",
+          "context": 200000,
+          "maxCompletionTokens": 8192,
+          "providerModelId": "claude-3-5-sonnet-20240620",
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0.0048",
+            "request": "0",
+            "inputCacheRead": "0.0000003",
+            "inputCacheWrite": "0.00000375",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "inputCost": 3,
+          "outputCost": 15,
+          "throughput": 68.4905,
+          "latency": 916
+        },
+        {
+          "name": "Google Vertex",
+          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
+          "slug": "vertex",
+          "quantization": "unknown",
+          "context": 200000,
+          "maxCompletionTokens": 8192,
+          "providerModelId": "claude-3-5-sonnet@20240620",
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0.0048",
+            "request": "0",
+            "inputCacheRead": "0.0000003",
+            "inputCacheWrite": "0.00000375",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "inputCost": 3,
+          "outputCost": 15,
+          "throughput": 61.635,
+          "latency": 1366
         }
       ]
     },
@@ -40316,7 +40553,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 122,
+        "topWeekly": 123,
         "newest": 73,
         "throughputHighToLow": 123,
         "latencyLowToHigh": 110,
@@ -40359,8 +40596,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 63.4195,
-          "latency": 812.5
+          "throughput": 63.4485,
+          "latency": 812
         },
         {
           "name": "InoCloud",
@@ -40389,8 +40626,8 @@ export default {
           ],
           "inputCost": 1.1,
           "outputCost": 1.1,
-          "throughput": 32.858,
-          "latency": 1495
+          "throughput": 32.833,
+          "latency": 1476
         }
       ]
     },
@@ -40575,7 +40812,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 123,
+        "topWeekly": 124,
         "newest": 133,
         "throughputHighToLow": 66,
         "latencyLowToHigh": 66,
@@ -40618,8 +40855,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.18,
-          "throughput": 49.2355,
-          "latency": 575
+          "throughput": 49.22,
+          "latency": 574
         },
         {
           "name": "NovitaAI",
@@ -40689,245 +40926,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 4.88,
-          "throughput": 36.7895,
-          "latency": 881.5
-        }
-      ]
-    },
-    {
-      "slug": "anthropic/claude-3.5-sonnet-20240620",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-06-20T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Anthropic: Claude 3.5 Sonnet (2024-06-20)",
-      "shortName": "Claude 3.5 Sonnet (2024-06-20)",
-      "author": "anthropic",
-      "description": "Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Autonomously writes, edits, and runs code with reasoning and troubleshooting\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\nFor the latest version (2024-10-23), check out [Claude 3.5 Sonnet](/anthropic/claude-3.5-sonnet).\n\n#multimodal",
-      "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
-      "contextLength": 200000,
-      "inputModalities": [
-        "text",
-        "image"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Claude",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "anthropic/claude-3.5-sonnet-20240620",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "20a76230-7394-42f9-bcac-76081ff24cd8",
-        "name": "Anthropic | anthropic/claude-3.5-sonnet-20240620",
-        "contextLength": 200000,
-        "model": {
-          "slug": "anthropic/claude-3.5-sonnet-20240620",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-06-20T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Anthropic: Claude 3.5 Sonnet (2024-06-20)",
-          "shortName": "Claude 3.5 Sonnet (2024-06-20)",
-          "author": "anthropic",
-          "description": "Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Autonomously writes, edits, and runs code with reasoning and troubleshooting\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\nFor the latest version (2024-10-23), check out [Claude 3.5 Sonnet](/anthropic/claude-3.5-sonnet).\n\n#multimodal",
-          "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
-          "contextLength": 200000,
-          "inputModalities": [
-            "text",
-            "image"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Claude",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "anthropic/claude-3.5-sonnet-20240620",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "anthropic/claude-3.5-sonnet-20240620",
-        "modelVariantPermaslug": "anthropic/claude-3.5-sonnet-20240620",
-        "providerName": "Anthropic",
-        "providerInfo": {
-          "name": "Anthropic",
-          "displayName": "Anthropic",
-          "slug": "anthropic",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
-            "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            },
-            "requiresUserIds": true
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": true,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.anthropic.com/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Anthropic.svg"
-          }
-        },
-        "providerDisplayName": "Anthropic",
-        "providerModelId": "claude-3-5-sonnet-20240620",
-        "quantization": "unknown",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 8192,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "tool_choice",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "top_k",
-          "stop"
-        ],
-        "isByok": false,
-        "moderationRequired": true,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
-          "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "requiresUserIds": true,
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.000003",
-          "completion": "0.000015",
-          "image": "0.0048",
-          "request": "0",
-          "inputCacheRead": "0.0000003",
-          "inputCacheWrite": "0.00000375",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 124,
-        "newest": 242,
-        "throughputHighToLow": 121,
-        "latencyLowToHigh": 151,
-        "pricingLowToHigh": 272,
-        "pricingHighToLow": 46
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
-      "providers": [
-        {
-          "name": "Anthropic",
-          "icon": "https://openrouter.ai/images/icons/Anthropic.svg",
-          "slug": "anthropic",
-          "quantization": "unknown",
-          "context": 200000,
-          "maxCompletionTokens": 8192,
-          "providerModelId": "claude-3-5-sonnet-20240620",
-          "pricing": {
-            "prompt": "0.000003",
-            "completion": "0.000015",
-            "image": "0.0048",
-            "request": "0",
-            "inputCacheRead": "0.0000003",
-            "inputCacheWrite": "0.00000375",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 3,
-          "outputCost": 15,
-          "throughput": 68.0285,
-          "latency": 918.5
-        },
-        {
-          "name": "Google Vertex",
-          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
-          "slug": "vertex",
-          "quantization": "unknown",
-          "context": 200000,
-          "maxCompletionTokens": 8192,
-          "providerModelId": "claude-3-5-sonnet@20240620",
-          "pricing": {
-            "prompt": "0.000003",
-            "completion": "0.000015",
-            "image": "0.0048",
-            "request": "0",
-            "inputCacheRead": "0.0000003",
-            "inputCacheWrite": "0.00000375",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 3,
-          "outputCost": 15,
-          "throughput": 61.6675,
-          "latency": 1367.5
+          "throughput": 36.812,
+          "latency": 888
         }
       ]
     },
@@ -41096,7 +41096,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 123,
+        "topWeekly": 124,
         "newest": 133,
         "throughputHighToLow": 66,
         "latencyLowToHigh": 66,
@@ -41139,8 +41139,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.18,
-          "throughput": 49.2355,
-          "latency": 575
+          "throughput": 49.22,
+          "latency": 574
         },
         {
           "name": "NovitaAI",
@@ -41210,8 +41210,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 4.88,
-          "throughput": 36.7895,
-          "latency": 881.5
+          "throughput": 36.812,
+          "latency": 888
         }
       ]
     },
@@ -41377,7 +41377,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 28,
+        "topWeekly": 26,
         "newest": 202,
         "throughputHighToLow": 157,
         "latencyLowToHigh": 70,
@@ -41420,8 +41420,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.39,
-          "throughput": 34.562,
-          "latency": 598
+          "throughput": 34.308,
+          "latency": 591
         },
         {
           "name": "Nebius AI Studio",
@@ -41455,8 +41455,8 @@ export default {
           ],
           "inputCost": 0.13,
           "outputCost": 0.4,
-          "throughput": 19.4855,
-          "latency": 1422
+          "throughput": 19.5475,
+          "latency": 1439
         },
         {
           "name": "NovitaAI",
@@ -41492,8 +41492,8 @@ export default {
           ],
           "inputCost": 0.38,
           "outputCost": 0.4,
-          "throughput": 21.992,
-          "latency": 1598
+          "throughput": 22.0005,
+          "latency": 1614
         },
         {
           "name": "Hyperbolic",
@@ -41529,8 +41529,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 0.4,
-          "throughput": 22.62,
-          "latency": 2039.5
+          "throughput": 22.415,
+          "latency": 2054
         },
         {
           "name": "Fireworks",
@@ -41568,8 +41568,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 73.597,
-          "latency": 637
+          "throughput": 73.427,
+          "latency": 638
         },
         {
           "name": "Together",
@@ -41603,7 +41603,7 @@ export default {
           ],
           "inputCost": 1.2,
           "outputCost": 1.2,
-          "throughput": 104.818,
+          "throughput": 104.974,
           "latency": 668
         }
       ]
@@ -41817,8 +41817,231 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 8,
-          "throughput": 316.065,
-          "latency": 6577.5
+          "throughput": 314.691,
+          "latency": 6631
+        }
+      ]
+    },
+    {
+      "slug": "openai/codex-mini",
+      "hfSlug": "",
+      "updatedAt": "2025-05-16T16:10:30.488453+00:00",
+      "createdAt": "2025-05-16T15:36:01.081688+00:00",
+      "hfUpdatedAt": null,
+      "name": "OpenAI: Codex Mini",
+      "shortName": "Codex Mini",
+      "author": "openai",
+      "description": "codex-mini-latest is a fine-tuned version of o4-mini specifically for use in Codex CLI. For direct use in the API, we recommend starting with gpt-4.1.",
+      "modelVersionGroupId": null,
+      "contextLength": 200000,
+      "inputModalities": [
+        "image",
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "GPT",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "openai/codex-mini",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "421864ed-5bce-4ae5-b02e-7345b5878842",
+        "name": "OpenAI | openai/codex-mini",
+        "contextLength": 200000,
+        "model": {
+          "slug": "openai/codex-mini",
+          "hfSlug": "",
+          "updatedAt": "2025-05-16T16:10:30.488453+00:00",
+          "createdAt": "2025-05-16T15:36:01.081688+00:00",
+          "hfUpdatedAt": null,
+          "name": "OpenAI: Codex Mini",
+          "shortName": "Codex Mini",
+          "author": "openai",
+          "description": "codex-mini-latest is a fine-tuned version of o4-mini specifically for use in Codex CLI. For direct use in the API, we recommend starting with gpt-4.1.",
+          "modelVersionGroupId": null,
+          "contextLength": 200000,
+          "inputModalities": [
+            "image",
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "GPT",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "openai/codex-mini",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "openai/codex-mini",
+        "modelVariantPermaslug": "openai/codex-mini",
+        "providerName": "OpenAI",
+        "providerInfo": {
+          "name": "OpenAI",
+          "displayName": "OpenAI",
+          "slug": "openai",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
+            "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
+            "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            },
+            "requiresUserIds": true
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": true,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.openai.com/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/OpenAI.svg",
+            "invertRequired": true
+          }
+        },
+        "providerDisplayName": "OpenAI",
+        "providerModelId": "codex-mini-latest",
+        "quantization": null,
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 100000,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "tool_choice",
+          "max_tokens",
+          "reasoning",
+          "include_reasoning",
+          "structured_outputs",
+          "response_format",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed",
+          "logit_bias",
+          "logprobs",
+          "top_logprobs"
+        ],
+        "isByok": false,
+        "moderationRequired": true,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
+          "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
+          "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "requiresUserIds": true,
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.0000015",
+          "completion": "0.000006",
+          "image": "0",
+          "request": "0",
+          "inputCacheRead": "0.000000375",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": true,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {
+            "responseFormat": true,
+            "structuredOutputs": true
+          },
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 128,
+        "newest": 0,
+        "throughputHighToLow": 73,
+        "latencyLowToHigh": 310,
+        "pricingLowToHigh": 235,
+        "pricingHighToLow": 81
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
+      "providers": [
+        {
+          "name": "OpenAI",
+          "icon": "https://openrouter.ai/images/icons/OpenAI.svg",
+          "slug": "openAi",
+          "quantization": null,
+          "context": 200000,
+          "maxCompletionTokens": 100000,
+          "providerModelId": "codex-mini-latest",
+          "pricing": {
+            "prompt": "0.0000015",
+            "completion": "0.000006",
+            "image": "0",
+            "request": "0",
+            "inputCacheRead": "0.000000375",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "reasoning",
+            "include_reasoning",
+            "structured_outputs",
+            "response_format",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 1.5,
+          "outputCost": 6,
+          "throughput": 104.5475,
+          "latency": 12950
         }
       ]
     },
@@ -41977,7 +42200,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 128,
+        "topWeekly": 129,
         "newest": 41,
         "throughputHighToLow": 173,
         "latencyLowToHigh": 293,
@@ -42018,177 +42241,10 @@ export default {
           ],
           "inputCost": 0.24,
           "outputCost": 0.24,
-          "throughput": 5.5435,
-          "latency": 23370
+          "throughput": 5.551,
+          "latency": 23329
         }
       ]
-    },
-    {
-      "slug": "nousresearch/deephermes-3-mistral-24b-preview",
-      "hfSlug": "NousResearch/DeepHermes-3-Mistral-24B-Preview",
-      "updatedAt": "2025-05-09T23:02:10.58499+00:00",
-      "createdAt": "2025-05-09T22:48:24.165453+00:00",
-      "hfUpdatedAt": null,
-      "name": "Nous: DeepHermes 3 Mistral 24B Preview (free)",
-      "shortName": "DeepHermes 3 Mistral 24B Preview (free)",
-      "author": "nousresearch",
-      "description": "DeepHermes 3 (Mistral 24B Preview) is an instruction-tuned language model by Nous Research based on Mistral-Small-24B, designed for chat, function calling, and advanced multi-turn reasoning. It introduces a dual-mode system that toggles between intuitive chat responses and structured “deep reasoning” mode using special system prompts. Fine-tuned via distillation from R1, it supports structured output (JSON mode) and function call syntax for agent-based applications.\n\nDeepHermes 3 supports a **reasoning toggle via system prompt**, allowing users to switch between fast, intuitive responses and deliberate, multi-step reasoning. When activated with the following specific system instruction, the model enters a *\"deep thinking\"* mode—generating extended chains of thought wrapped in `<think></think>` tags before delivering a final answer. \n\nSystem Prompt: You are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.\n",
-      "modelVersionGroupId": null,
-      "contextLength": 32768,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Other",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "nousresearch/deephermes-3-mistral-24b-preview",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "90728530-42b4-4bcf-bc67-167eee5bbac4",
-        "name": "Chutes | nousresearch/deephermes-3-mistral-24b-preview:free",
-        "contextLength": 32768,
-        "model": {
-          "slug": "nousresearch/deephermes-3-mistral-24b-preview",
-          "hfSlug": "NousResearch/DeepHermes-3-Mistral-24B-Preview",
-          "updatedAt": "2025-05-09T23:02:10.58499+00:00",
-          "createdAt": "2025-05-09T22:48:24.165453+00:00",
-          "hfUpdatedAt": null,
-          "name": "Nous: DeepHermes 3 Mistral 24B Preview",
-          "shortName": "DeepHermes 3 Mistral 24B Preview",
-          "author": "nousresearch",
-          "description": "DeepHermes 3 (Mistral 24B Preview) is an instruction-tuned language model by Nous Research based on Mistral-Small-24B, designed for chat, function calling, and advanced multi-turn reasoning. It introduces a dual-mode system that toggles between intuitive chat responses and structured “deep reasoning” mode using special system prompts. Fine-tuned via distillation from R1, it supports structured output (JSON mode) and function call syntax for agent-based applications.\n\nDeepHermes 3 supports a **reasoning toggle via system prompt**, allowing users to switch between fast, intuitive responses and deliberate, multi-step reasoning. When activated with the following specific system instruction, the model enters a *\"deep thinking\"* mode—generating extended chains of thought wrapped in `<think></think>` tags before delivering a final answer. \n\nSystem Prompt: You are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.\n",
-          "modelVersionGroupId": null,
-          "contextLength": 32768,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Other",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "nousresearch/deephermes-3-mistral-24b-preview",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "nousresearch/deephermes-3-mistral-24b-preview:free",
-        "modelVariantPermaslug": "nousresearch/deephermes-3-mistral-24b-preview:free",
-        "providerName": "Chutes",
-        "providerInfo": {
-          "name": "Chutes",
-          "displayName": "Chutes",
-          "slug": "chutes",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://chutes.ai/tos",
-            "paidModels": {
-              "training": true,
-              "retainsPrompts": true
-            }
-          },
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://chutes.ai/&size=256"
-          }
-        },
-        "providerDisplayName": "Chutes",
-        "providerModelId": "NousResearch/DeepHermes-3-Mistral-24B-Preview",
-        "quantization": null,
-        "variant": "free",
-        "isFree": true,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "reasoning",
-          "include_reasoning",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed",
-          "top_k",
-          "min_p",
-          "repetition_penalty",
-          "logprobs",
-          "logit_bias",
-          "top_logprobs"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://chutes.ai/tos",
-          "paidModels": {
-            "training": true,
-            "retainsPrompts": true
-          },
-          "training": true,
-          "retainsPrompts": true
-        },
-        "pricing": {
-          "prompt": "0",
-          "completion": "0",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": true,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 129,
-        "newest": 2,
-        "throughputHighToLow": 12,
-        "latencyLowToHigh": 153,
-        "pricingLowToHigh": 1,
-        "pricingHighToLow": 249
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nousresearch.com/\\u0026size=256",
-      "providers": []
     },
     {
       "slug": "qwen/qwen-2.5-coder-32b-instruct",
@@ -42393,8 +42449,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.15,
-          "throughput": 52.389,
-          "latency": 430
+          "throughput": 51.033,
+          "latency": 498
         },
         {
           "name": "Nebius AI Studio",
@@ -42428,8 +42484,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.18,
-          "throughput": 55.7425,
-          "latency": 427
+          "throughput": 55.439,
+          "latency": 426
         },
         {
           "name": "Lambda",
@@ -42463,8 +42519,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.16,
-          "throughput": 44.001,
-          "latency": 402
+          "throughput": 43.987,
+          "latency": 403
         },
         {
           "name": "Hyperbolic",
@@ -42500,8 +42556,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 55.871,
-          "latency": 1164.5
+          "throughput": 55.8255,
+          "latency": 1168
         },
         {
           "name": "Parasail",
@@ -42531,7 +42587,7 @@ export default {
           ],
           "inputCost": 0.35,
           "outputCost": 0.5,
-          "throughput": 56.923,
+          "throughput": 56.925,
           "latency": 541
         },
         {
@@ -42567,8 +42623,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 2,
-          "throughput": 19.697,
-          "latency": 791
+          "throughput": 19.698,
+          "latency": 790
         },
         {
           "name": "Cloudflare",
@@ -42634,8 +42690,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 85.252,
-          "latency": 881
+          "throughput": 85.148,
+          "latency": 879
         },
         {
           "name": "Featherless",
@@ -42670,6 +42726,173 @@ export default {
           "outputCost": 3.4
         }
       ]
+    },
+    {
+      "slug": "nousresearch/deephermes-3-mistral-24b-preview",
+      "hfSlug": "NousResearch/DeepHermes-3-Mistral-24B-Preview",
+      "updatedAt": "2025-05-09T23:02:10.58499+00:00",
+      "createdAt": "2025-05-09T22:48:24.165453+00:00",
+      "hfUpdatedAt": null,
+      "name": "Nous: DeepHermes 3 Mistral 24B Preview (free)",
+      "shortName": "DeepHermes 3 Mistral 24B Preview (free)",
+      "author": "nousresearch",
+      "description": "DeepHermes 3 (Mistral 24B Preview) is an instruction-tuned language model by Nous Research based on Mistral-Small-24B, designed for chat, function calling, and advanced multi-turn reasoning. It introduces a dual-mode system that toggles between intuitive chat responses and structured “deep reasoning” mode using special system prompts. Fine-tuned via distillation from R1, it supports structured output (JSON mode) and function call syntax for agent-based applications.\n\nDeepHermes 3 supports a **reasoning toggle via system prompt**, allowing users to switch between fast, intuitive responses and deliberate, multi-step reasoning. When activated with the following specific system instruction, the model enters a *\"deep thinking\"* mode—generating extended chains of thought wrapped in `<think></think>` tags before delivering a final answer. \n\nSystem Prompt: You are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.\n",
+      "modelVersionGroupId": null,
+      "contextLength": 32768,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Other",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "nousresearch/deephermes-3-mistral-24b-preview",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "90728530-42b4-4bcf-bc67-167eee5bbac4",
+        "name": "Chutes | nousresearch/deephermes-3-mistral-24b-preview:free",
+        "contextLength": 32768,
+        "model": {
+          "slug": "nousresearch/deephermes-3-mistral-24b-preview",
+          "hfSlug": "NousResearch/DeepHermes-3-Mistral-24B-Preview",
+          "updatedAt": "2025-05-09T23:02:10.58499+00:00",
+          "createdAt": "2025-05-09T22:48:24.165453+00:00",
+          "hfUpdatedAt": null,
+          "name": "Nous: DeepHermes 3 Mistral 24B Preview",
+          "shortName": "DeepHermes 3 Mistral 24B Preview",
+          "author": "nousresearch",
+          "description": "DeepHermes 3 (Mistral 24B Preview) is an instruction-tuned language model by Nous Research based on Mistral-Small-24B, designed for chat, function calling, and advanced multi-turn reasoning. It introduces a dual-mode system that toggles between intuitive chat responses and structured “deep reasoning” mode using special system prompts. Fine-tuned via distillation from R1, it supports structured output (JSON mode) and function call syntax for agent-based applications.\n\nDeepHermes 3 supports a **reasoning toggle via system prompt**, allowing users to switch between fast, intuitive responses and deliberate, multi-step reasoning. When activated with the following specific system instruction, the model enters a *\"deep thinking\"* mode—generating extended chains of thought wrapped in `<think></think>` tags before delivering a final answer. \n\nSystem Prompt: You are a deep thinking AI, you may use extremely long chains of thought to deeply consider the problem and deliberate with yourself via systematic reasoning processes to help come to a correct solution prior to answering. You should enclose your thoughts and internal monologue inside <think> </think> tags, and then provide your solution or response to the problem.\n",
+          "modelVersionGroupId": null,
+          "contextLength": 32768,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Other",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "nousresearch/deephermes-3-mistral-24b-preview",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "nousresearch/deephermes-3-mistral-24b-preview:free",
+        "modelVariantPermaslug": "nousresearch/deephermes-3-mistral-24b-preview:free",
+        "providerName": "Chutes",
+        "providerInfo": {
+          "name": "Chutes",
+          "displayName": "Chutes",
+          "slug": "chutes",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://chutes.ai/tos",
+            "paidModels": {
+              "training": true,
+              "retainsPrompts": true
+            }
+          },
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://chutes.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Chutes",
+        "providerModelId": "NousResearch/DeepHermes-3-Mistral-24B-Preview",
+        "quantization": null,
+        "variant": "free",
+        "isFree": true,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "reasoning",
+          "include_reasoning",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed",
+          "top_k",
+          "min_p",
+          "repetition_penalty",
+          "logprobs",
+          "logit_bias",
+          "top_logprobs"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://chutes.ai/tos",
+          "paidModels": {
+            "training": true,
+            "retainsPrompts": true
+          },
+          "training": true,
+          "retainsPrompts": true
+        },
+        "pricing": {
+          "prompt": "0",
+          "completion": "0",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": true,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 131,
+        "newest": 2,
+        "throughputHighToLow": 12,
+        "latencyLowToHigh": 153,
+        "pricingLowToHigh": 1,
+        "pricingHighToLow": 249
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nousresearch.com/\\u0026size=256",
+      "providers": []
     },
     {
       "slug": "anthropic/claude-3.5-haiku-20241022",
@@ -42832,11 +43055,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 77,
-        "newest": 175,
+        "newest": 177,
         "throughputHighToLow": 168,
         "latencyLowToHigh": 199,
         "pricingLowToHigh": 217,
-        "pricingHighToLow": 95
+        "pricingHighToLow": 97
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -42870,8 +43093,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 52.2315,
-          "latency": 1393
+          "throughput": 52.581,
+          "latency": 1394
         },
         {
           "name": "Google Vertex",
@@ -42905,243 +43128,6 @@ export default {
           "outputCost": 4,
           "throughput": 62.146,
           "latency": 2073
-        }
-      ]
-    },
-    {
-      "slug": "anthropic/claude-3-sonnet",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-03-05T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Anthropic: Claude 3 Sonnet",
-      "shortName": "Claude 3 Sonnet",
-      "author": "anthropic",
-      "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
-      "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
-      "contextLength": 200000,
-      "inputModalities": [
-        "text",
-        "image"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Claude",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "anthropic/claude-3-sonnet",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "dc39604a-e702-4a0c-8bd8-0f2578f14a2d",
-        "name": "Anthropic | anthropic/claude-3-sonnet",
-        "contextLength": 200000,
-        "model": {
-          "slug": "anthropic/claude-3-sonnet",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-03-05T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Anthropic: Claude 3 Sonnet",
-          "shortName": "Claude 3 Sonnet",
-          "author": "anthropic",
-          "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
-          "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
-          "contextLength": 200000,
-          "inputModalities": [
-            "text",
-            "image"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Claude",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "anthropic/claude-3-sonnet",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "anthropic/claude-3-sonnet",
-        "modelVariantPermaslug": "anthropic/claude-3-sonnet",
-        "providerName": "Anthropic",
-        "providerInfo": {
-          "name": "Anthropic",
-          "displayName": "Anthropic",
-          "slug": "anthropic",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
-            "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            },
-            "requiresUserIds": true
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": true,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.anthropic.com/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Anthropic.svg"
-          }
-        },
-        "providerDisplayName": "Anthropic",
-        "providerModelId": "claude-3-sonnet-20240229",
-        "quantization": "unknown",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 4096,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "tool_choice",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "top_k",
-          "stop"
-        ],
-        "isByok": false,
-        "moderationRequired": true,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
-          "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "requiresUserIds": true,
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.000003",
-          "completion": "0.000015",
-          "image": "0.0048",
-          "request": "0",
-          "inputCacheRead": "0.0000003",
-          "inputCacheWrite": "0.00000375",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 132,
-        "newest": 277,
-        "throughputHighToLow": 128,
-        "latencyLowToHigh": 103,
-        "pricingLowToHigh": 276,
-        "pricingHighToLow": 50
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
-      "providers": [
-        {
-          "name": "Anthropic",
-          "icon": "https://openrouter.ai/images/icons/Anthropic.svg",
-          "slug": "anthropic",
-          "quantization": "unknown",
-          "context": 200000,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "claude-3-sonnet-20240229",
-          "pricing": {
-            "prompt": "0.000003",
-            "completion": "0.000015",
-            "image": "0.0048",
-            "request": "0",
-            "inputCacheRead": "0.0000003",
-            "inputCacheWrite": "0.00000375",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 3,
-          "outputCost": 15,
-          "throughput": 65.987,
-          "latency": 621
-        },
-        {
-          "name": "Google Vertex",
-          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
-          "slug": "vertex",
-          "quantization": "unknown",
-          "context": 200000,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "claude-3-sonnet@20240229",
-          "pricing": {
-            "prompt": "0.000003",
-            "completion": "0.000015",
-            "image": "0.0048",
-            "request": "0",
-            "inputCacheRead": "0.0000003",
-            "inputCacheWrite": "0.00000375",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 3,
-          "outputCost": 15,
-          "throughput": 67.8425,
-          "latency": 1032
         }
       ]
     },
@@ -43344,88 +43330,87 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 10,
-          "throughput": 51.473,
-          "latency": 899
+          "throughput": 52.277,
+          "latency": 905
         }
       ]
     },
     {
-      "slug": "openai/codex-mini",
-      "hfSlug": "",
-      "updatedAt": "2025-05-16T16:10:30.488453+00:00",
-      "createdAt": "2025-05-16T15:36:01.081688+00:00",
+      "slug": "anthropic/claude-3-sonnet",
+      "hfSlug": null,
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-03-05T00:00:00+00:00",
       "hfUpdatedAt": null,
-      "name": "OpenAI: Codex Mini",
-      "shortName": "Codex Mini",
-      "author": "openai",
-      "description": "codex-mini-latest is a fine-tuned version of o4-mini specifically for use in Codex CLI. For direct use in the API, we recommend starting with gpt-4.1.",
-      "modelVersionGroupId": null,
+      "name": "Anthropic: Claude 3 Sonnet",
+      "shortName": "Claude 3 Sonnet",
+      "author": "anthropic",
+      "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
+      "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
       "contextLength": 200000,
       "inputModalities": [
-        "image",
-        "text"
+        "text",
+        "image"
       ],
       "outputModalities": [
         "text"
       ],
       "hasTextOutput": true,
-      "group": "GPT",
+      "group": "Claude",
       "instructType": null,
       "defaultSystem": null,
       "defaultStops": [],
       "hidden": false,
       "router": null,
       "warningMessage": null,
-      "permaslug": "openai/codex-mini",
+      "permaslug": "anthropic/claude-3-sonnet",
       "reasoningConfig": null,
       "features": {},
       "endpoint": {
-        "id": "421864ed-5bce-4ae5-b02e-7345b5878842",
-        "name": "OpenAI | openai/codex-mini",
+        "id": "dc39604a-e702-4a0c-8bd8-0f2578f14a2d",
+        "name": "Anthropic | anthropic/claude-3-sonnet",
         "contextLength": 200000,
         "model": {
-          "slug": "openai/codex-mini",
-          "hfSlug": "",
-          "updatedAt": "2025-05-16T16:10:30.488453+00:00",
-          "createdAt": "2025-05-16T15:36:01.081688+00:00",
+          "slug": "anthropic/claude-3-sonnet",
+          "hfSlug": null,
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-03-05T00:00:00+00:00",
           "hfUpdatedAt": null,
-          "name": "OpenAI: Codex Mini",
-          "shortName": "Codex Mini",
-          "author": "openai",
-          "description": "codex-mini-latest is a fine-tuned version of o4-mini specifically for use in Codex CLI. For direct use in the API, we recommend starting with gpt-4.1.",
-          "modelVersionGroupId": null,
+          "name": "Anthropic: Claude 3 Sonnet",
+          "shortName": "Claude 3 Sonnet",
+          "author": "anthropic",
+          "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
+          "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
           "contextLength": 200000,
           "inputModalities": [
-            "image",
-            "text"
+            "text",
+            "image"
           ],
           "outputModalities": [
             "text"
           ],
           "hasTextOutput": true,
-          "group": "GPT",
+          "group": "Claude",
           "instructType": null,
           "defaultSystem": null,
           "defaultStops": [],
           "hidden": false,
           "router": null,
           "warningMessage": null,
-          "permaslug": "openai/codex-mini",
+          "permaslug": "anthropic/claude-3-sonnet",
           "reasoningConfig": null,
           "features": {}
         },
-        "modelVariantSlug": "openai/codex-mini",
-        "modelVariantPermaslug": "openai/codex-mini",
-        "providerName": "OpenAI",
+        "modelVariantSlug": "anthropic/claude-3-sonnet",
+        "modelVariantPermaslug": "anthropic/claude-3-sonnet",
+        "providerName": "Anthropic",
         "providerInfo": {
-          "name": "OpenAI",
-          "displayName": "OpenAI",
-          "slug": "openai",
+          "name": "Anthropic",
+          "displayName": "Anthropic",
+          "slug": "anthropic",
           "baseUrl": "url",
           "dataPolicy": {
-            "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
-            "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
-            "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+            "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
+            "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
             "paidModels": {
               "training": false,
               "retainsPrompts": true,
@@ -43441,45 +43426,36 @@ export default {
           "editors": [],
           "owners": [],
           "isMultipartSupported": true,
-          "statusPageUrl": "https://status.openai.com/",
+          "statusPageUrl": "https://status.anthropic.com/",
           "byokEnabled": true,
           "icon": {
-            "url": "/images/icons/OpenAI.svg",
-            "invertRequired": true
+            "url": "/images/icons/Anthropic.svg"
           }
         },
-        "providerDisplayName": "OpenAI",
-        "providerModelId": "codex-mini-latest",
-        "quantization": null,
+        "providerDisplayName": "Anthropic",
+        "providerModelId": "claude-3-sonnet-20240229",
+        "quantization": "unknown",
         "variant": "standard",
         "isFree": false,
         "canAbort": true,
         "maxPromptTokens": null,
-        "maxCompletionTokens": 100000,
+        "maxCompletionTokens": 4096,
         "maxPromptImages": null,
         "maxTokensPerImage": null,
         "supportedParameters": [
           "tools",
           "tool_choice",
           "max_tokens",
-          "reasoning",
-          "include_reasoning",
-          "structured_outputs",
-          "response_format",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed",
-          "logit_bias",
-          "logprobs",
-          "top_logprobs"
+          "temperature",
+          "top_p",
+          "top_k",
+          "stop"
         ],
         "isByok": false,
         "moderationRequired": true,
         "dataPolicy": {
-          "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
-          "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
-          "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+          "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
+          "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
           "paidModels": {
             "training": false,
             "retainsPrompts": true,
@@ -43491,11 +43467,12 @@ export default {
           "retentionDays": 30
         },
         "pricing": {
-          "prompt": "0.0000015",
-          "completion": "0.000006",
-          "image": "0",
+          "prompt": "0.000003",
+          "completion": "0.000015",
+          "image": "0.0048",
           "request": "0",
-          "inputCacheRead": "0.000000375",
+          "inputCacheRead": "0.0000003",
+          "inputCacheWrite": "0.00000375",
           "webSearch": "0",
           "internalReasoning": "0",
           "discount": 0
@@ -43505,7 +43482,7 @@ export default {
         "isDeranked": false,
         "isDisabled": false,
         "supportsToolParameters": true,
-        "supportsReasoning": true,
+        "supportsReasoning": false,
         "supportsMultipart": true,
         "limitRpm": null,
         "limitRpd": null,
@@ -43513,38 +43490,35 @@ export default {
         "hasCompletions": true,
         "hasChatCompletions": true,
         "features": {
-          "supportedParameters": {
-            "responseFormat": true,
-            "structuredOutputs": true
-          },
           "supportsDocumentUrl": null
         },
         "providerRegion": null
       },
       "sorting": {
         "topWeekly": 134,
-        "newest": 0,
-        "throughputHighToLow": 73,
-        "latencyLowToHigh": 310,
-        "pricingLowToHigh": 235,
-        "pricingHighToLow": 81
+        "newest": 279,
+        "throughputHighToLow": 128,
+        "latencyLowToHigh": 103,
+        "pricingLowToHigh": 276,
+        "pricingHighToLow": 50
       },
-      "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
+      "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
         {
-          "name": "OpenAI",
-          "icon": "https://openrouter.ai/images/icons/OpenAI.svg",
-          "slug": "openAi",
-          "quantization": null,
+          "name": "Anthropic",
+          "icon": "https://openrouter.ai/images/icons/Anthropic.svg",
+          "slug": "anthropic",
+          "quantization": "unknown",
           "context": 200000,
-          "maxCompletionTokens": 100000,
-          "providerModelId": "codex-mini-latest",
+          "maxCompletionTokens": 4096,
+          "providerModelId": "claude-3-sonnet-20240229",
           "pricing": {
-            "prompt": "0.0000015",
-            "completion": "0.000006",
-            "image": "0",
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0.0048",
             "request": "0",
-            "inputCacheRead": "0.000000375",
+            "inputCacheRead": "0.0000003",
+            "inputCacheWrite": "0.00000375",
             "webSearch": "0",
             "internalReasoning": "0",
             "discount": 0
@@ -43553,22 +43527,48 @@ export default {
             "tools",
             "tool_choice",
             "max_tokens",
-            "reasoning",
-            "include_reasoning",
-            "structured_outputs",
-            "response_format",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs"
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
           ],
-          "inputCost": 1.5,
-          "outputCost": 6,
-          "throughput": 106.1045,
-          "latency": 12840
+          "inputCost": 3,
+          "outputCost": 15,
+          "throughput": 65.9635,
+          "latency": 622
+        },
+        {
+          "name": "Google Vertex",
+          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
+          "slug": "vertex",
+          "quantization": "unknown",
+          "context": 200000,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "claude-3-sonnet@20240229",
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0.0048",
+            "request": "0",
+            "inputCacheRead": "0.0000003",
+            "inputCacheWrite": "0.00000375",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "inputCost": 3,
+          "outputCost": 15,
+          "throughput": 67.835,
+          "latency": 1032
         }
       ]
     },
@@ -43770,8 +43770,8 @@ export default {
           ],
           "inputCost": 15,
           "outputCost": 60,
-          "throughput": 31.0445,
-          "latency": 17914
+          "throughput": 31.071,
+          "latency": 17956.5
         }
       ]
     },
@@ -43971,8 +43971,8 @@ export default {
           ],
           "inputCost": 1.1,
           "outputCost": 4.4,
-          "throughput": 121.783,
-          "latency": 7097
+          "throughput": 121.009,
+          "latency": 7119
         }
       ]
     },
@@ -44340,7 +44340,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 138,
-        "newest": 279,
+        "newest": 277,
         "throughputHighToLow": 253,
         "latencyLowToHigh": 206,
         "pricingLowToHigh": 307,
@@ -44378,8 +44378,8 @@ export default {
           ],
           "inputCost": 15,
           "outputCost": 75,
-          "throughput": 30.151,
-          "latency": 1363.5
+          "throughput": 30.116,
+          "latency": 1367.5
         },
         {
           "name": "Google Vertex",
@@ -44411,8 +44411,8 @@ export default {
           ],
           "inputCost": 15,
           "outputCost": 75,
-          "throughput": 17.5095,
-          "latency": 2954.5
+          "throughput": 17.509,
+          "latency": 2958
         }
       ]
     },
@@ -44605,8 +44605,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1,
-          "throughput": 25.2055,
-          "latency": 1052
+          "throughput": 25.142,
+          "latency": 1062
         }
       ]
     },
@@ -44809,8 +44809,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.3,
-          "throughput": 51.134,
-          "latency": 429
+          "throughput": 51.142,
+          "latency": 430
         },
         {
           "name": "DeepInfra",
@@ -44846,8 +44846,8 @@ export default {
           ],
           "inputCost": 0.12,
           "outputCost": 0.3,
-          "throughput": 29.399,
-          "latency": 884
+          "throughput": 29.195,
+          "latency": 896
         },
         {
           "name": "Nebius AI Studio",
@@ -44881,7 +44881,7 @@ export default {
           ],
           "inputCost": 0.13,
           "outputCost": 0.4,
-          "throughput": 38.331,
+          "throughput": 38.332,
           "latency": 813
         },
         {
@@ -44916,8 +44916,8 @@ export default {
           ],
           "inputCost": 0.88,
           "outputCost": 0.88,
-          "throughput": 60.157,
-          "latency": 637.5
+          "throughput": 60.428,
+          "latency": 635
         },
         {
           "name": "Infermatic",
@@ -44951,337 +44951,6 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 1
-        }
-      ]
-    },
-    {
-      "slug": "qwen/qwen-2.5-7b-instruct",
-      "hfSlug": "Qwen/Qwen2.5-7B-Instruct",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-10-16T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Qwen2.5 7B Instruct (free)",
-      "shortName": "Qwen2.5 7B Instruct (free)",
-      "author": "qwen",
-      "description": "Qwen2.5 7B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
-      "modelVersionGroupId": null,
-      "contextLength": 32768,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Qwen",
-      "instructType": "chatml",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<|im_start|>",
-        "<|im_end|>",
-        "<|endoftext|>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "qwen/qwen-2.5-7b-instruct",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "8a40a3b8-80d8-4f75-bb8a-c0c710b31eb5",
-        "name": "Nineteen | qwen/qwen-2.5-7b-instruct:free",
-        "contextLength": 32768,
-        "model": {
-          "slug": "qwen/qwen-2.5-7b-instruct",
-          "hfSlug": "Qwen/Qwen2.5-7B-Instruct",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-10-16T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Qwen2.5 7B Instruct",
-          "shortName": "Qwen2.5 7B Instruct",
-          "author": "qwen",
-          "description": "Qwen2.5 7B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
-          "modelVersionGroupId": null,
-          "contextLength": 131072,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Qwen",
-          "instructType": "chatml",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<|im_start|>",
-            "<|im_end|>",
-            "<|endoftext|>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "qwen/qwen-2.5-7b-instruct",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "qwen/qwen-2.5-7b-instruct:free",
-        "modelVariantPermaslug": "qwen/qwen-2.5-7b-instruct:free",
-        "providerName": "Nineteen",
-        "providerInfo": {
-          "name": "Nineteen",
-          "displayName": "Nineteen",
-          "slug": "nineteen",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://nineteen.ai/tos",
-            "paidModels": {
-              "training": false
-            }
-          },
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nineteen.ai/&size=256"
-          }
-        },
-        "providerDisplayName": "Nineteen",
-        "providerModelId": "Qwen/Qwen2.5-7B-Instruct",
-        "quantization": "bf16",
-        "variant": "free",
-        "isFree": true,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 32768,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://nineteen.ai/tos",
-          "paidModels": {
-            "training": false
-          },
-          "training": false
-        },
-        "pricing": {
-          "prompt": "0",
-          "completion": "0",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 36,
-        "newest": 186,
-        "throughputHighToLow": 7,
-        "latencyLowToHigh": 65,
-        "pricingLowToHigh": 58,
-        "pricingHighToLow": 227
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
-      "providers": [
-        {
-          "name": "NextBit",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nextbit256.com/&size=256",
-          "slug": "nextBit",
-          "quantization": "bf16",
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "qwen:2-5-7b",
-          "pricing": {
-            "prompt": "0.00000004",
-            "completion": "0.0000001",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 0.04,
-          "outputCost": 0.1,
-          "throughput": 40.1545,
-          "latency": 1522
-        },
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "bf16",
-          "context": 32768,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "Qwen/Qwen2.5-7B-Instruct",
-          "pricing": {
-            "prompt": "0.00000005",
-            "completion": "0.0000001",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.05,
-          "outputCost": 0.1,
-          "throughput": 67.898,
-          "latency": 271
-        },
-        {
-          "name": "nCompass",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://console.ncompass.tech/&size=256",
-          "slug": "nCompass",
-          "quantization": "bf16",
-          "context": 32768,
-          "maxCompletionTokens": 32768,
-          "providerModelId": "Qwen/Qwen2.5-7B-Instruct",
-          "pricing": {
-            "prompt": "0.0000002",
-            "completion": "0.0000002",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.2,
-          "outputCost": 0.2,
-          "throughput": 149.918,
-          "latency": 216
-        },
-        {
-          "name": "Together",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
-          "slug": "together",
-          "quantization": "fp8",
-          "context": 32768,
-          "maxCompletionTokens": 2048,
-          "providerModelId": "Qwen/Qwen2.5-7B-Instruct-Turbo",
-          "pricing": {
-            "prompt": "0.0000003",
-            "completion": "0.0000003",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
-            "logit_bias",
-            "min_p",
-            "response_format"
-          ],
-          "inputCost": 0.3,
-          "outputCost": 0.3,
-          "throughput": 177.565,
-          "latency": 263
-        },
-        {
-          "name": "Phala",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://phala.network/&size=256",
-          "slug": "phala",
-          "quantization": null,
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "phala/qwen-2.5-7b-instruct",
-          "pricing": {
-            "prompt": "0.0000004",
-            "completion": "0.0000004",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.4,
-          "outputCost": 0.4,
-          "throughput": 116.2085,
-          "latency": 247
         }
       ]
     },
@@ -45484,8 +45153,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 1.25,
-          "throughput": 149.068,
-          "latency": 603
+          "throughput": 149.04,
+          "latency": 599
         },
         {
           "name": "Google Vertex",
@@ -45517,8 +45186,339 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 1.25,
-          "throughput": 153.201,
-          "latency": 1287.5
+          "throughput": 153.246,
+          "latency": 1287
+        }
+      ]
+    },
+    {
+      "slug": "qwen/qwen-2.5-7b-instruct",
+      "hfSlug": "Qwen/Qwen2.5-7B-Instruct",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-10-16T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Qwen2.5 7B Instruct (free)",
+      "shortName": "Qwen2.5 7B Instruct (free)",
+      "author": "qwen",
+      "description": "Qwen2.5 7B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
+      "modelVersionGroupId": null,
+      "contextLength": 32768,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Qwen",
+      "instructType": "chatml",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<|im_start|>",
+        "<|im_end|>",
+        "<|endoftext|>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "qwen/qwen-2.5-7b-instruct",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "8a40a3b8-80d8-4f75-bb8a-c0c710b31eb5",
+        "name": "Nineteen | qwen/qwen-2.5-7b-instruct:free",
+        "contextLength": 32768,
+        "model": {
+          "slug": "qwen/qwen-2.5-7b-instruct",
+          "hfSlug": "Qwen/Qwen2.5-7B-Instruct",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-10-16T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Qwen2.5 7B Instruct",
+          "shortName": "Qwen2.5 7B Instruct",
+          "author": "qwen",
+          "description": "Qwen2.5 7B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and mathematics, thanks to our specialized expert models in these domains.\n\n- Significant improvements in instruction following, generating long texts (over 8K tokens), understanding structured data (e.g, tables), and generating structured outputs especially JSON. More resilient to the diversity of system prompts, enhancing role-play implementation and condition-setting for chatbots.\n\n- Long-context Support up to 128K tokens and can generate up to 8K tokens.\n\n- Multilingual support for over 29 languages, including Chinese, English, French, Spanish, Portuguese, German, Italian, Russian, Japanese, Korean, Vietnamese, Thai, Arabic, and more.\n\nUsage of this model is subject to [Tongyi Qianwen LICENSE AGREEMENT](https://huggingface.co/Qwen/Qwen1.5-110B-Chat/blob/main/LICENSE).",
+          "modelVersionGroupId": null,
+          "contextLength": 131072,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Qwen",
+          "instructType": "chatml",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|endoftext|>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "qwen/qwen-2.5-7b-instruct",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "qwen/qwen-2.5-7b-instruct:free",
+        "modelVariantPermaslug": "qwen/qwen-2.5-7b-instruct:free",
+        "providerName": "Nineteen",
+        "providerInfo": {
+          "name": "Nineteen",
+          "displayName": "Nineteen",
+          "slug": "nineteen",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://nineteen.ai/tos",
+            "paidModels": {
+              "training": false
+            }
+          },
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nineteen.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Nineteen",
+        "providerModelId": "Qwen/Qwen2.5-7B-Instruct",
+        "quantization": "bf16",
+        "variant": "free",
+        "isFree": true,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 32768,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://nineteen.ai/tos",
+          "paidModels": {
+            "training": false
+          },
+          "training": false
+        },
+        "pricing": {
+          "prompt": "0",
+          "completion": "0",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 36,
+        "newest": 186,
+        "throughputHighToLow": 7,
+        "latencyLowToHigh": 65,
+        "pricingLowToHigh": 58,
+        "pricingHighToLow": 227
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
+      "providers": [
+        {
+          "name": "NextBit",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nextbit256.com/&size=256",
+          "slug": "nextBit",
+          "quantization": "bf16",
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "qwen:2-5-7b",
+          "pricing": {
+            "prompt": "0.00000004",
+            "completion": "0.0000001",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "response_format",
+            "structured_outputs"
+          ],
+          "inputCost": 0.04,
+          "outputCost": 0.1,
+          "throughput": 40.1985,
+          "latency": 1519.5
+        },
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "bf16",
+          "context": 32768,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "Qwen/Qwen2.5-7B-Instruct",
+          "pricing": {
+            "prompt": "0.00000005",
+            "completion": "0.0000001",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.05,
+          "outputCost": 0.1,
+          "throughput": 68.218,
+          "latency": 270
+        },
+        {
+          "name": "nCompass",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://console.ncompass.tech/&size=256",
+          "slug": "nCompass",
+          "quantization": "bf16",
+          "context": 32768,
+          "maxCompletionTokens": 32768,
+          "providerModelId": "Qwen/Qwen2.5-7B-Instruct",
+          "pricing": {
+            "prompt": "0.0000002",
+            "completion": "0.0000002",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty"
+          ],
+          "inputCost": 0.2,
+          "outputCost": 0.2,
+          "throughput": 149.9095,
+          "latency": 216
+        },
+        {
+          "name": "Together",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
+          "slug": "together",
+          "quantization": "fp8",
+          "context": 32768,
+          "maxCompletionTokens": 2048,
+          "providerModelId": "Qwen/Qwen2.5-7B-Instruct-Turbo",
+          "pricing": {
+            "prompt": "0.0000003",
+            "completion": "0.0000003",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "logit_bias",
+            "min_p",
+            "response_format"
+          ],
+          "inputCost": 0.3,
+          "outputCost": 0.3,
+          "throughput": 177.555,
+          "latency": 264
+        },
+        {
+          "name": "Phala",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://phala.network/&size=256",
+          "slug": "phala",
+          "quantization": null,
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "phala/qwen-2.5-7b-instruct",
+          "pricing": {
+            "prompt": "0.0000004",
+            "completion": "0.0000004",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty"
+          ],
+          "inputCost": 0.4,
+          "outputCost": 0.4,
+          "throughput": 117.2165,
+          "latency": 247
         }
       ]
     },
@@ -45742,8 +45742,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.04,
-          "throughput": 46.7285,
-          "latency": 1501
+          "throughput": 46.3825,
+          "latency": 1486.5
         }
       ]
     },
@@ -45948,8 +45948,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 10,
-          "throughput": 86.153,
-          "latency": 354
+          "throughput": 86.1785,
+          "latency": 352
         }
       ]
     },
@@ -46153,8 +46153,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 15.725,
-          "latency": 1229
+          "throughput": 15.722,
+          "latency": 1230
         },
         {
           "name": "Mancer (private)",
@@ -46189,8 +46189,8 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 1.5,
-          "throughput": 41.3465,
-          "latency": 713
+          "throughput": 41.309,
+          "latency": 711
         }
       ]
     },
@@ -46394,8 +46394,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 61.8205,
-          "latency": 715
+          "throughput": 61.775,
+          "latency": 720
         },
         {
           "name": "inference.net",
@@ -46429,8 +46429,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 53.165,
-          "latency": 2216
+          "throughput": 54.608,
+          "latency": 2221.5
         },
         {
           "name": "kluster.ai",
@@ -46466,8 +46466,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 22.773,
-          "latency": 3336
+          "throughput": 24.2595,
+          "latency": 3456.5
         }
       ]
     },
@@ -46667,8 +46667,8 @@ export default {
           ],
           "inputCost": 0.13,
           "outputCost": 0.4,
-          "throughput": 44.197,
-          "latency": 411
+          "throughput": 44.436,
+          "latency": 413
         }
       ]
     },
@@ -46871,8 +46871,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 6,
-          "throughput": 44.369,
-          "latency": 422
+          "throughput": 44.365,
+          "latency": 426
         },
         {
           "name": "Azure",
@@ -47091,8 +47091,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 3.2,
-          "throughput": 29.85,
-          "latency": 2313
+          "throughput": 29.7055,
+          "latency": 2382
         }
       ]
     },
@@ -47286,8 +47286,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 3.2,
-          "throughput": 115.655,
-          "latency": 904
+          "throughput": 115.698,
+          "latency": 898.5
         }
       ]
     },
@@ -47478,8 +47478,8 @@ export default {
           ],
           "inputCost": 1.6,
           "outputCost": 6.4,
-          "throughput": 40.9,
-          "latency": 1681
+          "throughput": 40.893,
+          "latency": 1683
         }
       ]
     },
@@ -47705,8 +47705,8 @@ export default {
           ],
           "inputCost": 0.24,
           "outputCost": 0.24,
-          "throughput": 22.142,
-          "latency": 1453
+          "throughput": 22.119,
+          "latency": 1414
         }
       ]
     },
@@ -48084,7 +48084,7 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 1.2,
-          "throughput": 54.412,
+          "throughput": 54.427,
           "latency": 195
         },
         {
@@ -48123,8 +48123,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 71.508,
-          "latency": 467
+          "throughput": 71.457,
+          "latency": 468
         },
         {
           "name": "Mistral",
@@ -48158,7 +48158,7 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 6,
-          "throughput": 69.501,
+          "throughput": 69.376,
           "latency": 283
         }
       ]
@@ -48353,160 +48353,6 @@ export default {
       "providers": []
     },
     {
-      "slug": "opengvlab/internvl3-14b",
-      "hfSlug": "OpenGVLab/InternVL3-14B",
-      "updatedAt": "2025-04-30T14:14:32.387955+00:00",
-      "createdAt": "2025-04-30T13:55:55.014183+00:00",
-      "hfUpdatedAt": null,
-      "name": "OpenGVLab: InternVL3 14B (free)",
-      "shortName": "InternVL3 14B (free)",
-      "author": "opengvlab",
-      "description": "The 14b version of the InternVL3 series. An advanced multimodal large language model (MLLM) series that demonstrates superior overall performance. Compared to InternVL 2.5, InternVL3 exhibits superior multimodal perception and reasoning capabilities, while further extending its multimodal capabilities to encompass tool usage, GUI agents, industrial image analysis, 3D vision perception, and more.",
-      "modelVersionGroupId": null,
-      "contextLength": 32000,
-      "inputModalities": [
-        "image",
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Other",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "opengvlab/internvl3-14b",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "3be27401-83ab-4e46-9418-462abbc1c8af",
-        "name": "Nineteen | opengvlab/internvl3-14b:free",
-        "contextLength": 32000,
-        "model": {
-          "slug": "opengvlab/internvl3-14b",
-          "hfSlug": "OpenGVLab/InternVL3-14B",
-          "updatedAt": "2025-04-30T14:14:32.387955+00:00",
-          "createdAt": "2025-04-30T13:55:55.014183+00:00",
-          "hfUpdatedAt": null,
-          "name": "OpenGVLab: InternVL3 14B",
-          "shortName": "InternVL3 14B",
-          "author": "opengvlab",
-          "description": "The 14b version of the InternVL3 series. An advanced multimodal large language model (MLLM) series that demonstrates superior overall performance. Compared to InternVL 2.5, InternVL3 exhibits superior multimodal perception and reasoning capabilities, while further extending its multimodal capabilities to encompass tool usage, GUI agents, industrial image analysis, 3D vision perception, and more.",
-          "modelVersionGroupId": null,
-          "contextLength": 32000,
-          "inputModalities": [
-            "image",
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Other",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "opengvlab/internvl3-14b",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "opengvlab/internvl3-14b:free",
-        "modelVariantPermaslug": "opengvlab/internvl3-14b:free",
-        "providerName": "Nineteen",
-        "providerInfo": {
-          "name": "Nineteen",
-          "displayName": "Nineteen",
-          "slug": "nineteen",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://nineteen.ai/tos",
-            "paidModels": {
-              "training": false
-            }
-          },
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nineteen.ai/&size=256"
-          }
-        },
-        "providerDisplayName": "Nineteen",
-        "providerModelId": "OpenGVLab/InternVL3-14B",
-        "quantization": "bf16",
-        "variant": "free",
-        "isFree": true,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://nineteen.ai/tos",
-          "paidModels": {
-            "training": false
-          },
-          "training": false
-        },
-        "pricing": {
-          "prompt": "0",
-          "completion": "0",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 156,
-        "newest": 19,
-        "throughputHighToLow": 27,
-        "latencyLowToHigh": 168,
-        "pricingLowToHigh": 7,
-        "pricingHighToLow": 255
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
-      "providers": []
-    },
-    {
       "slug": "anthropic/claude-3.5-sonnet-20240620",
       "hfSlug": null,
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
@@ -48666,7 +48512,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 124,
+        "topWeekly": 122,
         "newest": 242,
         "throughputHighToLow": 121,
         "latencyLowToHigh": 151,
@@ -48705,8 +48551,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 68.0285,
-          "latency": 918.5
+          "throughput": 68.4905,
+          "latency": 916
         },
         {
           "name": "Google Vertex",
@@ -48738,8 +48584,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 61.6675,
-          "latency": 1367.5
+          "throughput": 61.635,
+          "latency": 1366
         }
       ]
     },
@@ -48909,7 +48755,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 158,
+        "topWeekly": 157,
         "newest": 138,
         "throughputHighToLow": 47,
         "latencyLowToHigh": 256,
@@ -48946,10 +48792,164 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 1,
-          "throughput": 134.479,
-          "latency": 1971
+          "throughput": 134.2205,
+          "latency": 1972.5
         }
       ]
+    },
+    {
+      "slug": "opengvlab/internvl3-14b",
+      "hfSlug": "OpenGVLab/InternVL3-14B",
+      "updatedAt": "2025-04-30T14:14:32.387955+00:00",
+      "createdAt": "2025-04-30T13:55:55.014183+00:00",
+      "hfUpdatedAt": null,
+      "name": "OpenGVLab: InternVL3 14B (free)",
+      "shortName": "InternVL3 14B (free)",
+      "author": "opengvlab",
+      "description": "The 14b version of the InternVL3 series. An advanced multimodal large language model (MLLM) series that demonstrates superior overall performance. Compared to InternVL 2.5, InternVL3 exhibits superior multimodal perception and reasoning capabilities, while further extending its multimodal capabilities to encompass tool usage, GUI agents, industrial image analysis, 3D vision perception, and more.",
+      "modelVersionGroupId": null,
+      "contextLength": 32000,
+      "inputModalities": [
+        "image",
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Other",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "opengvlab/internvl3-14b",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "3be27401-83ab-4e46-9418-462abbc1c8af",
+        "name": "Nineteen | opengvlab/internvl3-14b:free",
+        "contextLength": 32000,
+        "model": {
+          "slug": "opengvlab/internvl3-14b",
+          "hfSlug": "OpenGVLab/InternVL3-14B",
+          "updatedAt": "2025-04-30T14:14:32.387955+00:00",
+          "createdAt": "2025-04-30T13:55:55.014183+00:00",
+          "hfUpdatedAt": null,
+          "name": "OpenGVLab: InternVL3 14B",
+          "shortName": "InternVL3 14B",
+          "author": "opengvlab",
+          "description": "The 14b version of the InternVL3 series. An advanced multimodal large language model (MLLM) series that demonstrates superior overall performance. Compared to InternVL 2.5, InternVL3 exhibits superior multimodal perception and reasoning capabilities, while further extending its multimodal capabilities to encompass tool usage, GUI agents, industrial image analysis, 3D vision perception, and more.",
+          "modelVersionGroupId": null,
+          "contextLength": 32000,
+          "inputModalities": [
+            "image",
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Other",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "opengvlab/internvl3-14b",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "opengvlab/internvl3-14b:free",
+        "modelVariantPermaslug": "opengvlab/internvl3-14b:free",
+        "providerName": "Nineteen",
+        "providerInfo": {
+          "name": "Nineteen",
+          "displayName": "Nineteen",
+          "slug": "nineteen",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://nineteen.ai/tos",
+            "paidModels": {
+              "training": false
+            }
+          },
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nineteen.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Nineteen",
+        "providerModelId": "OpenGVLab/InternVL3-14B",
+        "quantization": "bf16",
+        "variant": "free",
+        "isFree": true,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://nineteen.ai/tos",
+          "paidModels": {
+            "training": false
+          },
+          "training": false
+        },
+        "pricing": {
+          "prompt": "0",
+          "completion": "0",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 158,
+        "newest": 19,
+        "throughputHighToLow": 27,
+        "latencyLowToHigh": 168,
+        "pricingLowToHigh": 7,
+        "pricingHighToLow": 255
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
+      "providers": []
     },
     {
       "slug": "mistralai/pixtral-12b",
@@ -49151,8 +49151,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 65.926,
-          "latency": 1965
+          "throughput": 66.152,
+          "latency": 1952.5
         },
         {
           "name": "Mistral",
@@ -49186,8 +49186,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.15,
-          "throughput": 75.3235,
-          "latency": 646
+          "throughput": 75.3645,
+          "latency": 647.5
         }
       ]
     },
@@ -49397,6 +49397,473 @@ export default {
       ]
     },
     {
+      "slug": "microsoft/phi-4-reasoning-plus",
+      "hfSlug": "microsoft/Phi-4-reasoning-plus",
+      "updatedAt": "2025-05-02T05:32:14.23708+00:00",
+      "createdAt": "2025-05-01T20:22:41.235613+00:00",
+      "hfUpdatedAt": null,
+      "name": "Microsoft: Phi 4 Reasoning Plus (free)",
+      "shortName": "Phi 4 Reasoning Plus (free)",
+      "author": "microsoft",
+      "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
+      "modelVersionGroupId": null,
+      "contextLength": 32768,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Other",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
+      "reasoningConfig": {
+        "startToken": "<think>",
+        "endToken": "</think>"
+      },
+      "features": {
+        "reasoningConfig": {
+          "startToken": "<think>",
+          "endToken": "</think>"
+        }
+      },
+      "endpoint": {
+        "id": "bbc205d3-b5e1-457f-8b74-771855206a98",
+        "name": "Chutes | microsoft/phi-4-reasoning-plus-04-30:free",
+        "contextLength": 32768,
+        "model": {
+          "slug": "microsoft/phi-4-reasoning-plus",
+          "hfSlug": "microsoft/Phi-4-reasoning-plus",
+          "updatedAt": "2025-05-02T05:32:14.23708+00:00",
+          "createdAt": "2025-05-01T20:22:41.235613+00:00",
+          "hfUpdatedAt": null,
+          "name": "Microsoft: Phi 4 Reasoning Plus",
+          "shortName": "Phi 4 Reasoning Plus",
+          "author": "microsoft",
+          "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
+          "modelVersionGroupId": null,
+          "contextLength": 32768,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Other",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
+          "reasoningConfig": {
+            "startToken": "<think>",
+            "endToken": "</think>"
+          },
+          "features": {
+            "reasoningConfig": {
+              "startToken": "<think>",
+              "endToken": "</think>"
+            }
+          }
+        },
+        "modelVariantSlug": "microsoft/phi-4-reasoning-plus:free",
+        "modelVariantPermaslug": "microsoft/phi-4-reasoning-plus-04-30:free",
+        "providerName": "Chutes",
+        "providerInfo": {
+          "name": "Chutes",
+          "displayName": "Chutes",
+          "slug": "chutes",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://chutes.ai/tos",
+            "paidModels": {
+              "training": true,
+              "retainsPrompts": true
+            }
+          },
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://chutes.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Chutes",
+        "providerModelId": "microsoft/Phi-4-reasoning-plus",
+        "quantization": null,
+        "variant": "free",
+        "isFree": true,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "reasoning",
+          "include_reasoning",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed",
+          "top_k",
+          "min_p",
+          "repetition_penalty",
+          "logprobs",
+          "logit_bias",
+          "top_logprobs"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://chutes.ai/tos",
+          "paidModels": {
+            "training": true,
+            "retainsPrompts": true
+          },
+          "training": true,
+          "retainsPrompts": true
+        },
+        "pricing": {
+          "prompt": "0",
+          "completion": "0",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": true,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 118,
+        "newest": 12,
+        "throughputHighToLow": 49,
+        "latencyLowToHigh": 166,
+        "pricingLowToHigh": 2,
+        "pricingHighToLow": 206
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Microsoft.svg",
+      "providers": [
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "bf16",
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "microsoft/phi-4-reasoning-plus",
+          "pricing": {
+            "prompt": "0.00000007",
+            "completion": "0.00000035",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "reasoning",
+            "include_reasoning",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.07,
+          "outputCost": 0.35,
+          "throughput": 33.905,
+          "latency": 3579
+        }
+      ]
+    },
+    {
+      "slug": "google/gemma-2-27b-it",
+      "hfSlug": "google/gemma-2-27b-it",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-07-13T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Google: Gemma 2 27B",
+      "shortName": "Gemma 2 27B",
+      "author": "google",
+      "description": "Gemma 2 27B by Google is an open model built from the same research and technology used to create the [Gemini models](/models?q=gemini).\n\nGemma models are well-suited for a variety of text generation tasks, including question answering, summarization, and reasoning.\n\nSee the [launch announcement](https://blog.google/technology/developers/google-gemma-2/) for more details. Usage of Gemma is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms).",
+      "modelVersionGroupId": null,
+      "contextLength": 8192,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Gemini",
+      "instructType": "gemma",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<start_of_turn>",
+        "<end_of_turn>",
+        "<eos>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "google/gemma-2-27b-it",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "2ddecefa-fddf-44bc-b8db-fa904f993eef",
+        "name": "Nebius | google/gemma-2-27b-it",
+        "contextLength": 8192,
+        "model": {
+          "slug": "google/gemma-2-27b-it",
+          "hfSlug": "google/gemma-2-27b-it",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-07-13T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Google: Gemma 2 27B",
+          "shortName": "Gemma 2 27B",
+          "author": "google",
+          "description": "Gemma 2 27B by Google is an open model built from the same research and technology used to create the [Gemini models](/models?q=gemini).\n\nGemma models are well-suited for a variety of text generation tasks, including question answering, summarization, and reasoning.\n\nSee the [launch announcement](https://blog.google/technology/developers/google-gemma-2/) for more details. Usage of Gemma is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms).",
+          "modelVersionGroupId": null,
+          "contextLength": 8192,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Gemini",
+          "instructType": "gemma",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<start_of_turn>",
+            "<end_of_turn>",
+            "<eos>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "google/gemma-2-27b-it",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "google/gemma-2-27b-it",
+        "modelVariantPermaslug": "google/gemma-2-27b-it",
+        "providerName": "Nebius",
+        "providerInfo": {
+          "name": "Nebius",
+          "displayName": "Nebius AI Studio",
+          "slug": "nebius",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://docs.nebius.com/legal/studio/terms-of-use/",
+            "privacyPolicyUrl": "https://docs.nebius.com/legal/studio/privacy/",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "DE",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": false,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
+            "invertRequired": true
+          }
+        },
+        "providerDisplayName": "Nebius AI Studio",
+        "providerModelId": "google/gemma-2-27b-it",
+        "quantization": "fp8",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": false,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed",
+          "top_k",
+          "logit_bias",
+          "logprobs",
+          "top_logprobs"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://docs.nebius.com/legal/studio/terms-of-use/",
+          "privacyPolicyUrl": "https://docs.nebius.com/legal/studio/privacy/",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.0000001",
+          "completion": "0.0000003",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 162,
+        "newest": 236,
+        "throughputHighToLow": 205,
+        "latencyLowToHigh": 61,
+        "pricingLowToHigh": 121,
+        "pricingHighToLow": 195
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/GoogleGemini.svg",
+      "providers": [
+        {
+          "name": "Nebius AI Studio",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
+          "slug": "nebiusAiStudio",
+          "quantization": "fp8",
+          "context": 8192,
+          "maxCompletionTokens": null,
+          "providerModelId": "google/gemma-2-27b-it",
+          "pricing": {
+            "prompt": "0.0000001",
+            "completion": "0.0000003",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "logit_bias",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "inputCost": 0.1,
+          "outputCost": 0.3,
+          "throughput": 44.119,
+          "latency": 464.5
+        },
+        {
+          "name": "Together",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
+          "slug": "together",
+          "quantization": "unknown",
+          "context": 8192,
+          "maxCompletionTokens": 2048,
+          "providerModelId": "google/gemma-2-27b-it",
+          "pricing": {
+            "prompt": "0.0000008",
+            "completion": "0.0000008",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "logit_bias",
+            "min_p",
+            "response_format"
+          ],
+          "inputCost": 0.8,
+          "outputCost": 0.8,
+          "throughput": 67.4,
+          "latency": 2084.5
+        }
+      ]
+    },
+    {
       "slug": "qwen/qwen3-4b",
       "hfSlug": "Qwen/Qwen3-4B",
       "updatedAt": "2025-05-12T00:35:27.640755+00:00",
@@ -49574,7 +50041,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 161,
+        "topWeekly": 163,
         "newest": 18,
         "throughputHighToLow": 183,
         "latencyLowToHigh": 137,
@@ -49583,227 +50050,6 @@ export default {
       },
       "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": []
-    },
-    {
-      "slug": "microsoft/phi-4-reasoning-plus",
-      "hfSlug": "microsoft/Phi-4-reasoning-plus",
-      "updatedAt": "2025-05-02T05:32:14.23708+00:00",
-      "createdAt": "2025-05-01T20:22:41.235613+00:00",
-      "hfUpdatedAt": null,
-      "name": "Microsoft: Phi 4 Reasoning Plus (free)",
-      "shortName": "Phi 4 Reasoning Plus (free)",
-      "author": "microsoft",
-      "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
-      "modelVersionGroupId": null,
-      "contextLength": 32768,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Other",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
-      "reasoningConfig": {
-        "startToken": "<think>",
-        "endToken": "</think>"
-      },
-      "features": {
-        "reasoningConfig": {
-          "startToken": "<think>",
-          "endToken": "</think>"
-        }
-      },
-      "endpoint": {
-        "id": "bbc205d3-b5e1-457f-8b74-771855206a98",
-        "name": "Chutes | microsoft/phi-4-reasoning-plus-04-30:free",
-        "contextLength": 32768,
-        "model": {
-          "slug": "microsoft/phi-4-reasoning-plus",
-          "hfSlug": "microsoft/Phi-4-reasoning-plus",
-          "updatedAt": "2025-05-02T05:32:14.23708+00:00",
-          "createdAt": "2025-05-01T20:22:41.235613+00:00",
-          "hfUpdatedAt": null,
-          "name": "Microsoft: Phi 4 Reasoning Plus",
-          "shortName": "Phi 4 Reasoning Plus",
-          "author": "microsoft",
-          "description": "Phi-4-reasoning-plus is an enhanced 14B parameter model from Microsoft, fine-tuned from Phi-4 with additional reinforcement learning to boost accuracy on math, science, and code reasoning tasks. It uses the same dense decoder-only transformer architecture as Phi-4, but generates longer, more comprehensive outputs structured into a step-by-step reasoning trace and final answer.\n\nWhile it offers improved benchmark scores over Phi-4-reasoning across tasks like AIME, OmniMath, and HumanEvalPlus, its responses are typically ~50% longer, resulting in higher latency. Designed for English-only applications, it is well-suited for structured reasoning workflows where output quality takes priority over response speed.",
-          "modelVersionGroupId": null,
-          "contextLength": 32768,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Other",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "microsoft/phi-4-reasoning-plus-04-30",
-          "reasoningConfig": {
-            "startToken": "<think>",
-            "endToken": "</think>"
-          },
-          "features": {
-            "reasoningConfig": {
-              "startToken": "<think>",
-              "endToken": "</think>"
-            }
-          }
-        },
-        "modelVariantSlug": "microsoft/phi-4-reasoning-plus:free",
-        "modelVariantPermaslug": "microsoft/phi-4-reasoning-plus-04-30:free",
-        "providerName": "Chutes",
-        "providerInfo": {
-          "name": "Chutes",
-          "displayName": "Chutes",
-          "slug": "chutes",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://chutes.ai/tos",
-            "paidModels": {
-              "training": true,
-              "retainsPrompts": true
-            }
-          },
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://chutes.ai/&size=256"
-          }
-        },
-        "providerDisplayName": "Chutes",
-        "providerModelId": "microsoft/Phi-4-reasoning-plus",
-        "quantization": null,
-        "variant": "free",
-        "isFree": true,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "reasoning",
-          "include_reasoning",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed",
-          "top_k",
-          "min_p",
-          "repetition_penalty",
-          "logprobs",
-          "logit_bias",
-          "top_logprobs"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://chutes.ai/tos",
-          "paidModels": {
-            "training": true,
-            "retainsPrompts": true
-          },
-          "training": true,
-          "retainsPrompts": true
-        },
-        "pricing": {
-          "prompt": "0",
-          "completion": "0",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": true,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 120,
-        "newest": 12,
-        "throughputHighToLow": 49,
-        "latencyLowToHigh": 166,
-        "pricingLowToHigh": 2,
-        "pricingHighToLow": 206
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Microsoft.svg",
-      "providers": [
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "bf16",
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "microsoft/phi-4-reasoning-plus",
-          "pricing": {
-            "prompt": "0.00000007",
-            "completion": "0.00000035",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "reasoning",
-            "include_reasoning",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.07,
-          "outputCost": 0.35,
-          "throughput": 33.901,
-          "latency": 3579
-        }
-      ]
     },
     {
       "slug": "openai/gpt-4-turbo",
@@ -49972,8 +50218,8 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 163,
-        "newest": 268,
+        "topWeekly": 164,
+        "newest": 269,
         "throughputHighToLow": 217,
         "latencyLowToHigh": 132,
         "pricingLowToHigh": 300,
@@ -50015,254 +50261,8 @@ export default {
           ],
           "inputCost": 10,
           "outputCost": 30,
-          "throughput": 43.006,
-          "latency": 803
-        }
-      ]
-    },
-    {
-      "slug": "google/gemma-2-27b-it",
-      "hfSlug": "google/gemma-2-27b-it",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-07-13T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Google: Gemma 2 27B",
-      "shortName": "Gemma 2 27B",
-      "author": "google",
-      "description": "Gemma 2 27B by Google is an open model built from the same research and technology used to create the [Gemini models](/models?q=gemini).\n\nGemma models are well-suited for a variety of text generation tasks, including question answering, summarization, and reasoning.\n\nSee the [launch announcement](https://blog.google/technology/developers/google-gemma-2/) for more details. Usage of Gemma is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms).",
-      "modelVersionGroupId": null,
-      "contextLength": 8192,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Gemini",
-      "instructType": "gemma",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<start_of_turn>",
-        "<end_of_turn>",
-        "<eos>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "google/gemma-2-27b-it",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "2ddecefa-fddf-44bc-b8db-fa904f993eef",
-        "name": "Nebius | google/gemma-2-27b-it",
-        "contextLength": 8192,
-        "model": {
-          "slug": "google/gemma-2-27b-it",
-          "hfSlug": "google/gemma-2-27b-it",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-07-13T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Google: Gemma 2 27B",
-          "shortName": "Gemma 2 27B",
-          "author": "google",
-          "description": "Gemma 2 27B by Google is an open model built from the same research and technology used to create the [Gemini models](/models?q=gemini).\n\nGemma models are well-suited for a variety of text generation tasks, including question answering, summarization, and reasoning.\n\nSee the [launch announcement](https://blog.google/technology/developers/google-gemma-2/) for more details. Usage of Gemma is subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms).",
-          "modelVersionGroupId": null,
-          "contextLength": 8192,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Gemini",
-          "instructType": "gemma",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<start_of_turn>",
-            "<end_of_turn>",
-            "<eos>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "google/gemma-2-27b-it",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "google/gemma-2-27b-it",
-        "modelVariantPermaslug": "google/gemma-2-27b-it",
-        "providerName": "Nebius",
-        "providerInfo": {
-          "name": "Nebius",
-          "displayName": "Nebius AI Studio",
-          "slug": "nebius",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://docs.nebius.com/legal/studio/terms-of-use/",
-            "privacyPolicyUrl": "https://docs.nebius.com/legal/studio/privacy/",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "headquarters": "DE",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": false,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
-            "invertRequired": true
-          }
-        },
-        "providerDisplayName": "Nebius AI Studio",
-        "providerModelId": "google/gemma-2-27b-it",
-        "quantization": "fp8",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": false,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed",
-          "top_k",
-          "logit_bias",
-          "logprobs",
-          "top_logprobs"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://docs.nebius.com/legal/studio/terms-of-use/",
-          "privacyPolicyUrl": "https://docs.nebius.com/legal/studio/privacy/",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.0000001",
-          "completion": "0.0000003",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 164,
-        "newest": 236,
-        "throughputHighToLow": 205,
-        "latencyLowToHigh": 61,
-        "pricingLowToHigh": 121,
-        "pricingHighToLow": 195
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/GoogleGemini.svg",
-      "providers": [
-        {
-          "name": "Nebius AI Studio",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://docs.nebius.com/&size=256",
-          "slug": "nebiusAiStudio",
-          "quantization": "fp8",
-          "context": 8192,
-          "maxCompletionTokens": null,
-          "providerModelId": "google/gemma-2-27b-it",
-          "pricing": {
-            "prompt": "0.0000001",
-            "completion": "0.0000003",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs"
-          ],
-          "inputCost": 0.1,
-          "outputCost": 0.3,
-          "throughput": 44.034,
-          "latency": 472
-        },
-        {
-          "name": "Together",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
-          "slug": "together",
-          "quantization": "unknown",
-          "context": 8192,
-          "maxCompletionTokens": 2048,
-          "providerModelId": "google/gemma-2-27b-it",
-          "pricing": {
-            "prompt": "0.0000008",
-            "completion": "0.0000008",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "repetition_penalty",
-            "logit_bias",
-            "min_p",
-            "response_format"
-          ],
-          "inputCost": 0.8,
-          "outputCost": 0.8,
-          "throughput": 67.293,
-          "latency": 2479
+          "throughput": 42.574,
+          "latency": 808
         }
       ]
     },
@@ -50472,7 +50472,7 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 153.454,
+          "throughput": 153.462,
           "latency": 2654
         }
       ]
@@ -50678,7 +50678,7 @@ export default {
           "inputCost": 2,
           "outputCost": 6,
           "throughput": 44.146,
-          "latency": 1086
+          "latency": 1088
         }
       ]
     },
@@ -50896,8 +50896,8 @@ export default {
           ],
           "inputCost": 75,
           "outputCost": 150,
-          "throughput": 25.321,
-          "latency": 1084
+          "throughput": 25.237,
+          "latency": 1086
         }
       ]
     },
@@ -51068,11 +51068,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 121,
-        "newest": 249,
+        "newest": 247,
         "throughputHighToLow": 61,
         "latencyLowToHigh": 129,
         "pricingLowToHigh": 68,
-        "pricingHighToLow": 235
+        "pricingHighToLow": 234
       },
       "authorIcon": "https://openrouter.ai/images/icons/Mistral.png",
       "providers": [
@@ -51105,8 +51105,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.05,
-          "throughput": 105.8885,
-          "latency": 4612.5
+          "throughput": 105.8465,
+          "latency": 4598.5
         },
         {
           "name": "DeepInfra",
@@ -51142,8 +51142,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.06,
-          "throughput": 119.8565,
-          "latency": 590
+          "throughput": 118.659,
+          "latency": 584
         },
         {
           "name": "NextBit",
@@ -51174,8 +51174,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.06,
-          "throughput": 86.9095,
-          "latency": 1310
+          "throughput": 87.311,
+          "latency": 1313
         },
         {
           "name": "NovitaAI",
@@ -51209,7 +51209,7 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.06,
-          "throughput": 146.31,
+          "throughput": 146.15,
           "latency": 841
         },
         {
@@ -51244,8 +51244,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 216.646,
-          "latency": 261
+          "throughput": 216.136,
+          "latency": 260
         }
       ]
     },
@@ -51415,7 +51415,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 169,
-        "newest": 316,
+        "newest": 314,
         "throughputHighToLow": 45,
         "latencyLowToHigh": 48,
         "pricingLowToHigh": 187,
@@ -51457,8 +51457,8 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 1.5,
-          "throughput": 145.6755,
-          "latency": 408
+          "throughput": 145.005,
+          "latency": 409
         }
       ]
     },
@@ -51666,8 +51666,8 @@ export default {
           ],
           "inputCost": 1.2,
           "outputCost": 1.2,
-          "throughput": 26.785,
-          "latency": 910
+          "throughput": 26.771,
+          "latency": 909
         },
         {
           "name": "DeepInfra",
@@ -51701,201 +51701,8 @@ export default {
           ],
           "inputCost": 0.35,
           "outputCost": 0.4,
-          "throughput": 53.093,
-          "latency": 588
-        }
-      ]
-    },
-    {
-      "slug": "amazon/nova-micro-v1",
-      "hfSlug": "",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-12-05T22:20:37.90344+00:00",
-      "hfUpdatedAt": null,
-      "name": "Amazon: Nova Micro 1.0",
-      "shortName": "Nova Micro 1.0",
-      "author": "amazon",
-      "description": "Amazon Nova Micro 1.0 is a text-only model that delivers the lowest latency responses in the Amazon Nova family of models at a very low cost. With a context length of 128K tokens and optimized for speed and cost, Amazon Nova Micro excels at tasks such as text summarization, translation, content classification, interactive chat, and brainstorming. It has  simple mathematical reasoning and coding abilities.",
-      "modelVersionGroupId": null,
-      "contextLength": 128000,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Nova",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "amazon/nova-micro-v1",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "474f0074-66f9-42f0-a866-81a2ffebb001",
-        "name": "Amazon Bedrock | amazon/nova-micro-v1",
-        "contextLength": 128000,
-        "model": {
-          "slug": "amazon/nova-micro-v1",
-          "hfSlug": "",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-12-05T22:20:37.90344+00:00",
-          "hfUpdatedAt": null,
-          "name": "Amazon: Nova Micro 1.0",
-          "shortName": "Nova Micro 1.0",
-          "author": "amazon",
-          "description": "Amazon Nova Micro 1.0 is a text-only model that delivers the lowest latency responses in the Amazon Nova family of models at a very low cost. With a context length of 128K tokens and optimized for speed and cost, Amazon Nova Micro excels at tasks such as text summarization, translation, content classification, interactive chat, and brainstorming. It has  simple mathematical reasoning and coding abilities.",
-          "modelVersionGroupId": null,
-          "contextLength": 128000,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Nova",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "amazon/nova-micro-v1",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "amazon/nova-micro-v1",
-        "modelVariantPermaslug": "amazon/nova-micro-v1",
-        "providerName": "Amazon Bedrock",
-        "providerInfo": {
-          "name": "Amazon Bedrock",
-          "displayName": "Amazon Bedrock",
-          "slug": "amazon-bedrock",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://aws.amazon.com/service-terms/",
-            "privacyPolicyUrl": "https://aws.amazon.com/privacy",
-            "dataPolicyUrl": "https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": false,
-          "isAbortable": false,
-          "moderationRequired": true,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Bedrock.svg"
-          }
-        },
-        "providerDisplayName": "Amazon Bedrock",
-        "providerModelId": "us.amazon.nova-micro-v1:0",
-        "quantization": null,
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": false,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 5120,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "top_k",
-          "stop"
-        ],
-        "isByok": false,
-        "moderationRequired": true,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://aws.amazon.com/service-terms/",
-          "privacyPolicyUrl": "https://aws.amazon.com/privacy",
-          "dataPolicyUrl": "https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.000000035",
-          "completion": "0.00000014",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": false,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 171,
-        "newest": 160,
-        "throughputHighToLow": 5,
-        "latencyLowToHigh": 10,
-        "pricingLowToHigh": 88,
-        "pricingHighToLow": 228
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Bedrock.svg",
-      "providers": [
-        {
-          "name": "Amazon Bedrock",
-          "icon": "https://openrouter.ai/images/icons/Bedrock.svg",
-          "slug": "amazonBedrock",
-          "quantization": null,
-          "context": 128000,
-          "maxCompletionTokens": 5120,
-          "providerModelId": "us.amazon.nova-micro-v1:0",
-          "pricing": {
-            "prompt": "0.000000035",
-            "completion": "0.00000014",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 0.04,
-          "outputCost": 0.14,
-          "throughput": 275.362,
-          "latency": 215
+          "throughput": 53.048,
+          "latency": 590
         }
       ]
     },
@@ -52097,8 +51904,201 @@ export default {
           ],
           "inputCost": 0.13,
           "outputCost": 0.4,
-          "throughput": 44.197,
-          "latency": 411
+          "throughput": 44.436,
+          "latency": 413
+        }
+      ]
+    },
+    {
+      "slug": "amazon/nova-micro-v1",
+      "hfSlug": "",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-12-05T22:20:37.90344+00:00",
+      "hfUpdatedAt": null,
+      "name": "Amazon: Nova Micro 1.0",
+      "shortName": "Nova Micro 1.0",
+      "author": "amazon",
+      "description": "Amazon Nova Micro 1.0 is a text-only model that delivers the lowest latency responses in the Amazon Nova family of models at a very low cost. With a context length of 128K tokens and optimized for speed and cost, Amazon Nova Micro excels at tasks such as text summarization, translation, content classification, interactive chat, and brainstorming. It has  simple mathematical reasoning and coding abilities.",
+      "modelVersionGroupId": null,
+      "contextLength": 128000,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Nova",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "amazon/nova-micro-v1",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "474f0074-66f9-42f0-a866-81a2ffebb001",
+        "name": "Amazon Bedrock | amazon/nova-micro-v1",
+        "contextLength": 128000,
+        "model": {
+          "slug": "amazon/nova-micro-v1",
+          "hfSlug": "",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-12-05T22:20:37.90344+00:00",
+          "hfUpdatedAt": null,
+          "name": "Amazon: Nova Micro 1.0",
+          "shortName": "Nova Micro 1.0",
+          "author": "amazon",
+          "description": "Amazon Nova Micro 1.0 is a text-only model that delivers the lowest latency responses in the Amazon Nova family of models at a very low cost. With a context length of 128K tokens and optimized for speed and cost, Amazon Nova Micro excels at tasks such as text summarization, translation, content classification, interactive chat, and brainstorming. It has  simple mathematical reasoning and coding abilities.",
+          "modelVersionGroupId": null,
+          "contextLength": 128000,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Nova",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "amazon/nova-micro-v1",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "amazon/nova-micro-v1",
+        "modelVariantPermaslug": "amazon/nova-micro-v1",
+        "providerName": "Amazon Bedrock",
+        "providerInfo": {
+          "name": "Amazon Bedrock",
+          "displayName": "Amazon Bedrock",
+          "slug": "amazon-bedrock",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://aws.amazon.com/service-terms/",
+            "privacyPolicyUrl": "https://aws.amazon.com/privacy",
+            "dataPolicyUrl": "https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": false,
+          "isAbortable": false,
+          "moderationRequired": true,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/Bedrock.svg"
+          }
+        },
+        "providerDisplayName": "Amazon Bedrock",
+        "providerModelId": "us.amazon.nova-micro-v1:0",
+        "quantization": null,
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": false,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 5120,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "top_k",
+          "stop"
+        ],
+        "isByok": false,
+        "moderationRequired": true,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://aws.amazon.com/service-terms/",
+          "privacyPolicyUrl": "https://aws.amazon.com/privacy",
+          "dataPolicyUrl": "https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.000000035",
+          "completion": "0.00000014",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": false,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 172,
+        "newest": 160,
+        "throughputHighToLow": 5,
+        "latencyLowToHigh": 10,
+        "pricingLowToHigh": 88,
+        "pricingHighToLow": 228
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Bedrock.svg",
+      "providers": [
+        {
+          "name": "Amazon Bedrock",
+          "icon": "https://openrouter.ai/images/icons/Bedrock.svg",
+          "slug": "amazonBedrock",
+          "quantization": null,
+          "context": 128000,
+          "maxCompletionTokens": 5120,
+          "providerModelId": "us.amazon.nova-micro-v1:0",
+          "pricing": {
+            "prompt": "0.000000035",
+            "completion": "0.00000014",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "inputCost": 0.04,
+          "outputCost": 0.14,
+          "throughput": 275.362,
+          "latency": 216
         }
       ]
     },
@@ -52262,7 +52262,7 @@ export default {
         "throughputHighToLow": 315,
         "latencyLowToHigh": 292,
         "pricingLowToHigh": 229,
-        "pricingHighToLow": 91
+        "pricingHighToLow": 90
       },
       "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
       "providers": [
@@ -52290,245 +52290,8 @@ export default {
           ],
           "inputCost": 1.1,
           "outputCost": 4.4,
-          "throughput": 156.002,
-          "latency": 3823
-        }
-      ]
-    },
-    {
-      "slug": "anthropic/claude-3-sonnet",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-03-05T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Anthropic: Claude 3 Sonnet (self-moderated)",
-      "shortName": "Claude 3 Sonnet (self-moderated)",
-      "author": "anthropic",
-      "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
-      "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
-      "contextLength": 200000,
-      "inputModalities": [
-        "text",
-        "image"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Claude",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "anthropic/claude-3-sonnet",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "dc39604a-e702-4a0c-8bd8-0f2578f14a2d",
-        "name": "Anthropic | anthropic/claude-3-sonnet:beta",
-        "contextLength": 200000,
-        "model": {
-          "slug": "anthropic/claude-3-sonnet",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-03-05T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Anthropic: Claude 3 Sonnet",
-          "shortName": "Claude 3 Sonnet",
-          "author": "anthropic",
-          "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
-          "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
-          "contextLength": 200000,
-          "inputModalities": [
-            "text",
-            "image"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Claude",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "anthropic/claude-3-sonnet",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "anthropic/claude-3-sonnet:beta",
-        "modelVariantPermaslug": "anthropic/claude-3-sonnet:beta",
-        "providerName": "Anthropic",
-        "providerInfo": {
-          "name": "Anthropic",
-          "displayName": "Anthropic",
-          "slug": "anthropic",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
-            "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            },
-            "requiresUserIds": true
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": true,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.anthropic.com/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Anthropic.svg"
-          }
-        },
-        "providerDisplayName": "Anthropic",
-        "providerModelId": "claude-3-sonnet-20240229",
-        "quantization": "unknown",
-        "variant": "beta",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 4096,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "tool_choice",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "top_k",
-          "stop"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
-          "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "requiresUserIds": true,
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.000003",
-          "completion": "0.000015",
-          "image": "0.0048",
-          "request": "0",
-          "inputCacheRead": "0.0000003",
-          "inputCacheWrite": "0.00000375",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 132,
-        "newest": 277,
-        "throughputHighToLow": 128,
-        "latencyLowToHigh": 103,
-        "pricingLowToHigh": 276,
-        "pricingHighToLow": 50
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
-      "providers": [
-        {
-          "name": "Anthropic",
-          "icon": "https://openrouter.ai/images/icons/Anthropic.svg",
-          "slug": "anthropic",
-          "quantization": "unknown",
-          "context": 200000,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "claude-3-sonnet-20240229",
-          "pricing": {
-            "prompt": "0.000003",
-            "completion": "0.000015",
-            "image": "0.0048",
-            "request": "0",
-            "inputCacheRead": "0.0000003",
-            "inputCacheWrite": "0.00000375",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 3,
-          "outputCost": 15,
-          "throughput": 65.987,
-          "latency": 621
-        },
-        {
-          "name": "Google Vertex",
-          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
-          "slug": "vertex",
-          "quantization": "unknown",
-          "context": 200000,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "claude-3-sonnet@20240229",
-          "pricing": {
-            "prompt": "0.000003",
-            "completion": "0.000015",
-            "image": "0.0048",
-            "request": "0",
-            "inputCacheRead": "0.0000003",
-            "inputCacheWrite": "0.00000375",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "top_k",
-            "stop"
-          ],
-          "inputCost": 3,
-          "outputCost": 15,
-          "throughput": 67.8425,
-          "latency": 1032
+          "throughput": 155.687,
+          "latency": 3894
         }
       ]
     },
@@ -52698,7 +52461,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 175,
+        "topWeekly": 174,
         "newest": 99,
         "throughputHighToLow": 151,
         "latencyLowToHigh": 277,
@@ -52735,23 +52498,23 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 58.373,
-          "latency": 2562
+          "throughput": 58.3195,
+          "latency": 2570
         }
       ]
     },
     {
-      "slug": "qwen/qwen2.5-vl-32b-instruct",
-      "hfSlug": "Qwen/Qwen2.5-VL-32B-Instruct",
+      "slug": "anthropic/claude-3-sonnet",
+      "hfSlug": null,
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2025-03-24T18:10:38.542849+00:00",
+      "createdAt": "2024-03-05T00:00:00+00:00",
       "hfUpdatedAt": null,
-      "name": "Qwen: Qwen2.5 VL 32B Instruct (free)",
-      "shortName": "Qwen2.5 VL 32B Instruct (free)",
-      "author": "qwen",
-      "description": "Qwen2.5-VL-32B is a multimodal vision-language model fine-tuned through reinforcement learning for enhanced mathematical reasoning, structured outputs, and visual problem-solving capabilities. It excels at visual analysis tasks, including object recognition, textual interpretation within images, and precise event localization in extended videos. Qwen2.5-VL-32B demonstrates state-of-the-art performance across multimodal benchmarks such as MMMU, MathVista, and VideoMME, while maintaining strong reasoning and clarity in text-based tasks like MMLU, mathematical problem-solving, and code generation.",
-      "modelVersionGroupId": null,
-      "contextLength": 8192,
+      "name": "Anthropic: Claude 3 Sonnet (self-moderated)",
+      "shortName": "Claude 3 Sonnet (self-moderated)",
+      "author": "anthropic",
+      "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
+      "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
+      "contextLength": 200000,
       "inputModalities": [
         "text",
         "image"
@@ -52760,32 +52523,32 @@ export default {
         "text"
       ],
       "hasTextOutput": true,
-      "group": "Qwen",
+      "group": "Claude",
       "instructType": null,
       "defaultSystem": null,
       "defaultStops": [],
       "hidden": false,
       "router": null,
       "warningMessage": null,
-      "permaslug": "qwen/qwen2.5-vl-32b-instruct",
+      "permaslug": "anthropic/claude-3-sonnet",
       "reasoningConfig": null,
       "features": {},
       "endpoint": {
-        "id": "dc909078-3013-470e-9410-258908dfab6a",
-        "name": "Alibaba | qwen/qwen2.5-vl-32b-instruct:free",
-        "contextLength": 8192,
+        "id": "dc39604a-e702-4a0c-8bd8-0f2578f14a2d",
+        "name": "Anthropic | anthropic/claude-3-sonnet:beta",
+        "contextLength": 200000,
         "model": {
-          "slug": "qwen/qwen2.5-vl-32b-instruct",
-          "hfSlug": "Qwen/Qwen2.5-VL-32B-Instruct",
+          "slug": "anthropic/claude-3-sonnet",
+          "hfSlug": null,
           "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2025-03-24T18:10:38.542849+00:00",
+          "createdAt": "2024-03-05T00:00:00+00:00",
           "hfUpdatedAt": null,
-          "name": "Qwen: Qwen2.5 VL 32B Instruct",
-          "shortName": "Qwen2.5 VL 32B Instruct",
-          "author": "qwen",
-          "description": "Qwen2.5-VL-32B is a multimodal vision-language model fine-tuned through reinforcement learning for enhanced mathematical reasoning, structured outputs, and visual problem-solving capabilities. It excels at visual analysis tasks, including object recognition, textual interpretation within images, and precise event localization in extended videos. Qwen2.5-VL-32B demonstrates state-of-the-art performance across multimodal benchmarks such as MMMU, MathVista, and VideoMME, while maintaining strong reasoning and clarity in text-based tasks like MMLU, mathematical problem-solving, and code generation.",
-          "modelVersionGroupId": null,
-          "contextLength": 32768,
+          "name": "Anthropic: Claude 3 Sonnet",
+          "shortName": "Claude 3 Sonnet",
+          "author": "anthropic",
+          "description": "Claude 3 Sonnet is an ideal balance of intelligence and speed for enterprise workloads. Maximum utility at a lower price, dependable, balanced for scaled deployments.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
+          "modelVersionGroupId": "30636d20-cda3-4a59-aa0c-1a5b6efba072",
+          "contextLength": 200000,
           "inputModalities": [
             "text",
             "image"
@@ -52794,36 +52557,278 @@ export default {
             "text"
           ],
           "hasTextOutput": true,
-          "group": "Qwen",
+          "group": "Claude",
           "instructType": null,
           "defaultSystem": null,
           "defaultStops": [],
           "hidden": false,
           "router": null,
           "warningMessage": null,
-          "permaslug": "qwen/qwen2.5-vl-32b-instruct",
+          "permaslug": "anthropic/claude-3-sonnet",
           "reasoningConfig": null,
           "features": {}
         },
-        "modelVariantSlug": "qwen/qwen2.5-vl-32b-instruct:free",
-        "modelVariantPermaslug": "qwen/qwen2.5-vl-32b-instruct:free",
-        "providerName": "Alibaba",
+        "modelVariantSlug": "anthropic/claude-3-sonnet:beta",
+        "modelVariantPermaslug": "anthropic/claude-3-sonnet:beta",
+        "providerName": "Anthropic",
         "providerInfo": {
-          "name": "Alibaba",
-          "displayName": "Alibaba",
-          "slug": "alibaba",
+          "name": "Anthropic",
+          "displayName": "Anthropic",
+          "slug": "anthropic",
           "baseUrl": "url",
           "dataPolicy": {
-            "termsOfServiceUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-product-terms-of-service-v-3-8-0",
-            "privacyPolicyUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-privacy-policy",
+            "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
+            "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
             "paidModels": {
-              "training": false
-            }
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            },
+            "requiresUserIds": true
           },
-          "headquarters": "CN",
+          "headquarters": "US",
           "hasChatCompletions": true,
           "hasCompletions": true,
-          "isAbortable": false,
+          "isAbortable": true,
+          "moderationRequired": true,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.anthropic.com/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/Anthropic.svg"
+          }
+        },
+        "providerDisplayName": "Anthropic",
+        "providerModelId": "claude-3-sonnet-20240229",
+        "quantization": "unknown",
+        "variant": "beta",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 4096,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "tool_choice",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "top_k",
+          "stop"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://www.anthropic.com/legal/commercial-terms",
+          "privacyPolicyUrl": "https://www.anthropic.com/legal/privacy",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "requiresUserIds": true,
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.000003",
+          "completion": "0.000015",
+          "image": "0.0048",
+          "request": "0",
+          "inputCacheRead": "0.0000003",
+          "inputCacheWrite": "0.00000375",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 134,
+        "newest": 279,
+        "throughputHighToLow": 128,
+        "latencyLowToHigh": 103,
+        "pricingLowToHigh": 276,
+        "pricingHighToLow": 50
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
+      "providers": [
+        {
+          "name": "Anthropic",
+          "icon": "https://openrouter.ai/images/icons/Anthropic.svg",
+          "slug": "anthropic",
+          "quantization": "unknown",
+          "context": 200000,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "claude-3-sonnet-20240229",
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0.0048",
+            "request": "0",
+            "inputCacheRead": "0.0000003",
+            "inputCacheWrite": "0.00000375",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "inputCost": 3,
+          "outputCost": 15,
+          "throughput": 65.9635,
+          "latency": 622
+        },
+        {
+          "name": "Google Vertex",
+          "icon": "https://openrouter.ai/images/icons/GoogleVertex.svg",
+          "slug": "vertex",
+          "quantization": "unknown",
+          "context": 200000,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "claude-3-sonnet@20240229",
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0.0048",
+            "request": "0",
+            "inputCacheRead": "0.0000003",
+            "inputCacheWrite": "0.00000375",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "inputCost": 3,
+          "outputCost": 15,
+          "throughput": 67.835,
+          "latency": 1032
+        }
+      ]
+    },
+    {
+      "slug": "mistralai/mistral-7b-instruct-v0.2",
+      "hfSlug": "mistralai/Mistral-7B-Instruct-v0.2",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2023-12-28T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Mistral: Mistral 7B Instruct v0.2",
+      "shortName": "Mistral 7B Instruct v0.2",
+      "author": "mistralai",
+      "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct](/modelsmistralai/mistral-7b-instruct-v0.1), with the following changes:\n\n- 32k context window (vs 8k context in v0.1)\n- Rope-theta = 1e6\n- No Sliding-Window Attention",
+      "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
+      "contextLength": 32768,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Mistral",
+      "instructType": "mistral",
+      "defaultSystem": null,
+      "defaultStops": [
+        "[INST]",
+        "</s>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "mistralai/mistral-7b-instruct-v0.2",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "ae921682-8673-4287-b3bd-459304097932",
+        "name": "Together | mistralai/mistral-7b-instruct-v0.2",
+        "contextLength": 32768,
+        "model": {
+          "slug": "mistralai/mistral-7b-instruct-v0.2",
+          "hfSlug": "mistralai/Mistral-7B-Instruct-v0.2",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2023-12-28T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Mistral: Mistral 7B Instruct v0.2",
+          "shortName": "Mistral 7B Instruct v0.2",
+          "author": "mistralai",
+          "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct](/modelsmistralai/mistral-7b-instruct-v0.1), with the following changes:\n\n- 32k context window (vs 8k context in v0.1)\n- Rope-theta = 1e6\n- No Sliding-Window Attention",
+          "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
+          "contextLength": 32768,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Mistral",
+          "instructType": "mistral",
+          "defaultSystem": null,
+          "defaultStops": [
+            "[INST]",
+            "</s>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "mistralai/mistral-7b-instruct-v0.2",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "mistralai/mistral-7b-instruct-v0.2",
+        "modelVariantPermaslug": "mistralai/mistral-7b-instruct-v0.2",
+        "providerName": "Together",
+        "providerInfo": {
+          "name": "Together",
+          "displayName": "Together",
+          "slug": "together",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://www.together.ai/terms-of-service",
+            "privacyPolicyUrl": "https://www.together.ai/privacy",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
           "moderationRequired": false,
           "editors": [],
           "owners": [],
@@ -52831,15 +52836,15 @@ export default {
           "statusPageUrl": null,
           "byokEnabled": true,
           "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.alibabacloud.com/&size=256"
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256"
           }
         },
-        "providerDisplayName": "Alibaba",
-        "providerModelId": "qwen2.5-vl-32b-instruct",
-        "quantization": "bf16",
-        "variant": "free",
-        "isFree": true,
-        "canAbort": false,
+        "providerDisplayName": "Together",
+        "providerModelId": "mistralai/Mistral-7B-Instruct-v0.2",
+        "quantization": "unknown",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
         "maxPromptTokens": null,
         "maxCompletionTokens": null,
         "maxPromptImages": null,
@@ -52848,23 +52853,30 @@ export default {
           "max_tokens",
           "temperature",
           "top_p",
-          "seed",
-          "response_format",
-          "presence_penalty"
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "top_k",
+          "repetition_penalty",
+          "logit_bias",
+          "min_p",
+          "response_format"
         ],
         "isByok": false,
         "moderationRequired": false,
         "dataPolicy": {
-          "termsOfServiceUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-product-terms-of-service-v-3-8-0",
-          "privacyPolicyUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-privacy-policy",
+          "termsOfServiceUrl": "https://www.together.ai/terms-of-service",
+          "privacyPolicyUrl": "https://www.together.ai/privacy",
           "paidModels": {
-            "training": false
+            "training": false,
+            "retainsPrompts": false
           },
-          "training": false
+          "training": false,
+          "retainsPrompts": false
         },
         "pricing": {
-          "prompt": "0",
-          "completion": "0",
+          "prompt": "0.0000002",
+          "completion": "0.0000002",
           "image": "0",
           "request": "0",
           "webSearch": "0",
@@ -52889,26 +52901,26 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 122,
-        "newest": 73,
-        "throughputHighToLow": 123,
-        "latencyLowToHigh": 110,
-        "pricingLowToHigh": 32,
-        "pricingHighToLow": 104
+        "topWeekly": 176,
+        "newest": 289,
+        "throughputHighToLow": 13,
+        "latencyLowToHigh": 17,
+        "pricingLowToHigh": 146,
+        "pricingHighToLow": 174
       },
-      "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
+      "authorIcon": "https://openrouter.ai/images/icons/Mistral.png",
       "providers": [
         {
-          "name": "Fireworks",
-          "icon": "https://openrouter.ai/images/icons/Fireworks.png",
-          "slug": "fireworks",
-          "quantization": null,
-          "context": 128000,
+          "name": "Together",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
+          "slug": "together",
+          "quantization": "unknown",
+          "context": 32768,
           "maxCompletionTokens": null,
-          "providerModelId": "accounts/fireworks/models/qwen2p5-vl-32b-instruct",
+          "providerModelId": "mistralai/Mistral-7B-Instruct-v0.2",
           "pricing": {
-            "prompt": "0.0000009",
-            "completion": "0.0000009",
+            "prompt": "0.0000002",
+            "completion": "0.0000002",
             "image": "0",
             "request": "0",
             "webSearch": "0",
@@ -52924,46 +52936,14 @@ export default {
             "presence_penalty",
             "top_k",
             "repetition_penalty",
-            "response_format",
-            "structured_outputs",
             "logit_bias",
-            "logprobs",
-            "top_logprobs"
+            "min_p",
+            "response_format"
           ],
-          "inputCost": 0.9,
-          "outputCost": 0.9,
-          "throughput": 63.4195,
-          "latency": 812.5
-        },
-        {
-          "name": "InoCloud",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://inocloud.com/&size=256",
-          "slug": "inoCloud",
-          "quantization": "bf16",
-          "context": 128000,
-          "maxCompletionTokens": 128000,
-          "providerModelId": "qwen/qwen2.5-vl-32b-instruct",
-          "pricing": {
-            "prompt": "0.0000011",
-            "completion": "0.0000011",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty"
-          ],
-          "inputCost": 1.1,
-          "outputCost": 1.1,
-          "throughput": 32.858,
-          "latency": 1495
+          "inputCost": 0.2,
+          "outputCost": 0.2,
+          "throughput": 222.222,
+          "latency": 259
         }
       ]
     },
@@ -53171,7 +53151,7 @@ export default {
           "inputCost": 0.2,
           "outputCost": 1.25,
           "throughput": 31.565,
-          "latency": 547
+          "latency": 545
         },
         {
           "name": "Featherless",
@@ -53205,99 +53185,94 @@ export default {
           "inputCost": 0.8,
           "outputCost": 1.2,
           "throughput": 25.692,
-          "latency": 1366
+          "latency": 1365
         }
       ]
     },
     {
-      "slug": "mistralai/mistral-7b-instruct-v0.2",
-      "hfSlug": "mistralai/Mistral-7B-Instruct-v0.2",
+      "slug": "qwen/qwen2.5-vl-32b-instruct",
+      "hfSlug": "Qwen/Qwen2.5-VL-32B-Instruct",
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2023-12-28T00:00:00+00:00",
+      "createdAt": "2025-03-24T18:10:38.542849+00:00",
       "hfUpdatedAt": null,
-      "name": "Mistral: Mistral 7B Instruct v0.2",
-      "shortName": "Mistral 7B Instruct v0.2",
-      "author": "mistralai",
-      "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct](/modelsmistralai/mistral-7b-instruct-v0.1), with the following changes:\n\n- 32k context window (vs 8k context in v0.1)\n- Rope-theta = 1e6\n- No Sliding-Window Attention",
-      "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
-      "contextLength": 32768,
+      "name": "Qwen: Qwen2.5 VL 32B Instruct (free)",
+      "shortName": "Qwen2.5 VL 32B Instruct (free)",
+      "author": "qwen",
+      "description": "Qwen2.5-VL-32B is a multimodal vision-language model fine-tuned through reinforcement learning for enhanced mathematical reasoning, structured outputs, and visual problem-solving capabilities. It excels at visual analysis tasks, including object recognition, textual interpretation within images, and precise event localization in extended videos. Qwen2.5-VL-32B demonstrates state-of-the-art performance across multimodal benchmarks such as MMMU, MathVista, and VideoMME, while maintaining strong reasoning and clarity in text-based tasks like MMLU, mathematical problem-solving, and code generation.",
+      "modelVersionGroupId": null,
+      "contextLength": 8192,
       "inputModalities": [
-        "text"
+        "text",
+        "image"
       ],
       "outputModalities": [
         "text"
       ],
       "hasTextOutput": true,
-      "group": "Mistral",
-      "instructType": "mistral",
+      "group": "Qwen",
+      "instructType": null,
       "defaultSystem": null,
-      "defaultStops": [
-        "[INST]",
-        "</s>"
-      ],
+      "defaultStops": [],
       "hidden": false,
       "router": null,
       "warningMessage": null,
-      "permaslug": "mistralai/mistral-7b-instruct-v0.2",
+      "permaslug": "qwen/qwen2.5-vl-32b-instruct",
       "reasoningConfig": null,
       "features": {},
       "endpoint": {
-        "id": "ae921682-8673-4287-b3bd-459304097932",
-        "name": "Together | mistralai/mistral-7b-instruct-v0.2",
-        "contextLength": 32768,
+        "id": "dc909078-3013-470e-9410-258908dfab6a",
+        "name": "Alibaba | qwen/qwen2.5-vl-32b-instruct:free",
+        "contextLength": 8192,
         "model": {
-          "slug": "mistralai/mistral-7b-instruct-v0.2",
-          "hfSlug": "mistralai/Mistral-7B-Instruct-v0.2",
+          "slug": "qwen/qwen2.5-vl-32b-instruct",
+          "hfSlug": "Qwen/Qwen2.5-VL-32B-Instruct",
           "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2023-12-28T00:00:00+00:00",
+          "createdAt": "2025-03-24T18:10:38.542849+00:00",
           "hfUpdatedAt": null,
-          "name": "Mistral: Mistral 7B Instruct v0.2",
-          "shortName": "Mistral 7B Instruct v0.2",
-          "author": "mistralai",
-          "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct](/modelsmistralai/mistral-7b-instruct-v0.1), with the following changes:\n\n- 32k context window (vs 8k context in v0.1)\n- Rope-theta = 1e6\n- No Sliding-Window Attention",
-          "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
+          "name": "Qwen: Qwen2.5 VL 32B Instruct",
+          "shortName": "Qwen2.5 VL 32B Instruct",
+          "author": "qwen",
+          "description": "Qwen2.5-VL-32B is a multimodal vision-language model fine-tuned through reinforcement learning for enhanced mathematical reasoning, structured outputs, and visual problem-solving capabilities. It excels at visual analysis tasks, including object recognition, textual interpretation within images, and precise event localization in extended videos. Qwen2.5-VL-32B demonstrates state-of-the-art performance across multimodal benchmarks such as MMMU, MathVista, and VideoMME, while maintaining strong reasoning and clarity in text-based tasks like MMLU, mathematical problem-solving, and code generation.",
+          "modelVersionGroupId": null,
           "contextLength": 32768,
           "inputModalities": [
-            "text"
+            "text",
+            "image"
           ],
           "outputModalities": [
             "text"
           ],
           "hasTextOutput": true,
-          "group": "Mistral",
-          "instructType": "mistral",
+          "group": "Qwen",
+          "instructType": null,
           "defaultSystem": null,
-          "defaultStops": [
-            "[INST]",
-            "</s>"
-          ],
+          "defaultStops": [],
           "hidden": false,
           "router": null,
           "warningMessage": null,
-          "permaslug": "mistralai/mistral-7b-instruct-v0.2",
+          "permaslug": "qwen/qwen2.5-vl-32b-instruct",
           "reasoningConfig": null,
           "features": {}
         },
-        "modelVariantSlug": "mistralai/mistral-7b-instruct-v0.2",
-        "modelVariantPermaslug": "mistralai/mistral-7b-instruct-v0.2",
-        "providerName": "Together",
+        "modelVariantSlug": "qwen/qwen2.5-vl-32b-instruct:free",
+        "modelVariantPermaslug": "qwen/qwen2.5-vl-32b-instruct:free",
+        "providerName": "Alibaba",
         "providerInfo": {
-          "name": "Together",
-          "displayName": "Together",
-          "slug": "together",
+          "name": "Alibaba",
+          "displayName": "Alibaba",
+          "slug": "alibaba",
           "baseUrl": "url",
           "dataPolicy": {
-            "termsOfServiceUrl": "https://www.together.ai/terms-of-service",
-            "privacyPolicyUrl": "https://www.together.ai/privacy",
+            "termsOfServiceUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-product-terms-of-service-v-3-8-0",
+            "privacyPolicyUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-privacy-policy",
             "paidModels": {
-              "training": false,
-              "retainsPrompts": false
+              "training": false
             }
           },
-          "headquarters": "US",
+          "headquarters": "CN",
           "hasChatCompletions": true,
           "hasCompletions": true,
-          "isAbortable": true,
+          "isAbortable": false,
           "moderationRequired": false,
           "editors": [],
           "owners": [],
@@ -53305,15 +53280,15 @@ export default {
           "statusPageUrl": null,
           "byokEnabled": true,
           "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256"
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.alibabacloud.com/&size=256"
           }
         },
-        "providerDisplayName": "Together",
-        "providerModelId": "mistralai/Mistral-7B-Instruct-v0.2",
-        "quantization": "unknown",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
+        "providerDisplayName": "Alibaba",
+        "providerModelId": "qwen2.5-vl-32b-instruct",
+        "quantization": "bf16",
+        "variant": "free",
+        "isFree": true,
+        "canAbort": false,
         "maxPromptTokens": null,
         "maxCompletionTokens": null,
         "maxPromptImages": null,
@@ -53322,30 +53297,23 @@ export default {
           "max_tokens",
           "temperature",
           "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "top_k",
-          "repetition_penalty",
-          "logit_bias",
-          "min_p",
-          "response_format"
+          "seed",
+          "response_format",
+          "presence_penalty"
         ],
         "isByok": false,
         "moderationRequired": false,
         "dataPolicy": {
-          "termsOfServiceUrl": "https://www.together.ai/terms-of-service",
-          "privacyPolicyUrl": "https://www.together.ai/privacy",
+          "termsOfServiceUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-product-terms-of-service-v-3-8-0",
+          "privacyPolicyUrl": "https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-privacy-policy",
           "paidModels": {
-            "training": false,
-            "retainsPrompts": false
+            "training": false
           },
-          "training": false,
-          "retainsPrompts": false
+          "training": false
         },
         "pricing": {
-          "prompt": "0.0000002",
-          "completion": "0.0000002",
+          "prompt": "0",
+          "completion": "0",
           "image": "0",
           "request": "0",
           "webSearch": "0",
@@ -53370,26 +53338,26 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 178,
-        "newest": 289,
-        "throughputHighToLow": 13,
-        "latencyLowToHigh": 17,
-        "pricingLowToHigh": 146,
-        "pricingHighToLow": 174
+        "topWeekly": 123,
+        "newest": 73,
+        "throughputHighToLow": 123,
+        "latencyLowToHigh": 110,
+        "pricingLowToHigh": 32,
+        "pricingHighToLow": 104
       },
-      "authorIcon": "https://openrouter.ai/images/icons/Mistral.png",
+      "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": [
         {
-          "name": "Together",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
-          "slug": "together",
-          "quantization": "unknown",
-          "context": 32768,
+          "name": "Fireworks",
+          "icon": "https://openrouter.ai/images/icons/Fireworks.png",
+          "slug": "fireworks",
+          "quantization": null,
+          "context": 128000,
           "maxCompletionTokens": null,
-          "providerModelId": "mistralai/Mistral-7B-Instruct-v0.2",
+          "providerModelId": "accounts/fireworks/models/qwen2p5-vl-32b-instruct",
           "pricing": {
-            "prompt": "0.0000002",
-            "completion": "0.0000002",
+            "prompt": "0.0000009",
+            "completion": "0.0000009",
             "image": "0",
             "request": "0",
             "webSearch": "0",
@@ -53405,14 +53373,46 @@ export default {
             "presence_penalty",
             "top_k",
             "repetition_penalty",
+            "response_format",
+            "structured_outputs",
             "logit_bias",
-            "min_p",
-            "response_format"
+            "logprobs",
+            "top_logprobs"
           ],
-          "inputCost": 0.2,
-          "outputCost": 0.2,
-          "throughput": 221.9825,
-          "latency": 261
+          "inputCost": 0.9,
+          "outputCost": 0.9,
+          "throughput": 63.4485,
+          "latency": 812
+        },
+        {
+          "name": "InoCloud",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://inocloud.com/&size=256",
+          "slug": "inoCloud",
+          "quantization": "bf16",
+          "context": 128000,
+          "maxCompletionTokens": 128000,
+          "providerModelId": "qwen/qwen2.5-vl-32b-instruct",
+          "pricing": {
+            "prompt": "0.0000011",
+            "completion": "0.0000011",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty"
+          ],
+          "inputCost": 1.1,
+          "outputCost": 1.1,
+          "throughput": 32.833,
+          "latency": 1476
         }
       ]
     },
@@ -53638,8 +53638,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.14,
-          "throughput": 42.194,
-          "latency": 1374.5
+          "throughput": 42.355,
+          "latency": 1368.5
         }
       ]
     },
@@ -53875,8 +53875,8 @@ export default {
           ],
           "inputCost": 5,
           "outputCost": 15,
-          "throughput": 129.415,
-          "latency": 489.5
+          "throughput": 128.087,
+          "latency": 493
         },
         {
           "name": "Azure",
@@ -53914,213 +53914,8 @@ export default {
           ],
           "inputCost": 5,
           "outputCost": 15,
-          "throughput": 147.976,
-          "latency": 1571
-        }
-      ]
-    },
-    {
-      "slug": "cohere/command-r-plus-08-2024",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-08-30T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Cohere: Command R+ (08-2024)",
-      "shortName": "Command R+ (08-2024)",
-      "author": "cohere",
-      "description": "command-r-plus-08-2024 is an update of the [Command R+](/models/cohere/command-r-plus) with roughly 50% higher throughput and 25% lower latencies as compared to the previous Command R+ version, while keeping the hardware footprint the same.\n\nRead the launch post [here](https://docs.cohere.com/changelog/command-gets-refreshed).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-      "modelVersionGroupId": null,
-      "contextLength": 128000,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Cohere",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "cohere/command-r-plus-08-2024",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "cd63714a-d459-4806-bdf2-0dfea4f6614c",
-        "name": "Cohere | cohere/command-r-plus-08-2024",
-        "contextLength": 128000,
-        "model": {
-          "slug": "cohere/command-r-plus-08-2024",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-08-30T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Cohere: Command R+ (08-2024)",
-          "shortName": "Command R+ (08-2024)",
-          "author": "cohere",
-          "description": "command-r-plus-08-2024 is an update of the [Command R+](/models/cohere/command-r-plus) with roughly 50% higher throughput and 25% lower latencies as compared to the previous Command R+ version, while keeping the hardware footprint the same.\n\nRead the launch post [here](https://docs.cohere.com/changelog/command-gets-refreshed).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-          "modelVersionGroupId": null,
-          "contextLength": 128000,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Cohere",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "cohere/command-r-plus-08-2024",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "cohere/command-r-plus-08-2024",
-        "modelVariantPermaslug": "cohere/command-r-plus-08-2024",
-        "providerName": "Cohere",
-        "providerInfo": {
-          "name": "Cohere",
-          "displayName": "Cohere",
-          "slug": "cohere",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://cohere.com/privacy",
-            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": false,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.cohere.ai/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Cohere.png"
-          }
-        },
-        "providerDisplayName": "Cohere",
-        "providerModelId": "command-r-plus-08-2024",
-        "quantization": "unknown",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 4000,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "top_k",
-          "seed",
-          "response_format",
-          "structured_outputs"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://cohere.com/privacy",
-          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.0000025",
-          "completion": "0.00001",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": false,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 181,
-        "newest": 211,
-        "throughputHighToLow": 218,
-        "latencyLowToHigh": 56,
-        "pricingLowToHigh": 261,
-        "pricingHighToLow": 57
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
-      "providers": [
-        {
-          "name": "Cohere",
-          "icon": "https://openrouter.ai/images/icons/Cohere.png",
-          "slug": "cohere",
-          "quantization": "unknown",
-          "context": 128000,
-          "maxCompletionTokens": 4000,
-          "providerModelId": "command-r-plus-08-2024",
-          "pricing": {
-            "prompt": "0.0000025",
-            "completion": "0.00001",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "seed",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 2.5,
-          "outputCost": 10,
-          "throughput": 40.104,
-          "latency": 419
+          "throughput": 147.1665,
+          "latency": 1562
         }
       ]
     },
@@ -54284,7 +54079,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 182,
+        "topWeekly": 181,
         "newest": 23,
         "throughputHighToLow": 94,
         "latencyLowToHigh": 175,
@@ -54393,6 +54188,211 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2
+        }
+      ]
+    },
+    {
+      "slug": "cohere/command-r-plus-08-2024",
+      "hfSlug": null,
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-08-30T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Cohere: Command R+ (08-2024)",
+      "shortName": "Command R+ (08-2024)",
+      "author": "cohere",
+      "description": "command-r-plus-08-2024 is an update of the [Command R+](/models/cohere/command-r-plus) with roughly 50% higher throughput and 25% lower latencies as compared to the previous Command R+ version, while keeping the hardware footprint the same.\n\nRead the launch post [here](https://docs.cohere.com/changelog/command-gets-refreshed).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
+      "modelVersionGroupId": null,
+      "contextLength": 128000,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Cohere",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "cohere/command-r-plus-08-2024",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "cd63714a-d459-4806-bdf2-0dfea4f6614c",
+        "name": "Cohere | cohere/command-r-plus-08-2024",
+        "contextLength": 128000,
+        "model": {
+          "slug": "cohere/command-r-plus-08-2024",
+          "hfSlug": null,
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-08-30T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Cohere: Command R+ (08-2024)",
+          "shortName": "Command R+ (08-2024)",
+          "author": "cohere",
+          "description": "command-r-plus-08-2024 is an update of the [Command R+](/models/cohere/command-r-plus) with roughly 50% higher throughput and 25% lower latencies as compared to the previous Command R+ version, while keeping the hardware footprint the same.\n\nRead the launch post [here](https://docs.cohere.com/changelog/command-gets-refreshed).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
+          "modelVersionGroupId": null,
+          "contextLength": 128000,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Cohere",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "cohere/command-r-plus-08-2024",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "cohere/command-r-plus-08-2024",
+        "modelVariantPermaslug": "cohere/command-r-plus-08-2024",
+        "providerName": "Cohere",
+        "providerInfo": {
+          "name": "Cohere",
+          "displayName": "Cohere",
+          "slug": "cohere",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://cohere.com/privacy",
+            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": false,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.cohere.ai/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/Cohere.png"
+          }
+        },
+        "providerDisplayName": "Cohere",
+        "providerModelId": "command-r-plus-08-2024",
+        "quantization": "unknown",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 4000,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "top_k",
+          "seed",
+          "response_format",
+          "structured_outputs"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://cohere.com/privacy",
+          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.0000025",
+          "completion": "0.00001",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": false,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 182,
+        "newest": 210,
+        "throughputHighToLow": 218,
+        "latencyLowToHigh": 56,
+        "pricingLowToHigh": 261,
+        "pricingHighToLow": 57
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
+      "providers": [
+        {
+          "name": "Cohere",
+          "icon": "https://openrouter.ai/images/icons/Cohere.png",
+          "slug": "cohere",
+          "quantization": "unknown",
+          "context": 128000,
+          "maxCompletionTokens": 4000,
+          "providerModelId": "command-r-plus-08-2024",
+          "pricing": {
+            "prompt": "0.0000025",
+            "completion": "0.00001",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "seed",
+            "response_format",
+            "structured_outputs"
+          ],
+          "inputCost": 2.5,
+          "outputCost": 10,
+          "throughput": 40.098,
+          "latency": 421
         }
       ]
     },
@@ -54763,8 +54763,8 @@ export default {
           ],
           "inputCost": 0.9,
           "outputCost": 0.9,
-          "throughput": 13.0005,
-          "latency": 2200
+          "throughput": 12.973,
+          "latency": 2210
         }
       ]
     },
@@ -55122,8 +55122,8 @@ export default {
           ],
           "inputCost": 0.4,
           "outputCost": 1.2,
-          "throughput": 33.823,
-          "latency": 890.5
+          "throughput": 33.8105,
+          "latency": 899
         }
       ]
     },
@@ -55347,8 +55347,8 @@ export default {
           ],
           "inputCost": 0.09,
           "outputCost": 0.27,
-          "throughput": 57.411,
-          "latency": 534
+          "throughput": 57.423,
+          "latency": 533
         },
         {
           "name": "Hyperbolic",
@@ -55537,7 +55537,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 188,
-        "newest": 225,
+        "newest": 226,
         "throughputHighToLow": 97,
         "latencyLowToHigh": 222,
         "pricingLowToHigh": 286,
@@ -55572,8 +55572,8 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 1,
-          "throughput": 80.513,
-          "latency": 1552
+          "throughput": 81.179,
+          "latency": 1568
         }
       ]
     },
@@ -55799,8 +55799,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 438.129,
-          "latency": 285
+          "throughput": 439.488,
+          "latency": 287
         }
       ]
     },
@@ -56001,8 +56001,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 82.642,
-          "latency": 233
+          "throughput": 82.656,
+          "latency": 234
         }
       ]
     },
@@ -56209,8 +56209,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.06,
-          "throughput": 140.0125,
-          "latency": 207
+          "throughput": 139.86,
+          "latency": 206
         },
         {
           "name": "NovitaAI",
@@ -56244,8 +56244,8 @@ export default {
           ],
           "inputCost": 0.08,
           "outputCost": 0.08,
-          "throughput": 31.951,
-          "latency": 751
+          "throughput": 31.959,
+          "latency": 747
         },
         {
           "name": "Groq",
@@ -56279,8 +56279,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 1143.322,
-          "latency": 288
+          "throughput": 1138.297,
+          "latency": 285.5
         }
       ]
     },
@@ -56513,8 +56513,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 8,
-          "throughput": 64.363,
-          "latency": 2306.5
+          "throughput": 64.13,
+          "latency": 2309
         }
       ]
     },
@@ -56723,196 +56723,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.04,
-          "throughput": 79.2125,
-          "latency": 304
-        }
-      ]
-    },
-    {
-      "slug": "inception/mercury-coder-small-beta",
-      "hfSlug": "",
-      "updatedAt": "2025-04-30T17:36:42.979824+00:00",
-      "createdAt": "2025-04-30T17:24:40+00:00",
-      "hfUpdatedAt": null,
-      "name": "Inception: Mercury Coder Small Beta",
-      "shortName": "Mercury Coder Small Beta",
-      "author": "inception",
-      "description": "Mercury Coder Small is the first diffusion large language model (dLLM). Applying a breakthrough discrete diffusion approach, the model runs 5-10x faster than even speed optimized models like Claude 3.5 Haiku and GPT-4o Mini while matching their performance. Mercury Coder Small's speed means that developers can stay in the flow while coding, enjoying rapid chat-based iteration and responsive code completion suggestions. On Copilot Arena, Mercury Coder ranks 1st in speed and ties for 2nd in quality. Read more in the [blog post here](https://www.inceptionlabs.ai/introducing-mercury).",
-      "modelVersionGroupId": null,
-      "contextLength": 32000,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Other",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "inception/mercury-coder-small-beta",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "eb51fb37-11b0-42d1-924a-c25fa2375569",
-        "name": "Inception | inception/mercury-coder-small-beta",
-        "contextLength": 32000,
-        "model": {
-          "slug": "inception/mercury-coder-small-beta",
-          "hfSlug": "",
-          "updatedAt": "2025-04-30T17:36:42.979824+00:00",
-          "createdAt": "2025-04-30T17:24:40+00:00",
-          "hfUpdatedAt": null,
-          "name": "Inception: Mercury Coder Small Beta",
-          "shortName": "Mercury Coder Small Beta",
-          "author": "inception",
-          "description": "Mercury Coder Small is the first diffusion large language model (dLLM). Applying a breakthrough discrete diffusion approach, the model runs 5-10x faster than even speed optimized models like Claude 3.5 Haiku and GPT-4o Mini while matching their performance. Mercury Coder Small's speed means that developers can stay in the flow while coding, enjoying rapid chat-based iteration and responsive code completion suggestions. On Copilot Arena, Mercury Coder ranks 1st in speed and ties for 2nd in quality. Read more in the [blog post here](https://www.inceptionlabs.ai/introducing-mercury).",
-          "modelVersionGroupId": null,
-          "contextLength": 32000,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Other",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "inception/mercury-coder-small-beta",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "inception/mercury-coder-small-beta",
-        "modelVariantPermaslug": "inception/mercury-coder-small-beta",
-        "providerName": "Inception",
-        "providerInfo": {
-          "name": "Inception",
-          "displayName": "Inception",
-          "slug": "inception",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://www.inceptionlabs.ai/terms",
-            "privacyPolicyUrl": "https://www.inceptionlabs.ai/terms#privacy-policy",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "hasChatCompletions": true,
-          "hasCompletions": false,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.inceptionlabs.ai/&size=256",
-            "invertRequired": true
-          }
-        },
-        "providerDisplayName": "Inception",
-        "providerModelId": "mercury-coder-small",
-        "quantization": null,
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "frequency_penalty",
-          "presence_penalty",
-          "stop"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://www.inceptionlabs.ai/terms",
-          "privacyPolicyUrl": "https://www.inceptionlabs.ai/terms#privacy-policy",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.00000025",
-          "completion": "0.000001",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": false,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 194,
-        "newest": 16,
-        "throughputHighToLow": 2,
-        "latencyLowToHigh": 98,
-        "pricingLowToHigh": 163,
-        "pricingHighToLow": 152
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://www.inceptionlabs.ai/\\u0026size=256",
-      "providers": [
-        {
-          "name": "Inception",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.inceptionlabs.ai/&size=256",
-          "slug": "inception",
-          "quantization": null,
-          "context": 32000,
-          "maxCompletionTokens": null,
-          "providerModelId": "mercury-coder-small",
-          "pricing": {
-            "prompt": "0.00000025",
-            "completion": "0.000001",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "frequency_penalty",
-            "presence_penalty",
-            "stop"
-          ],
-          "inputCost": 0.25,
-          "outputCost": 1,
-          "throughput": 466.6665,
-          "latency": 584
+          "throughput": 79.054,
+          "latency": 303
         }
       ]
     },
@@ -57076,7 +56888,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 195,
+        "topWeekly": 194,
         "newest": 169,
         "throughputHighToLow": 281,
         "latencyLowToHigh": 257,
@@ -57116,8 +56928,196 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 18.943,
-          "latency": 1872
+          "throughput": 18.931,
+          "latency": 1865.5
+        }
+      ]
+    },
+    {
+      "slug": "inception/mercury-coder-small-beta",
+      "hfSlug": "",
+      "updatedAt": "2025-04-30T17:36:42.979824+00:00",
+      "createdAt": "2025-04-30T17:24:40+00:00",
+      "hfUpdatedAt": null,
+      "name": "Inception: Mercury Coder Small Beta",
+      "shortName": "Mercury Coder Small Beta",
+      "author": "inception",
+      "description": "Mercury Coder Small is the first diffusion large language model (dLLM). Applying a breakthrough discrete diffusion approach, the model runs 5-10x faster than even speed optimized models like Claude 3.5 Haiku and GPT-4o Mini while matching their performance. Mercury Coder Small's speed means that developers can stay in the flow while coding, enjoying rapid chat-based iteration and responsive code completion suggestions. On Copilot Arena, Mercury Coder ranks 1st in speed and ties for 2nd in quality. Read more in the [blog post here](https://www.inceptionlabs.ai/introducing-mercury).",
+      "modelVersionGroupId": null,
+      "contextLength": 32000,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Other",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "inception/mercury-coder-small-beta",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "eb51fb37-11b0-42d1-924a-c25fa2375569",
+        "name": "Inception | inception/mercury-coder-small-beta",
+        "contextLength": 32000,
+        "model": {
+          "slug": "inception/mercury-coder-small-beta",
+          "hfSlug": "",
+          "updatedAt": "2025-04-30T17:36:42.979824+00:00",
+          "createdAt": "2025-04-30T17:24:40+00:00",
+          "hfUpdatedAt": null,
+          "name": "Inception: Mercury Coder Small Beta",
+          "shortName": "Mercury Coder Small Beta",
+          "author": "inception",
+          "description": "Mercury Coder Small is the first diffusion large language model (dLLM). Applying a breakthrough discrete diffusion approach, the model runs 5-10x faster than even speed optimized models like Claude 3.5 Haiku and GPT-4o Mini while matching their performance. Mercury Coder Small's speed means that developers can stay in the flow while coding, enjoying rapid chat-based iteration and responsive code completion suggestions. On Copilot Arena, Mercury Coder ranks 1st in speed and ties for 2nd in quality. Read more in the [blog post here](https://www.inceptionlabs.ai/introducing-mercury).",
+          "modelVersionGroupId": null,
+          "contextLength": 32000,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Other",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "inception/mercury-coder-small-beta",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "inception/mercury-coder-small-beta",
+        "modelVariantPermaslug": "inception/mercury-coder-small-beta",
+        "providerName": "Inception",
+        "providerInfo": {
+          "name": "Inception",
+          "displayName": "Inception",
+          "slug": "inception",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://www.inceptionlabs.ai/terms",
+            "privacyPolicyUrl": "https://www.inceptionlabs.ai/terms#privacy-policy",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "hasChatCompletions": true,
+          "hasCompletions": false,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.inceptionlabs.ai/&size=256",
+            "invertRequired": true
+          }
+        },
+        "providerDisplayName": "Inception",
+        "providerModelId": "mercury-coder-small",
+        "quantization": null,
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": null,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "frequency_penalty",
+          "presence_penalty",
+          "stop"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://www.inceptionlabs.ai/terms",
+          "privacyPolicyUrl": "https://www.inceptionlabs.ai/terms#privacy-policy",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.00000025",
+          "completion": "0.000001",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": false,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 195,
+        "newest": 16,
+        "throughputHighToLow": 2,
+        "latencyLowToHigh": 98,
+        "pricingLowToHigh": 163,
+        "pricingHighToLow": 152
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://www.inceptionlabs.ai/\\u0026size=256",
+      "providers": [
+        {
+          "name": "Inception",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.inceptionlabs.ai/&size=256",
+          "slug": "inception",
+          "quantization": null,
+          "context": 32000,
+          "maxCompletionTokens": null,
+          "providerModelId": "mercury-coder-small",
+          "pricing": {
+            "prompt": "0.00000025",
+            "completion": "0.000001",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "frequency_penalty",
+            "presence_penalty",
+            "stop"
+          ],
+          "inputCost": 0.25,
+          "outputCost": 1,
+          "throughput": 467.082,
+          "latency": 584
         }
       ]
     },
@@ -57281,7 +57281,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 196,
-        "newest": 286,
+        "newest": 287,
         "throughputHighToLow": 68,
         "latencyLowToHigh": 29,
         "pricingLowToHigh": 149,
@@ -57321,7 +57321,7 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 111.7275,
+          "throughput": 111.765,
           "latency": 331
         }
       ]
@@ -57526,8 +57526,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 53.613,
-          "latency": 412.5
+          "throughput": 53.729,
+          "latency": 412
         }
       ]
     },
@@ -57697,7 +57697,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 198,
-        "newest": 313,
+        "newest": 315,
         "throughputHighToLow": 255,
         "latencyLowToHigh": 116,
         "pricingLowToHigh": 310,
@@ -57739,8 +57739,8 @@ export default {
           ],
           "inputCost": 30,
           "outputCost": 60,
-          "throughput": 32.1725,
-          "latency": 668
+          "throughput": 31.9705,
+          "latency": 669
         },
         {
           "name": "Azure",
@@ -57776,8 +57776,8 @@ export default {
           ],
           "inputCost": 30,
           "outputCost": 60,
-          "throughput": 38.079,
-          "latency": 3534.5
+          "throughput": 38.078,
+          "latency": 3545
         }
       ]
     },
@@ -57987,8 +57987,8 @@ export default {
           ],
           "inputCost": 0.15,
           "outputCost": 0.6,
-          "throughput": 84.162,
-          "latency": 2653
+          "throughput": 86.989,
+          "latency": 2624
         }
       ]
     },
@@ -58153,7 +58153,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 138,
-        "newest": 279,
+        "newest": 277,
         "throughputHighToLow": 253,
         "latencyLowToHigh": 206,
         "pricingLowToHigh": 307,
@@ -58191,8 +58191,8 @@ export default {
           ],
           "inputCost": 15,
           "outputCost": 75,
-          "throughput": 30.151,
-          "latency": 1363.5
+          "throughput": 30.116,
+          "latency": 1367.5
         },
         {
           "name": "Google Vertex",
@@ -58224,8 +58224,8 @@ export default {
           ],
           "inputCost": 15,
           "outputCost": 75,
-          "throughput": 17.5095,
-          "latency": 2954.5
+          "throughput": 17.509,
+          "latency": 2958
         }
       ]
     },
@@ -58430,8 +58430,8 @@ export default {
           ],
           "inputCost": 5,
           "outputCost": 15,
-          "throughput": 60.332,
-          "latency": 290
+          "throughput": 60.335,
+          "latency": 289
         }
       ]
     },
@@ -58583,7 +58583,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 202,
-        "newest": 226,
+        "newest": 225,
         "throughputHighToLow": 10,
         "latencyLowToHigh": 194,
         "pricingLowToHigh": 284,
@@ -58618,8 +58618,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 239.775,
-          "latency": 1298
+          "throughput": 239.9715,
+          "latency": 1300
         }
       ]
     },
@@ -58790,7 +58790,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 203,
-        "newest": 298,
+        "newest": 299,
         "throughputHighToLow": 194,
         "latencyLowToHigh": 78,
         "pricingLowToHigh": 302,
@@ -58833,8 +58833,8 @@ export default {
           ],
           "inputCost": 10,
           "outputCost": 30,
-          "throughput": 45.752,
-          "latency": 553
+          "throughput": 45.54,
+          "latency": 556
         }
       ]
     },
@@ -59229,8 +59229,8 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 5,
-          "throughput": 89.232,
-          "latency": 1784
+          "throughput": 87.754,
+          "latency": 1835
         }
       ]
     },
@@ -59492,8 +59492,8 @@ export default {
           ],
           "inputCost": 1.6,
           "outputCost": 1.6,
-          "throughput": 172.686,
-          "latency": 536
+          "throughput": 173.13,
+          "latency": 544
         }
       ]
     },
@@ -59697,8 +59697,8 @@ export default {
           ],
           "inputCost": 1.48,
           "outputCost": 1.48,
-          "throughput": 35.568,
-          "latency": 856
+          "throughput": 35.5595,
+          "latency": 857
         }
       ]
     },
@@ -59959,8 +59959,8 @@ export default {
           ],
           "inputCost": 1.6,
           "outputCost": 1.6,
-          "throughput": 172.686,
-          "latency": 536
+          "throughput": 173.13,
+          "latency": 544
         }
       ]
     },
@@ -60125,11 +60125,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 51,
-        "newest": 177,
+        "newest": 175,
         "throughputHighToLow": 162,
         "latencyLowToHigh": 182,
         "pricingLowToHigh": 215,
-        "pricingHighToLow": 97
+        "pricingHighToLow": 95
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -60163,8 +60163,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 54.784,
-          "latency": 1242
+          "throughput": 54.9685,
+          "latency": 1240
         },
         {
           "name": "Google Vertex",
@@ -60196,8 +60196,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 56.576,
-          "latency": 1551
+          "throughput": 56.5665,
+          "latency": 1563
         },
         {
           "name": "Amazon Bedrock",
@@ -60227,8 +60227,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 4,
-          "throughput": 63.146,
-          "latency": 2132.5
+          "throughput": 63.165,
+          "latency": 2129
         },
         {
           "name": "Amazon Bedrock (US-WEST)",
@@ -60467,8 +60467,215 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 6,
-          "throughput": 51.977,
-          "latency": 1541
+          "throughput": 52.451,
+          "latency": 1520
+        }
+      ]
+    },
+    {
+      "slug": "nothingiisreal/mn-celeste-12b",
+      "hfSlug": "nothingiisreal/MN-12B-Celeste-V1.9",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-08-02T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Mistral Nemo 12B Celeste",
+      "shortName": "Mistral Nemo 12B Celeste",
+      "author": "nothingiisreal",
+      "description": "A specialized story writing and roleplaying model based on Mistral's NeMo 12B Instruct. Fine-tuned on curated datasets including Reddit Writing Prompts and Opus Instruct 25K.\n\nThis model excels at creative writing, offering improved NSFW capabilities, with smarter and more active narration. It demonstrates remarkable versatility in both SFW and NSFW scenarios, with strong Out of Character (OOC) steering capabilities, allowing fine-tuned control over narrative direction and character behavior.\n\nCheck out the model's [HuggingFace page](https://huggingface.co/nothingiisreal/MN-12B-Celeste-V1.9) for details on what parameters and prompts work best!",
+      "modelVersionGroupId": null,
+      "contextLength": 16384,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Mistral",
+      "instructType": "chatml",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<|im_start|>",
+        "<|im_end|>",
+        "<|endoftext|>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "nothingiisreal/mn-celeste-12b",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "294ab81c-7834-4c4d-8309-302582d5c5b8",
+        "name": "Featherless | nothingiisreal/mn-celeste-12b",
+        "contextLength": 16384,
+        "model": {
+          "slug": "nothingiisreal/mn-celeste-12b",
+          "hfSlug": "nothingiisreal/MN-12B-Celeste-V1.9",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-08-02T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Mistral Nemo 12B Celeste",
+          "shortName": "Mistral Nemo 12B Celeste",
+          "author": "nothingiisreal",
+          "description": "A specialized story writing and roleplaying model based on Mistral's NeMo 12B Instruct. Fine-tuned on curated datasets including Reddit Writing Prompts and Opus Instruct 25K.\n\nThis model excels at creative writing, offering improved NSFW capabilities, with smarter and more active narration. It demonstrates remarkable versatility in both SFW and NSFW scenarios, with strong Out of Character (OOC) steering capabilities, allowing fine-tuned control over narrative direction and character behavior.\n\nCheck out the model's [HuggingFace page](https://huggingface.co/nothingiisreal/MN-12B-Celeste-V1.9) for details on what parameters and prompts work best!",
+          "modelVersionGroupId": null,
+          "contextLength": 32000,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Mistral",
+          "instructType": "chatml",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|endoftext|>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "nothingiisreal/mn-celeste-12b",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "nothingiisreal/mn-celeste-12b",
+        "modelVariantPermaslug": "nothingiisreal/mn-celeste-12b",
+        "providerName": "Featherless",
+        "providerInfo": {
+          "name": "Featherless",
+          "displayName": "Featherless",
+          "slug": "featherless",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://featherless.ai/terms",
+            "privacyPolicyUrl": "https://featherless.ai/privacy",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": false,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": false,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Featherless",
+        "providerModelId": "nothingiisreal/MN-12B-Celeste-V1.9",
+        "quantization": "fp8",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": false,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 4096,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "repetition_penalty",
+          "top_k",
+          "min_p",
+          "seed"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://featherless.ai/terms",
+          "privacyPolicyUrl": "https://featherless.ai/privacy",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.0000008",
+          "completion": "0.0000012",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": false,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 211,
+        "newest": 224,
+        "throughputHighToLow": 284,
+        "latencyLowToHigh": 228,
+        "pricingLowToHigh": 203,
+        "pricingHighToLow": 113
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
+      "providers": [
+        {
+          "name": "Featherless",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256",
+          "slug": "featherless",
+          "quantization": "fp8",
+          "context": 16384,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "nothingiisreal/MN-12B-Celeste-V1.9",
+          "pricing": {
+            "prompt": "0.0000008",
+            "completion": "0.0000012",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "top_k",
+            "min_p",
+            "seed"
+          ],
+          "inputCost": 0.8,
+          "outputCost": 1.2,
+          "throughput": 17.629,
+          "latency": 1607
         }
       ]
     },
@@ -60638,8 +60845,8 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 211,
-        "newest": 299,
+        "topWeekly": 212,
+        "newest": 298,
         "throughputHighToLow": 24,
         "latencyLowToHigh": 7,
         "pricingLowToHigh": 221,
@@ -60682,23 +60889,23 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 2,
-          "throughput": 175.384,
-          "latency": 203
+          "throughput": 174.953,
+          "latency": 204
         }
       ]
     },
     {
-      "slug": "nothingiisreal/mn-celeste-12b",
-      "hfSlug": "nothingiisreal/MN-12B-Celeste-V1.9",
+      "slug": "cohere/command-r",
+      "hfSlug": null,
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-08-02T00:00:00+00:00",
+      "createdAt": "2024-03-14T00:00:00+00:00",
       "hfUpdatedAt": null,
-      "name": "Mistral Nemo 12B Celeste",
-      "shortName": "Mistral Nemo 12B Celeste",
-      "author": "nothingiisreal",
-      "description": "A specialized story writing and roleplaying model based on Mistral's NeMo 12B Instruct. Fine-tuned on curated datasets including Reddit Writing Prompts and Opus Instruct 25K.\n\nThis model excels at creative writing, offering improved NSFW capabilities, with smarter and more active narration. It demonstrates remarkable versatility in both SFW and NSFW scenarios, with strong Out of Character (OOC) steering capabilities, allowing fine-tuned control over narrative direction and character behavior.\n\nCheck out the model's [HuggingFace page](https://huggingface.co/nothingiisreal/MN-12B-Celeste-V1.9) for details on what parameters and prompts work best!",
+      "name": "Cohere: Command R",
+      "shortName": "Command R",
+      "author": "cohere",
+      "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
       "modelVersionGroupId": null,
-      "contextLength": 16384,
+      "contextLength": 128000,
       "inputModalities": [
         "text"
       ],
@@ -60706,36 +60913,32 @@ export default {
         "text"
       ],
       "hasTextOutput": true,
-      "group": "Mistral",
-      "instructType": "chatml",
+      "group": "Cohere",
+      "instructType": null,
       "defaultSystem": null,
-      "defaultStops": [
-        "<|im_start|>",
-        "<|im_end|>",
-        "<|endoftext|>"
-      ],
+      "defaultStops": [],
       "hidden": false,
       "router": null,
       "warningMessage": null,
-      "permaslug": "nothingiisreal/mn-celeste-12b",
+      "permaslug": "cohere/command-r",
       "reasoningConfig": null,
       "features": {},
       "endpoint": {
-        "id": "294ab81c-7834-4c4d-8309-302582d5c5b8",
-        "name": "Featherless | nothingiisreal/mn-celeste-12b",
-        "contextLength": 16384,
+        "id": "520aa031-d968-4fa1-9648-70c2d4a23a0a",
+        "name": "Cohere | cohere/command-r",
+        "contextLength": 128000,
         "model": {
-          "slug": "nothingiisreal/mn-celeste-12b",
-          "hfSlug": "nothingiisreal/MN-12B-Celeste-V1.9",
+          "slug": "cohere/command-r",
+          "hfSlug": null,
           "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-08-02T00:00:00+00:00",
+          "createdAt": "2024-03-14T00:00:00+00:00",
           "hfUpdatedAt": null,
-          "name": "Mistral Nemo 12B Celeste",
-          "shortName": "Mistral Nemo 12B Celeste",
-          "author": "nothingiisreal",
-          "description": "A specialized story writing and roleplaying model based on Mistral's NeMo 12B Instruct. Fine-tuned on curated datasets including Reddit Writing Prompts and Opus Instruct 25K.\n\nThis model excels at creative writing, offering improved NSFW capabilities, with smarter and more active narration. It demonstrates remarkable versatility in both SFW and NSFW scenarios, with strong Out of Character (OOC) steering capabilities, allowing fine-tuned control over narrative direction and character behavior.\n\nCheck out the model's [HuggingFace page](https://huggingface.co/nothingiisreal/MN-12B-Celeste-V1.9) for details on what parameters and prompts work best!",
+          "name": "Cohere: Command R",
+          "shortName": "Command R",
+          "author": "cohere",
+          "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
           "modelVersionGroupId": null,
-          "contextLength": 32000,
+          "contextLength": 128000,
           "inputModalities": [
             "text"
           ],
@@ -60743,88 +60946,88 @@ export default {
             "text"
           ],
           "hasTextOutput": true,
-          "group": "Mistral",
-          "instructType": "chatml",
+          "group": "Cohere",
+          "instructType": null,
           "defaultSystem": null,
-          "defaultStops": [
-            "<|im_start|>",
-            "<|im_end|>",
-            "<|endoftext|>"
-          ],
+          "defaultStops": [],
           "hidden": false,
           "router": null,
           "warningMessage": null,
-          "permaslug": "nothingiisreal/mn-celeste-12b",
+          "permaslug": "cohere/command-r",
           "reasoningConfig": null,
           "features": {}
         },
-        "modelVariantSlug": "nothingiisreal/mn-celeste-12b",
-        "modelVariantPermaslug": "nothingiisreal/mn-celeste-12b",
-        "providerName": "Featherless",
+        "modelVariantSlug": "cohere/command-r",
+        "modelVariantPermaslug": "cohere/command-r",
+        "providerName": "Cohere",
         "providerInfo": {
-          "name": "Featherless",
-          "displayName": "Featherless",
-          "slug": "featherless",
+          "name": "Cohere",
+          "displayName": "Cohere",
+          "slug": "cohere",
           "baseUrl": "url",
           "dataPolicy": {
-            "termsOfServiceUrl": "https://featherless.ai/terms",
-            "privacyPolicyUrl": "https://featherless.ai/privacy",
+            "privacyPolicyUrl": "https://cohere.com/privacy",
+            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
             "paidModels": {
               "training": false,
-              "retainsPrompts": false
+              "retainsPrompts": true,
+              "retentionDays": 30
             }
           },
           "headquarters": "US",
           "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": false,
+          "hasCompletions": false,
+          "isAbortable": true,
           "moderationRequired": false,
           "editors": [],
           "owners": [],
-          "isMultipartSupported": false,
-          "statusPageUrl": null,
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.cohere.ai/",
           "byokEnabled": true,
           "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256"
+            "url": "/images/icons/Cohere.png"
           }
         },
-        "providerDisplayName": "Featherless",
-        "providerModelId": "nothingiisreal/MN-12B-Celeste-V1.9",
-        "quantization": "fp8",
+        "providerDisplayName": "Cohere",
+        "providerModelId": "command-r",
+        "quantization": "unknown",
         "variant": "standard",
         "isFree": false,
-        "canAbort": false,
+        "canAbort": true,
         "maxPromptTokens": null,
-        "maxCompletionTokens": 4096,
+        "maxCompletionTokens": 4000,
         "maxPromptImages": null,
         "maxTokensPerImage": null,
         "supportedParameters": [
+          "tools",
           "max_tokens",
           "temperature",
           "top_p",
           "stop",
           "frequency_penalty",
           "presence_penalty",
-          "repetition_penalty",
           "top_k",
-          "min_p",
-          "seed"
+          "seed",
+          "response_format",
+          "structured_outputs"
         ],
         "isByok": false,
         "moderationRequired": false,
         "dataPolicy": {
-          "termsOfServiceUrl": "https://featherless.ai/terms",
-          "privacyPolicyUrl": "https://featherless.ai/privacy",
+          "privacyPolicyUrl": "https://cohere.com/privacy",
+          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
           "paidModels": {
             "training": false,
-            "retainsPrompts": false
+            "retainsPrompts": true,
+            "retentionDays": 30
           },
           "training": false,
-          "retainsPrompts": false
+          "retainsPrompts": true,
+          "retentionDays": 30
         },
         "pricing": {
-          "prompt": "0.0000008",
-          "completion": "0.0000012",
+          "prompt": "0.0000005",
+          "completion": "0.0000015",
           "image": "0",
           "request": "0",
           "webSearch": "0",
@@ -60835,40 +61038,41 @@ export default {
         "isHidden": false,
         "isDeranked": false,
         "isDisabled": false,
-        "supportsToolParameters": false,
+        "supportsToolParameters": true,
         "supportsReasoning": false,
-        "supportsMultipart": false,
+        "supportsMultipart": true,
         "limitRpm": null,
         "limitRpd": null,
         "limitRpmCf": null,
-        "hasCompletions": true,
+        "hasCompletions": false,
         "hasChatCompletions": true,
         "features": {
+          "supportedParameters": {},
           "supportsDocumentUrl": null
         },
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 212,
-        "newest": 222,
-        "throughputHighToLow": 284,
-        "latencyLowToHigh": 228,
-        "pricingLowToHigh": 203,
-        "pricingHighToLow": 113
+        "topWeekly": 213,
+        "newest": 274,
+        "throughputHighToLow": 43,
+        "latencyLowToHigh": 4,
+        "pricingLowToHigh": 184,
+        "pricingHighToLow": 129
       },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
+      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
       "providers": [
         {
-          "name": "Featherless",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256",
-          "slug": "featherless",
-          "quantization": "fp8",
-          "context": 16384,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "nothingiisreal/MN-12B-Celeste-V1.9",
+          "name": "Cohere",
+          "icon": "https://openrouter.ai/images/icons/Cohere.png",
+          "slug": "cohere",
+          "quantization": "unknown",
+          "context": 128000,
+          "maxCompletionTokens": 4000,
+          "providerModelId": "command-r",
           "pricing": {
-            "prompt": "0.0000008",
-            "completion": "0.0000012",
+            "prompt": "0.0000005",
+            "completion": "0.0000015",
             "image": "0",
             "request": "0",
             "webSearch": "0",
@@ -60876,21 +61080,22 @@ export default {
             "discount": 0
           },
           "supportedParameters": [
+            "tools",
             "max_tokens",
             "temperature",
             "top_p",
             "stop",
             "frequency_penalty",
             "presence_penalty",
-            "repetition_penalty",
             "top_k",
-            "min_p",
-            "seed"
+            "seed",
+            "response_format",
+            "structured_outputs"
           ],
-          "inputCost": 0.8,
-          "outputCost": 1.2,
-          "throughput": 17.634,
-          "latency": 1697
+          "inputCost": 0.5,
+          "outputCost": 1.5,
+          "throughput": 140.4115,
+          "latency": 177
         }
       ]
     },
@@ -61090,8 +61295,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.03,
-          "throughput": 71.996,
-          "latency": 1290.5
+          "throughput": 74.0125,
+          "latency": 1282
         },
         {
           "name": "DeepInfra (Turbo)",
@@ -61127,8 +61332,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.03,
-          "throughput": 93.1875,
-          "latency": 480
+          "throughput": 92.8555,
+          "latency": 493
         },
         {
           "name": "NovitaAI",
@@ -61162,8 +61367,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.05,
-          "throughput": 79.5575,
-          "latency": 703
+          "throughput": 79.4305,
+          "latency": 690.5
         },
         {
           "name": "Nebius AI Studio",
@@ -61197,8 +61402,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.06,
-          "throughput": 45.0565,
-          "latency": 538
+          "throughput": 40.3535,
+          "latency": 531
         },
         {
           "name": "Lambda",
@@ -61232,8 +61437,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.04,
-          "throughput": 155.555,
-          "latency": 338
+          "throughput": 155.4625,
+          "latency": 340
         },
         {
           "name": "DeepInfra",
@@ -61270,8 +61475,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.05,
-          "throughput": 58.303,
-          "latency": 235
+          "throughput": 58.1365,
+          "latency": 235.5
         },
         {
           "name": "Cloudflare",
@@ -61304,8 +61509,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.38,
-          "throughput": 23.786,
-          "latency": 709
+          "throughput": 23.782,
+          "latency": 692
         },
         {
           "name": "Groq",
@@ -61341,8 +61546,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.08,
-          "throughput": 1477.272,
-          "latency": 914
+          "throughput": 1477.9835,
+          "latency": 929
         },
         {
           "name": "NextBit",
@@ -61373,8 +61578,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.1,
-          "throughput": 89.648,
-          "latency": 1352
+          "throughput": 89.2235,
+          "latency": 1333.5
         },
         {
           "name": "Hyperbolic",
@@ -61410,8 +61615,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 234.4535,
-          "latency": 1089
+          "throughput": 235.75,
+          "latency": 1086.5
         },
         {
           "name": "Cerebras",
@@ -61444,7 +61649,7 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 4464.285,
+          "throughput": 4443.152,
           "latency": 199
         },
         {
@@ -61482,8 +61687,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.1,
-          "throughput": 280.758,
-          "latency": 292
+          "throughput": 280.796,
+          "latency": 295
         },
         {
           "name": "SambaNova",
@@ -61511,8 +61716,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.2,
-          "throughput": 848.484,
-          "latency": 196
+          "throughput": 850.953,
+          "latency": 198
         },
         {
           "name": "kluster.ai",
@@ -61548,8 +61753,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 63.861,
-          "latency": 597.5
+          "throughput": 63.9615,
+          "latency": 593
         },
         {
           "name": "Together",
@@ -61585,8 +61790,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 203.727,
-          "latency": 359.5
+          "throughput": 203.366,
+          "latency": 364.5
         },
         {
           "name": "Fireworks",
@@ -61622,7 +61827,7 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 265.712,
+          "throughput": 265.734,
           "latency": 390
         },
         {
@@ -61653,211 +61858,6 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2
-        }
-      ]
-    },
-    {
-      "slug": "cohere/command-r",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-03-14T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Cohere: Command R",
-      "shortName": "Command R",
-      "author": "cohere",
-      "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-      "modelVersionGroupId": null,
-      "contextLength": 128000,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Cohere",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "cohere/command-r",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "520aa031-d968-4fa1-9648-70c2d4a23a0a",
-        "name": "Cohere | cohere/command-r",
-        "contextLength": 128000,
-        "model": {
-          "slug": "cohere/command-r",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-03-14T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Cohere: Command R",
-          "shortName": "Command R",
-          "author": "cohere",
-          "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-          "modelVersionGroupId": null,
-          "contextLength": 128000,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Cohere",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "cohere/command-r",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "cohere/command-r",
-        "modelVariantPermaslug": "cohere/command-r",
-        "providerName": "Cohere",
-        "providerInfo": {
-          "name": "Cohere",
-          "displayName": "Cohere",
-          "slug": "cohere",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://cohere.com/privacy",
-            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": false,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.cohere.ai/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Cohere.png"
-          }
-        },
-        "providerDisplayName": "Cohere",
-        "providerModelId": "command-r",
-        "quantization": "unknown",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 4000,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "top_k",
-          "seed",
-          "response_format",
-          "structured_outputs"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://cohere.com/privacy",
-          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.0000005",
-          "completion": "0.0000015",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": false,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 214,
-        "newest": 274,
-        "throughputHighToLow": 43,
-        "latencyLowToHigh": 4,
-        "pricingLowToHigh": 184,
-        "pricingHighToLow": 129
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
-      "providers": [
-        {
-          "name": "Cohere",
-          "icon": "https://openrouter.ai/images/icons/Cohere.png",
-          "slug": "cohere",
-          "quantization": "unknown",
-          "context": 128000,
-          "maxCompletionTokens": 4000,
-          "providerModelId": "command-r",
-          "pricing": {
-            "prompt": "0.0000005",
-            "completion": "0.0000015",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "seed",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 0.5,
-          "outputCost": 1.5,
-          "throughput": 140.5665,
-          "latency": 176
         }
       ]
     },
@@ -62017,7 +62017,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 215,
-        "newest": 223,
+        "newest": 222,
         "throughputHighToLow": 270,
         "latencyLowToHigh": 281,
         "pricingLowToHigh": 64,
@@ -62094,8 +62094,8 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 4,
-          "throughput": 10.584,
-          "latency": 1546
+          "throughput": 10.583,
+          "latency": 1545.5
         }
       ]
     },
@@ -62299,8 +62299,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 15,
-          "throughput": 52.7925,
-          "latency": 435
+          "throughput": 53.065,
+          "latency": 433.5
         }
       ]
     },
@@ -62460,11 +62460,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 217,
-        "newest": 205,
-        "throughputHighToLow": 313,
+        "newest": 206,
+        "throughputHighToLow": 314,
         "latencyLowToHigh": 308,
         "pricingLowToHigh": 306,
-        "pricingHighToLow": 11
+        "pricingHighToLow": 12
       },
       "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
       "providers": [
@@ -62492,8 +62492,8 @@ export default {
           ],
           "inputCost": 15,
           "outputCost": 60,
-          "throughput": 125.949,
-          "latency": 9114
+          "throughput": 125.923,
+          "latency": 9094
         }
       ]
     },
@@ -62879,8 +62879,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.12,
-          "throughput": 29.855,
-          "latency": 7239
+          "throughput": 29.984,
+          "latency": 7249
         },
         {
           "name": "NextBit",
@@ -62911,8 +62911,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.13,
-          "throughput": 28.591,
-          "latency": 2225
+          "throughput": 28.844,
+          "latency": 2209.5
         },
         {
           "name": "DeepInfra",
@@ -62946,8 +62946,8 @@ export default {
           ],
           "inputCost": 0.07,
           "outputCost": 0.14,
-          "throughput": 78.1345,
-          "latency": 269
+          "throughput": 78.1535,
+          "latency": 268
         },
         {
           "name": "Mistral",
@@ -62981,8 +62981,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 150.837,
-          "latency": 257
+          "throughput": 151.0155,
+          "latency": 258
         },
         {
           "name": "Ubicloud",
@@ -63015,8 +63015,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 32.453,
-          "latency": 1200
+          "throughput": 32.4575,
+          "latency": 1199.5
         },
         {
           "name": "Together",
@@ -63209,7 +63209,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 128,
+        "topWeekly": 129,
         "newest": 41,
         "throughputHighToLow": 173,
         "latencyLowToHigh": 293,
@@ -63250,8 +63250,8 @@ export default {
           ],
           "inputCost": 0.24,
           "outputCost": 0.24,
-          "throughput": 5.5435,
-          "latency": 23370
+          "throughput": 5.551,
+          "latency": 23329
         }
       ]
     },
@@ -63406,11 +63406,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 221,
-        "newest": 189,
+        "newest": 190,
         "throughputHighToLow": 213,
         "latencyLowToHigh": 275,
         "pricingLowToHigh": 260,
-        "pricingHighToLow": 55
+        "pricingHighToLow": 56
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://inflection.ai/\\u0026size=256",
       "providers": [
@@ -63439,8 +63439,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 41.596,
-          "latency": 2528.5
+          "throughput": 41.597,
+          "latency": 2533
         }
       ]
     },
@@ -63608,7 +63608,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 222,
-        "newest": 182,
+        "newest": 180,
         "throughputHighToLow": 288,
         "latencyLowToHigh": 88,
         "pricingLowToHigh": 249,
@@ -63649,8 +63649,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 3,
-          "throughput": 16.319,
-          "latency": 586
+          "throughput": 16.312,
+          "latency": 585
         },
         {
           "name": "Infermatic",
@@ -63685,7 +63685,7 @@ export default {
           "inputCost": 3,
           "outputCost": 3,
           "throughput": 17.415,
-          "latency": 3262
+          "latency": 3278
         },
         {
           "name": "Featherless",
@@ -63718,8 +63718,8 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 6,
-          "throughput": 13.797,
-          "latency": 8819
+          "throughput": 13.7975,
+          "latency": 8824.5
         }
       ]
     },
@@ -65016,8 +65016,8 @@ export default {
           ],
           "inputCost": 1.25,
           "outputCost": 2,
-          "throughput": 21.6635,
-          "latency": 2824.5
+          "throughput": 21.641,
+          "latency": 2829.5
         }
       ]
     },
@@ -65186,7 +65186,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 109,
-        "newest": 197,
+        "newest": 200,
         "throughputHighToLow": 57,
         "latencyLowToHigh": 134,
         "pricingLowToHigh": 61,
@@ -65226,8 +65226,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.05,
-          "throughput": 11.417,
-          "latency": 3160
+          "throughput": 11.4485,
+          "latency": 3140
         },
         {
           "name": "Cloudflare",
@@ -65258,8 +65258,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.68,
-          "throughput": 33.7005,
-          "latency": 267
+          "throughput": 32.923,
+          "latency": 270
         },
         {
           "name": "Lambda",
@@ -65293,8 +65293,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.05,
-          "throughput": 110.67,
-          "latency": 432
+          "throughput": 111.6905,
+          "latency": 428
         },
         {
           "name": "inference.net",
@@ -65328,8 +65328,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.06,
-          "throughput": 31.191,
-          "latency": 2098
+          "throughput": 31.321,
+          "latency": 1980
         },
         {
           "name": "NovitaAI",
@@ -65363,8 +65363,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.06,
-          "throughput": 49.624,
-          "latency": 792.5
+          "throughput": 48.26,
+          "latency": 805
         },
         {
           "name": "Together",
@@ -65398,8 +65398,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 140.056,
-          "latency": 386
+          "throughput": 140.246,
+          "latency": 387
         }
       ]
     },
@@ -65603,8 +65603,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 61.8205,
-          "latency": 715
+          "throughput": 61.775,
+          "latency": 720
         },
         {
           "name": "inference.net",
@@ -65638,8 +65638,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 53.165,
-          "latency": 2216
+          "throughput": 54.608,
+          "latency": 2221.5
         },
         {
           "name": "kluster.ai",
@@ -65675,8 +65675,8 @@ export default {
           ],
           "inputCost": 0.3,
           "outputCost": 0.3,
-          "throughput": 22.773,
-          "latency": 3336
+          "throughput": 24.2595,
+          "latency": 3456.5
         }
       ]
     },
@@ -65842,7 +65842,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 231,
-        "newest": 296,
+        "newest": 297,
         "throughputHighToLow": 286,
         "latencyLowToHigh": 255,
         "pricingLowToHigh": 299,
@@ -65883,8 +65883,8 @@ export default {
           ],
           "inputCost": 10,
           "outputCost": 12.5,
-          "throughput": 17.567,
-          "latency": 2008.5
+          "throughput": 17.589,
+          "latency": 2008
         }
       ]
     },
@@ -66086,7 +66086,7 @@ export default {
           "inputCost": 0.5,
           "outputCost": 0.8,
           "throughput": 95.238,
-          "latency": 718.5
+          "latency": 720
         }
       ]
     },
@@ -66292,8 +66292,8 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 6,
-          "throughput": 13.801,
-          "latency": 2294
+          "throughput": 13.802,
+          "latency": 2339
         }
       ]
     },
@@ -66683,8 +66683,8 @@ export default {
           ],
           "inputCost": 0.04,
           "outputCost": 0.12,
-          "throughput": 121.1935,
-          "latency": 233
+          "throughput": 120.689,
+          "latency": 232.5
         }
       ]
     },
@@ -66885,8 +66885,8 @@ export default {
           ],
           "inputCost": 0.45,
           "outputCost": 0.75,
-          "throughput": 90.8675,
-          "latency": 388.5
+          "throughput": 91.579,
+          "latency": 410.5
         }
       ]
     },
@@ -67099,8 +67099,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 8,
-          "throughput": 66.244,
-          "latency": 1180
+          "throughput": 65.401,
+          "latency": 1189
         },
         {
           "name": "Together",
@@ -67136,8 +67136,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 7,
-          "throughput": 69.924,
-          "latency": 941
+          "throughput": 70.114,
+          "latency": 946
         }
       ]
     },
@@ -67302,7 +67302,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 238,
-        "newest": 284,
+        "newest": 283,
         "throughputHighToLow": 33,
         "latencyLowToHigh": 158,
         "pricingLowToHigh": 220,
@@ -67345,8 +67345,345 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 2,
-          "throughput": 173.719,
-          "latency": 947
+          "throughput": 172.905,
+          "latency": 949
+        }
+      ]
+    },
+    {
+      "slug": "mistralai/mistral-7b-instruct-v0.3",
+      "hfSlug": "mistralai/Mistral-7B-Instruct-v0.3",
+      "updatedAt": "2025-04-28T20:21:03.247395+00:00",
+      "createdAt": "2024-05-27T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Mistral: Mistral 7B Instruct v0.3",
+      "shortName": "Mistral 7B Instruct v0.3",
+      "author": "mistralai",
+      "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct v0.2](/models/mistralai/mistral-7b-instruct-v0.2), with the following changes:\n\n- Extended vocabulary to 32768\n- Supports v3 Tokenizer\n- Supports function calling\n\nNOTE: Support for function calling depends on the provider.",
+      "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
+      "contextLength": 32768,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Mistral",
+      "instructType": "mistral",
+      "defaultSystem": null,
+      "defaultStops": [
+        "[INST]",
+        "</s>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "mistralai/mistral-7b-instruct-v0.3",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "3b4d5f07-3c11-47c3-8a2b-97a5337d92fa",
+        "name": "Enfer | mistralai/mistral-7b-instruct-v0.3",
+        "contextLength": 32768,
+        "model": {
+          "slug": "mistralai/mistral-7b-instruct-v0.3",
+          "hfSlug": "mistralai/Mistral-7B-Instruct-v0.3",
+          "updatedAt": "2025-04-28T20:21:03.247395+00:00",
+          "createdAt": "2024-05-27T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Mistral: Mistral 7B Instruct v0.3",
+          "shortName": "Mistral 7B Instruct v0.3",
+          "author": "mistralai",
+          "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct v0.2](/models/mistralai/mistral-7b-instruct-v0.2), with the following changes:\n\n- Extended vocabulary to 32768\n- Supports v3 Tokenizer\n- Supports function calling\n\nNOTE: Support for function calling depends on the provider.",
+          "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
+          "contextLength": 32768,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Mistral",
+          "instructType": "mistral",
+          "defaultSystem": null,
+          "defaultStops": [
+            "[INST]",
+            "</s>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "mistralai/mistral-7b-instruct-v0.3",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "mistralai/mistral-7b-instruct-v0.3",
+        "modelVariantPermaslug": "mistralai/mistral-7b-instruct-v0.3",
+        "providerName": "Enfer",
+        "providerInfo": {
+          "name": "Enfer",
+          "displayName": "Enfer",
+          "slug": "enfer",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://enfer.ai/privacy-policy",
+            "privacyPolicyUrl": "https://enfer.ai/privacy-policy",
+            "paidModels": {
+              "training": false
+            }
+          },
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://enfer.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Enfer",
+        "providerModelId": "mistralai/mistral-7b-instruct-v0-3",
+        "quantization": null,
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 16384,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "logit_bias",
+          "logprobs"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://enfer.ai/privacy-policy",
+          "privacyPolicyUrl": "https://enfer.ai/privacy-policy",
+          "paidModels": {
+            "training": false
+          },
+          "training": false
+        },
+        "pricing": {
+          "prompt": "0.000000028",
+          "completion": "0.000000054",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 239,
+        "newest": 250,
+        "throughputHighToLow": 42,
+        "latencyLowToHigh": 295,
+        "pricingLowToHigh": 82,
+        "pricingHighToLow": 235
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Mistral.png",
+      "providers": [
+        {
+          "name": "Enfer",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://enfer.ai/&size=256",
+          "slug": "enfer",
+          "quantization": null,
+          "context": 32768,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "mistralai/mistral-7b-instruct-v0-3",
+          "pricing": {
+            "prompt": "0.000000028",
+            "completion": "0.000000054",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "logit_bias",
+            "logprobs"
+          ],
+          "inputCost": 0.03,
+          "outputCost": 0.05,
+          "throughput": 135.623,
+          "latency": 4757
+        },
+        {
+          "name": "DeepInfra",
+          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
+          "slug": "deepInfra",
+          "quantization": "bf16",
+          "context": 32768,
+          "maxCompletionTokens": 16384,
+          "providerModelId": "mistralai/Mistral-7B-Instruct-v0.3",
+          "pricing": {
+            "prompt": "0.000000029",
+            "completion": "0.000000055",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k",
+            "seed",
+            "min_p"
+          ],
+          "inputCost": 0.03,
+          "outputCost": 0.06,
+          "throughput": 124.4955,
+          "latency": 592.5
+        },
+        {
+          "name": "NextBit",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nextbit256.com/&size=256",
+          "slug": "nextBit",
+          "quantization": "bf16",
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "mistral:7b",
+          "pricing": {
+            "prompt": "0.000000029",
+            "completion": "0.000000058",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "response_format",
+            "structured_outputs"
+          ],
+          "inputCost": 0.03,
+          "outputCost": 0.06,
+          "throughput": 78.441,
+          "latency": 1359
+        },
+        {
+          "name": "NovitaAI",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
+          "slug": "novitaAi",
+          "quantization": "unknown",
+          "context": 32768,
+          "maxCompletionTokens": null,
+          "providerModelId": "mistralai/mistral-7b-instruct",
+          "pricing": {
+            "prompt": "0.000000029",
+            "completion": "0.000000059",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "min_p",
+            "repetition_penalty",
+            "logit_bias"
+          ],
+          "inputCost": 0.03,
+          "outputCost": 0.06,
+          "throughput": 158.057,
+          "latency": 735
+        },
+        {
+          "name": "Together",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
+          "slug": "together",
+          "quantization": "unknown",
+          "context": 32768,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "mistralai/Mistral-7B-Instruct-v0.3",
+          "pricing": {
+            "prompt": "0.0000002",
+            "completion": "0.0000002",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "repetition_penalty",
+            "logit_bias",
+            "min_p",
+            "response_format"
+          ],
+          "inputCost": 0.2,
+          "outputCost": 0.2,
+          "throughput": 237.316,
+          "latency": 576.5
         }
       ]
     },
@@ -67516,8 +67853,8 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 239,
-        "newest": 283,
+        "topWeekly": 240,
+        "newest": 284,
         "throughputHighToLow": 231,
         "latencyLowToHigh": 167,
         "pricingLowToHigh": 301,
@@ -67560,247 +67897,8 @@ export default {
           ],
           "inputCost": 10,
           "outputCost": 30,
-          "throughput": 36.716,
-          "latency": 1036.5
-        }
-      ]
-    },
-    {
-      "slug": "liquid/lfm-40b",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-09-30T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Liquid: LFM 40B MoE",
-      "shortName": "LFM 40B MoE",
-      "author": "liquid",
-      "description": "Liquid's 40.3B Mixture of Experts (MoE) model. Liquid Foundation Models (LFMs) are large neural networks built with computational units rooted in dynamic systems.\n\nLFMs are general-purpose AI models that can be used to model any kind of sequential data, including video, audio, text, time series, and signals.\n\nSee the [launch announcement](https://www.liquid.ai/liquid-foundation-models) for benchmarks and more info.",
-      "modelVersionGroupId": null,
-      "contextLength": 32768,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Other",
-      "instructType": "chatml",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<|im_start|>",
-        "<|im_end|>",
-        "<|endoftext|>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "liquid/lfm-40b",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "7901899b-4845-4089-979d-34a1ef065875",
-        "name": "Liquid | liquid/lfm-40b",
-        "contextLength": 32768,
-        "model": {
-          "slug": "liquid/lfm-40b",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-09-30T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Liquid: LFM 40B MoE",
-          "shortName": "LFM 40B MoE",
-          "author": "liquid",
-          "description": "Liquid's 40.3B Mixture of Experts (MoE) model. Liquid Foundation Models (LFMs) are large neural networks built with computational units rooted in dynamic systems.\n\nLFMs are general-purpose AI models that can be used to model any kind of sequential data, including video, audio, text, time series, and signals.\n\nSee the [launch announcement](https://www.liquid.ai/liquid-foundation-models) for benchmarks and more info.",
-          "modelVersionGroupId": null,
-          "contextLength": 32768,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Other",
-          "instructType": "chatml",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<|im_start|>",
-            "<|im_end|>",
-            "<|endoftext|>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "liquid/lfm-40b",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "liquid/lfm-40b",
-        "modelVariantPermaslug": "liquid/lfm-40b",
-        "providerName": "Liquid",
-        "providerInfo": {
-          "name": "Liquid",
-          "displayName": "Liquid",
-          "slug": "liquid",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://www.liquid.ai/terms-conditions",
-            "privacyPolicyUrl": "https://www.liquid.ai/privacy-policy",
-            "paidModels": {
-              "training": false
-            }
-          },
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.liquid.ai/&size=256",
-            "invertRequired": true
-          }
-        },
-        "providerDisplayName": "Liquid",
-        "providerModelId": "lfm-40b",
-        "quantization": null,
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": null,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "seed",
-          "top_k",
-          "min_p",
-          "repetition_penalty"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://www.liquid.ai/terms-conditions",
-          "privacyPolicyUrl": "https://www.liquid.ai/privacy-policy",
-          "paidModels": {
-            "training": false
-          },
-          "training": false
-        },
-        "pricing": {
-          "prompt": "0.00000015",
-          "completion": "0.00000015",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 240,
-        "newest": 192,
-        "throughputHighToLow": 23,
-        "latencyLowToHigh": 20,
-        "pricingLowToHigh": 131,
-        "pricingHighToLow": 186
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://www.liquid.ai/\\u0026size=256",
-      "providers": [
-        {
-          "name": "Liquid",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.liquid.ai/&size=256",
-          "slug": "liquid",
-          "quantization": null,
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "lfm-40b",
-          "pricing": {
-            "prompt": "0.00000015",
-            "completion": "0.00000015",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "top_k",
-            "min_p",
-            "repetition_penalty"
-          ],
-          "inputCost": 0.15,
-          "outputCost": 0.15,
-          "throughput": 176.903,
-          "latency": 298.5
-        },
-        {
-          "name": "Lambda",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256",
-          "slug": "lambda",
-          "quantization": "bf16",
-          "context": 65536,
-          "maxCompletionTokens": 65536,
-          "providerModelId": "lfm-40b",
-          "pricing": {
-            "prompt": "0.00000015",
-            "completion": "0.00000015",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "seed",
-            "logit_bias",
-            "logprobs",
-            "top_logprobs",
-            "response_format"
-          ],
-          "inputCost": 0.15,
-          "outputCost": 0.15,
-          "throughput": 80.768,
-          "latency": 185
+          "throughput": 36.411,
+          "latency": 1031
         }
       ]
     },
@@ -68025,22 +68123,22 @@ export default {
           ],
           "inputCost": 0.24,
           "outputCost": 0.24,
-          "throughput": 22.142,
-          "latency": 1453
+          "throughput": 22.119,
+          "latency": 1414
         }
       ]
     },
     {
-      "slug": "mistralai/mistral-7b-instruct-v0.3",
-      "hfSlug": "mistralai/Mistral-7B-Instruct-v0.3",
-      "updatedAt": "2025-04-28T20:21:03.247395+00:00",
-      "createdAt": "2024-05-27T00:00:00+00:00",
+      "slug": "liquid/lfm-40b",
+      "hfSlug": null,
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-09-30T00:00:00+00:00",
       "hfUpdatedAt": null,
-      "name": "Mistral: Mistral 7B Instruct v0.3",
-      "shortName": "Mistral 7B Instruct v0.3",
-      "author": "mistralai",
-      "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct v0.2](/models/mistralai/mistral-7b-instruct-v0.2), with the following changes:\n\n- Extended vocabulary to 32768\n- Supports v3 Tokenizer\n- Supports function calling\n\nNOTE: Support for function calling depends on the provider.",
-      "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
+      "name": "Liquid: LFM 40B MoE",
+      "shortName": "LFM 40B MoE",
+      "author": "liquid",
+      "description": "Liquid's 40.3B Mixture of Experts (MoE) model. Liquid Foundation Models (LFMs) are large neural networks built with computational units rooted in dynamic systems.\n\nLFMs are general-purpose AI models that can be used to model any kind of sequential data, including video, audio, text, time series, and signals.\n\nSee the [launch announcement](https://www.liquid.ai/liquid-foundation-models) for benchmarks and more info.",
+      "modelVersionGroupId": null,
       "contextLength": 32768,
       "inputModalities": [
         "text"
@@ -68049,34 +68147,35 @@ export default {
         "text"
       ],
       "hasTextOutput": true,
-      "group": "Mistral",
-      "instructType": "mistral",
+      "group": "Other",
+      "instructType": "chatml",
       "defaultSystem": null,
       "defaultStops": [
-        "[INST]",
-        "</s>"
+        "<|im_start|>",
+        "<|im_end|>",
+        "<|endoftext|>"
       ],
       "hidden": false,
       "router": null,
       "warningMessage": null,
-      "permaslug": "mistralai/mistral-7b-instruct-v0.3",
+      "permaslug": "liquid/lfm-40b",
       "reasoningConfig": null,
       "features": {},
       "endpoint": {
-        "id": "3b4d5f07-3c11-47c3-8a2b-97a5337d92fa",
-        "name": "Enfer | mistralai/mistral-7b-instruct-v0.3",
+        "id": "7901899b-4845-4089-979d-34a1ef065875",
+        "name": "Liquid | liquid/lfm-40b",
         "contextLength": 32768,
         "model": {
-          "slug": "mistralai/mistral-7b-instruct-v0.3",
-          "hfSlug": "mistralai/Mistral-7B-Instruct-v0.3",
-          "updatedAt": "2025-04-28T20:21:03.247395+00:00",
-          "createdAt": "2024-05-27T00:00:00+00:00",
+          "slug": "liquid/lfm-40b",
+          "hfSlug": null,
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-09-30T00:00:00+00:00",
           "hfUpdatedAt": null,
-          "name": "Mistral: Mistral 7B Instruct v0.3",
-          "shortName": "Mistral 7B Instruct v0.3",
-          "author": "mistralai",
-          "description": "A high-performing, industry-standard 7.3B parameter model, with optimizations for speed and context length.\n\nAn improved version of [Mistral 7B Instruct v0.2](/models/mistralai/mistral-7b-instruct-v0.2), with the following changes:\n\n- Extended vocabulary to 32768\n- Supports v3 Tokenizer\n- Supports function calling\n\nNOTE: Support for function calling depends on the provider.",
-          "modelVersionGroupId": "1d07cc56-c54d-4587-b785-5093496397a4",
+          "name": "Liquid: LFM 40B MoE",
+          "shortName": "LFM 40B MoE",
+          "author": "liquid",
+          "description": "Liquid's 40.3B Mixture of Experts (MoE) model. Liquid Foundation Models (LFMs) are large neural networks built with computational units rooted in dynamic systems.\n\nLFMs are general-purpose AI models that can be used to model any kind of sequential data, including video, audio, text, time series, and signals.\n\nSee the [launch announcement](https://www.liquid.ai/liquid-foundation-models) for benchmarks and more info.",
+          "modelVersionGroupId": null,
           "contextLength": 32768,
           "inputModalities": [
             "text"
@@ -68085,31 +68184,32 @@ export default {
             "text"
           ],
           "hasTextOutput": true,
-          "group": "Mistral",
-          "instructType": "mistral",
+          "group": "Other",
+          "instructType": "chatml",
           "defaultSystem": null,
           "defaultStops": [
-            "[INST]",
-            "</s>"
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|endoftext|>"
           ],
           "hidden": false,
           "router": null,
           "warningMessage": null,
-          "permaslug": "mistralai/mistral-7b-instruct-v0.3",
+          "permaslug": "liquid/lfm-40b",
           "reasoningConfig": null,
           "features": {}
         },
-        "modelVariantSlug": "mistralai/mistral-7b-instruct-v0.3",
-        "modelVariantPermaslug": "mistralai/mistral-7b-instruct-v0.3",
-        "providerName": "Enfer",
+        "modelVariantSlug": "liquid/lfm-40b",
+        "modelVariantPermaslug": "liquid/lfm-40b",
+        "providerName": "Liquid",
         "providerInfo": {
-          "name": "Enfer",
-          "displayName": "Enfer",
-          "slug": "enfer",
+          "name": "Liquid",
+          "displayName": "Liquid",
+          "slug": "liquid",
           "baseUrl": "url",
           "dataPolicy": {
-            "termsOfServiceUrl": "https://enfer.ai/privacy-policy",
-            "privacyPolicyUrl": "https://enfer.ai/privacy-policy",
+            "termsOfServiceUrl": "https://www.liquid.ai/terms-conditions",
+            "privacyPolicyUrl": "https://www.liquid.ai/privacy-policy",
             "paidModels": {
               "training": false
             }
@@ -68124,17 +68224,18 @@ export default {
           "statusPageUrl": null,
           "byokEnabled": true,
           "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://enfer.ai/&size=256"
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.liquid.ai/&size=256",
+            "invertRequired": true
           }
         },
-        "providerDisplayName": "Enfer",
-        "providerModelId": "mistralai/mistral-7b-instruct-v0-3",
+        "providerDisplayName": "Liquid",
+        "providerModelId": "lfm-40b",
         "quantization": null,
         "variant": "standard",
         "isFree": false,
         "canAbort": true,
         "maxPromptTokens": null,
-        "maxCompletionTokens": 16384,
+        "maxCompletionTokens": null,
         "maxPromptImages": null,
         "maxTokensPerImage": null,
         "supportedParameters": [
@@ -68144,22 +68245,24 @@ export default {
           "stop",
           "frequency_penalty",
           "presence_penalty",
-          "logit_bias",
-          "logprobs"
+          "seed",
+          "top_k",
+          "min_p",
+          "repetition_penalty"
         ],
         "isByok": false,
         "moderationRequired": false,
         "dataPolicy": {
-          "termsOfServiceUrl": "https://enfer.ai/privacy-policy",
-          "privacyPolicyUrl": "https://enfer.ai/privacy-policy",
+          "termsOfServiceUrl": "https://www.liquid.ai/terms-conditions",
+          "privacyPolicyUrl": "https://www.liquid.ai/privacy-policy",
           "paidModels": {
             "training": false
           },
           "training": false
         },
         "pricing": {
-          "prompt": "0.000000028",
-          "completion": "0.000000054",
+          "prompt": "0.00000015",
+          "completion": "0.00000015",
           "image": "0",
           "request": "0",
           "webSearch": "0",
@@ -68179,133 +68282,31 @@ export default {
         "hasCompletions": true,
         "hasChatCompletions": true,
         "features": {
-          "supportedParameters": {},
           "supportsDocumentUrl": null
         },
         "providerRegion": null
       },
       "sorting": {
         "topWeekly": 242,
-        "newest": 247,
-        "throughputHighToLow": 42,
-        "latencyLowToHigh": 295,
-        "pricingLowToHigh": 82,
-        "pricingHighToLow": 234
+        "newest": 194,
+        "throughputHighToLow": 23,
+        "latencyLowToHigh": 20,
+        "pricingLowToHigh": 131,
+        "pricingHighToLow": 186
       },
-      "authorIcon": "https://openrouter.ai/images/icons/Mistral.png",
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://www.liquid.ai/\\u0026size=256",
       "providers": [
         {
-          "name": "Enfer",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://enfer.ai/&size=256",
-          "slug": "enfer",
+          "name": "Liquid",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.liquid.ai/&size=256",
+          "slug": "liquid",
           "quantization": null,
           "context": 32768,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "mistralai/mistral-7b-instruct-v0-3",
-          "pricing": {
-            "prompt": "0.000000028",
-            "completion": "0.000000054",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "logit_bias",
-            "logprobs"
-          ],
-          "inputCost": 0.03,
-          "outputCost": 0.05,
-          "throughput": 138.617,
-          "latency": 4751.5
-        },
-        {
-          "name": "DeepInfra",
-          "icon": "https://openrouter.ai/images/icons/DeepInfra.webp",
-          "slug": "deepInfra",
-          "quantization": "bf16",
-          "context": 32768,
-          "maxCompletionTokens": 16384,
-          "providerModelId": "mistralai/Mistral-7B-Instruct-v0.3",
-          "pricing": {
-            "prompt": "0.000000029",
-            "completion": "0.000000055",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "tool_choice",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "response_format",
-            "top_k",
-            "seed",
-            "min_p"
-          ],
-          "inputCost": 0.03,
-          "outputCost": 0.06,
-          "throughput": 125.277,
-          "latency": 596
-        },
-        {
-          "name": "NextBit",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://nextbit256.com/&size=256",
-          "slug": "nextBit",
-          "quantization": "bf16",
-          "context": 32768,
           "maxCompletionTokens": null,
-          "providerModelId": "mistral:7b",
+          "providerModelId": "lfm-40b",
           "pricing": {
-            "prompt": "0.000000029",
-            "completion": "0.000000058",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 0.03,
-          "outputCost": 0.06,
-          "throughput": 78.3345,
-          "latency": 1358.5
-        },
-        {
-          "name": "NovitaAI",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://novita.ai/&size=256",
-          "slug": "novitaAi",
-          "quantization": "unknown",
-          "context": 32768,
-          "maxCompletionTokens": null,
-          "providerModelId": "mistralai/mistral-7b-instruct",
-          "pricing": {
-            "prompt": "0.000000029",
-            "completion": "0.000000059",
+            "prompt": "0.00000015",
+            "completion": "0.00000015",
             "image": "0",
             "request": "0",
             "webSearch": "0",
@@ -68322,25 +68323,24 @@ export default {
             "seed",
             "top_k",
             "min_p",
-            "repetition_penalty",
-            "logit_bias"
+            "repetition_penalty"
           ],
-          "inputCost": 0.03,
-          "outputCost": 0.06,
-          "throughput": 158.057,
-          "latency": 735
+          "inputCost": 0.15,
+          "outputCost": 0.15,
+          "throughput": 176.903,
+          "latency": 298.5
         },
         {
-          "name": "Together",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.together.ai/&size=256",
-          "slug": "together",
-          "quantization": "unknown",
-          "context": 32768,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "mistralai/Mistral-7B-Instruct-v0.3",
+          "name": "Lambda",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lambdalabs.com/&size=256",
+          "slug": "lambda",
+          "quantization": "bf16",
+          "context": 65536,
+          "maxCompletionTokens": 65536,
+          "providerModelId": "lfm-40b",
           "pricing": {
-            "prompt": "0.0000002",
-            "completion": "0.0000002",
+            "prompt": "0.00000015",
+            "completion": "0.00000015",
             "image": "0",
             "request": "0",
             "webSearch": "0",
@@ -68354,16 +68354,16 @@ export default {
             "stop",
             "frequency_penalty",
             "presence_penalty",
-            "top_k",
-            "repetition_penalty",
+            "seed",
             "logit_bias",
-            "min_p",
+            "logprobs",
+            "top_logprobs",
             "response_format"
           ],
-          "inputCost": 0.2,
-          "outputCost": 0.2,
-          "throughput": 237.316,
-          "latency": 576.5
+          "inputCost": 0.15,
+          "outputCost": 0.15,
+          "throughput": 80.769,
+          "latency": 185
         }
       ]
     },
@@ -68907,8 +68907,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.2,
-          "throughput": 42.846,
-          "latency": 1491
+          "throughput": 42.827,
+          "latency": 1484
         }
       ]
     },
@@ -69068,11 +69068,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 246,
-        "newest": 208,
-        "throughputHighToLow": 316,
+        "newest": 205,
+        "throughputHighToLow": 313,
         "latencyLowToHigh": 305,
         "pricingLowToHigh": 305,
-        "pricingHighToLow": 12
+        "pricingHighToLow": 11
       },
       "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
       "providers": [
@@ -69100,8 +69100,8 @@ export default {
           ],
           "inputCost": 15,
           "outputCost": 60,
-          "throughput": 122.654,
-          "latency": 8392
+          "throughput": 121.698,
+          "latency": 8387
         }
       ]
     },
@@ -69252,7 +69252,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 47,
+        "topWeekly": 48,
         "newest": 195,
         "throughputHighToLow": 4,
         "latencyLowToHigh": 11,
@@ -69293,7 +69293,7 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.02,
-          "throughput": 104.25,
+          "throughput": 104.619,
           "latency": 222
         },
         {
@@ -69328,8 +69328,8 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.02,
-          "throughput": 102.461,
-          "latency": 191
+          "throughput": 103.12,
+          "latency": 190
         },
         {
           "name": "Lambda",
@@ -69398,8 +69398,8 @@ export default {
           ],
           "inputCost": 0.02,
           "outputCost": 0.02,
-          "throughput": 84.89,
-          "latency": 883.5
+          "throughput": 84.9515,
+          "latency": 880
         },
         {
           "name": "NovitaAI",
@@ -69435,8 +69435,8 @@ export default {
           ],
           "inputCost": 0.03,
           "outputCost": 0.05,
-          "throughput": 100.908,
-          "latency": 524
+          "throughput": 100.986,
+          "latency": 522
         },
         {
           "name": "Cloudflare",
@@ -69467,8 +69467,8 @@ export default {
           ],
           "inputCost": 0.05,
           "outputCost": 0.34,
-          "throughput": 171.25,
-          "latency": 398
+          "throughput": 170.6325,
+          "latency": 407.5
         },
         {
           "name": "Together",
@@ -69502,8 +69502,8 @@ export default {
           ],
           "inputCost": 0.06,
           "outputCost": 0.06,
-          "throughput": 168.959,
-          "latency": 423
+          "throughput": 168.944,
+          "latency": 423.5
         },
         {
           "name": "SambaNova",
@@ -69773,8 +69773,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 0.8,
-          "throughput": 17.341,
-          "latency": 1988
+          "throughput": 17.344,
+          "latency": 1990
         }
       ]
     },
@@ -69978,8 +69978,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.6,
-          "throughput": 77.283,
-          "latency": 312
+          "throughput": 77.433,
+          "latency": 310
         },
         {
           "name": "Groq",
@@ -70013,8 +70013,8 @@ export default {
           ],
           "inputCost": 0.79,
           "outputCost": 0.79,
-          "throughput": 405.851,
-          "latency": 418
+          "throughput": 405.832,
+          "latency": 417
         }
       ]
     },
@@ -70221,8 +70221,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 3,
-          "throughput": 16.463,
-          "latency": 750
+          "throughput": 16.461,
+          "latency": 748
         },
         {
           "name": "Featherless",
@@ -70255,8 +70255,8 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 6,
-          "throughput": 13.6415,
-          "latency": 1749
+          "throughput": 13.641,
+          "latency": 1732
         }
       ]
     },
@@ -70463,7 +70463,7 @@ export default {
           ],
           "inputCost": 0.88,
           "outputCost": 0.88,
-          "throughput": 33.911,
+          "throughput": 33.9245,
           "latency": 931
         }
       ]
@@ -70689,8 +70689,8 @@ export default {
           ],
           "inputCost": 0.24,
           "outputCost": 0.24,
-          "throughput": 18.1855,
-          "latency": 1583.5
+          "throughput": 18.242,
+          "latency": 1579
         }
       ]
     },
@@ -70877,8 +70877,8 @@ export default {
           ],
           "inputCost": 2,
           "outputCost": 8,
-          "throughput": 61.966,
-          "latency": 941
+          "throughput": 61.938,
+          "latency": 939.5
         }
       ]
     },
@@ -71080,8 +71080,8 @@ export default {
           ],
           "inputCost": 0.25,
           "outputCost": 0.25,
-          "throughput": 111.069,
-          "latency": 420
+          "throughput": 111.078,
+          "latency": 421
         }
       ]
     },
@@ -71257,7 +71257,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 255,
-        "newest": 302,
+        "newest": 301,
         "throughputHighToLow": 39,
         "latencyLowToHigh": 108,
         "pricingLowToHigh": 233,
@@ -71297,8 +71297,8 @@ export default {
           ],
           "inputCost": 1.5,
           "outputCost": 2,
-          "throughput": 143.518,
-          "latency": 645.5
+          "throughput": 143.5415,
+          "latency": 646
         }
       ]
     },
@@ -71647,199 +71647,6 @@ export default {
       "providers": []
     },
     {
-      "slug": "openai/o1-mini-2024-09-12",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-09-12T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "OpenAI: o1-mini (2024-09-12)",
-      "shortName": "o1-mini (2024-09-12)",
-      "author": "openai",
-      "description": "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.\n\nThe o1 models are optimized for math, science, programming, and other STEM-related tasks. They consistently exhibit PhD-level accuracy on benchmarks in physics, chemistry, and biology. Learn more in the [launch announcement](https://openai.com/o1).\n\nNote: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.",
-      "modelVersionGroupId": null,
-      "contextLength": 128000,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "GPT",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "openai/o1-mini-2024-09-12",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "66ac30ec-dd07-4b8d-9dc0-5c7369bb2efe",
-        "name": "OpenAI | openai/o1-mini-2024-09-12",
-        "contextLength": 128000,
-        "model": {
-          "slug": "openai/o1-mini-2024-09-12",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-09-12T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "OpenAI: o1-mini (2024-09-12)",
-          "shortName": "o1-mini (2024-09-12)",
-          "author": "openai",
-          "description": "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.\n\nThe o1 models are optimized for math, science, programming, and other STEM-related tasks. They consistently exhibit PhD-level accuracy on benchmarks in physics, chemistry, and biology. Learn more in the [launch announcement](https://openai.com/o1).\n\nNote: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.",
-          "modelVersionGroupId": null,
-          "contextLength": 128000,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "GPT",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "openai/o1-mini-2024-09-12",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "openai/o1-mini-2024-09-12",
-        "modelVariantPermaslug": "openai/o1-mini-2024-09-12",
-        "providerName": "OpenAI",
-        "providerInfo": {
-          "name": "OpenAI",
-          "displayName": "OpenAI",
-          "slug": "openai",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
-            "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
-            "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            },
-            "requiresUserIds": true
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": true,
-          "moderationRequired": true,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.openai.com/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/OpenAI.svg",
-            "invertRequired": true
-          }
-        },
-        "providerDisplayName": "OpenAI",
-        "providerModelId": "o1-mini-2024-09-12",
-        "quantization": "unknown",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 65536,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "seed",
-          "max_tokens"
-        ],
-        "isByok": false,
-        "moderationRequired": true,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
-          "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
-          "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "requiresUserIds": true,
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.0000011",
-          "completion": "0.0000044",
-          "image": "0",
-          "request": "0",
-          "inputCacheRead": "0.00000055",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 258,
-        "newest": 206,
-        "throughputHighToLow": 314,
-        "latencyLowToHigh": 294,
-        "pricingLowToHigh": 230,
-        "pricingHighToLow": 90
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
-      "providers": [
-        {
-          "name": "OpenAI",
-          "icon": "https://openrouter.ai/images/icons/OpenAI.svg",
-          "slug": "openAi",
-          "quantization": "unknown",
-          "context": 128000,
-          "maxCompletionTokens": 65536,
-          "providerModelId": "o1-mini-2024-09-12",
-          "pricing": {
-            "prompt": "0.0000011",
-            "completion": "0.0000044",
-            "image": "0",
-            "request": "0",
-            "inputCacheRead": "0.00000055",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "seed",
-            "max_tokens"
-          ],
-          "inputCost": 1.1,
-          "outputCost": 4.4,
-          "throughput": 151.5375,
-          "latency": 4441
-        }
-      ]
-    },
-    {
       "slug": "jondurbin/airoboros-l2-70b",
       "hfSlug": "jondurbin/airoboros-l2-70b-2.2.1",
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
@@ -71998,7 +71805,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 259,
+        "topWeekly": 258,
         "newest": 300,
         "throughputHighToLow": 190,
         "latencyLowToHigh": 280,
@@ -72039,8 +71846,201 @@ export default {
           ],
           "inputCost": 0.5,
           "outputCost": 0.5,
-          "throughput": 46.224,
-          "latency": 2797
+          "throughput": 46.221,
+          "latency": 2796.5
+        }
+      ]
+    },
+    {
+      "slug": "openai/o1-mini-2024-09-12",
+      "hfSlug": null,
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-09-12T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "OpenAI: o1-mini (2024-09-12)",
+      "shortName": "o1-mini (2024-09-12)",
+      "author": "openai",
+      "description": "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.\n\nThe o1 models are optimized for math, science, programming, and other STEM-related tasks. They consistently exhibit PhD-level accuracy on benchmarks in physics, chemistry, and biology. Learn more in the [launch announcement](https://openai.com/o1).\n\nNote: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.",
+      "modelVersionGroupId": null,
+      "contextLength": 128000,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "GPT",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "openai/o1-mini-2024-09-12",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "66ac30ec-dd07-4b8d-9dc0-5c7369bb2efe",
+        "name": "OpenAI | openai/o1-mini-2024-09-12",
+        "contextLength": 128000,
+        "model": {
+          "slug": "openai/o1-mini-2024-09-12",
+          "hfSlug": null,
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-09-12T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "OpenAI: o1-mini (2024-09-12)",
+          "shortName": "o1-mini (2024-09-12)",
+          "author": "openai",
+          "description": "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.\n\nThe o1 models are optimized for math, science, programming, and other STEM-related tasks. They consistently exhibit PhD-level accuracy on benchmarks in physics, chemistry, and biology. Learn more in the [launch announcement](https://openai.com/o1).\n\nNote: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.",
+          "modelVersionGroupId": null,
+          "contextLength": 128000,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "GPT",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "openai/o1-mini-2024-09-12",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "openai/o1-mini-2024-09-12",
+        "modelVariantPermaslug": "openai/o1-mini-2024-09-12",
+        "providerName": "OpenAI",
+        "providerInfo": {
+          "name": "OpenAI",
+          "displayName": "OpenAI",
+          "slug": "openai",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
+            "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
+            "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            },
+            "requiresUserIds": true
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": true,
+          "moderationRequired": true,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.openai.com/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/OpenAI.svg",
+            "invertRequired": true
+          }
+        },
+        "providerDisplayName": "OpenAI",
+        "providerModelId": "o1-mini-2024-09-12",
+        "quantization": "unknown",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 65536,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "seed",
+          "max_tokens"
+        ],
+        "isByok": false,
+        "moderationRequired": true,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://openai.com/policies/row-terms-of-use/",
+          "privacyPolicyUrl": "https://openai.com/policies/privacy-policy/",
+          "dataPolicyUrl": "https://platform.openai.com/docs/guides/your-data",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "requiresUserIds": true,
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.0000011",
+          "completion": "0.0000044",
+          "image": "0",
+          "request": "0",
+          "inputCacheRead": "0.00000055",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 259,
+        "newest": 208,
+        "throughputHighToLow": 316,
+        "latencyLowToHigh": 294,
+        "pricingLowToHigh": 230,
+        "pricingHighToLow": 91
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/OpenAI.svg",
+      "providers": [
+        {
+          "name": "OpenAI",
+          "icon": "https://openrouter.ai/images/icons/OpenAI.svg",
+          "slug": "openAi",
+          "quantization": "unknown",
+          "context": 128000,
+          "maxCompletionTokens": 65536,
+          "providerModelId": "o1-mini-2024-09-12",
+          "pricing": {
+            "prompt": "0.0000011",
+            "completion": "0.0000044",
+            "image": "0",
+            "request": "0",
+            "inputCacheRead": "0.00000055",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "seed",
+            "max_tokens"
+          ],
+          "inputCost": 1.1,
+          "outputCost": 4.4,
+          "throughput": 149.473,
+          "latency": 4439
         }
       ]
     },
@@ -72447,8 +72447,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 73.9605,
-          "latency": 633
+          "throughput": 73.053,
+          "latency": 634
         },
         {
           "name": "Azure",
@@ -72486,8 +72486,8 @@ export default {
           ],
           "inputCost": 2.5,
           "outputCost": 10,
-          "throughput": 213.389,
-          "latency": 1381
+          "throughput": 211.932,
+          "latency": 1383
         }
       ]
     },
@@ -72672,8 +72672,8 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 8,
-          "throughput": 46.594,
-          "latency": 1716
+          "throughput": 46.691,
+          "latency": 1729
         }
       ]
     },
@@ -72832,11 +72832,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 263,
-        "newest": 294,
+        "newest": 292,
         "throughputHighToLow": 289,
         "latencyLowToHigh": 197,
         "pricingLowToHigh": 293,
-        "pricingHighToLow": 20
+        "pricingHighToLow": 18
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -72867,7 +72867,7 @@ export default {
           "inputCost": 8,
           "outputCost": 24,
           "throughput": 16.026,
-          "latency": 1408
+          "latency": 1410
         }
       ]
     },
@@ -73031,7 +73031,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 264,
-        "newest": 287,
+        "newest": 286,
         "throughputHighToLow": 187,
         "latencyLowToHigh": 50,
         "pricingLowToHigh": 264,
@@ -73071,8 +73071,8 @@ export default {
           ],
           "inputCost": 2.75,
           "outputCost": 8.1,
-          "throughput": 47.9795,
-          "latency": 442.5
+          "throughput": 47.9815,
+          "latency": 440
         }
       ]
     },
@@ -73278,7 +73278,7 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 19.279,
+          "throughput": 19.273,
           "latency": 3364
         }
       ]
@@ -73645,8 +73645,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 4,
-          "throughput": 174.964,
-          "latency": 365
+          "throughput": 174.775,
+          "latency": 365.5
         },
         {
           "name": "Azure",
@@ -73848,7 +73848,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 79,
+        "topWeekly": 80,
         "newest": 261,
         "throughputHighToLow": 130,
         "latencyLowToHigh": 105,
@@ -73890,8 +73890,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 1.25,
-          "throughput": 64.6645,
-          "latency": 627
+          "throughput": 64.5935,
+          "latency": 631
         },
         {
           "name": "Featherless",
@@ -73924,8 +73924,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 25.778,
-          "latency": 1190
+          "throughput": 25.78,
+          "latency": 1187
         }
       ]
     },
@@ -74084,7 +74084,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 215,
-        "newest": 223,
+        "newest": 222,
         "throughputHighToLow": 270,
         "latencyLowToHigh": 281,
         "pricingLowToHigh": 64,
@@ -74161,8 +74161,8 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 4,
-          "throughput": 10.584,
-          "latency": 1546
+          "throughput": 10.583,
+          "latency": 1545.5
         }
       ]
     },
@@ -74370,8 +74370,8 @@ export default {
           ],
           "inputCost": 0.6,
           "outputCost": 0.6,
-          "throughput": 110.4285,
-          "latency": 423
+          "throughput": 109.2835,
+          "latency": 426
         }
       ]
     },
@@ -74742,211 +74742,6 @@ export default {
       "providers": []
     },
     {
-      "slug": "neversleep/llama-3-lumimaid-70b",
-      "hfSlug": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-05-16T00:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "NeverSleep: Llama 3 Lumimaid 70B",
-      "shortName": "Llama 3 Lumimaid 70B",
-      "author": "neversleep",
-      "description": "The NeverSleep team is back, with a Llama 3 70B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
-      "modelVersionGroupId": null,
-      "contextLength": 8192,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Llama3",
-      "instructType": "llama3",
-      "defaultSystem": null,
-      "defaultStops": [
-        "<|eot_id|>",
-        "<|end_of_text|>"
-      ],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "neversleep/llama-3-lumimaid-70b",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "9dec8b8b-2d23-49bf-ba8f-1116b6195c03",
-        "name": "Featherless | neversleep/llama-3-lumimaid-70b",
-        "contextLength": 8192,
-        "model": {
-          "slug": "neversleep/llama-3-lumimaid-70b",
-          "hfSlug": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-05-16T00:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "NeverSleep: Llama 3 Lumimaid 70B",
-          "shortName": "Llama 3 Lumimaid 70B",
-          "author": "neversleep",
-          "description": "The NeverSleep team is back, with a Llama 3 70B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
-          "modelVersionGroupId": null,
-          "contextLength": 8192,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Llama3",
-          "instructType": "llama3",
-          "defaultSystem": null,
-          "defaultStops": [
-            "<|eot_id|>",
-            "<|end_of_text|>"
-          ],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "neversleep/llama-3-lumimaid-70b",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "neversleep/llama-3-lumimaid-70b",
-        "modelVariantPermaslug": "neversleep/llama-3-lumimaid-70b",
-        "providerName": "Featherless",
-        "providerInfo": {
-          "name": "Featherless",
-          "displayName": "Featherless",
-          "slug": "featherless",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "termsOfServiceUrl": "https://featherless.ai/terms",
-            "privacyPolicyUrl": "https://featherless.ai/privacy",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": false
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": true,
-          "isAbortable": false,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": false,
-          "statusPageUrl": null,
-          "byokEnabled": true,
-          "icon": {
-            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256"
-          }
-        },
-        "providerDisplayName": "Featherless",
-        "providerModelId": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
-        "quantization": "fp8",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": false,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 4096,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "repetition_penalty",
-          "top_k",
-          "min_p",
-          "seed"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "termsOfServiceUrl": "https://featherless.ai/terms",
-          "privacyPolicyUrl": "https://featherless.ai/privacy",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": false
-          },
-          "training": false,
-          "retainsPrompts": false
-        },
-        "pricing": {
-          "prompt": "0.000004",
-          "completion": "0.000006",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": false,
-        "supportsReasoning": false,
-        "supportsMultipart": false,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": true,
-        "hasChatCompletions": true,
-        "features": {
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 273,
-        "newest": 253,
-        "throughputHighToLow": 298,
-        "latencyLowToHigh": 201,
-        "pricingLowToHigh": 281,
-        "pricingHighToLow": 38
-      },
-      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
-      "providers": [
-        {
-          "name": "Featherless",
-          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256",
-          "slug": "featherless",
-          "quantization": "fp8",
-          "context": 8192,
-          "maxCompletionTokens": 4096,
-          "providerModelId": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
-          "pricing": {
-            "prompt": "0.000004",
-            "completion": "0.000006",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "repetition_penalty",
-            "top_k",
-            "min_p",
-            "seed"
-          ],
-          "inputCost": 4,
-          "outputCost": 6,
-          "throughput": 13.78,
-          "latency": 1354
-        }
-      ]
-    },
-    {
       "slug": "raifle/sorcererlm-8x22b",
       "hfSlug": "rAIfle/SorcererLM-8x22b-bf16",
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
@@ -75106,7 +74901,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 274,
+        "topWeekly": 273,
         "newest": 172,
         "throughputHighToLow": 166,
         "latencyLowToHigh": 113,
@@ -75147,8 +74942,213 @@ export default {
           ],
           "inputCost": 4.5,
           "outputCost": 4.5,
-          "throughput": 52.915,
-          "latency": 677
+          "throughput": 53.0665,
+          "latency": 703.5
+        }
+      ]
+    },
+    {
+      "slug": "neversleep/llama-3-lumimaid-70b",
+      "hfSlug": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-05-16T00:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "NeverSleep: Llama 3 Lumimaid 70B",
+      "shortName": "Llama 3 Lumimaid 70B",
+      "author": "neversleep",
+      "description": "The NeverSleep team is back, with a Llama 3 70B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
+      "modelVersionGroupId": null,
+      "contextLength": 8192,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Llama3",
+      "instructType": "llama3",
+      "defaultSystem": null,
+      "defaultStops": [
+        "<|eot_id|>",
+        "<|end_of_text|>"
+      ],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "neversleep/llama-3-lumimaid-70b",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "9dec8b8b-2d23-49bf-ba8f-1116b6195c03",
+        "name": "Featherless | neversleep/llama-3-lumimaid-70b",
+        "contextLength": 8192,
+        "model": {
+          "slug": "neversleep/llama-3-lumimaid-70b",
+          "hfSlug": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-05-16T00:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "NeverSleep: Llama 3 Lumimaid 70B",
+          "shortName": "Llama 3 Lumimaid 70B",
+          "author": "neversleep",
+          "description": "The NeverSleep team is back, with a Llama 3 70B finetune trained on their curated roleplay data. Striking a balance between eRP and RP, Lumimaid was designed to be serious, yet uncensored when necessary.\n\nTo enhance it's overall intelligence and chat capability, roughly 40% of the training data was not roleplay. This provides a breadth of knowledge to access, while still keeping roleplay as the primary strength.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
+          "modelVersionGroupId": null,
+          "contextLength": 8192,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Llama3",
+          "instructType": "llama3",
+          "defaultSystem": null,
+          "defaultStops": [
+            "<|eot_id|>",
+            "<|end_of_text|>"
+          ],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "neversleep/llama-3-lumimaid-70b",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "neversleep/llama-3-lumimaid-70b",
+        "modelVariantPermaslug": "neversleep/llama-3-lumimaid-70b",
+        "providerName": "Featherless",
+        "providerInfo": {
+          "name": "Featherless",
+          "displayName": "Featherless",
+          "slug": "featherless",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "termsOfServiceUrl": "https://featherless.ai/terms",
+            "privacyPolicyUrl": "https://featherless.ai/privacy",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": false
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": true,
+          "isAbortable": false,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": false,
+          "statusPageUrl": null,
+          "byokEnabled": true,
+          "icon": {
+            "url": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256"
+          }
+        },
+        "providerDisplayName": "Featherless",
+        "providerModelId": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
+        "quantization": "fp8",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": false,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 4096,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "repetition_penalty",
+          "top_k",
+          "min_p",
+          "seed"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "termsOfServiceUrl": "https://featherless.ai/terms",
+          "privacyPolicyUrl": "https://featherless.ai/privacy",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": false
+          },
+          "training": false,
+          "retainsPrompts": false
+        },
+        "pricing": {
+          "prompt": "0.000004",
+          "completion": "0.000006",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": false,
+        "supportsReasoning": false,
+        "supportsMultipart": false,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": true,
+        "hasChatCompletions": true,
+        "features": {
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 274,
+        "newest": 253,
+        "throughputHighToLow": 298,
+        "latencyLowToHigh": 201,
+        "pricingLowToHigh": 281,
+        "pricingHighToLow": 38
+      },
+      "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
+      "providers": [
+        {
+          "name": "Featherless",
+          "icon": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://featherless.ai/&size=256",
+          "slug": "featherless",
+          "quantization": "fp8",
+          "context": 8192,
+          "maxCompletionTokens": 4096,
+          "providerModelId": "NeverSleep/Llama-3-Lumimaid-70B-v0.1",
+          "pricing": {
+            "prompt": "0.000004",
+            "completion": "0.000006",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "top_k",
+            "min_p",
+            "seed"
+          ],
+          "inputCost": 4,
+          "outputCost": 6,
+          "throughput": 13.7775,
+          "latency": 1354
         }
       ]
     },
@@ -75352,8 +75352,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 15.88,
-          "latency": 1160
+          "throughput": 15.898,
+          "latency": 1158
         },
         {
           "name": "Mancer (private)",
@@ -75388,8 +75388,213 @@ export default {
           ],
           "inputCost": 1,
           "outputCost": 1.5,
-          "throughput": 22.119,
-          "latency": 655
+          "throughput": 22.13,
+          "latency": 652
+        }
+      ]
+    },
+    {
+      "slug": "cohere/command-r-03-2024",
+      "hfSlug": null,
+      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+      "createdAt": "2024-03-02T01:00:00+00:00",
+      "hfUpdatedAt": null,
+      "name": "Cohere: Command R (03-2024)",
+      "shortName": "Command R (03-2024)",
+      "author": "cohere",
+      "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
+      "modelVersionGroupId": null,
+      "contextLength": 128000,
+      "inputModalities": [
+        "text"
+      ],
+      "outputModalities": [
+        "text"
+      ],
+      "hasTextOutput": true,
+      "group": "Cohere",
+      "instructType": null,
+      "defaultSystem": null,
+      "defaultStops": [],
+      "hidden": false,
+      "router": null,
+      "warningMessage": null,
+      "permaslug": "cohere/command-r-03-2024",
+      "reasoningConfig": null,
+      "features": {},
+      "endpoint": {
+        "id": "718ce55c-0d8b-4c0e-af62-2a2f695b90f2",
+        "name": "Cohere | cohere/command-r-03-2024",
+        "contextLength": 128000,
+        "model": {
+          "slug": "cohere/command-r-03-2024",
+          "hfSlug": null,
+          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
+          "createdAt": "2024-03-02T01:00:00+00:00",
+          "hfUpdatedAt": null,
+          "name": "Cohere: Command R (03-2024)",
+          "shortName": "Command R (03-2024)",
+          "author": "cohere",
+          "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
+          "modelVersionGroupId": null,
+          "contextLength": 128000,
+          "inputModalities": [
+            "text"
+          ],
+          "outputModalities": [
+            "text"
+          ],
+          "hasTextOutput": true,
+          "group": "Cohere",
+          "instructType": null,
+          "defaultSystem": null,
+          "defaultStops": [],
+          "hidden": false,
+          "router": null,
+          "warningMessage": null,
+          "permaslug": "cohere/command-r-03-2024",
+          "reasoningConfig": null,
+          "features": {}
+        },
+        "modelVariantSlug": "cohere/command-r-03-2024",
+        "modelVariantPermaslug": "cohere/command-r-03-2024",
+        "providerName": "Cohere",
+        "providerInfo": {
+          "name": "Cohere",
+          "displayName": "Cohere",
+          "slug": "cohere",
+          "baseUrl": "url",
+          "dataPolicy": {
+            "privacyPolicyUrl": "https://cohere.com/privacy",
+            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
+            "paidModels": {
+              "training": false,
+              "retainsPrompts": true,
+              "retentionDays": 30
+            }
+          },
+          "headquarters": "US",
+          "hasChatCompletions": true,
+          "hasCompletions": false,
+          "isAbortable": true,
+          "moderationRequired": false,
+          "editors": [],
+          "owners": [],
+          "isMultipartSupported": true,
+          "statusPageUrl": "https://status.cohere.ai/",
+          "byokEnabled": true,
+          "icon": {
+            "url": "/images/icons/Cohere.png"
+          }
+        },
+        "providerDisplayName": "Cohere",
+        "providerModelId": "command-r-03-2024",
+        "quantization": "unknown",
+        "variant": "standard",
+        "isFree": false,
+        "canAbort": true,
+        "maxPromptTokens": null,
+        "maxCompletionTokens": 4000,
+        "maxPromptImages": null,
+        "maxTokensPerImage": null,
+        "supportedParameters": [
+          "tools",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "top_k",
+          "seed",
+          "response_format",
+          "structured_outputs"
+        ],
+        "isByok": false,
+        "moderationRequired": false,
+        "dataPolicy": {
+          "privacyPolicyUrl": "https://cohere.com/privacy",
+          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
+          "paidModels": {
+            "training": false,
+            "retainsPrompts": true,
+            "retentionDays": 30
+          },
+          "training": false,
+          "retainsPrompts": true,
+          "retentionDays": 30
+        },
+        "pricing": {
+          "prompt": "0.0000005",
+          "completion": "0.0000015",
+          "image": "0",
+          "request": "0",
+          "webSearch": "0",
+          "internalReasoning": "0",
+          "discount": 0
+        },
+        "variablePricings": [],
+        "isHidden": false,
+        "isDeranked": false,
+        "isDisabled": false,
+        "supportsToolParameters": true,
+        "supportsReasoning": false,
+        "supportsMultipart": true,
+        "limitRpm": null,
+        "limitRpd": null,
+        "limitRpmCf": null,
+        "hasCompletions": false,
+        "hasChatCompletions": true,
+        "features": {
+          "supportedParameters": {},
+          "supportsDocumentUrl": null
+        },
+        "providerRegion": null
+      },
+      "sorting": {
+        "topWeekly": 276,
+        "newest": 281,
+        "throughputHighToLow": 50,
+        "latencyLowToHigh": 47,
+        "pricingLowToHigh": 185,
+        "pricingHighToLow": 130
+      },
+      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
+      "providers": [
+        {
+          "name": "Cohere",
+          "icon": "https://openrouter.ai/images/icons/Cohere.png",
+          "slug": "cohere",
+          "quantization": "unknown",
+          "context": 128000,
+          "maxCompletionTokens": 4000,
+          "providerModelId": "command-r-03-2024",
+          "pricing": {
+            "prompt": "0.0000005",
+            "completion": "0.0000015",
+            "image": "0",
+            "request": "0",
+            "webSearch": "0",
+            "internalReasoning": "0",
+            "discount": 0
+          },
+          "supportedParameters": [
+            "tools",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "seed",
+            "response_format",
+            "structured_outputs"
+          ],
+          "inputCost": 0.5,
+          "outputCost": 1.5,
+          "throughput": 118.1735,
+          "latency": 261
         }
       ]
     },
@@ -75553,7 +75758,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 33,
-        "newest": 200,
+        "newest": 197,
         "throughputHighToLow": 6,
         "latencyLowToHigh": 68,
         "pricingLowToHigh": 60,
@@ -75593,8 +75798,8 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.01,
-          "throughput": 31.072,
-          "latency": 661
+          "throughput": 31.0735,
+          "latency": 660.5
         },
         {
           "name": "DeepInfra",
@@ -75628,7 +75833,7 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.01,
-          "throughput": 142.3645,
+          "throughput": 142.39,
           "latency": 832
         },
         {
@@ -75663,8 +75868,8 @@ export default {
           ],
           "inputCost": 0.01,
           "outputCost": 0.01,
-          "throughput": 140.564,
-          "latency": 1210
+          "throughput": 140.5635,
+          "latency": 1210.5
         },
         {
           "name": "Cloudflare",
@@ -75884,7 +76089,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 277,
+        "topWeekly": 278,
         "newest": 77,
         "throughputHighToLow": 279,
         "latencyLowToHigh": 267,
@@ -76050,8 +76255,8 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 278,
-        "newest": 301,
+        "topWeekly": 279,
+        "newest": 302,
         "throughputHighToLow": 295,
         "latencyLowToHigh": 142,
         "pricingLowToHigh": 119,
@@ -76088,8 +76293,8 @@ export default {
           ],
           "inputCost": 0.11,
           "outputCost": 0.19,
-          "throughput": 15.924,
-          "latency": 882
+          "throughput": 15.9095,
+          "latency": 880.5
         },
         {
           "name": "Together",
@@ -76289,7 +76494,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 279,
+        "topWeekly": 280,
         "newest": 168,
         "throughputHighToLow": 137,
         "latencyLowToHigh": 58,
@@ -76329,7 +76534,7 @@ export default {
           ],
           "inputCost": 5,
           "outputCost": 15,
-          "throughput": 62.38,
+          "throughput": 62.403,
           "latency": 468
         }
       ]
@@ -76488,12 +76693,12 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 280,
-        "newest": 292,
+        "topWeekly": 281,
+        "newest": 294,
         "throughputHighToLow": 291,
         "latencyLowToHigh": 238,
         "pricingLowToHigh": 295,
-        "pricingHighToLow": 18
+        "pricingHighToLow": 20
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -76524,7 +76729,7 @@ export default {
           "inputCost": 8,
           "outputCost": 24,
           "throughput": 15.998,
-          "latency": 1892
+          "latency": 1902
         }
       ]
     },
@@ -76683,11 +76888,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 263,
-        "newest": 294,
+        "newest": 292,
         "throughputHighToLow": 289,
         "latencyLowToHigh": 197,
         "pricingLowToHigh": 293,
-        "pricingHighToLow": 20
+        "pricingHighToLow": 18
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -76718,7 +76923,7 @@ export default {
           "inputCost": 8,
           "outputCost": 24,
           "throughput": 16.026,
-          "latency": 1408
+          "latency": 1410
         }
       ]
     },
@@ -76883,8 +77088,8 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 282,
-        "newest": 297,
+        "topWeekly": 283,
+        "newest": 296,
         "throughputHighToLow": 269,
         "latencyLowToHigh": 178,
         "pricingLowToHigh": 205,
@@ -76923,7 +77128,7 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 22.765,
+          "throughput": 22.774,
           "latency": 1180
         }
       ]
@@ -77087,7 +77292,7 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 283,
+        "topWeekly": 284,
         "newest": 240,
         "throughputHighToLow": 115,
         "latencyLowToHigh": 90,
@@ -77130,8 +77335,8 @@ export default {
           ],
           "inputCost": 3,
           "outputCost": 3,
-          "throughput": 76.878,
-          "latency": 524
+          "throughput": 77.22,
+          "latency": 521
         }
       ]
     },
@@ -77297,8 +77502,8 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 284,
-        "newest": 194,
+        "topWeekly": 285,
+        "newest": 193,
         "throughputHighToLow": 201,
         "latencyLowToHigh": 91,
         "pricingLowToHigh": 254,
@@ -77374,211 +77579,6 @@ export default {
           "outputCost": 6,
           "throughput": 13.847,
           "latency": 2253.5
-        }
-      ]
-    },
-    {
-      "slug": "cohere/command-r-03-2024",
-      "hfSlug": null,
-      "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-      "createdAt": "2024-03-02T01:00:00+00:00",
-      "hfUpdatedAt": null,
-      "name": "Cohere: Command R (03-2024)",
-      "shortName": "Command R (03-2024)",
-      "author": "cohere",
-      "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-      "modelVersionGroupId": null,
-      "contextLength": 128000,
-      "inputModalities": [
-        "text"
-      ],
-      "outputModalities": [
-        "text"
-      ],
-      "hasTextOutput": true,
-      "group": "Cohere",
-      "instructType": null,
-      "defaultSystem": null,
-      "defaultStops": [],
-      "hidden": false,
-      "router": null,
-      "warningMessage": null,
-      "permaslug": "cohere/command-r-03-2024",
-      "reasoningConfig": null,
-      "features": {},
-      "endpoint": {
-        "id": "718ce55c-0d8b-4c0e-af62-2a2f695b90f2",
-        "name": "Cohere | cohere/command-r-03-2024",
-        "contextLength": 128000,
-        "model": {
-          "slug": "cohere/command-r-03-2024",
-          "hfSlug": null,
-          "updatedAt": "2025-03-28T03:20:30.853469+00:00",
-          "createdAt": "2024-03-02T01:00:00+00:00",
-          "hfUpdatedAt": null,
-          "name": "Cohere: Command R (03-2024)",
-          "shortName": "Command R (03-2024)",
-          "author": "cohere",
-          "description": "Command-R is a 35B parameter model that performs conversational language tasks at a higher quality, more reliably, and with a longer context than previous models. It can be used for complex workflows like code generation, retrieval augmented generation (RAG), tool use, and agents.\n\nRead the launch post [here](https://txt.cohere.com/command-r/).\n\nUse of this model is subject to Cohere's [Usage Policy](https://docs.cohere.com/docs/usage-policy) and [SaaS Agreement](https://cohere.com/saas-agreement).",
-          "modelVersionGroupId": null,
-          "contextLength": 128000,
-          "inputModalities": [
-            "text"
-          ],
-          "outputModalities": [
-            "text"
-          ],
-          "hasTextOutput": true,
-          "group": "Cohere",
-          "instructType": null,
-          "defaultSystem": null,
-          "defaultStops": [],
-          "hidden": false,
-          "router": null,
-          "warningMessage": null,
-          "permaslug": "cohere/command-r-03-2024",
-          "reasoningConfig": null,
-          "features": {}
-        },
-        "modelVariantSlug": "cohere/command-r-03-2024",
-        "modelVariantPermaslug": "cohere/command-r-03-2024",
-        "providerName": "Cohere",
-        "providerInfo": {
-          "name": "Cohere",
-          "displayName": "Cohere",
-          "slug": "cohere",
-          "baseUrl": "url",
-          "dataPolicy": {
-            "privacyPolicyUrl": "https://cohere.com/privacy",
-            "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-            "paidModels": {
-              "training": false,
-              "retainsPrompts": true,
-              "retentionDays": 30
-            }
-          },
-          "headquarters": "US",
-          "hasChatCompletions": true,
-          "hasCompletions": false,
-          "isAbortable": true,
-          "moderationRequired": false,
-          "editors": [],
-          "owners": [],
-          "isMultipartSupported": true,
-          "statusPageUrl": "https://status.cohere.ai/",
-          "byokEnabled": true,
-          "icon": {
-            "url": "/images/icons/Cohere.png"
-          }
-        },
-        "providerDisplayName": "Cohere",
-        "providerModelId": "command-r-03-2024",
-        "quantization": "unknown",
-        "variant": "standard",
-        "isFree": false,
-        "canAbort": true,
-        "maxPromptTokens": null,
-        "maxCompletionTokens": 4000,
-        "maxPromptImages": null,
-        "maxTokensPerImage": null,
-        "supportedParameters": [
-          "tools",
-          "max_tokens",
-          "temperature",
-          "top_p",
-          "stop",
-          "frequency_penalty",
-          "presence_penalty",
-          "top_k",
-          "seed",
-          "response_format",
-          "structured_outputs"
-        ],
-        "isByok": false,
-        "moderationRequired": false,
-        "dataPolicy": {
-          "privacyPolicyUrl": "https://cohere.com/privacy",
-          "termsOfServiceUrl": "https://cohere.com/terms-of-use",
-          "paidModels": {
-            "training": false,
-            "retainsPrompts": true,
-            "retentionDays": 30
-          },
-          "training": false,
-          "retainsPrompts": true,
-          "retentionDays": 30
-        },
-        "pricing": {
-          "prompt": "0.0000005",
-          "completion": "0.0000015",
-          "image": "0",
-          "request": "0",
-          "webSearch": "0",
-          "internalReasoning": "0",
-          "discount": 0
-        },
-        "variablePricings": [],
-        "isHidden": false,
-        "isDeranked": false,
-        "isDisabled": false,
-        "supportsToolParameters": true,
-        "supportsReasoning": false,
-        "supportsMultipart": true,
-        "limitRpm": null,
-        "limitRpd": null,
-        "limitRpmCf": null,
-        "hasCompletions": false,
-        "hasChatCompletions": true,
-        "features": {
-          "supportedParameters": {},
-          "supportsDocumentUrl": null
-        },
-        "providerRegion": null
-      },
-      "sorting": {
-        "topWeekly": 285,
-        "newest": 281,
-        "throughputHighToLow": 50,
-        "latencyLowToHigh": 47,
-        "pricingLowToHigh": 185,
-        "pricingHighToLow": 130
-      },
-      "authorIcon": "https://openrouter.ai/images/icons/Cohere.png",
-      "providers": [
-        {
-          "name": "Cohere",
-          "icon": "https://openrouter.ai/images/icons/Cohere.png",
-          "slug": "cohere",
-          "quantization": "unknown",
-          "context": 128000,
-          "maxCompletionTokens": 4000,
-          "providerModelId": "command-r-03-2024",
-          "pricing": {
-            "prompt": "0.0000005",
-            "completion": "0.0000015",
-            "image": "0",
-            "request": "0",
-            "webSearch": "0",
-            "internalReasoning": "0",
-            "discount": 0
-          },
-          "supportedParameters": [
-            "tools",
-            "max_tokens",
-            "temperature",
-            "top_p",
-            "stop",
-            "frequency_penalty",
-            "presence_penalty",
-            "top_k",
-            "seed",
-            "response_format",
-            "structured_outputs"
-          ],
-          "inputCost": 0.5,
-          "outputCost": 1.5,
-          "throughput": 118.104,
-          "latency": 256
         }
       ]
     },
@@ -78138,8 +78138,8 @@ export default {
           ],
           "inputCost": 0.1,
           "outputCost": 0.3,
-          "throughput": 128.8885,
-          "latency": 235
+          "throughput": 129.315,
+          "latency": 247
         },
         {
           "name": "Azure",
@@ -78355,8 +78355,8 @@ export default {
           ],
           "inputCost": 0.2,
           "outputCost": 0.4,
-          "throughput": 205.4,
-          "latency": 463.5
+          "throughput": 201.389,
+          "latency": 474
         }
       ]
     },
@@ -78561,8 +78561,8 @@ export default {
           ],
           "inputCost": 0.55,
           "outputCost": 0.85,
-          "throughput": 85.8485,
-          "latency": 489
+          "throughput": 85.882,
+          "latency": 490
         }
       ]
     },
@@ -78768,8 +78768,8 @@ export default {
           ],
           "inputCost": 4,
           "outputCost": 6,
-          "throughput": 13.734,
-          "latency": 8720
+          "throughput": 13.7355,
+          "latency": 8731.5
         }
       ]
     },
@@ -78954,8 +78954,8 @@ export default {
           ],
           "inputCost": 0.7,
           "outputCost": 1.4,
-          "throughput": 52.33,
-          "latency": 2688
+          "throughput": 52.356,
+          "latency": 2681
         }
       ]
     },
@@ -79159,8 +79159,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 23.375,
-          "latency": 838
+          "throughput": 23.385,
+          "latency": 841
         }
       ]
     },
@@ -79826,8 +79826,8 @@ export default {
           ],
           "inputCost": 150,
           "outputCost": 600,
-          "throughput": 20.485,
-          "latency": 91397
+          "throughput": 20.249,
+          "latency": 91872
         }
       ]
     },
@@ -80020,8 +80020,8 @@ export default {
           ],
           "inputCost": 8,
           "outputCost": 24,
-          "throughput": 30.5605,
-          "latency": 1277.5
+          "throughput": 30.564,
+          "latency": 1278
         }
       ]
     },
@@ -80226,7 +80226,7 @@ export default {
           "inputCost": 4,
           "outputCost": 6,
           "throughput": 13.824,
-          "latency": 2210
+          "latency": 2211.5
         }
       ]
     },
@@ -80433,8 +80433,8 @@ export default {
           ],
           "inputCost": 1.5,
           "outputCost": 1.5,
-          "throughput": 63.701,
-          "latency": 756
+          "throughput": 63.675,
+          "latency": 769
         }
       ]
     },
@@ -80627,8 +80627,8 @@ export default {
           ],
           "inputCost": 8,
           "outputCost": 24,
-          "throughput": 30.5605,
-          "latency": 1277.5
+          "throughput": 30.564,
+          "latency": 1278
         }
       ]
     },
@@ -81449,8 +81449,8 @@ export default {
           ],
           "inputCost": 2.6,
           "outputCost": 3.4,
-          "throughput": 13.547,
-          "latency": 1498
+          "throughput": 13.558,
+          "latency": 1550.5
         }
       ]
     },
@@ -81653,8 +81653,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 186.767,
-          "latency": 905
+          "throughput": 186.931,
+          "latency": 904
         }
       ]
     },
@@ -81825,7 +81825,7 @@ export default {
       },
       "sorting": {
         "topWeekly": 306,
-        "newest": 314,
+        "newest": 316,
         "throughputHighToLow": 242,
         "latencyLowToHigh": 210,
         "pricingLowToHigh": 311,
@@ -81868,8 +81868,8 @@ export default {
           ],
           "inputCost": 30,
           "outputCost": 60,
-          "throughput": 32.6145,
-          "latency": 1428
+          "throughput": 32.63,
+          "latency": 1422.5
         }
       ]
     },
@@ -82074,8 +82074,8 @@ export default {
           ],
           "inputCost": 0.8,
           "outputCost": 1.2,
-          "throughput": 21.373,
-          "latency": 1488
+          "throughput": 21.361,
+          "latency": 1491
         }
       ]
     },
@@ -82282,8 +82282,8 @@ export default {
           ],
           "inputCost": 0.18,
           "outputCost": 0.18,
-          "throughput": 73.2555,
-          "latency": 284
+          "throughput": 73.275,
+          "latency": 294
         }
       ]
     },
@@ -82704,7 +82704,7 @@ export default {
           "inputCost": 0.8,
           "outputCost": 1.2,
           "throughput": 20.317,
-          "latency": 1394
+          "latency": 1418
         }
       ]
     },
@@ -82910,8 +82910,8 @@ export default {
           ],
           "inputCost": 2.6,
           "outputCost": 3.4,
-          "throughput": 13.634,
-          "latency": 1357
+          "throughput": 13.5325,
+          "latency": 1280.5
         }
       ]
     },
@@ -83066,11 +83066,11 @@ export default {
       },
       "sorting": {
         "topWeekly": 312,
-        "newest": 190,
+        "newest": 189,
         "throughputHighToLow": 202,
         "latencyLowToHigh": 285,
         "pricingLowToHigh": 259,
-        "pricingHighToLow": 56
+        "pricingHighToLow": 55
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://inflection.ai/\\u0026size=256",
       "providers": [
@@ -83662,12 +83662,12 @@ export default {
         "providerRegion": null
       },
       "sorting": {
-        "topWeekly": 280,
-        "newest": 292,
+        "topWeekly": 281,
+        "newest": 294,
         "throughputHighToLow": 291,
         "latencyLowToHigh": 238,
         "pricingLowToHigh": 295,
-        "pricingHighToLow": 18
+        "pricingHighToLow": 20
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": [
@@ -83698,7 +83698,7 @@ export default {
           "inputCost": 8,
           "outputCost": 24,
           "throughput": 15.998,
-          "latency": 1892
+          "latency": 1902
         }
       ]
     },
@@ -84811,11 +84811,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 338,
-        "newest": 339,
-        "throughputHighToLow": 339,
+        "newest": 338,
+        "throughputHighToLow": 338,
         "latencyLowToHigh": 338,
         "pricingLowToHigh": 338,
-        "pricingHighToLow": 339
+        "pricingHighToLow": 338
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -84852,11 +84852,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 339,
-        "newest": 340,
-        "throughputHighToLow": 340,
+        "newest": 339,
+        "throughputHighToLow": 339,
         "latencyLowToHigh": 339,
         "pricingLowToHigh": 339,
-        "pricingHighToLow": 340
+        "pricingHighToLow": 339
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai21.com/\\u0026size=256",
       "providers": []
@@ -84893,11 +84893,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 340,
-        "newest": 338,
-        "throughputHighToLow": 338,
+        "newest": 340,
+        "throughputHighToLow": 340,
         "latencyLowToHigh": 340,
         "pricingLowToHigh": 340,
-        "pricingHighToLow": 338
+        "pricingHighToLow": 340
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai21.com/\\u0026size=256",
       "providers": []
@@ -84934,11 +84934,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 341,
-        "newest": 342,
-        "throughputHighToLow": 342,
+        "newest": 341,
+        "throughputHighToLow": 341,
         "latencyLowToHigh": 341,
         "pricingLowToHigh": 341,
-        "pricingHighToLow": 342
+        "pricingHighToLow": 341
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -84975,11 +84975,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 342,
-        "newest": 341,
-        "throughputHighToLow": 341,
+        "newest": 342,
+        "throughputHighToLow": 342,
         "latencyLowToHigh": 342,
         "pricingLowToHigh": 342,
-        "pricingHighToLow": 341
+        "pricingHighToLow": 342
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -85456,11 +85456,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 353,
-        "newest": 354,
-        "throughputHighToLow": 354,
+        "newest": 353,
+        "throughputHighToLow": 353,
         "latencyLowToHigh": 353,
         "pricingLowToHigh": 353,
-        "pricingHighToLow": 354
+        "pricingHighToLow": 353
       },
       "authorIcon": "https://openrouter.ai/images/icons/Perplexity.svg",
       "providers": []
@@ -85497,11 +85497,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 354,
-        "newest": 357,
-        "throughputHighToLow": 357,
+        "newest": 354,
+        "throughputHighToLow": 354,
         "latencyLowToHigh": 354,
         "pricingLowToHigh": 354,
-        "pricingHighToLow": 357
+        "pricingHighToLow": 354
       },
       "authorIcon": "https://openrouter.ai/images/icons/DeepSeek.png",
       "providers": []
@@ -85538,11 +85538,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 355,
-        "newest": 353,
-        "throughputHighToLow": 353,
+        "newest": 355,
+        "throughputHighToLow": 355,
         "latencyLowToHigh": 355,
         "pricingLowToHigh": 355,
-        "pricingHighToLow": 353
+        "pricingHighToLow": 355
       },
       "authorIcon": "https://openrouter.ai/images/icons/Perplexity.svg",
       "providers": []
@@ -85579,11 +85579,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 356,
-        "newest": 355,
-        "throughputHighToLow": 355,
+        "newest": 356,
+        "throughputHighToLow": 356,
         "latencyLowToHigh": 356,
         "pricingLowToHigh": 356,
-        "pricingHighToLow": 355
+        "pricingHighToLow": 356
       },
       "authorIcon": "https://openrouter.ai/images/icons/Perplexity.svg",
       "providers": []
@@ -85620,11 +85620,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 357,
-        "newest": 356,
-        "throughputHighToLow": 356,
+        "newest": 357,
+        "throughputHighToLow": 357,
         "latencyLowToHigh": 357,
         "pricingLowToHigh": 357,
-        "pricingHighToLow": 356
+        "pricingHighToLow": 357
       },
       "authorIcon": "https://openrouter.ai/images/icons/Perplexity.svg",
       "providers": []
@@ -85665,11 +85665,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 358,
-        "newest": 359,
-        "throughputHighToLow": 359,
+        "newest": 358,
+        "throughputHighToLow": 358,
         "latencyLowToHigh": 358,
         "pricingLowToHigh": 358,
-        "pricingHighToLow": 359
+        "pricingHighToLow": 358
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai.meta.com/\\u0026size=256",
       "providers": []
@@ -85710,11 +85710,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 359,
-        "newest": 358,
-        "throughputHighToLow": 358,
+        "newest": 359,
+        "throughputHighToLow": 359,
         "latencyLowToHigh": 359,
         "pricingLowToHigh": 359,
-        "pricingHighToLow": 358
+        "pricingHighToLow": 359
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://ai.meta.com/\\u0026size=256",
       "providers": []
@@ -85801,11 +85801,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 361,
-        "newest": 362,
-        "throughputHighToLow": 362,
+        "newest": 361,
+        "throughputHighToLow": 361,
         "latencyLowToHigh": 361,
         "pricingLowToHigh": 361,
-        "pricingHighToLow": 362
+        "pricingHighToLow": 361
       },
       "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": []
@@ -85846,11 +85846,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 362,
-        "newest": 365,
-        "throughputHighToLow": 365,
+        "newest": 362,
+        "throughputHighToLow": 362,
         "latencyLowToHigh": 362,
         "pricingLowToHigh": 362,
-        "pricingHighToLow": 365
+        "pricingHighToLow": 362
       },
       "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": []
@@ -85891,11 +85891,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 363,
-        "newest": 366,
-        "throughputHighToLow": 366,
+        "newest": 363,
+        "throughputHighToLow": 363,
         "latencyLowToHigh": 363,
         "pricingLowToHigh": 363,
-        "pricingHighToLow": 366
+        "pricingHighToLow": 363
       },
       "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": []
@@ -85936,11 +85936,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 364,
-        "newest": 363,
-        "throughputHighToLow": 363,
+        "newest": 364,
+        "throughputHighToLow": 364,
         "latencyLowToHigh": 364,
         "pricingLowToHigh": 364,
-        "pricingHighToLow": 363
+        "pricingHighToLow": 364
       },
       "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": []
@@ -85981,11 +85981,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 365,
-        "newest": 364,
-        "throughputHighToLow": 364,
+        "newest": 365,
+        "throughputHighToLow": 365,
         "latencyLowToHigh": 365,
         "pricingLowToHigh": 365,
-        "pricingHighToLow": 364
+        "pricingHighToLow": 365
       },
       "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": []
@@ -86026,11 +86026,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 366,
-        "newest": 361,
-        "throughputHighToLow": 361,
+        "newest": 366,
+        "throughputHighToLow": 366,
         "latencyLowToHigh": 366,
         "pricingLowToHigh": 366,
-        "pricingHighToLow": 361
+        "pricingHighToLow": 366
       },
       "authorIcon": "https://openrouter.ai/images/icons/Qwen.png",
       "providers": []
@@ -86735,11 +86735,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 382,
-        "newest": 383,
-        "throughputHighToLow": 383,
+        "newest": 382,
+        "throughputHighToLow": 382,
         "latencyLowToHigh": 382,
         "pricingLowToHigh": 382,
-        "pricingHighToLow": 383
+        "pricingHighToLow": 382
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nousresearch.com/\\u0026size=256",
       "providers": []
@@ -86779,11 +86779,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 383,
-        "newest": 382,
-        "throughputHighToLow": 382,
+        "newest": 383,
+        "throughputHighToLow": 383,
         "latencyLowToHigh": 383,
         "pricingLowToHigh": 383,
-        "pricingHighToLow": 382
+        "pricingHighToLow": 383
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -87082,11 +87082,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 390,
-        "newest": 392,
-        "throughputHighToLow": 392,
+        "newest": 390,
+        "throughputHighToLow": 390,
         "latencyLowToHigh": 390,
         "pricingLowToHigh": 390,
-        "pricingHighToLow": 392
+        "pricingHighToLow": 390
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -87127,11 +87127,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 391,
-        "newest": 394,
-        "throughputHighToLow": 394,
+        "newest": 391,
+        "throughputHighToLow": 391,
         "latencyLowToHigh": 391,
         "pricingLowToHigh": 391,
-        "pricingHighToLow": 394
+        "pricingHighToLow": 391
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -87168,11 +87168,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 392,
-        "newest": 393,
-        "throughputHighToLow": 393,
+        "newest": 392,
+        "throughputHighToLow": 392,
         "latencyLowToHigh": 392,
         "pricingLowToHigh": 392,
-        "pricingHighToLow": 393
+        "pricingHighToLow": 392
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -87212,11 +87212,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 393,
-        "newest": 391,
-        "throughputHighToLow": 391,
+        "newest": 393,
+        "throughputHighToLow": 393,
         "latencyLowToHigh": 393,
         "pricingLowToHigh": 393,
-        "pricingHighToLow": 391
+        "pricingHighToLow": 393
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -87254,11 +87254,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 394,
-        "newest": 390,
-        "throughputHighToLow": 390,
+        "newest": 394,
+        "throughputHighToLow": 394,
         "latencyLowToHigh": 394,
         "pricingLowToHigh": 394,
-        "pricingHighToLow": 390
+        "pricingHighToLow": 394
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nousresearch.com/\\u0026size=256",
       "providers": []
@@ -87815,11 +87815,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 407,
-        "newest": 408,
-        "throughputHighToLow": 408,
+        "newest": 407,
+        "throughputHighToLow": 407,
         "latencyLowToHigh": 407,
         "pricingLowToHigh": 407,
-        "pricingHighToLow": 408
+        "pricingHighToLow": 407
       },
       "authorIcon": "https://openrouter.ai/images/icons/GoogleGemini.svg",
       "providers": []
@@ -87856,11 +87856,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 408,
-        "newest": 407,
-        "throughputHighToLow": 407,
+        "newest": 408,
+        "throughputHighToLow": 408,
         "latencyLowToHigh": 408,
         "pricingLowToHigh": 408,
-        "pricingHighToLow": 407
+        "pricingHighToLow": 408
       },
       "authorIcon": "https://openrouter.ai/images/icons/GoogleGemini.svg",
       "providers": []
@@ -88166,11 +88166,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 415,
-        "newest": 416,
-        "throughputHighToLow": 416,
+        "newest": 415,
+        "throughputHighToLow": 415,
         "latencyLowToHigh": 415,
         "pricingLowToHigh": 415,
-        "pricingHighToLow": 416
+        "pricingHighToLow": 415
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://huggingface.co/\\u0026size=256",
       "providers": []
@@ -88210,11 +88210,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 416,
-        "newest": 415,
-        "throughputHighToLow": 415,
+        "newest": 416,
+        "throughputHighToLow": 416,
         "latencyLowToHigh": 416,
         "pricingLowToHigh": 416,
-        "pricingHighToLow": 415
+        "pricingHighToLow": 416
       },
       "authorIcon": "https://t0.gstatic.com/faviconV2?client=SOCIAL\\u0026type=FAVICON\\u0026fallback_opts=TYPE,SIZE,URL\\u0026url=https://nousresearch.com/\\u0026size=256",
       "providers": []
@@ -88295,11 +88295,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 418,
-        "newest": 421,
-        "throughputHighToLow": 421,
+        "newest": 418,
+        "throughputHighToLow": 418,
         "latencyLowToHigh": 418,
         "pricingLowToHigh": 418,
-        "pricingHighToLow": 421
+        "pricingHighToLow": 418
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": []
@@ -88338,11 +88338,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 419,
-        "newest": 418,
-        "throughputHighToLow": 418,
+        "newest": 419,
+        "throughputHighToLow": 419,
         "latencyLowToHigh": 419,
         "pricingLowToHigh": 419,
-        "pricingHighToLow": 418
+        "pricingHighToLow": 419
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": []
@@ -88424,11 +88424,11 @@ export default {
       "endpoint": null,
       "sorting": {
         "topWeekly": 421,
-        "newest": 419,
-        "throughputHighToLow": 419,
+        "newest": 421,
+        "throughputHighToLow": 421,
         "latencyLowToHigh": 421,
         "pricingLowToHigh": 421,
-        "pricingHighToLow": 419
+        "pricingHighToLow": 421
       },
       "authorIcon": "https://openrouter.ai/images/icons/Anthropic.svg",
       "providers": []

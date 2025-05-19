@@ -360,6 +360,11 @@ export async function resolveConfig(options: GenerateTextOptions) {
     }
   }
 
+  console.dir(
+    options,
+    { depth: null }
+  )
+
   return options
 }
 
