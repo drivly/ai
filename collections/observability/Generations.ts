@@ -1,3 +1,4 @@
+import { getGeneration } from '@/lib/openrouter'
 import type { CollectionConfig } from 'payload'
 
 export const Generations: CollectionConfig = {
@@ -22,5 +23,19 @@ export const Generations: CollectionConfig = {
     // { name: 'function', type: 'relationship', relationTo: 'functions' },
     // { name: 'input', type: 'relationship', relationTo: 'resources' },
     // { name: 'output', type: 'relationship', relationTo: 'resources' },
+  ],
+  endpoints: [
+    {
+      path: '/:id/details',
+      method: 'get',
+      handler: async ({ routeParams = {} }) => {
+        const { id } = routeParams
+        if (typeof id !== 'string' && typeof id !== 'number') {
+          return Response.json({ error: 'Generation ID is required' }, { status: 400 })
+        }
+        const generation = await getGeneration(id)
+        return Response.json(generation)
+      },
+    },
   ],
 }
