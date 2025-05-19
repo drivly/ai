@@ -1,10 +1,14 @@
 import { POST as POST_LLM } from '@/app/(apis)/llm/chat/completions/route'
+import { serverAuth } from '@/hooks/server-auth'
 import { NextRequest } from 'next/server'
 
 // Allow streaming responses up to 600 seconds
 export const maxDuration = 600
 
 export async function POST(req: Request) {
+  const user = await serverAuth()
+  if (!user?.apiKey) {
+  }
   // Rewrite the URL to declare that we need useChat compatible output.
   const newUrl = new URL('/llm/chat/completions?stream=true&useChat=true', req.url)
   const newRequest = new NextRequest(newUrl, req)
