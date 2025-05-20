@@ -1,7 +1,6 @@
-import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
 import { AuthCard } from './auth-card'
-
+import { DefaultErrorCard } from './default-error-card'
 // Base error type
 type ErrorResponse = {
   success: false
@@ -61,7 +60,14 @@ function parseError(error?: Error): ErrorResponse | null {
   return null
 }
 
-function ErrorMessage({ onReload, error, integrationLogo, integrationName }: { onReload: () => void; error?: Error; integrationLogo?: string; integrationName?: string }) {
+interface ErrorMessageProps {
+  onReload: () => void
+  error?: Error
+  integrationLogo?: string
+  integrationName?: string
+}
+
+function ErrorMessage({ onReload, error, integrationLogo, integrationName }: ErrorMessageProps) {
   const parsedError = parseError(error)
 
   // If we have a parseable error with a type, use that to determine the UI
@@ -74,11 +80,7 @@ function ErrorMessage({ onReload, error, integrationLogo, integrationName }: { o
         }
 
         return (
-          <motion.div
-            className='mx-auto my-8 w-full max-w-sm'
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}>
+          <motion.div className='mx-auto my-4 w-full' initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3, ease: 'easeInOut' }}>
             <AuthCard
               error={redirectError}
               onSubmit={(app, values) => {
@@ -96,47 +98,8 @@ function ErrorMessage({ onReload, error, integrationLogo, integrationName }: { o
       }
     }
   }
-
-  // Default error UI for non-specific errors or unhandled types
-  return (
-    <div className='mx-auto my-5 max-w-md overflow-hidden rounded-lg border border-red-200 bg-white shadow-sm dark:border-red-900/30 dark:bg-zinc-900'>
-      <div className='flex flex-col items-center justify-center px-6 py-6'>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className='mb-4 flex items-center justify-center'>
-          <span className='flex h-12 w-12 items-center justify-center rounded-full bg-red-50 dark:bg-red-900/20'>
-            <motion.div initial={{ rotate: 0 }} animate={{ rotate: [0, -10, 10, -10, 0] }} transition={{ duration: 0.5, delay: 0.2 }} className='text-2xl'>
-              ⚠️
-            </motion.div>
-          </span>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className='text-center text-xl font-semibold text-zinc-900 dark:text-white'>
-          Something went wrong
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className='mt-2 text-center text-[14px] leading-[24px] text-zinc-500 dark:text-zinc-400'>
-          {error?.message && !parsedError ? error.message : 'Please try again or reload the conversation.'}
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className='mt-5'>
-          <Button onClick={onReload} className='bg-red-600 font-medium text-white hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700' variant='default'>
-            Reload
-          </Button>
-        </motion.div>
-      </div>
-    </div>
-  )
+  
+  return <DefaultErrorCard error={error} integrationLogo={integrationLogo} onReload={onReload} />
 }
 
 export { ErrorMessage }

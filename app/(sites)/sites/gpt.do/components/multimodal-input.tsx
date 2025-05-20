@@ -77,7 +77,7 @@ export function MultimodalInput({
       {messages.length === 0 && attachments.length === 0 && <PromptSuggestions append={append} selectedModel={selectedModelOption} />}
       <form
         className={cn(
-          'dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 sm:mb-4 md:mb-6 dark:border-zinc-700/60 dark:bg-zinc-800/40',
+          'relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 sm:mb-4 md:mb-6 dark:border-zinc-700/60 dark:bg-zinc-800/40',
           {
             'max-w-4xl': messages.length > 0,
           },

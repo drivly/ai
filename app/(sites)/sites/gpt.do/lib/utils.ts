@@ -1,7 +1,7 @@
 import { uniqueArrayByObjectPropertyKey } from '@/lib/utils'
 import { constructModelIdentifier, parse } from 'language-models'
 import { getAvailableModels } from '../../models.do/utils'
-import { OUTPUT_FORMAT_MAP, type OutputFormatKey, type OutputFormatMap } from './constants'
+import type { OutputFormatKey } from './constants'
 import type { SearchOption } from './types'
 
 // Export the imported functions so consumers don't need to change imports
@@ -155,7 +155,7 @@ export function createModelIdentifierFromParams({
 }: {
   modelId: string
   provider?: string
-  output?: string
+  output?: OutputFormatKey
   tools?: string[]
   system?: Record<string, number | string>
 }): string {
@@ -190,13 +190,4 @@ export async function minDelay<T>(promise: Promise<T>, ms: number) {
 
 export function getSelectedModel(model: string, availableModels: SearchOption[], initialChatModel: SearchOption | null) {
   return availableModels.find((m) => m.value === model) || initialChatModel || null
-}
-
-export function formatOutput(outputFormat: OutputFormatKey) {
-  return OUTPUT_FORMAT_MAP[outputFormat]
-}
-
-export function parseOutputFormat(mapped: OutputFormatMap[keyof OutputFormatMap]): OutputFormatKey | undefined {
-  // Find the first key in the map whose value matches the input
-  return (Object.keys(OUTPUT_FORMAT_MAP) as OutputFormatKey[]).find((key) => OUTPUT_FORMAT_MAP[key] === mapped)
 }

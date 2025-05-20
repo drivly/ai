@@ -7,14 +7,16 @@ export interface OptionAvatarProps<TSize extends number> {
   size: TSize
   direction: 'up' | 'down'
   imageIndex: number
+  label?: string
 }
 
 const getOptimizedUrl = (url: string, width: number) => (url.includes('?') ? `${url}&width=${width}` : `${url}?width=${width}`)
 const imagePriority = (index: number, direction: 'up' | 'down') => (direction === 'up' ? index < 5 : index > 5)
 
-export const OptionAvatar = <TSize extends number>({ logoUrl, size, direction, imageIndex }: OptionAvatarProps<TSize>) => {
+export const OptionAvatar = <TSize extends number>({ logoUrl, size, direction, imageIndex, label }: OptionAvatarProps<TSize>) => {
   const [error, setError] = useState(false)
 
+  const isOpenAI = label?.toLowerCase().includes('openai')
   const twSize = Math.round(size / 4)
 
   const onImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -32,12 +34,13 @@ export const OptionAvatar = <TSize extends number>({ logoUrl, size, direction, i
     <figure
       className={cn('relative overflow-hidden rounded-[4px] focus-visible:outline-none', `size-${twSize} `, {
         'opacity-50': !logoUrl,
+        'dark:bg-white': isOpenAI,
       })}>
       <source media='(min-width: 0px)' srcSet={logoUrl} />
       <img
         src={getOptimizedUrl(logoUrl, size)}
         alt={logoUrl || 'Integration Logo'}
-        className='absolute aspect-square size-auto object-fill focus-visible:outline-none'
+        className='absolute aspect-square size-auto rounded-[4px] object-fill focus-visible:outline-none'
         srcSet={logoUrl}
         loading={imagePriority(imageIndex, direction) ? 'eager' : 'lazy'}
         fetchPriority={imagePriority(imageIndex, direction) ? 'high' : 'low'}
