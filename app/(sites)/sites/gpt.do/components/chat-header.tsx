@@ -8,9 +8,9 @@ import { PlusIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { type ChangeEvent, type KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { setGptdoCookieAction } from '../actions/gpt.action'
-import { OUTPUT_FORMATS } from '../lib/constants'
+import type { OutputFormatKey } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
-import { createModelIdentifierFromParams, formatOutput, parse, parseOutputFormat, resolvePathname } from '../lib/utils'
+import { createModelIdentifierFromParams, parse, resolvePathname } from '../lib/utils'
 import { SidebarToggle } from './sidebar-toggle'
 import { VisibilitySelector, type VisibilityType } from './visibility-selector'
 
@@ -22,7 +22,7 @@ interface ChatHeaderProps {
   isReadonly: boolean
   modelOptions: SearchOption[]
   tool: string
-  output: string
+  output: OutputFormatKey
   setQueryState: (values: Record<string, any>) => void
 }
 
@@ -48,7 +48,7 @@ export function ChatHeader({
 
     return createModelIdentifierFromParams({
       modelId: selectedModelOption.value,
-      output: formatOutput(output),
+      output,
       tools: tool ? [tool] : [],
     })
   }, [selectedModelOption?.value, output, tool])
@@ -80,7 +80,7 @@ export function ChatHeader({
           await setGptdoCookieAction({ type: 'model', option: selectedModel, pathname })
 
           if (parsed.outputFormat) {
-            setQueryState({ output: parseOutputFormat(parsed.outputFormat) as (typeof OUTPUT_FORMATS)[number]['value'] | undefined })
+            setQueryState({ output: parsed.outputFormat as OutputFormatKey })
           }
 
           const toolKeys = parsed.tools ? Object.keys(parsed.tools) : []

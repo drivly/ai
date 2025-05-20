@@ -2,6 +2,7 @@
 
 import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
+import type { LLMChatCompletionBody } from '@/sdks/llm.do/src'
 import { useChat } from '@ai-sdk/react'
 import type { UIMessage } from 'ai'
 import { useEffect, useRef } from 'react'
@@ -11,7 +12,7 @@ import { useChatVisibility } from '../hooks/use-chat-visibility'
 import { useCustomQuery } from '../hooks/use-custom-query'
 import { DEFAULT_CHAT_MODEL } from '../lib/constants'
 import type { ComposioDataPromise, SearchOption } from '../lib/types'
-import { formatOutput, getSelectedModel } from '../lib/utils'
+import { getSelectedModel } from '../lib/utils'
 import { ChatHeader } from './chat-header'
 import { ChatMessage } from './chat-message/message'
 import { ChatOptionsSelector } from './chat-options-selector'
@@ -35,7 +36,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const user = useAuthUser()
   const { chatSessions, getChatSession, updateChatMessages, addChatSession } = useChatHistory()
   const chatSessionCount = Object.keys(chatSessions).length
-  const { model, tool, output, q, system, temp, seed, setQueryState } = useCustomQuery()
+  const { model, tool, output, q, system, temp, setQueryState } = useCustomQuery()
 
   const selectedModelOption = getSelectedModel(model, availableModels, initialChatModel)
   const shouldDefaultModel = selectedModelOption == null && chatSessionCount === 1
@@ -50,15 +51,14 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     initialMessages,
     maxSteps: 3,
     body: {
-      model: effectiveSelectedModelOption?.value,
+      model: effectiveSelectedModelOption?.value ?? '',
       modelOptions: {
-        tools: tool ? [tool] : undefined,
-        outputFormat: formatOutput(output),
+        tools: tool ? tool.split(',') : undefined,
+        outputFormat: output,
       },
       system,
-      temp,
-      seed,
-    },
+      temperature: temp,
+    } satisfies LLMChatCompletionBody,
     onError: (error) => {
       console.error('Chat error:', error)
       toast.error('An error occurred while processing your request. Please try again.')
@@ -71,6 +71,8 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
       }
     },
   })
+
+  
 
   const { visibilityType } = useChatVisibility({
     chatId: id,
