@@ -7,38 +7,11 @@ import { z } from 'zod'
 import { getPayloadFn } from '../get-payload-fn'
 import { getCurrentURL } from '../utils/url'
 
-const UserApikeySchema = z.object({
-  email: z.string().email().optional().nullable(),
-  sub: z.string().optional().nullable(),
-})
-
-export const getUserApikeyAction = cache(async (params: z.infer<typeof UserApikeySchema>) => {
-  try {
-    const result = UserApikeySchema.safeParse(params)
-
-    if (!result.success) {
-      throw new Error('Invalid parameters')
-    }
-
-    const payload = await getPayloadFn()
-    const userWithApikey = await payload.find({
-      collection: 'apikeys',
-      where: {
-        or: [{ email: { equals: result.data.email } }, { user: { equals: result.data.sub } }],
-      },
-    })
-
-    if (!userWithApikey.docs.length || !userWithApikey.docs[0]?.apiKey) {
-      throw new Error('User API key not found')
-    }
-
-    return userWithApikey.docs[0].apiKey
-  } catch (error) {
-    console.error(error)
-    return null
-  }
-})
-
+/**
+ * Fetches a user by their ID from the `users` collection.
+ * @param id The ID of the user to fetch.
+ * @returns A promise that resolves to the user object or null if not found or an error occurs.
+ */
 export const getUserById = cache(async (id: string) => {
   try {
     const payload = await getPayloadFn()
@@ -55,6 +28,12 @@ export const getUserById = cache(async (id: string) => {
   }
 })
 
+/**
+ * Updates a user's information in the `users` collection by their ID.
+ * @param id The ID of the user to update.
+ * @param data The partial user data to update.
+ * @returns A promise that resolves when the update is complete or null if an error occurs.
+ */
 export const updateUserById = async (id: string, data: Partial<User>) => {
   try {
     const payload = await getPayloadFn()
@@ -65,6 +44,48 @@ export const updateUserById = async (id: string, data: Partial<User>) => {
   }
 }
 
+const UserApikeySchema = z.object({
+  email: z.string().email().optional().nullable(),
+  sub: z.string().optional().nullable(),
+})
+
+/**
+ * Fetches a user's API key from the `apikeys` collection based on email or sub (user ID).
+ * @param params An object containing either email or sub (user ID).
+ * @returns A promise that resolves to the API key string or null if not found or an error occurs.
+ */
+export const getUserApikeyAction = cache(async (params: z.infer<typeof UserApikeySchema>) => {
+  try {
+    const result = UserApikeySchema.safeParse(params)
+
+    if (!result.success) {
+      throw new Error(`Get user apikey input validation failed: ${result.error.errors[0].message}`)
+    }
+
+    const payload = await getPayloadFn()
+    const userWithApikey = await payload.find({
+      collection: 'apikeys',
+      where: {
+        or: [{ email: { equals: result.data.email } }, { user: { equals: result.data.sub } }],
+      },
+    })
+
+    if (!userWithApikey.docs.length || !userWithApikey.docs[0].apiKey) {
+      throw new Error('User API key not found')
+    }
+
+    return userWithApikey.docs[0].apiKey
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+})
+
+/**
+ * Creates a new API key for a given user in the `apikeys` collection.
+ * @param user The user object for whom to create the API key.
+ * @returns A promise that resolves to the newly created API key string or null if an error occurs.
+ */
 export const createUserApiKey = async (user: User) => {
   try {
     const payload = await getPayloadFn()
@@ -88,18 +109,33 @@ export const createUserApiKey = async (user: User) => {
   }
 }
 
+const CreditResponseSchema = z.object({
+  credit: z.number().nullable().optional(),
+})
+
+/**
+ * Fetches the current user's credit balance from the API.
+ * @returns A promise that resolves to the user's credit balance (number), null, or undefined.
+ */
 export const getUserCredit = async () => {
   try {
     const headersList = await headers()
     const currentURL = getCurrentURL(headersList)
     const res = await fetch(`${currentURL}/api/apikeys/credit`)
-    const data = (await res.json()) as { credit?: number }
 
-    if (!data.credit) {
-      throw new Error('User credit not found')
+    if (!res.ok) {
+      throw new Error(`Failed to fetch user credit: ${res.status} ${res.statusText}`)
     }
 
-    return data.credit
+    const rawData = await res.json()
+    const result = CreditResponseSchema.safeParse(rawData)
+
+    if (!result.success) {
+      console.error('User credit data parsing failed:', result.error.errors[0].message)
+      return null
+    }
+
+    return result.data.credit
   } catch (error) {
     console.error(error)
     return null

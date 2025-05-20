@@ -7,39 +7,23 @@ import gptAvatar from '@/public/gptAvatar.png'
 import type { ChatRequestOptions, UIMessage } from 'ai'
 import { AnimatePresence, motion } from 'motion/react'
 import { nanoid } from 'nanoid'
-import Image from 'next/image'
-import { Fragment, useMemo } from 'react'
-import { useIntegrationQuery } from '../../hooks/use-integration-query'
+import { Fragment } from 'react'
+import Spinner from '../spinner'
 import { ThinkingIndicator } from '../thinking'
 import { ErrorMessage } from './error-message'
-import Spinner from '../spinner'
 
 export interface ChatMessageProps {
   message: UIMessage
   error: Error | undefined
   reload: (chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
-  tool: string
+  handleCancel: () => void
 }
 
-export const ChatMessage = ({ message, error, reload, tool }: ChatMessageProps) => {
+export const ChatMessage = ({ message, error, handleCancel, reload }: ChatMessageProps) => {
   const user = useAuthUser()
 
   const isAssistant = message.role === 'assistant'
   const isThinking = message.id === 'thinking'
-
-  const activeIntegrationNameFromUrl = useMemo(() => {
-    if (!tool) return undefined
-    return tool.includes('.') ? tool.split('.')[0] : tool
-  }, [tool])
-
-  const { data: actionsForIntegration } = useIntegrationQuery({
-    activeIntegrationNameFromUrl,
-    tool,
-  })
-
-  const integration = actionsForIntegration?.[0]
-  const integrationName = activeIntegrationNameFromUrl
-  const integrationLogo: string = integration?.logoUrl || ''
 
   if (isThinking) {
     return <ThinkingIndicator key={message.id} type='cursor' className='mx-auto flex w-full max-w-4xl gap-4 px-4' />
@@ -109,8 +93,6 @@ export const ChatMessage = ({ message, error, reload, tool }: ChatMessageProps) 
                 return (
                   <div key={callId} className='overflow-hidden rounded-md bg-neutral-900/80 p-3 text-sm'>
                     <div className='mb-0 flex items-center gap-3'>
-                      <Image className='h-8 w-8 rounded-md object-contain' src={integrationLogo || ''} alt={integrationName || ''} width={32} height={32} />
-
                       <div className='flex flex-col gap-0'>
                         <b>{toolName.replaceAll('_', ' ')}</b>
                         <p className='mt-1 font-mono text-xs font-medium text-neutral-200/80'>{JSON.stringify(toolArgs)}</p>
@@ -139,7 +121,7 @@ export const ChatMessage = ({ message, error, reload, tool }: ChatMessageProps) 
 
           {(!message.parts || message.parts.length === 0) && message.content && <Markdown>{message.content}</Markdown>}
 
-          {error && <ErrorMessage error={error} onReload={reload} integrationLogo={integrationLogo} integrationName={integrationName} />}
+          {error && <ErrorMessage error={error} onReload={reload} onCancel={handleCancel} />}
         </div>
       </motion.div>
     </AnimatePresence>

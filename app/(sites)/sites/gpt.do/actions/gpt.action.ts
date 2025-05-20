@@ -116,7 +116,7 @@ export async function getGptdoCookieAction({ type }: { type: keyof typeof GPTDO_
   const cookieName = GPTDO_COOKIE_MAP[type]
 
   const cookieData = cookieStore.get(cookieName)
-  return cookieData ? JSON.parse(cookieData.value) : null
+  return cookieData?.value ? JSON.parse(cookieData.value) : null
 }
 
 /**

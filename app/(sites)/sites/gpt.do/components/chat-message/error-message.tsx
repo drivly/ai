@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { useComposioQuery } from '../../hooks/use-composio-query'
 import { AuthCard } from './auth-card'
 import { DefaultErrorCard } from './default-error-card'
 // Base error type
@@ -61,14 +62,25 @@ function parseError(error?: Error): ErrorResponse | null {
 }
 
 interface ErrorMessageProps {
-  onReload: () => void
   error?: Error
-  integrationLogo?: string
-  integrationName?: string
+  onCancel: () => void
+  onReload: () => void
 }
 
-function ErrorMessage({ onReload, error, integrationLogo, integrationName }: ErrorMessageProps) {
+function ErrorMessage({ onReload, error, onCancel }: ErrorMessageProps) {
   const parsedError = parseError(error)
+  const appNames =
+    parsedError?.type === 'TOOLS_REDIRECT' && Array.isArray((parsedError as any).connectionRequests)
+      ? (parsedError as ToolRedirectError).connectionRequests.map((req: any) => req.app as string)
+      : []
+
+  const app = appNames[0]
+
+  const { data: integrations } = useComposioQuery()
+
+  const integration = integrations?.find((integration) => integration.value === app)
+  const integrationName = integration?.value
+  const integrationLogo: string = integration?.logoUrl || ''
 
   // If we have a parseable error with a type, use that to determine the UI
   if (parsedError) {
@@ -89,7 +101,7 @@ function ErrorMessage({ onReload, error, integrationLogo, integrationName }: Err
               onRedirect={(app, url) => {
                 window.open(url, '_blank')
               }}
-              onCancel={onReload}
+              onCancel={onCancel}
               integrationLogo={integrationLogo}
               integrationName={integrationName}
             />
@@ -98,7 +110,7 @@ function ErrorMessage({ onReload, error, integrationLogo, integrationName }: Err
       }
     }
   }
-  
+
   return <DefaultErrorCard error={error} integrationLogo={integrationLogo} onReload={onReload} />
 }
 
