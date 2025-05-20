@@ -179,7 +179,7 @@ export function OptionListPanel(props: OptionListPanelProps) {
                                   onMouseEnter={() => handleItemMouseEnter(originalIndex)}
                                   onMouseLeave={() => handleItemMouseLeave()}>
                                   <div className='flex w-full items-center gap-2'>
-                                    <OptionAvatar logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} />
+                                    <OptionAvatar logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} label={item.label} />
                                     <span className='line-clamp-1 truncate'>{item.label}</span>
                                     {isLoading ? (
                                       <Spinner height={16} width={16} className='text-muted-foreground/50 ml-auto' />
