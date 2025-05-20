@@ -14,28 +14,22 @@ export async function findKey(apiKey: string) {
   do {
     offset += resultCount
     const res = await fetch(`https://openrouter.ai/api/v1/keys?include_disabled=false&offset=${offset}`, { headers })
-      .then((x) => x.json())
-      .then((x) => x.data as KeyDetails[])
-    resultCount = res.length
-    if (resultCount) keyMatch = res.find((key) => key.label?.split('-v1-')[1] === keyLabel)
+    const { data }: { data: KeyDetails[] } = await res.json()
+    resultCount = data.length
+    if (resultCount) keyMatch = data.find((key) => key.label?.split('-v1-')[1] === keyLabel)
   } while (!keyMatch && resultCount > 0)
   return keyMatch || null
 }
 
-export async function createKey(details: { name: string; limit?: number }) {
-  return await fetch(`https://openrouter.ai/api/v1/keys`, {
-    headers,
+export async function createKey(details: { name: string; limit?: number }): Promise<KeyDetails> {
+  return await api(`keys`, {
     method: 'POST',
     body: JSON.stringify(details),
   })
-    .then((x) => x.json())
-    .then((x) => ({ ...x.data, key: x.key }) as KeyDetails)
 }
 
-export async function getKeyDetails(hash: string) {
-  return await fetch(`https://openrouter.ai/api/v1/keys/${hash}`, { headers })
-    .then((x) => x.json())
-    .then((x) => x.data as KeyDetails)
+export async function getKeyDetails(hash: string): Promise<KeyDetails> {
+  return await api(`keys/${hash}`)
 }
 
 export async function updateKeyDetails(
@@ -45,34 +39,32 @@ export async function updateKeyDetails(
     disabled?: boolean
     limit?: number
   },
-) {
-  return await fetch(`https://openrouter.ai/api/v1/keys/${hash}`, {
-    headers,
+): Promise<KeyDetails> {
+  return await api(`keys/${hash}`, {
     method: 'PATCH',
     body: JSON.stringify(details),
   })
-    .then((x) => x.json())
-    .then((x) => x.data as KeyDetails)
 }
 
-export async function getKey(apiKey: string) {
-  return await fetch('https://openrouter.ai/api/v1/key', { headers: { Authorization: `Bearer ${apiKey}` } })
-    .then((x) => x.json())
-    .then(
-      (x) =>
-        x.data as {
-          label: string
-          usage: number
-          is_free_tier: boolean
-          is_provisioning_key: boolean
-          rate_limit: {
-            requests: number
-            interval: string
-          }
-          limit?: number
-          limit_remaining?: number
-        },
-    )
+export async function getKey(apiKey: string): Promise<{
+  label: string
+  usage: number
+  is_free_tier: boolean
+  is_provisioning_key: boolean
+  rate_limit: {
+    requests: number
+    interval: string
+  }
+  limit?: number
+  limit_remaining?: number
+}> {
+  return await api('key', { headers: { Authorization: `Bearer ${apiKey}` } })
+}
+
+async function api(path: string, options: RequestInit = {}) {
+  const res = await fetch(`https://openrouter.ai/api/v1/${path}`, { headers, ...options })
+  const data = await res.json()
+  return { key: data.key, error: data.error, ...data.data }
 }
 
 export interface KeyDetails {
@@ -86,10 +78,8 @@ export interface KeyDetails {
   key?: string
 }
 
-export async function getGeneration(id: string | number, apiKey: string) {
-  return await fetch(`https://openrouter.ai/api/v1/generations/${id}`, { headers: { Authorization: `Bearer ${apiKey}` } })
-    .then((x) => x.json())
-    .then((x) => x.data as Generation)
+export async function getGeneration(id: string | number, apiKey: string): Promise<Generation> {
+  return await api(`generations/${id}`, { headers: { Authorization: `Bearer ${apiKey}` } })
 }
 
 export interface Generation {
