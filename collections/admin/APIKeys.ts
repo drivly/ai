@@ -84,7 +84,7 @@ export async function getApiKey(payload: BasePayload, headers: Headers) {
   let apiKey
   if (user?.collection === 'apikeys') {
     apiKey = user.key
-  } else {
+  } else if (user?.id || user?.email) {
     apiKey = (
       await payload.find({
         collection: 'apikeys',
