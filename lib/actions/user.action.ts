@@ -28,7 +28,7 @@ export const getUserApikeyAction = cache(async (params: z.infer<typeof UserApike
       },
     })
 
-    if (!userWithApikey.docs.length || !userWithApikey.docs[0]?.key) {
+    if (!userWithApikey.docs.length || !userWithApikey.docs[0]?.apiKey) {
       throw new Error('User API key not found')
     }
 
