@@ -2606,6 +2606,7 @@ export interface Apikey {
   description?: string | null;
   key?: string | null;
   hash?: string | null;
+  label?: string | null;
   url?: string | null;
   /**
    * Domains of authorized Cloudflare Workers
@@ -4309,6 +4310,7 @@ export interface ApikeysSelect<T extends boolean = true> {
   description?: T;
   key?: T;
   hash?: T;
+  label?: T;
   url?: T;
   cfWorkerDomains?:
     | T
