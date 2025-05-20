@@ -19,7 +19,6 @@ export const APIKeys: CollectionConfig = {
     { name: 'organization', type: 'relationship', relationTo: 'organizations' },
     { name: 'email', type: 'text' },
     { name: 'description', type: 'text' },
-    { name: 'key', type: 'text' },
     { name: 'hash', type: 'text' },
     { name: 'label', type: 'text' },
     { name: 'url', type: 'text' },
@@ -44,19 +43,11 @@ export const APIKeys: CollectionConfig = {
       async ({ operation, args }) => {
         const data = args.data
         if (operation === 'create') {
-          if (data.key) {
-            const key = await findKey(data.key)
-            if (key) {
-              data.hash = key.hash
-              data.label = key.label
-            }
-          }
-          if (!data.hash) {
-            const key = await createKey({ name: data.name, limit: 1 })
-            data.key = key.key
-            data.hash = key.hash
-            data.label = key.label
-          }
+          const key = await createKey({ name: data.name, limit: 1 })
+          data.apiKey = key.key
+          data.hash = key.hash
+          data.label = key.label
+          data.enableAPIKey = true
         }
         return args
       },
@@ -67,7 +58,7 @@ export const APIKeys: CollectionConfig = {
       path: '/credit',
       method: 'get',
       handler: async ({ headers, payload }) => {
-        const apiKey = await getApiKey(payload, headers)
+        const { apiKey } = await getApiKey(headers, payload)
         if (!apiKey) {
           return Response.json({ error: 'API key not found' }, { status: 404 })
         }
@@ -78,19 +69,24 @@ export const APIKeys: CollectionConfig = {
   ],
 }
 
-export async function getApiKey(payload: BasePayload, headers: Headers) {
+export async function getApiKey(headers: Headers, payload: BasePayload) {
+  const token = headers.get('authorization')?.split(' ')[1]
+  if (token?.startsWith('sk-do-')) {
+    return { apiKey: token }
+  }
   const authResult = await payload.auth({ headers })
   const user = authResult.user
   let apiKey
   if (user?.collection === 'apikeys') {
-    apiKey = user.key
+    apiKey = user.apiKey
+    user.id = typeof user.user === 'string' ? user.user : user.user?.id || ''
   } else if (user?.id || user?.email) {
     apiKey = (
       await payload.find({
         collection: 'apikeys',
         where: { or: [{ user: { equals: user?.id } }, { email: { equals: user?.email } }] },
       })
-    )?.docs?.[0]?.key
+    )?.docs?.[0]?.apiKey
   }
-  return apiKey
+  return { apiKey, user }
 }
