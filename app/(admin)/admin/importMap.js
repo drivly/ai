@@ -1,4 +1,5 @@
 import { TenantField as TenantField_1d0591e3cf4f332c83a86da13a0de59a } from '@payloadcms/plugin-multi-tenant/client'
+import { LinkToDoc as LinkToDoc_2e9be70cd13299dd4a11a5bd739a5a3c } from '@payloadcms/plugin-stripe/client'
 import { default as default_cd1543f0b82ee2fe1de08a451e49d23b } from '@/components/admin/custom-logout-button'
 import { default as default_0430f5fb3b8132a602107d7535a2a344 } from '@/components/admin/icon'
 import { default as default_334250e18ce0b45af3e0c04bb6fe8307 } from '@/components/admin/logo'
@@ -7,6 +8,7 @@ import { TenantSelectionProvider as TenantSelectionProvider_d6d5f193a167989e2ee7
 
 export const importMap = {
   "@payloadcms/plugin-multi-tenant/client#TenantField": TenantField_1d0591e3cf4f332c83a86da13a0de59a,
+  "@payloadcms/plugin-stripe/client#LinkToDoc": LinkToDoc_2e9be70cd13299dd4a11a5bd739a5a3c,
   "@/components/admin/custom-logout-button#default": default_cd1543f0b82ee2fe1de08a451e49d23b,
   "@/components/admin/icon#default": default_0430f5fb3b8132a602107d7535a2a344,
   "@/components/admin/logo#default": default_334250e18ce0b45af3e0c04bb6fe8307,

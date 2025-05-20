@@ -1,10 +1,29 @@
 import { POST as POST_LLM } from '@/app/(apis)/llm/chat/completions/route'
+import { getApiKey } from '@/collections/admin/APIKeys'
+import config from '@payload-config'
 import { NextRequest } from 'next/server'
+import { getPayload } from 'payload'
 
 // Allow streaming responses up to 600 seconds
 export const maxDuration = 600
 
 export async function POST(req: Request) {
+  const payload = await getPayload({ config })
+  let { apiKey, user } = await getApiKey(req.headers, payload)
+  if (!apiKey && user?.email) {
+    const created = await payload.create({
+      collection: 'apikeys',
+      data: {
+        name: user.email,
+        user: user.id,
+        email: user.email,
+      },
+    })
+    apiKey = created.apiKey
+  }
+  if (apiKey) {
+    req.headers.set('Authorization', `Bearer ${apiKey}`)
+  }
   // Rewrite the URL to declare that we need useChat compatible output.
   const newUrl = new URL('/llm/chat/completions?stream=true&useChat=true', req.url)
   const newRequest = new NextRequest(newUrl, req)
