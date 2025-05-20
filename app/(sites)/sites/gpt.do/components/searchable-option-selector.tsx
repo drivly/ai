@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { ChatConfigChangeType, ConfigOption } from './chat-options-selector'
+import type { ChatConfigChangeType, ConfigOption } from '../lib/types'
 
 interface SearchableOptionSelectorProps {
   title: ChatConfigChangeType

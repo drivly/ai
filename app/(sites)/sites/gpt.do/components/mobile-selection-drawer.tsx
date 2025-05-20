@@ -4,7 +4,7 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, Dr
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import { useCallback } from 'react'
-import type { ChatConfigChangeType, ConfigOption } from './chat-options-selector'
+import type { ChatConfigChangeType, ConfigOption } from '../lib/types'
 
 interface MobileSelectionDrawerProps {
   title: ChatConfigChangeType

@@ -1,18 +1,16 @@
-import { useQuery } from '@tanstack/react-query'
 import { usePathname } from 'next/navigation'
 import { use, useCallback, useMemo } from 'react'
-import { getComposioData, type IntegrationActions, type IntegrationPromise } from '../actions/composio.action'
 import { setGptdoCookieAction } from '../actions/gpt.action'
-import { type ChatConfigChangeType, type ConfigOption, SELECTION_STEP_ALIASES } from '../components/chat-options-selector'
-import { OUTPUT_FORMATS } from '../lib/constants'
-import type { SearchOption } from '../lib/types'
+import { OUTPUT_FORMATS, SELECTION_STEP_ALIASES } from '../lib/constants'
+import type { ChatConfigChangeType, ComposioDataPromise, ConfigOption, IntegrationAction, SearchOption } from '../lib/types'
 import { getSelectedModel } from '../lib/utils'
 import { useCustomQuery } from './use-custom-query'
+import { useIntegrationQuery } from './use-integration-query'
 
 interface UseSelectionOptionsProps {
   modelOptions: SearchOption[]
-  toolsPromise: IntegrationPromise
-  selectedModelOption: SearchOption
+  toolsPromise: ComposioDataPromise
+  selectedModelOption: SearchOption | null
 }
 
 export const useSelectionOptions = ({ modelOptions, toolsPromise, selectedModelOption }: UseSelectionOptionsProps) => {
@@ -25,12 +23,10 @@ export const useSelectionOptions = ({ modelOptions, toolsPromise, selectedModelO
     return tool.includes('.') ? tool.split('.')[0] : tool
   }, [tool])
 
-  // isLoading: isLoadingActions
-  const { data: actionsForIntegration, isLoading: isLoadingActions } = useQuery({
-    queryKey: ['actions', activeIntegrationNameFromUrl],
-    queryFn: async () => getComposioData(activeIntegrationNameFromUrl),
-    placeholderData: integrations,
-    enabled: !!activeIntegrationNameFromUrl || !!(tool === ''),
+  const { data: actionsForIntegration, isLoading: isLoadingActions } = useIntegrationQuery({
+    activeIntegrationNameFromUrl,
+    tool,
+    integrations,
   })
 
   const selectedModel = useMemo(() => getSelectedModel(model, modelOptions, selectedModelOption), [model, modelOptions, selectedModelOption])
@@ -40,7 +36,7 @@ export const useSelectionOptions = ({ modelOptions, toolsPromise, selectedModelO
     if (tool.includes('.') && Array.isArray(actionsForIntegration)) {
       return actionsForIntegration.find((item) => item.value === tool)
     } else {
-      const relatedAction = (actionsForIntegration || integrations).find((item) => 'createdBy' in item && item.createdBy === tool) as IntegrationActions | undefined
+      const relatedAction = (actionsForIntegration || integrations).find((item) => 'createdBy' in item && item.createdBy === tool) as IntegrationAction | undefined
       if (relatedAction)
         return {
           value: relatedAction.createdBy,

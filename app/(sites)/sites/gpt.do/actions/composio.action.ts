@@ -5,31 +5,14 @@ import { camelToHumanCase } from '@/lib/utils'
 import camelcase from 'camelcase'
 import { Composio, VercelAIToolSet } from 'composio-core'
 import { unstable_cache as cache } from 'next/cache'
-import { SearchOption } from '../lib/types'
-
-export interface GetComposioToolsParams {
-  integrationName?: string
-}
-
-export interface IntegrationActions extends SearchOption {
-  createdBy: string
-}
-
-export type AvailableIntegration = {
-  value: string
-  label: string
-  logoUrl?: string
-  actionsCount?: number
-}
-
-export type IntegrationPromise = Promise<AvailableIntegration[] | IntegrationActions[]>
+import type { ComposioDataPromise, IntegrationAction } from '../lib/types'
 
 /**
  * Fetches either Composio integrations or actions for a specific integration
  * @param options.integrationName - Optional integration name to fetch actions for
  * @returns Either AvailableIntegration[] or IntegrationActions[] based on input
  */
-export async function getComposioData(integrationName?: string | null): IntegrationPromise {
+export async function getComposioData(integrationName?: string | null): ComposioDataPromise {
   const composioToolset = new VercelAIToolSet({
     apiKey: process.env.COMPOSIO_API_KEY,
   })
@@ -90,7 +73,7 @@ export async function getComposioData(integrationName?: string | null): Integrat
       apps: [integration.key],
     })
 
-    const flatToolList: IntegrationActions[] = []
+    const flatToolList: IntegrationAction[] = []
     for (const [originalName, _toolData] of Object.entries(tools)) {
       const parts = originalName.split('_')
       if (parts.length < 1) continue
