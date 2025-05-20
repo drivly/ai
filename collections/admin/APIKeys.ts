@@ -1,6 +1,5 @@
-import { serverAuth } from '@/hooks/server-auth'
 import { createKey, findKey, getKey } from '@/lib/openrouter'
-import type { CollectionConfig } from 'payload'
+import type { BasePayload, CollectionConfig } from 'payload'
 
 export const APIKeys: CollectionConfig = {
   slug: 'apikeys',
@@ -67,18 +66,31 @@ export const APIKeys: CollectionConfig = {
     {
       path: '/credit',
       method: 'get',
-      handler: async ({ payload }) => {
-        const user = await serverAuth()
-        const apiKey = await payload.find({
-          collection: 'apikeys',
-          where: { or: [{ user: { equals: user?.id } }, { email: { equals: user?.email } }] },
-        })
-        if (!apiKey?.docs?.[0]?.key) {
+      handler: async ({ headers, payload }) => {
+        const apiKey = await getApiKey(payload, headers)
+        if (!apiKey) {
           return Response.json({ error: 'API key not found' }, { status: 404 })
         }
-        const usage = await getKey(apiKey.docs[0].key)
+        const usage = await getKey(apiKey)
         return Response.json({ credit: usage.limit_remaining })
       },
     },
   ],
+}
+
+export async function getApiKey(payload: BasePayload, headers: Headers) {
+  const authResult = await payload.auth({ headers })
+  const user = authResult.user
+  let apiKey
+  if (user?.collection === 'apikeys') {
+    apiKey = user.key
+  } else {
+    apiKey = (
+      await payload.find({
+        collection: 'apikeys',
+        where: { or: [{ user: { equals: user?.id } }, { email: { equals: user?.email } }] },
+      })
+    )?.docs?.[0]?.key
+  }
+  return apiKey
 }

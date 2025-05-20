@@ -28,12 +28,16 @@ export const Generations: CollectionConfig = {
     {
       path: '/:id/details',
       method: 'get',
-      handler: async ({ routeParams = {} }) => {
+      handler: async ({ routeParams = {}, payload }) => {
         const { id } = routeParams
         if (typeof id !== 'string' && typeof id !== 'number') {
           return Response.json({ error: 'Generation ID is required' }, { status: 400 })
         }
-        const generation = await getGeneration(id)
+        const generationDoc = await payload.findByID({ collection: 'generations', id })
+        if (!generationDoc) {
+          return Response.json({ error: 'Generation not found' }, { status: 404 })
+        }
+        const generation = await getGeneration((generationDoc.response as { id: string })?.id)
         return Response.json(generation)
       },
     },
