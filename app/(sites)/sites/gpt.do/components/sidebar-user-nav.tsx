@@ -3,6 +3,7 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { ChevronUp, Info } from 'lucide-react'
 import type { User } from 'next-auth'
 import { signOut, useSession } from 'next-auth/react'
@@ -13,7 +14,6 @@ import { toast } from 'sonner'
 import { useCreditQuery } from '../hooks/use-credit-query'
 import { guestRegex } from '../lib/utils'
 import { LoaderIcon } from './icons'
-import { cn } from '@/lib/utils'
 
 // TODO: add stripe add credits link
 // TODO: add balance widget here

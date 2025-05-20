@@ -5,7 +5,7 @@ import { OUTPUT_FORMATS, SELECTION_STEP_ALIASES } from '../lib/constants'
 import type { ChatConfigChangeType, ComposioDataPromise, ConfigOption, IntegrationAction, SearchOption } from '../lib/types'
 import { getSelectedModel } from '../lib/utils'
 import { useCustomQuery } from './use-custom-query'
-import { useIntegrationQuery } from './use-integration-query'
+import { useIntegrationActionsQuery } from './use-integration-actions-query'
 
 interface UseSelectionOptionsProps {
   modelOptions: SearchOption[]
@@ -23,7 +23,7 @@ export const useSelectionOptions = ({ modelOptions, toolsPromise, selectedModelO
     return tool.includes('.') ? tool.split('.')[0] : tool
   }, [tool])
 
-  const { data: actionsForIntegration, isLoading: isLoadingActions } = useIntegrationQuery({
+  const { data: actionsForIntegration, isLoading: isLoadingActions } = useIntegrationActionsQuery({
     activeIntegrationNameFromUrl,
     tool,
     integrations,

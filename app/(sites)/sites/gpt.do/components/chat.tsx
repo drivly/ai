@@ -53,26 +53,22 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     body: {
       model: effectiveSelectedModelOption?.value ?? '',
       modelOptions: {
-        tools: tool ? tool.split(',') : undefined,
+        tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
         outputFormat: output,
       },
       system,
       temperature: temp,
     } satisfies LLMChatCompletionBody,
     onError: (error) => {
-      console.error('Chat error:', error)
       toast.error('An error occurred while processing your request. Please try again.')
     },
     onFinish: (response) => {
-      console.log('Chat response:', response)
       // Save all messages when a response is complete
       if (messages.length > 0 && !isReadonly) {
         updateChatMessages(id, messages)
       }
     },
   })
-
-  
 
   const { visibilityType } = useChatVisibility({
     chatId: id,
@@ -119,7 +115,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
                 message={message}
                 error={index === displayMessages.length - 1 && error ? error : undefined}
                 reload={reload}
-                tool={tool}
+                handleCancel={() => setMessages((prev) => prev.slice(0, -1))}
               />
             ))}
           </ChatContainer>

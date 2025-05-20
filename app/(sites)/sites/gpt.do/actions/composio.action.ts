@@ -12,6 +12,8 @@ import type { ComposioDataPromise, IntegrationAction } from '../lib/types'
  * @param options.integrationName - Optional integration name to fetch actions for
  * @returns Either AvailableIntegration[] or IntegrationActions[] based on input
  */
+// export async function getComposioData(): Promise<Integration[]>
+// export async function getComposioData(integrationName: string): Promise<IntegrationAction[]>
 export async function getComposioData(integrationName?: string | null): ComposioDataPromise {
   const composioToolset = new VercelAIToolSet({
     apiKey: process.env.COMPOSIO_API_KEY,
@@ -104,6 +106,9 @@ export async function getComposioData(integrationName?: string | null): Composio
 
 export const getComposioActionsByIntegration = async ({ queryKey }: { queryKey: [string, string | null | undefined] }) => {
   const integrationName = queryKey[1]
+  if (!integrationName) {
+    return getComposioData()
+  }
   return getComposioData(integrationName)
 }
 
