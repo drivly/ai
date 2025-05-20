@@ -6,7 +6,7 @@ import type { VisibilityType } from '../components/visibility-selector'
 import { useChatHistory } from './use-chat-history'
 
 export function useChatVisibility({ chatId, initialVisibilityType }: { chatId: string; initialVisibilityType: VisibilityType }) {
-  const { chats, updateChatVisibility } = useChatHistory()
+  const { chatSessions, updateChatVisibility } = useChatHistory()
 
   // Use SWR just for local state management
   const { data: localVisibility, mutate: setLocalVisibility } = useSWR(`${chatId}-visibility`, null, {
@@ -15,13 +15,13 @@ export function useChatVisibility({ chatId, initialVisibilityType }: { chatId: s
 
   const visibilityType = useMemo(() => {
     // If chat exists in our local storage, use its visibility
-    const chat = chats[chatId]
+    const chat = chatSessions[chatId]
     if (chat) {
       return chat.visibility as VisibilityType
     }
     // Fallback to local state or default to private
     return localVisibility || 'private'
-  }, [chats, chatId, localVisibility])
+  }, [chatSessions, chatId, localVisibility])
 
   const setVisibilityType = (updatedVisibilityType: VisibilityType) => {
     // Update local state

@@ -1,11 +1,10 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { SearchParams } from 'nuqs'
+import type { SearchParams } from 'nuqs'
 import { requireAuthentication } from '../../actions/auth.action'
 import { getComposioActionsByIntegrationCached } from '../../actions/composio.action'
-import { getGptdoBrainCookieAction } from '../../actions/gpt.action'
+import { getGptdoCookieAction } from '../../actions/gpt.action'
 import { Chat } from '../../components/chat'
-import { DEFAULT_CHAT_MODEL } from '../../lib/constants'
 import { getAIModels } from '../../lib/utils'
 import { gptdoSearchParamsLoader } from '../../search-params'
 
@@ -21,14 +20,13 @@ async function ChatPage({ params, searchParams }: ChatPageProps) {
   const { tool } = await gptdoSearchParamsLoader(searchParams)
 
   const session = await auth()
-  const chatModelFromCookie = await getGptdoBrainCookieAction()
+  const initialChatModel = await getGptdoCookieAction({ type: 'model' })
 
   if (!session) {
     redirect('/login')
   }
 
   const integrationName = tool?.includes('.') ? tool?.split('.')[0] : tool
-  const initialChatModel = !chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie
 
   const composioPromise = getComposioActionsByIntegrationCached({ queryKey: ['tools', integrationName] })
   const models = getAIModels()

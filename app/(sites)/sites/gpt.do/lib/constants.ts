@@ -7,7 +7,7 @@ export const GPTDO_COOKIE_MAP = {
   model: GPTDO_BRAIN_COOKIE,
   tool: GPTDO_TOOLBELT_COOKIE,
   output: GPTDO_OUTPUT_COOKIE,
-}
+} as const
 
 export const DEFAULT_CHAT_MODEL = { label: 'OpenAI: GPT-4.1', value: 'openai/gpt-4.1' }
 
@@ -36,11 +36,14 @@ export const OUTPUT_FORMAT_MAP: OutputFormatMap = Object.fromEntries(
   OUTPUT_FORMATS.map(({ value }) => [value, ['JavaScript', 'TypeScript', 'Python'].includes(value) ? `Code:${value}` : value]),
 ) as OutputFormatMap
 
-export function formatOutput(outputFormat: OutputFormatKey) {
-  return OUTPUT_FORMAT_MAP[outputFormat]
-}
+export const SELECTION_STEP_MAP = {
+  model: 1,
+  integration: 2,
+  output: 3,
+} as const
 
-export function parseOutputFormat(mapped: OutputFormatMap[keyof OutputFormatMap]): OutputFormatKey | undefined {
-  // Find the first key in the map whose value matches the input
-  return (Object.keys(OUTPUT_FORMAT_MAP) as OutputFormatKey[]).find((key) => OUTPUT_FORMAT_MAP[key] === mapped)
-}
+export const SELECTION_STEP_ALIASES = {
+  model: 'model',
+  integration: 'tool',
+  output: 'output',
+} as const

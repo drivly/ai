@@ -51,18 +51,18 @@ function generateTitleFromMessages(messages: Message[]): string {
 }
 
 export function useChatHistory() {
-  const [chats, setChats] = useLocalStorage<Chats>('gpt-do-chats', {})
+  const [chatSessions, setChatSessions] = useLocalStorage<Chats>('gpt-do-chats', {})
   const [messages, setMessages] = useLocalStorage<Messages>('gpt-do-messages', {})
   const user = useAuthUser()
 
   // Add a new chat
-  const addChatSession = (id: string, model: SearchOption) => {
-    setChats((prev) => ({
+  const addChatSession = (id: string, model: SearchOption | null) => {
+    setChatSessions((prev) => ({
       ...prev,
       [id]: {
         id,
         title: `New Chat ${Object.keys(prev).length + 1}`,
-        model,
+        model: model ?? null,
         userId: user?.id ?? '',
         visibility: 'private',
         createdAt: new Date().toISOString(),
@@ -79,7 +79,7 @@ export function useChatHistory() {
 
   // Update an existing chat
   const updateChatSession = (id: string, updates: Partial<Chat>) => {
-    setChats((prev) => {
+    setChatSessions((prev) => {
       if (!prev[id]) return prev
 
       return {
@@ -169,7 +169,7 @@ export function useChatHistory() {
 
     // Auto-generate title if this is a new chat with default title
     if (formattedMessages.length > 0) {
-      setChats((prev) => {
+      setChatSessions((prev) => {
         if (!prev[chatId]) return prev
 
         let title = prev[chatId].title
@@ -237,7 +237,7 @@ export function useChatHistory() {
 
   // Remove a chat session and its messages
   const removeChatSession = (id: string) => {
-    setChats((prev) => {
+    setChatSessions((prev) => {
       const { [id]: _, ...rest } = prev
       return rest
     })
@@ -250,7 +250,7 @@ export function useChatHistory() {
 
   // Get a specific chat
   const getChatSession = (id: string) => {
-    const chat = chats[id]
+    const chat = chatSessions[id]
     const chatMessages = messages[id] || []
 
     if (!chat) return null
@@ -275,7 +275,7 @@ export function useChatHistory() {
 
   // Get all chats as an array sorted by updatedAt (most recent first)
   const getAllChatSessions = () => {
-    return Object.values(chats).sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    return Object.values(chatSessions).sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
   }
 
   // Explicitly update a chat title
@@ -300,7 +300,7 @@ export function useChatHistory() {
   }
 
   return {
-    chats,
+    chatSessions,
     messages,
     addChatSession,
     updateChatSession,

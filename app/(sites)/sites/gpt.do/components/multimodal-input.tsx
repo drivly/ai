@@ -6,9 +6,8 @@ import { cn } from '@/lib/utils'
 import type { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
 import { useCallback, type ChangeEvent, type RefObject } from 'react'
-import { type IntegrationPromise } from '../actions/composio.action'
 import { useChatInputMethods } from '../hooks/use-chat-input-methods'
-import type { SearchOption } from '../lib/types'
+import type { ComposioDataPromise, SearchOption } from '../lib/types'
 import { PromptSuggestions } from './prompt-suggestions'
 import { SearchableOptionContainer } from './searchable-option-container'
 
@@ -19,9 +18,9 @@ type MultimodalInputProps = {
   input: string
   messages: UIMessage[]
   status: 'error' | 'submitted' | 'streaming' | 'ready'
-  selectedModelOption: SearchOption
+  selectedModelOption: SearchOption | null
   modelOptions: SearchOption[]
-  toolsPromise: IntegrationPromise
+  toolsPromise: ComposioDataPromise
   append: (message: Message | CreateMessage, chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
   handleInputChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
   handleSubmit: (

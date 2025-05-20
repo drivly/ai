@@ -1,14 +1,13 @@
-import { OUTPUT_FORMATS } from '../lib/constants'
 import { useIsMobile } from '@/hooks/use-mobile'
-import type { SearchOption } from '../lib/types'
-import { SearchableOptionSelector } from './searchable-option-selector'
 import { useSelectionOptions } from '../hooks/use-selection-options'
-import type { IntegrationPromise } from '../actions/composio.action'
+import { OUTPUT_FORMATS } from '../lib/constants'
+import type { ComposioDataPromise, SearchOption } from '../lib/types'
+import { SearchableOptionSelector } from './searchable-option-selector'
 
 export interface SearchableOptionContainerProps {
-  toolsPromise: IntegrationPromise
+  toolsPromise: ComposioDataPromise
   modelOptions: SearchOption[]
-  selectedModelOption: SearchOption
+  selectedModelOption: SearchOption | null
 }
 
 export const SearchableOptionContainer = ({ toolsPromise, modelOptions, selectedModelOption }: SearchableOptionContainerProps) => {

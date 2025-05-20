@@ -1,13 +1,13 @@
 import type { UIMessage } from 'ai'
-import { Fragment, useEffect } from 'react'
+import { Fragment, type ReactNode, useEffect } from 'react'
 import type { SearchOption } from '../lib/types'
 import { ChatRedirect } from './chat-redirect'
 
 interface ChatWrapperProps {
-  children: React.ReactNode
+  children: ReactNode
   chatId: string
   messages: Array<UIMessage>
-  selectedModel: SearchOption
+  selectedModel: SearchOption | null
 }
 
 declare global {
@@ -20,7 +20,7 @@ export function ChatWrapper({ children, chatId, selectedModel, messages }: ChatW
   const isNewChat = chatId === 'new'
 
   useEffect(() => {
-    if (window) {
+    if (window && selectedModel) {
       window.currentModel = selectedModel.value
     }
   }, [selectedModel])

@@ -1,15 +1,14 @@
 import { Separator } from '@/components/ui/separator'
 import { useIsMobile } from '@/hooks/use-mobile'
-import type { IntegrationPromise } from '../actions/composio.action'
 import { useSelectionOptions } from '../hooks/use-selection-options'
 import { OUTPUT_FORMATS } from '../lib/constants'
-import type { SearchOption } from '../lib/types'
+import type { ComposioDataPromise, SearchOption } from '../lib/types'
 import { MobileSelectionDrawer } from './mobile-selection-drawer'
 
 export interface MobileSelectionBannerProps {
   modelOptions: SearchOption[]
-  toolsPromise: IntegrationPromise
-  selectedModelOption: SearchOption
+  toolsPromise: ComposioDataPromise
+  selectedModelOption: SearchOption | null
 }
 
 export const MobileSelectionBanner = ({ modelOptions, toolsPromise, selectedModelOption }: MobileSelectionBannerProps) => {
