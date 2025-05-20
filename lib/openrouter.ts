@@ -86,8 +86,8 @@ export interface KeyDetails {
   key?: string
 }
 
-export async function getGeneration(id: string | number) {
-  return await fetch(`https://openrouter.ai/api/v1/generations/${id}`, { headers })
+export async function getGeneration(id: string | number, apiKey: string) {
+  return await fetch(`https://openrouter.ai/api/v1/generations/${id}`, { headers: { Authorization: `Bearer ${apiKey}` } })
     .then((x) => x.json())
     .then((x) => x.data as Generation)
 }
