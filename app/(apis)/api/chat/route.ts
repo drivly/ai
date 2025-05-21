@@ -1,4 +1,4 @@
-import { POST as POST_LLM } from '@/app/(apis)/api/llm/chat/completions/route'
+import { POST as POST_LLM } from '@/app/(apis)/api/llm/chat/completions/route' 
 import { getApiKey } from '@/collections/admin/APIKeys'
 import config from '@payload-config'
 import { NextRequest } from 'next/server'
