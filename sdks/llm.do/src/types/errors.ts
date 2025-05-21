@@ -1,39 +1,40 @@
 // Chat completion errors
 
-type GenericChatCompletionError = {
+interface GenericChatCompletionError extends Error {
   success: false
   type: string
   error: string
-} & Error
+}
 
 // Thrown when a model does not exist
-export type ModelNotFoundError = {
+export interface ModelNotFoundError extends GenericChatCompletionError {
   type: 'MODEL_NOT_FOUND'
-} & GenericChatCompletionError
+}
 
 // Thrown when a model exists, but that the capabilities requested are not supported
 // tools, reasoning, etc.
-export type ModelIncompatibleError = {
+export interface ModelIncompatibleError extends GenericChatCompletionError {
   type: 'MODEL_INCOMPATIBLE'
-} & GenericChatCompletionError
+}
 
 // Tools based errors
-export type ToolRedirectError = {
+export interface ToolRedirectError extends GenericChatCompletionError {
   type: 'TOOL_REDIRECT'
   connectionRequests: {
+    app: string
     type: 'API_KEY' | 'OAUTH' | 'OAUTH2'
     redirectUrl?: string
-    fields?: Record<string, {
-      type: 'string' | 'number' | 'boolean'
-      required: boolean
-      name: string
-      [key: string]: any
-    }>
+    fields?: Record<
+      string,
+      {
+        type: 'string' | 'number' | 'boolean'
+        required: boolean
+        name: string
+        [key: string]: any
+      }
+    >
   }[]
-} & GenericChatCompletionError
+}
 
-// Union with all of our errors
-export type ChatCompletionError =
-  ModelNotFoundError |
-  ModelIncompatibleError |
-  ToolRedirectError
+// Discriminated union with all of our errors
+export type ChatCompletionError = ModelNotFoundError | ModelIncompatibleError | ToolRedirectError
