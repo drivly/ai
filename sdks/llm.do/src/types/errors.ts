@@ -1,3 +1,7 @@
+import {
+  ToolAuthorizationMode
+} from './tools'
+
 // Chat completion errors
 
 type GenericChatCompletionError = {
@@ -21,16 +25,24 @@ export type ModelIncompatibleError = {
 export type ToolAuthorizationError = {
   type: 'TOOL_AUTHORIZATION'
   connectionRequests: {
-    type: 'API_KEY' | 'OAUTH' | 'OAUTH2' | 'BEARER_TOKEN'
-    mode: 'REDIRECT' | 'FIELDS' // Redirect is used for OAuth, Fields is used for anything that needs a form.
-    redirectUrl?: string
-    fields?: Record<string, {
-      type: 'string' | 'number' | 'boolean'
-      required: boolean
-      name: string
-      [key: string]: any
-    }>
+    app: string
+    icon: string
+    description: string
+    methods: {
+      type: ToolAuthorizationMode
+      redirectUrl?: string
+      fields?: Record<string, any>
+    }[]
   }[]
+  apps: string[]
+} & GenericChatCompletionError
+
+export type ToolUnsupportedError = {
+  type: 'UNSUPPORTED_AUTH_SCHEME'
+} & GenericChatCompletionError
+
+export type ToolUnknownAuthError = {
+  type: 'UNKNOWN_AUTH_SCHEME'
 } & GenericChatCompletionError
 
 // Union with all of our errors

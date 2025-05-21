@@ -5,12 +5,12 @@ import { getModel } from '@/pkgs/language-models'
 import { z } from 'zod'
 
 const llm = createLLMProvider({
-  baseURL: `${ process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000' }/api/llm` 
+  baseURL: `${ process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000' }/api/llm`
 })
 
 const geminiToolFixPrompt = ' Do not ask for arguments to a tool, use your best judgement. If you are unsure, return null.'
 
-describe('llm.do Chat Completions 💭', () => {
+describe('llm.do Chat Completions 💭', () => { 
   // Basic functionality tests
   it('should support basic text generation', async () => {
     const result = await generateText({
@@ -35,35 +35,41 @@ describe('llm.do Chat Completions 💭', () => {
     const model = getModel(
       'qwen3-32b',
       {
-        priorities: ['cost'],
-        
+        priorities: ['cost']
       }
-    )
+    ) 
 
     expect(result.text).toBeTruthy()
     expect((result.response.headers || {})['llm-provider']).toBe(model.provider.name)
   })
 
   // Structured outputs
-  it('should support structured outputs', async () => {
-    const result = await generateObject({
-      model: llm('gpt-4.1'),
-      prompt: 'Respond with a short greeting',
-      schema: z.object({
-        greeting: z.string() 
-      })     
-    })
+  const outputModels = [
+    // 'gemini',
+    // 'gpt-4.1',
+    // 'mistralai/mistral-medium-3',
+    'qwen/qwen3-30b-a3b'
+  ]
 
-    expect(result.object.greeting).toBeTruthy()
+  it.each(outputModels)('should support structured outputs with %s', async (model) => {
+    const result = await generateObject({
+      model: llm(model),
+      prompt: 'Fill in the output.',
+      schema: z.object({
+        randomFieldName1: z.string()
+      })
+    })
+       
+    expect(result.object.randomFieldName1).toBeTruthy() 
   }) 
 
-  // Currently broken inside AI SDK.
-  it.skip('should support structured outputs with tools', async () => {
-    const result = await generateObject({ 
+  // Tool use with structured outputs
+  it.only.each(outputModels)('should support structured outputs with tools using %s', async (model) => {
+    const result = await generateObject({
       model: llm(
-        'gpt-4.1',
+        model,
         {
-          tools: [ 'hackernews.getFrontpage' ] 
+          tools: [ 'hackernews.getFrontpage' ]
         }
       ),
       prompt: 'Get the frontpage of hackernews, and tell me the most interesting article in your opinion.' + geminiToolFixPrompt,
@@ -76,12 +82,9 @@ describe('llm.do Chat Completions 💭', () => {
       })
     })
 
-    console.dir(
-      result.object,
-      { depth: null }
-    )
-
-    expect(result.object.greeting).toBeTruthy()
+    expect(result.object.article.title).toBeTruthy()
+    expect(result.object.article.url).toBeTruthy()
+    expect(result.object.opinion).toBeTruthy()
   })
 
   // Simple tool tests
@@ -92,26 +95,6 @@ describe('llm.do Chat Completions 💭', () => {
     })
 
     expect(result.text.toLowerCase()).toContain('hello')
-  })
-
-  it.skip('should use both tools and JSON output mode', async () => {
-    const result = await generateObject({
-      model: llm(
-        'gemini',
-        {
-          tools: [ 'hackernews.getFrontpage' ]
-        }   
-      ),
-      prompt: 'Get me the frontpage of hackernews.',
-      schema: z.object({
-        title: z.string(),
-        url: z.string()
-      })
-    })
-
-    console.log(
-      result
-    )
   })
 
   it('should work with user created tools', async () => {
@@ -192,7 +175,7 @@ describe('llm.do Chat Completions 💭', () => {
     const result = await generateText({
       model: llm('gpt-4.1(hackernews.getItemWithId)'),
       prompt: 'Look up the article "43969827", and tell me the article title and url.'
-    })
+    })  
 
     expect(result.text).toBeTruthy()
     expect(result.text.toLowerCase()).toContain('firefox')

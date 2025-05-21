@@ -6,7 +6,7 @@ import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/provid
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { filterModels, getModel } from '@/pkgs/language-models'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { CoreMessage, createDataStreamResponse, jsonSchema, tool } from 'ai'
+import { CoreMessage, createDataStreamResponse, jsonSchema, Output, tool } from 'ai'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
@@ -95,7 +95,7 @@ export async function POST(req: Request) {
     return ErrorResponse('No prompt or messages provided')
   }
 
-  system = injectFormatIntoSystem(system || '', (response_format || modelOptions?.outputFormat)?.replace('Code:', ''), useChat || false)
+  system = injectFormatIntoSystem(system || '', (modelOptions?.outputFormat || '').replace('Code:', ''), useChat || false)
 
   // Fix messages to be in the VerceL AI SDK format.
   // Most notibly, we need to fix files coming in as OpenAI compatible
@@ -217,10 +217,6 @@ export async function POST(req: Request) {
     response_format = fixSchema(convertIncomingSchema(response_format))
   }
 
-  console.log(
-    parsedModel
-  )
-
   // Only run this if we dont already have a response_format
   if (!response_format && parsedModel.outputSchema) {
     if (parsedModel.outputSchema !== 'JSON') {
@@ -279,11 +275,6 @@ export async function POST(req: Request) {
         total_tokens: result.usage.total_tokens
       } : undefined
     }
-
-    console.dir(
-      body,
-      { depth: null }
-    )
 
     return Response.json(body, {
       // Send partial data via headers as AI SDK does not support viewing the raw body.
@@ -444,7 +435,13 @@ export async function POST(req: Request) {
           user: session?.user.email || '',
           maxSteps: 50,
           tools,
-          onTool
+          onTool,
+          onChunk: (chunk) => {
+            console.log(
+              'Chunk',
+              chunk
+            )
+          }
         })
   
         // We need to support both streaming and useChat use cases.
@@ -457,7 +454,7 @@ export async function POST(req: Request) {
     } else {
       if (response_format) {
         const schema = jsonSchema(response_format)
-  
+
         const result = await generateObject({
           ...rest,
           model: llmModel,
@@ -466,10 +463,9 @@ export async function POST(req: Request) {
           messages,
           prompt,
           user: session?.user.email || '',
-          mode: 'json',
-          // @ts-expect-error - Type error to be fixed.
           schema,
-          onTool
+          onTool,
+          maxSteps: 10
         })
   
         // @ts-expect-error - TS doesnt like us adding random properties to the result.
@@ -488,8 +484,7 @@ export async function POST(req: Request) {
           user: session?.user.email || '',
           maxSteps: 10,
           tools,
-          onTool,
-          experimental_output: 'json'
+          onTool
         })
 
         const hasJsonTool = !!tools.json
@@ -504,21 +499,15 @@ export async function POST(req: Request) {
     console.error(e)
 
     switch ((e as { type: string }).type) {
-      case 'AI_PROVIDERS_TOOLS_REDIRECT':
-        const error = e as {
-          type: 'AI_PROVIDERS_TOOLS_REDIRECT'
-          apps: string[]
-          connectionRequests: {
-            app: string
-            redirectUrl: string
-          }[]
-        }
+      case 'AI_PROVIDERS_TOOLS_AUTHORIZATION':
+        const error = e as any
 
         return Response.json({
           success: false,
           type: 'TOOL_AUTHORIZATION',
           error: `To continue with this request, please authorize the following apps: ${error.apps.join(', ')}`,
-          connectionRequests: error.connectionRequests
+          connectionRequests: error.connectionRequests,
+          apps: error.apps
         }, { status: 400 })
       default:
         return Response.json({
