@@ -1,3 +1,7 @@
+import {
+  ToolAuthorizationMode
+} from './tools'
+
 // Chat completion errors
 type ToolAuthorizationMode = 'OAUTH' | 'OAUTH2' | 'API_KEY' | 'BEARER_TOKEN'
 
@@ -18,6 +22,7 @@ export interface ModelIncompatibleError extends GenericChatCompletionError {
   type: 'MODEL_INCOMPATIBLE'
 }
 
+// Tools based errors
 export interface ToolAuthorizationError extends GenericChatCompletionError {
   type: 'TOOL_AUTHORIZATION'
   connectionRequests: {

@@ -20,7 +20,9 @@ type LLMProviderOptions = {
   headers?: Record<string, string>
 }
 
-type LLMProviderSettings = OpenAICompatibleChatSettings & ParsedModelIdentifier
+type LLMProviderSettings = OpenAICompatibleChatSettings & ParsedModelIdentifier & {
+  tools?: string[] | undefined
+}
 
 // Define explicit provider options interface to prevent deep type inference
 interface LLMProviderConstructorOptions {
@@ -85,7 +87,9 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
         errorSchema: z.any(),
         errorToMessage: (error) => error.message,
       },
-      defaultObjectGenerationMode: 'tool',
+      // @ts-expect-error - This is ok. No clue why TS is complaining.
+      defaultObjectGenerationMode: 'json',
+      supportsStructuredOutputs: true,
       fetch: async (url, init) => {
         // Mixin our model options into the body.
         // By default, AI SDK wont let us add properties that are not inside the OpenAI schema.
@@ -95,11 +99,6 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
           ...JSON.parse(init?.body as string ?? '{}'),
           modelOptions: settings
         }
-
-        console.log(
-          'Sending body',
-          newBody
-        )
 
         const response = await fetch(
           url,
@@ -113,6 +112,6 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
       }
     }
     
-    return new OpenAICompatibleChatLanguageModel(modelId, settings ?? {}, providerOptions as any)
+    return new OpenAICompatibleChatLanguageModel(modelId, (settings ?? {}) as LLMProviderSettings, providerOptions as any)
   }
 }

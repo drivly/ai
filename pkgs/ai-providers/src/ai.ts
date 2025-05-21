@@ -52,13 +52,17 @@ type StreamObjectOptions = Omit<Parameters<typeof aiStreamObject>[0], 'model'> &
 
 type ConnectionType = 'OAUTH' | 'API_KEY'
 
-export type AIToolRedirectError = Error & {
-  type: 'AI_PROVIDERS_TOOLS_REDIRECT'
+export type AIToolAuthorizationError = Error & {
+  type: 'AI_PROVIDERS_TOOLS_AUTHORIZATION'
   connectionRequests: {
     app: string
-    type: ConnectionType
-    redirectUrl?: string
-    fields?: Record<string, any>
+    icon: string
+    description: string
+    methods: {
+      type: ConnectionType
+      redirectUrl?: string
+      fields?: Record<string, any>
+    }[]
   }[]
   apps: string[]
 }
@@ -77,12 +81,6 @@ export async function resolveConfig(options: GenerateTextOptions) {
   const parsedModel = options.model?.resolvedModel
   
   const toolNames = Array.isArray(parsedModel.parsed.tools) ? parsedModel.parsed.tools : Object.keys(parsedModel.parsed.tools || {})
-
-  console.log(
-    'Using tools',
-    toolNames,
-    parsedModel.parsed
-  )
 
   if (parsedModel.parsed?.tools && toolNames.length > 0) {
     if (!options.user) {
@@ -123,72 +121,33 @@ export async function resolveConfig(options: GenerateTextOptions) {
         .filter(app => !appMetadata.find(x => x.key === app)?.no_auth)
   
       if (missingApps.length > 0) {
-        const connectionRequests = []
-  
-        // Dont make a new connection request if we've already got one pending.
-        const pendingConnections = await composio.connectedAccounts.list({
-          entityId: options.user,
-          status: 'INITIATED'
-        }).then(x => x.items)
+        const connectionRequests: AIToolAuthorizationError['connectionRequests'] = []
   
         for (const app of missingApps) {
           const appData = appMetadata.find(x => x.key === app)
 
-          const authScheme = appData?.auth_schemes?.[0] as {
-            mode: 'OAUTH' | 'OAUTH2' | 'API_KEY' | 'BEARER_TOKEN'
+          const connectionRequest: AIToolAuthorizationError['connectionRequests'][0] = {
+            app,
+            icon: appData?.logo || '',
+            description: appData?.description || '',
+            methods: []
           }
 
-          const fieldSupportedModes = [
-            'API_KEY',
-            'BEARER_TOKEN'
-          ]
-
-          if (authScheme.mode === 'OAUTH' || authScheme.mode === 'OAUTH2') {
-            if (pendingConnections.find(x => x.appName === app)) {
-              console.debug(
-                '[COMPOSIO] Found existing connection request for',
-                app
-              )
-    
-              const connection = pendingConnections.find(x => x.appName === app)
-    
-              connectionRequests.push({
-                app: connection?.appName as string,
-                type: 'OAUTH' as ConnectionType,
-                redirectUrl: connection?.connectionParams?.redirectUrl as string
-              })
-            } else {
-              const integration = await composio.integrations.create({
-                name: app,
-                appUniqueKey: app,
-                useComposioAuth: true,
-                forceNewIntegration: true,
-              })
-      
-              const connection = await composio.connectedAccounts.initiate({
-                integrationId: integration.id,
-                entityId: options.user
-              })
-    
-              connectionRequests.push({
-                app: app as string,
-                type: 'OAUTH' as ConnectionType,
-                redirectUrl: connection.redirectUrl as string
-              })
-            } 
-          } else if (fieldSupportedModes.includes(authScheme.mode)) {
-            connectionRequests.push({
-              app: app as string,
+          for (const authScheme of appData?.auth_schemes || []) {
+            connectionRequest.methods.push({
               type: authScheme.mode as ConnectionType,
-              fields: appData?.auth_schemes?.[0]?.fields
+              redirectUrl: (authScheme.mode as string).includes('OAUTH') ? `/api/llm/tools/${app}/oauth?type=${authScheme.mode}` : undefined,
+              fields: !(authScheme.mode as string).includes('OAUTH') ? authScheme.fields as Record<string, any> : undefined
             })
           }
+
+          connectionRequests.push(connectionRequest)
         }
   
-        const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolRedirectError
+        const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolAuthorizationError  
   
-        error.type = 'AI_PROVIDERS_TOOLS_REDIRECT'
-        error.connectionRequests = connectionRequests as AIToolRedirectError['connectionRequests']
+        error.type = 'AI_PROVIDERS_TOOLS_AUTHORIZATION'
+        error.connectionRequests = connectionRequests as AIToolAuthorizationError['connectionRequests']
         error.apps = missingApps
   
         throw error
