@@ -133,7 +133,6 @@ export const {
 
       if (!token.apiKey) {
         if (!userRegistry.has(userId)) {
-          const timestamp = Date.now()
           const apiKeyPromise = getOrCreateUserApikey(existingUser)
           userRegistry.set(userId, apiKeyPromise)
 

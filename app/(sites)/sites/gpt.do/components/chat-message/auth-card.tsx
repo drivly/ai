@@ -106,7 +106,7 @@ export function AuthCard({ connection, onSubmit, onRedirect, onCancel, integrati
           options={connection.methods}
           renderOption={(method, selected) => (
             <Fragment>
-              {method.type === 'API_KEY' && method.fields && selected === 'API_KEY' && (
+              {!method.type.includes('OAUTH') && method.fields && selected === method.type && (
                 <form onSubmit={(e) => handleSubmit(connection.app, e)} className='flex w-full flex-col'>
                   {Object.entries(method.fields).map(([fieldName, field]) => (
                     <div key={fieldName} className='pb-6'>
@@ -139,7 +139,7 @@ export function AuthCard({ connection, onSubmit, onRedirect, onCancel, integrati
                 </form>
               )}
 
-              {(method.type === 'OAUTH' || method.type === 'OAUTH2') && method.redirectUrl && selected === method.type && (
+              {method.type.includes('OAUTH') && method.redirectUrl && selected === method.type && (
                 <OAuthCard integrationName={connection.app} redirectUrl={method.redirectUrl} onCancel={onCancel} onConnect={handleRedirect} />
               )}
             </Fragment>
