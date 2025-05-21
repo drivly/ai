@@ -32,7 +32,7 @@ interface ChipProps<T extends string> {
 }
 
 const Chip = <T extends string>({ text, selected, setSelected }: ChipProps<T>) => {
-  const cleanedText = text.replace('_', ' ').replace(/\b\w/g, (char) => char.toUpperCase())
+  const cleanedText = text.replaceAll('_', ' ').replace(/\b\w/g, (char) => char.toUpperCase())
 
   return (
     <button
