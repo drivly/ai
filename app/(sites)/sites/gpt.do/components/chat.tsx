@@ -59,9 +59,6 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
       system,
       temperature: temp,
     } satisfies LLMChatCompletionBody,
-    headers: {
-      'Authorization': `Bearer ${user?.apiKey}`
-    },
     onError: (error) => {
       toast.error('An error occurred while processing your request. Please try again.')
     },
