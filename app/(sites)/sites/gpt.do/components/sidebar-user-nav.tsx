@@ -14,6 +14,7 @@ import { toast } from 'sonner'
 import { useCreditQuery } from '../hooks/use-credit-query'
 import { guestRegex } from '../lib/utils'
 import { LoaderIcon } from './icons'
+import Link from 'next/link'
 
 // TODO: add stripe add credits link
 // TODO: add balance widget here
@@ -44,8 +45,7 @@ export function SidebarUserNav({ user }: { user: User }) {
             ) : (
               <SidebarMenuButton
                 data-testid='user-nav-button'
-                className='data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 cursor-pointer'
-              >
+                className='data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 cursor-pointer'>
                 <Image src={user?.image ?? `https://avatar.vercel.sh/${user.email}`} alt={user.email ?? 'User Avatar'} width={24} height={24} className='rounded-full' />
                 <span data-testid='user-email' className='truncate'>
                   {isGuest ? 'Guest' : user?.email}
@@ -56,9 +56,9 @@ export function SidebarUserNav({ user }: { user: User }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent data-testid='user-nav-menu' side='top' className='bg-background w-(--radix-popper-anchor-width)'>
             <DropdownMenuItem data-testid='user-nav-item-theme' className='cursor-pointer' asChild>
-              <button type='button' className='w-full cursor-pointer' onClick={() => router.push('https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00')}>
+              <Link href={`https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00?prefilled_email=${user.email}`} target='_blank'>
                 Add Credits
-              </button>
+              </Link>
             </DropdownMenuItem>
 
             <TooltipProvider>
@@ -106,8 +106,7 @@ export function SidebarUserNav({ user }: { user: User }) {
                       redirectTo: '/',
                     })
                   }
-                }}
-              >
+                }}>
                 {isGuest ? 'Login to your account' : 'Sign out'}
               </button>
             </DropdownMenuItem>
