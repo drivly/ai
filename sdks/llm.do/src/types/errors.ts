@@ -1,28 +1,24 @@
-import {
-  ToolAuthorizationMode
-} from './tools'
+import { ToolAuthorizationMode } from './tools'
 
-// Chat completion errors
-
-type GenericChatCompletionError = {
+interface GenericChatCompletionError extends Error {
   success: false
   type: string
   error: string
-} & Error
+}
 
 // Thrown when a model does not exist
-export type ModelNotFoundError = {
+export interface ModelNotFoundError extends GenericChatCompletionError {
   type: 'MODEL_NOT_FOUND'
-} & GenericChatCompletionError
+}
 
 // Thrown when a model exists, but that the capabilities requested are not supported
 // tools, reasoning, etc.
-export type ModelIncompatibleError = {
+export interface ModelIncompatibleError extends GenericChatCompletionError {
   type: 'MODEL_INCOMPATIBLE'
-} & GenericChatCompletionError
+}
 
 // Tools based errors
-export type ToolAuthorizationError = {
+export interface ToolAuthorizationError extends GenericChatCompletionError {
   type: 'TOOL_AUTHORIZATION'
   connectionRequests: {
     app: string
@@ -35,18 +31,15 @@ export type ToolAuthorizationError = {
     }[]
   }[]
   apps: string[]
-} & GenericChatCompletionError
+}
 
-export type ToolUnsupportedError = {
+export interface ToolUnsupportedError extends GenericChatCompletionError {
   type: 'UNSUPPORTED_AUTH_SCHEME'
-} & GenericChatCompletionError
+}
 
-export type ToolUnknownAuthError = {
+export interface ToolUnknownAuthError extends GenericChatCompletionError {
   type: 'UNKNOWN_AUTH_SCHEME'
-} & GenericChatCompletionError
+}
 
-// Union with all of our errors
-export type ChatCompletionError =
-  ModelNotFoundError |
-  ModelIncompatibleError |
-  ToolAuthorizationError
+// Discriminated union with all of our errors
+export type ChatCompletionError = ModelNotFoundError | ModelIncompatibleError | ToolAuthorizationError
