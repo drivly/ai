@@ -35,41 +35,38 @@ type AIConfig = AIFunctionSettings & {
 
 export const AI = <T extends Record<string, FunctionDefinition | AIWorkflow>>(config: AIConfig) => {
   type Result = {
-    [K in keyof T]: T[K] extends FunctionDefinition 
+    [K in keyof T]: T[K] extends FunctionDefinition
       ? ((args: any) => Promise<SchemaToOutput<T[K]>>) & { __type: SchemaToOutput<T[K]> }
-      : T[K] extends AIWorkflow 
-        ? AIWorkflow 
+      : T[K] extends AIWorkflow
+        ? AIWorkflow
         : never
   }
 
-  return new Proxy(
-    {} as any,
-    {
-      get: (target: any, functionName: string) => {
-        if (config[functionName]) {
-          if (typeof config[functionName] === 'function') {
-            return config[functionName]
-          }
-          
-          // Strip out _* properties
-          const schema = Object.fromEntries(Object.entries(config[functionName] as Record<string, any>).filter(([key]) => !key.startsWith('_')))
-          const settings = Object.fromEntries(Object.entries(config[functionName] as Record<string, any>).filter(([key]) => key.startsWith('_')))
-          // TODO: if functionName is a workflow, call it directly wrapped in try/catch, and maybe queued in a job
-          
-          return async (args: any) => {
-            if (!functionName) {
-              console.error('Missing functionName in AI function call')
-              throw new Error('Invalid function call: missing functionName')
-            }
-
-            const result = await executeFunction({ functionName, schema, settings, args })
-            return result.output as SchemaToOutput<typeof schema>
-          }
+  return new Proxy({} as any, {
+    get: (target: any, functionName: string) => {
+      if (config[functionName]) {
+        if (typeof config[functionName] === 'function') {
+          return config[functionName]
         }
-        throw new Error(`Function ${functionName} not found in AI config`)
-      },
+
+        // Strip out _* properties
+        const schema = Object.fromEntries(Object.entries(config[functionName] as Record<string, any>).filter(([key]) => !key.startsWith('_')))
+        const settings = Object.fromEntries(Object.entries(config[functionName] as Record<string, any>).filter(([key]) => key.startsWith('_')))
+        // TODO: if functionName is a workflow, call it directly wrapped in try/catch, and maybe queued in a job
+
+        return async (args: any) => {
+          if (!functionName) {
+            console.error('Missing functionName in AI function call')
+            throw new Error('Invalid function call: missing functionName')
+          }
+
+          const result = await executeFunction({ functionName, schema, settings, args })
+          return result.output as SchemaToOutput<typeof schema>
+        }
+      }
+      throw new Error(`Function ${functionName} not found in AI config`)
     },
-  ) as Result
+  }) as Result
 }
 
 export const model = createOpenAI({

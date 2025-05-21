@@ -9,7 +9,8 @@ const camelCaseToScreamingSnakeCase = (str: string) => {
   // When we see a capital letter, we need to prefix it with an underscore and make the whole string uppercase.
   return str
     .replaceAll('.', '_')
-    .replace(/([A-Z])/g, '_$1').toUpperCase()
+    .replace(/([A-Z])/g, '_$1')
+    .toUpperCase()
 }
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
@@ -55,9 +56,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       }
     })
 
-    return `${originOrApiRoute}?${qs.toString()}`
-      .replaceAll('%3A', ':')
-      .replaceAll('%2C', ',')
+    return `${originOrApiRoute}?${qs.toString()}`.replaceAll('%3A', ':').replaceAll('%2C', ',')
   }
 
   const qs = new URLSearchParams(request.url.split('?')[1])
@@ -67,25 +66,23 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
   const resolvedConfig = await resolveConfig({
     model: modelName,
-    user: user.email
+    user: user.email,
   })
 
   const parsed = parse(modelName)
 
   const composio = new Composio({ apiKey: process.env.COMPOSIO_API_KEY })
   const connections = await composio.connectedAccounts.list({
-    user_uuid: user.email
+    user_uuid: user.email,
   })
-  
+
   const composioToolset = new VercelAIToolSet({
     apiKey: process.env.COMPOSIO_API_KEY,
-    connectedAccountIds: connections.items
-      .map(connection => [connection.appName, connection.id])
-      .reduce((acc, [app, id]) => ({ ...acc, [app]: id }), {})
+    connectedAccountIds: connections.items.map((connection) => [connection.appName, connection.id]).reduce((acc, [app, id]) => ({ ...acc, [app]: id }), {}),
   })
-  
+
   const tools = await composioToolset.getTools({
-    apps: connections.items.map(conn => conn.appName),
+    apps: connections.items.map((conn) => conn.appName),
     //actions: toolNames.map(name => camelCaseToScreamingSnakeCase(name)),
   })
 
@@ -97,7 +94,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
   const addToolToModel = (name: string) => {
     const toolName = name.includes('.') ? name : formatToolName(name)
-    
+
     const tools = { ...(model.parsed.tools ?? {}) }
 
     if (tools[toolName]) {
@@ -111,9 +108,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       tools,
     })
 
-    return `${originOrApiRoute}/tools/${newModelIdentifier}?${qs.toString()}`
-      .replaceAll('(', '%28')
-      .replaceAll(')', '%29')
+    return `${originOrApiRoute}/tools/${newModelIdentifier}?${qs.toString()}`.replaceAll('(', '%28').replaceAll(')', '%29')
   }
 
   const allTools = Object.entries(tools).map(([name, tool]) => {
@@ -126,21 +121,34 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     links: {
       models: modifyQueryString('model', modelName, 'string'),
     },
-    activeTools: Object.keys(parsed.tools ?? {}).map(name => ({ name, url: addToolToModel(name) })).reduce((acc, tool) => {
-      acc[tool.name] = tool.url
-      return acc
-    }, {} as Record<string, string>),
-    allTools: groupedToolsByApp.map(([app, tools]) => {
-      return {
-        app,
-        tools: tools.reduce((acc, tool) => {
+    activeTools: Object.keys(parsed.tools ?? {})
+      .map((name) => ({ name, url: addToolToModel(name) }))
+      .reduce(
+        (acc, tool) => {
           acc[tool.name] = tool.url
           return acc
-        }, {} as Record<string, string>)
-      }
-    }).reduce((acc, { app, tools }) => {
-      acc[app] = tools
-      return acc
-    }, {} as Record<string, Record<string, string>>),
+        },
+        {} as Record<string, string>,
+      ),
+    allTools: groupedToolsByApp
+      .map(([app, tools]) => {
+        return {
+          app,
+          tools: tools.reduce(
+            (acc, tool) => {
+              acc[tool.name] = tool.url
+              return acc
+            },
+            {} as Record<string, string>,
+          ),
+        }
+      })
+      .reduce(
+        (acc, { app, tools }) => {
+          acc[app] = tools
+          return acc
+        },
+        {} as Record<string, Record<string, string>>,
+      ),
   }
 })

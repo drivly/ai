@@ -10,7 +10,8 @@ function ScrollArea({ className, children, ...props }: React.ComponentProps<type
     <ScrollAreaPrimitive.Root data-slot='scroll-area' className={cn('relative overflow-hidden', className)} {...props}>
       <ScrollAreaPrimitive.Viewport
         data-slot='scroll-area-viewport'
-        className='focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&>div]:flex! [&>div]:flex-col'>
+        className='focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&>div]:flex! [&>div]:flex-col'
+      >
         {children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollBar />
@@ -30,7 +31,8 @@ function ScrollBar({ className, orientation = 'vertical', ...props }: React.Comp
         orientation === 'horizontal' && 'h-2.5 flex-col border-t border-t-transparent',
         className,
       )}
-      {...props}>
+      {...props}
+    >
       <ScrollAreaPrimitive.ScrollAreaThumb data-slot='scroll-area-thumb' className='bg-border relative flex-1 rounded-full' />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
   )
@@ -39,16 +41,16 @@ function ScrollBar({ className, orientation = 'vertical', ...props }: React.Comp
 // Create and export ScrollAreaViewport that forwards its ref
 const ScrollAreaViewport = ({ className, children, ...props }: React.ComponentProps<typeof ScrollAreaPrimitive.Viewport>) => (
   <ScrollAreaPrimitive.Viewport
-      className={cn(
-        'focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&>div]:flex! [&>div]:flex-col',
-        className,
-      )}
-      {...props}>
-      {children}
+    className={cn(
+      'focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&>div]:flex! [&>div]:flex-col',
+      className,
+    )}
+    {...props}
+  >
+    {children}
   </ScrollAreaPrimitive.Viewport>
 )
 ScrollAreaViewport.displayName = ScrollAreaPrimitive.Viewport.displayName
-
 
 function ScrollAreaRoot({ className, children, ...props }: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
   return (

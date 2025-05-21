@@ -34,49 +34,43 @@ async function fetchProviders(slug: string) {
 const authorIconCache = new Map<string, string>()
 
 async function getModelAuthorIcon(model: string): Promise<string> {
-  const [ author, modelName ] = model.split('/')
+  const [author, modelName] = model.split('/')
   if (authorIconCache.has(author)) {
-    console.log(
-      '[ICONS] Used cache for author:', author
-    )
+    console.log('[ICONS] Used cache for author:', author)
 
     return authorIconCache.get(author) as string
   }
 
-  const html = await fetch(`https://openrouter.ai/${author}`).then(res => res.text())
+  const html = await fetch(`https://openrouter.ai/${author}`).then((res) => res.text())
 
-    // 'https://t0.gstatic.com/faviconV2',
-    // '/images/icons/'
+  // 'https://t0.gstatic.com/faviconV2',
+  // '/images/icons/'
 
   const patterns = [
     {
       pattern: '/images/icons/',
       getUrl: (icon: string) => {
         return 'https://openrouter.ai/images/icons/' + icon
-      }
+      },
     },
     {
       pattern: 'https://t0.gstatic.com/faviconV2',
       getUrl: (icon: string) => {
         // @ts-expect-error - replaceAll exists, no clue why TS is complaining
         return 'https://t0.gstatic.com/faviconV2' + icon.replaceAll('\u0026', '&')
-      }
-    }
+      },
+    },
   ]
 
-  const activePattern = patterns.find(p => html.includes(p.pattern))
+  const activePattern = patterns.find((p) => html.includes(p.pattern))
 
   if (!activePattern) {
-    console.log(
-      '[ICONS] Falling back as we cant find a icon for', model
-    )
+    console.log('[ICONS] Falling back as we cant find a icon for', model)
 
     return ''
   }
 
-  const icon = html
-    .split(activePattern.pattern)[1]
-    .split('\\"')[0]
+  const icon = html.split(activePattern.pattern)[1].split('\\"')[0]
 
   const url = activePattern.getUrl(icon)
 
@@ -111,10 +105,10 @@ async function main() {
     const models = data['top-weekly']
 
     const allProviders = await fetch('https://openrouter.ai/api/frontend/all-providers')
-      .then(res => res.json())
-      .then(data => data.data)
-    
-      const modelsData = models.models.map((model) => {
+      .then((res) => res.json())
+      .then((data) => data.data)
+
+    const modelsData = models.models.map((model) => {
       if (model.slug in overwrites) {
         console.log(`Overwriting model ${model.slug} with custom data`, overwrites[model.slug])
         const tempModel: Record<string, unknown> = flatten(model)
@@ -153,15 +147,11 @@ async function main() {
     let completed = 0
 
     for (const model of modelsData) {
-      console.log(
-        `[ICONS] Fetching author icon for ${model.slug}...`
-      )
+      console.log(`[ICONS] Fetching author icon for ${model.slug}...`)
 
       model.authorIcon = await getModelAuthorIcon(model.slug)
 
-      console.log(
-        '[ICONS] Found author icon', model.authorIcon
-      )
+      console.log('[ICONS] Found author icon', model.authorIcon)
 
       console.log(`[PROVIDERS] Fetching provider metadata for ${model.permaslug}...`)
 
@@ -180,7 +170,7 @@ async function main() {
           )
         }
 
-        let icon = allProviders.find(p => p.displayName === provider.providerDisplayName)?.icon?.url || ''
+        let icon = allProviders.find((p) => p.displayName === provider.providerDisplayName)?.icon?.url || ''
 
         if (icon.includes('/images/icons/')) {
           icon = `https://openrouter.ai${icon}`
@@ -234,27 +224,31 @@ async function main() {
       const currentLogMarkdown = saveRead(logPath)
 
       if (newModels.length || removedModels.length) {
+        const addedModelsSegment =
+          newModels.length > 0
+            ? `### Added models:
+          ${newModels.map((m) => `- ${m.slug}`).join('\n')}`
+            : ''
 
-        const addedModelsSegment = newModels.length > 0 ? `### Added models:
-          ${newModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
-
-        const removedModelsSegment = removedModels.length > 0 ? `### Removed models:
-          ${removedModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
+        const removedModelsSegment =
+          removedModels.length > 0
+            ? `### Removed models:
+          ${removedModels.map((m) => `- ${m.slug}`).join('\n')}`
+            : ''
 
         writeFileSync(
           logPath,
           // Append the new models to the file.
           // Title should be the date and hour of the run.
-          (`# ${new Date().toISOString().split('T')[0]} ${new Date().toISOString().split('T')[1].split('.')[0]}
+          `# ${new Date().toISOString().split('T')[0]} ${new Date().toISOString().split('T')[1].split('.')[0]}
           ${addedModelsSegment}
           ${removedModelsSegment}
           
-          ${currentLogMarkdown}`)
+          ${currentLogMarkdown}`
             // @ts-expect-error - replaceAll exists, no clue why TS is complaining
-            .replaceAll('  ', '')
+            .replaceAll('  ', ''),
         )
       }
-
     }
 
     console.log(`Models data written to ${outputPath}`)

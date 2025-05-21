@@ -1,42 +1,34 @@
-import { ParsedModelIdentifier } from '@/pkgs/language-models/src'
-import { CoreMessage } from 'ai'
+import type { ParsedModelIdentifier } from '@/pkgs/language-models/src'
+import type { CoreMessage } from 'ai'
+import type { ChatCompletionError, ToolUnknownAuthError, ToolUnsupportedError } from './errors'
 
-import {
-  ChatCompletionError,
-  ModelIncompatibleError,
-  ModelNotFoundError,
-  ToolAuthorizationError,
-  ToolUnsupportedError,
-  ToolUnknownAuthError
-} from './errors'
-
-export type OpenAICompatibleRequest = {
-  model: string;
-  messages?: CoreMessage[];
-  prompt?: string;
-  system?: string;
-  temperature?: number;
-  max_tokens?: number;
-  top_p?: number;
-  stream?: boolean;
-  response_format?: any;
-  tools?: any;
+export interface OpenAICompatibleRequest {
+  model: string
+  messages?: CoreMessage[]
+  prompt?: string
+  system?: string
+  temperature?: number
+  max_tokens?: number
+  top_p?: number
+  stream?: boolean
+  response_format?: any
+  tools?: any
 }
 
-export type LLMCompatibleRequest = {
+export interface LLMCompatibleRequest {
   /*
-  * If true, the response will be streamed as a data stream response
-  * This is used by the useChat hook in the client
-  */
-  useChat?: boolean;
+   * If true, the response will be streamed as a data stream response
+   * This is used by the useChat hook in the client
+   */
+  useChat?: boolean
   /**
    * Object used to represent mixins for the getModel function.
    * Allows you to control the model via JS rather than a string.
    */
   modelOptions?: {
-    providerPriorities?: ('cost' | 'throughput' | 'latency')[],
-    tools?: string[],
-    outputFormat?: 'JSON' | 'Markdown' | 'Code' | 'Python' | 'TypeScript' | 'JavaScript',
+    providerPriorities?: ('cost' | 'throughput' | 'latency')[]
+    tools?: string[]
+    outputFormat?: 'JSON' | 'Markdown' | 'Code' | 'Python' | 'TypeScript' | 'JavaScript'
     // JSON Schema, schema.org type, or basic schema supported
     outputSchema?: any
   }
@@ -44,55 +36,55 @@ export type LLMCompatibleRequest = {
 
 // OpenAI compatible response to list all of the models llm.do supports.
 export type ListModelsResponse = {
-  object: 'list',
+  object: 'list'
   data: {
-    id: string,
-    object: 'model',
-    created: number,
-    owned_by: string,
+    id: string
+    object: 'model'
+    created: number
+    owned_by: string
     permission: string[]
   }[]
 }
 
 export type LLMChatCompletionResponseNonStreaming = {
-  id: string,
-  object: 'chat.completion',
-  created: number,
-  model: string,
+  id: string
+  object: 'chat.completion'
+  created: number
+  model: string
   provider: {
     name: string
-  },
-  parsed: ParsedModelIdentifier,
+  }
+  parsed: ParsedModelIdentifier
   choices: {
-    index: number,
+    index: number
     message: {
-      role: 'user' | 'assistant' | 'system',
+      role: 'user' | 'assistant' | 'system'
       content: string
       tool_calls?: {
-        id: string,
-        type: 'function',
+        id: string
+        type: 'function'
         function: {
-          name: string,
+          name: string
           arguments: string
         }
       }[]
-    },
+    }
     finish_reason: string
   }[]
   usage: {
-    prompt_tokens: number,
-    completion_tokens: number,
+    prompt_tokens: number
+    completion_tokens: number
     total_tokens: number
   }
 }
 
 /*
-* This is the body of the request for the LLM.do chat completions API
-* It is a combination of the OpenAI compatible request and the LLM.do compatible request
-* since our API is a superset of the OpenAI API.
-* 
-* route: POST https://llm.do/chat/completions
-*/
+ * This is the body of the request for the LLM.do chat completions API
+ * It is a combination of the OpenAI compatible request and the LLM.do compatible request
+ * since our API is a superset of the OpenAI API.
+ *
+ * route: POST https://llm.do/chat/completions
+ */
 export type LLMChatCompletionBody = OpenAICompatibleRequest & LLMCompatibleRequest
 
 type LLMHeaders = {
@@ -102,79 +94,65 @@ type LLMHeaders = {
 }
 
 export type ChatCompletionNonStreamingRequest = {
-  method: 'POST',
-  route: '/chat/completions',
+  method: 'POST'
+  route: '/chat/completions'
   body: LLMChatCompletionBody & {
     stream: false
-  },
-  headers: LLMHeaders,
-  response?: LLMChatCompletionResponseNonStreaming,
+  }
+  headers: LLMHeaders
+  response?: LLMChatCompletionResponseNonStreaming
   throws?: ChatCompletionError
-    | ModelIncompatibleError
-    | ModelNotFoundError
-    | ToolAuthorizationError
 }
 
 export type ChatCompletionStreamingRequest = {
-  method: 'POST',
-  route: '/chat/completions',
+  method: 'POST'
+  route: '/chat/completions'
   body: LLMChatCompletionBody & {
     stream: true
-  },
-  headers: LLMHeaders,
+  }
+  headers: LLMHeaders
   // Response is not used for streaming requests
-  response?: {},
+  response?: {}
   throws?: ChatCompletionError
-    | ModelIncompatibleError
-    | ModelNotFoundError
-    | ToolAuthorizationError
 }
 
 /*
-* Connects a tool to the users account via API key authentication.
-* The body contains all of the fields needed to authenticate the tool with the service.
-* 
-* route: POST https://llm.do/tools/{string}
-*/
+ * Connects a tool to the users account via API key authentication.
+ * The body contains all of the fields needed to authenticate the tool with the service.
+ *
+ * route: POST https://llm.do/tools/{string}
+ */
 export type ToolSetupRequest = {
-  method: 'POST',
-  route: `/tools/${string}`,
+  method: 'POST'
+  route: `/tools/${string}`
   body: {
     type: string
     fields: Record<string, any>
   }
   headers: LLMHeaders
-  throws?: ToolUnknownAuthError
-    | ToolUnsupportedError
+  throws?: ToolUnknownAuthError | ToolUnsupportedError
 }
 
 export type ToolOAuthRequest = {
-  method: 'GET',
-  route: `/tools/${string}/oauth`,
-  throws?: ToolUnknownAuthError
-    | ToolUnsupportedError
+  method: 'GET'
+  route: `/tools/${string}/oauth`
+  throws?: ToolUnknownAuthError | ToolUnsupportedError
 }
 
 export type ListModelsRequest = {
-  method: 'GET',
-  route: '/models',
+  method: 'GET'
+  route: '/models'
   response?: ListModelsResponse
 }
 
 export type ModelImageRequest = {
-  method: 'GET',
+  method: 'GET'
   route: `/images/models/${string}`
 }
 
 export type ToolImageRequest = {
-  method: 'GET',
+  method: 'GET'
   route: `/images/tools/${string}`
 }
 
-export type Route = ChatCompletionNonStreamingRequest
-  | ChatCompletionStreamingRequest
-  | ToolSetupRequest
-  | ModelImageRequest
-  | ToolImageRequest
-  | ListModelsRequest
-  
+export type Route = ChatCompletionNonStreamingRequest | ChatCompletionStreamingRequest | ToolSetupRequest | ModelImageRequest | ToolImageRequest | ListModelsRequest

@@ -4,7 +4,7 @@ import { useAuthUser } from '@/hooks/use-auth-user'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
 
-export const useIdentifyPostHogUser= () => {
+export const useIdentifyPostHogUser = () => {
   const posthog = usePostHog()
   const user = useAuthUser()
 

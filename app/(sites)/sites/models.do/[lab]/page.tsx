@@ -14,11 +14,10 @@ export const metadata = {
 export const revalidate = 3600
 
 export default async function DirectoryPage({ params }: { params: Promise<{ lab: string }> }) {
-
   const models = filterModels((await params).lab)
 
   return (
-    <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+    <div className='container mx-auto grid max-w-6xl grid-cols-1 gap-4 px-3 pt-5 pb-20 md:grid-cols-2 md:pb-40 lg:grid-cols-3'>
       {models.models.map((model) => (
         <div key={model.permaslug}>
           <h2 className='text-2xl font-bold'>{model.name}</h2>
@@ -28,4 +27,3 @@ export default async function DirectoryPage({ params }: { params: Promise<{ lab:
     </div>
   )
 }
-

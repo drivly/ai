@@ -23,7 +23,7 @@ vi.mock('apis.do', () => {
       getById: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
       update: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
       remove: vi.fn().mockResolvedValue({ success: true }),
-    }
+    },
   }
 })
 

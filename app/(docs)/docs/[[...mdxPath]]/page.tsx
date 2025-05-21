@@ -18,7 +18,7 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata) 
   }
 
   const canonicalDomain = metadata.canonicalDomain || 'workflows.do'
-  
+
   const canonicalPath = mdxPath?.join('/') || ''
   const canonicalUrl = `https://${canonicalDomain}/docs${canonicalPath ? `/${canonicalPath}` : ''}`
 

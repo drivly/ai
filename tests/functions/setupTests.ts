@@ -8,14 +8,13 @@ export function setupTestEnvironment(config: TestEnvConfig = {}) {
   if (!process.env.AI_GATEWAY_URL) {
     process.env.AI_GATEWAY_URL = config.AI_GATEWAY_URL || 'https://llm.do'
   }
-  
+
   Object.entries(config).forEach(([key, value]) => {
     if (value) {
       process.env[key] = value
     }
   })
 }
-
 
 beforeEach(() => {
   setupTestEnvironment()

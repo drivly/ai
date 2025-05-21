@@ -45,12 +45,14 @@ node scripts/release-pkgs.js /tmp/test-pkg
 ## 4. End-to-End Test
 
 1. Publish a package that previously had workspace dependencies:
+
    ```bash
    cd pkgs/services-as-software
    npm publish
    ```
 
 2. Install the published package in a separate project:
+
    ```bash
    mkdir -p /tmp/test-install
    cd /tmp/test-install

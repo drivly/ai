@@ -23,7 +23,7 @@ describe('AI', () => {
           subcategory: 'Smartphones',
         },
         reasoning: 'Mock reasoning for categorizeProduct',
-        generationHash: 'mock-hash-1'
+        generationHash: 'mock-hash-1',
       })
 
       const ai = AI({
@@ -50,7 +50,7 @@ describe('AI', () => {
       vi.mocked(executeFunction).mockResolvedValueOnce({
         output: ['JavaScript', 'Python', 'TypeScript', 'Rust', 'Go'],
         reasoning: 'Mock reasoning for listLanguages',
-        generationHash: 'mock-hash-2'
+        generationHash: 'mock-hash-2',
       })
 
       const ai = AI({
@@ -84,7 +84,7 @@ describe('AI', () => {
       vi.mocked(executeFunction).mockResolvedValueOnce({
         output: { result: 'Success' },
         reasoning: 'Mock reasoning',
-        generationHash: 'mock-hash-3'
+        generationHash: 'mock-hash-3',
       })
 
       const ai = AI({
@@ -103,7 +103,7 @@ describe('AI', () => {
             _model: 'gpt-4o',
             _temperature: 0.5,
           }),
-        })
+        }),
       )
     })
 
@@ -114,7 +114,7 @@ describe('AI', () => {
           mdast: { type: 'root', children: [] },
         },
         reasoning: 'Mock reasoning for generateMarkdown',
-        generationHash: 'mock-hash-4'
+        generationHash: 'mock-hash-4',
       })
 
       const ai = AI({
@@ -143,7 +143,7 @@ describe('AI', () => {
           subcategory: 'Smartphones',
         },
         reasoning: 'Mock reasoning for categorizeProduct',
-        generationHash: 'mock-hash-1'
+        generationHash: 'mock-hash-1',
       })
 
       interface ProductType {
@@ -174,7 +174,7 @@ describe('AI', () => {
       vi.mocked(executeFunction).mockResolvedValueOnce({
         output: ['Feature 1', 'Feature 2', 'Feature 3'],
         reasoning: 'Mock reasoning for getFeatures',
-        generationHash: 'mock-hash-5'
+        generationHash: 'mock-hash-5',
       })
 
       const ai = AI({
@@ -204,7 +204,7 @@ describe('AI', () => {
           },
         },
         reasoning: 'Mock reasoning for getProductDetails',
-        generationHash: 'mock-hash-6'
+        generationHash: 'mock-hash-6',
       })
 
       const ai = AI({

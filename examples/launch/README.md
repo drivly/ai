@@ -6,4 +6,4 @@ These examples focus on marketing and launch activities.
 
 These examples demonstrate how to use AI functions and workflows to effectively launch products and services into the market.
 
-*Note: More examples will be added to this category in future updates.*
+_Note: More examples will be added to this category in future updates._

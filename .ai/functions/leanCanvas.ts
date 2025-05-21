@@ -17,4 +17,3 @@ const ai = AI({
 })
 
 export default ai
-

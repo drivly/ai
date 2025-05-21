@@ -15,7 +15,8 @@ export const ModelCard = ({ model }: { model: Model }) => {
       <div className='animate-border-shimmer from-background via-accent-green to-background absolute inset-0 scale-[400%] rounded-md bg-conic-90 from-0% to-0% opacity-0 blur-sm transition-opacity duration-700 group-hover:opacity-100'></div>
       <Link
         href={model.permaslug}
-        className='relative grid h-full grid-cols-1 gap-4 rounded-md border-none bg-black/80 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-4'>
+        className='relative grid h-full grid-cols-1 gap-4 rounded-md border-none bg-black/80 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-4'
+      >
         <CardHeader className='flex w-full flex-col px-0'>
           <CardTitle className='flex w-full items-center justify-between gap-2'>
             <h2 className='line-clamp-1 flex items-center text-lg leading-[26px] text-ellipsis whitespace-nowrap'>{model.shortName || model.name}</h2>
@@ -46,14 +47,16 @@ export const ModelCard = ({ model }: { model: Model }) => {
           )}
           <Badge
             variant='outline'
-            className={`${latencyRank < 50 ? 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-300' : 'text-muted-foreground bg-gray-100 dark:bg-gray-800'}`}>
+            className={`${latencyRank < 50 ? 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-300' : 'text-muted-foreground bg-gray-100 dark:bg-gray-800'}`}
+          >
             <span className='mr-1'>{latencyRank < 50 ? '⚡' : '⏱️'}</span>
             {latencyRank < 50 ? 'Fast' : 'Std'} Latency
           </Badge>
 
           <Badge
             variant='outline'
-            className={`${pricingRank < 50 ? 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-300' : pricingRank > 200 ? 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300' : 'text-muted-foreground bg-gray-100 dark:bg-gray-800'}`}>
+            className={`${pricingRank < 50 ? 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-300' : pricingRank > 200 ? 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300' : 'text-muted-foreground bg-gray-100 dark:bg-gray-800'}`}
+          >
             <span className='mr-1'>{pricingRank < 50 ? '💰' : pricingRank > 200 ? '💎' : '💵'}</span>
             {pricingRank < 50 ? 'Low' : pricingRank > 200 ? 'High' : 'Med'} Cost
           </Badge>

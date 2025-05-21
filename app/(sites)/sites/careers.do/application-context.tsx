@@ -62,7 +62,8 @@ export function ApplicationProvider({ children }: { children: ReactNode }) {
         isProcessingCallback,
         setIsProcessingCallback,
         hasProcessedCallback: hasProcessedCallbackRef.current,
-      }}>
+      }}
+    >
       {children}
 
       {applicationData && (

@@ -12,12 +12,7 @@ import {
 import { model } from './provider'
 import { VercelAIToolSet, Composio, ConnectionRequest } from 'composio-core'
 import TurndownService from 'turndown'
-import {
-  fetchWebsiteContents,
-  worker,
-  testTool,
-  allTools
-} from './tools'
+import { fetchWebsiteContents, worker, testTool, allTools } from './tools'
 
 // Google specific fixes
 import { convertJSONSchemaToOpenAPISchema } from './providers/google'
@@ -27,7 +22,8 @@ const camelCaseToScreamingSnakeCase = (str: string) => {
   // When we see a capital letter, we need to prefix it with an underscore and make the whole string uppercase.
   return str
     .replaceAll('.', '_')
-    .replace(/([A-Z])/g, '_$1').toUpperCase()
+    .replace(/([A-Z])/g, '_$1')
+    .toUpperCase()
 }
 
 type ProvidersGenerateMixin = {
@@ -37,9 +33,9 @@ type ProvidersGenerateMixin = {
   modelOptions?: any
   /**
    * Report when a tool is called, used for analytics.
-   * @param tool 
-   * @param args 
-   * @returns 
+   * @param tool
+   * @param args
+   * @returns
    */
   onTool?: (tool: string, args: any, result: any) => void
 }
@@ -67,7 +63,7 @@ export type AIToolAuthorizationError = Error & {
   apps: string[]
 }
 
-// Generates a config object from 
+// Generates a config object from
 export async function resolveConfig(options: GenerateTextOptions) {
   // If options.model is a string, use our llm provider.
   if (typeof options.model === 'string') {
@@ -79,7 +75,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
 
   // @ts-expect-error - We know this property exists, but TS doesnt
   const parsedModel = options.model?.resolvedModel
-  
+
   const toolNames = Array.isArray(parsedModel.parsed.tools) ? parsedModel.parsed.tools : Object.keys(parsedModel.parsed.tools || {})
 
   if (parsedModel.parsed?.tools && toolNames.length > 0) {
@@ -94,80 +90,79 @@ export async function resolveConfig(options: GenerateTextOptions) {
 
       const connections = await composio.connectedAccounts.list({
         entityId: options.user,
-        status: 'ACTIVE'
+        status: 'ACTIVE',
       })
-  
+
       // Return a completion error if the user tries to use a app
       // that they have not yet connected. Inside this error, we will include a
       // redirect link to add the app.
-  
-      const activeApps = connections.items.map(connection => connection.appName)
+
+      const activeApps = connections.items.map((connection) => connection.appName)
       let missingApps: string[] = Array.from(new Set(toolNames.map((x: string) => x.split('.')[0]).filter((app: string) => !activeApps.includes(app))))
 
-      const appMetadata = await Promise.all(missingApps.map(async app => {
-        try {
-          return await composio.apps.get({
-            appKey: app as string
-          })
-        } catch (error) {
-          return null
-        }
-      })).then(x => x.filter(x => x !== null))
-      
+      const appMetadata = await Promise.all(
+        missingApps.map(async (app) => {
+          try {
+            return await composio.apps.get({
+              appKey: app as string,
+            })
+          } catch (error) {
+            return null
+          }
+        }),
+      ).then((x) => x.filter((x) => x !== null))
+
       missingApps = missingApps
         // Remove any apps that are not in appMetadata.
-        .filter(app => appMetadata.find(x => x.key === app))
+        .filter((app) => appMetadata.find((x) => x.key === app))
         // Remove any apps that have no auth.
-        .filter(app => !appMetadata.find(x => x.key === app)?.no_auth)
-  
+        .filter((app) => !appMetadata.find((x) => x.key === app)?.no_auth)
+
       if (missingApps.length > 0) {
         const connectionRequests: AIToolAuthorizationError['connectionRequests'] = []
-  
+
         for (const app of missingApps) {
-          const appData = appMetadata.find(x => x.key === app)
+          const appData = appMetadata.find((x) => x.key === app)
 
           const connectionRequest: AIToolAuthorizationError['connectionRequests'][0] = {
             app,
             icon: appData?.logo || '',
             description: appData?.description || '',
-            methods: []
+            methods: [],
           }
 
           for (const authScheme of appData?.auth_schemes || []) {
             connectionRequest.methods.push({
               type: authScheme.mode as ConnectionType,
               redirectUrl: (authScheme.mode as string).includes('OAUTH') ? `/api/llm/tools/${app}/oauth?type=${authScheme.mode}` : undefined,
-              fields: !(authScheme.mode as string).includes('OAUTH') ? authScheme.fields as Record<string, any> : undefined
+              fields: !(authScheme.mode as string).includes('OAUTH') ? (authScheme.fields as Record<string, any>) : undefined,
             })
           }
 
           connectionRequests.push(connectionRequest)
         }
-  
-        const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolAuthorizationError  
-  
+
+        const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolAuthorizationError
+
         error.type = 'AI_PROVIDERS_TOOLS_AUTHORIZATION'
         error.connectionRequests = connectionRequests as AIToolAuthorizationError['connectionRequests']
         error.apps = missingApps
-  
+
         throw error
       }
-  
+
       const composioToolset = new VercelAIToolSet({
         apiKey: process.env.COMPOSIO_API_KEY,
-        connectedAccountIds: connections.items
-          .map(connection => [connection.appName, connection.id])
-          .reduce((acc, [app, id]) => ({ ...acc, [app]: id }), {})
+        connectedAccountIds: connections.items.map((connection) => [connection.appName, connection.id]).reduce((acc, [app, id]) => ({ ...acc, [app]: id }), {}),
       })
-  
+
       const apps = toolNames.map((name: string) => name.split('.')[0])
-  
+
       const tools = await composioToolset.getTools({
         apps,
         actions: toolNames.map((name: string) => camelCaseToScreamingSnakeCase(name)),
       })
-  
-      
+
       options.tools = { ...options.tools, ...tools }
     }
 
@@ -187,7 +182,6 @@ export async function resolveConfig(options: GenerateTextOptions) {
     if (parsedModel.provider?.slug === 'openAi') {
       // We need to amend composio tools for OpenAI usage.
       for (const [name, tool] of Object.entries(options.tools)) {
-
         options.tools[name] = {
           ...tool,
           parameters: {
@@ -195,71 +189,69 @@ export async function resolveConfig(options: GenerateTextOptions) {
             jsonSchema: {
               ...tool.parameters.jsonSchema,
               additionalProperties: false,
-              strict: true
+              strict: true,
             },
           },
-          execute: tool.execute ? async (args: any) => {
-            console.log(
-              `[TOOL:${name}]`,
-              args
-            )
-            
-            try {
-              // @ts-expect-error - TS doesnt like us calling this function even though it exists.
-              const result = await tool.execute(args)
+          execute: tool.execute
+            ? async (args: any) => {
+                console.log(`[TOOL:${name}]`, args)
 
-              if (options.onTool) {
-                options.onTool(name, args, {
-                  success: true,
-                  result
-                })
+                try {
+                  // @ts-expect-error - TS doesnt like us calling this function even though it exists.
+                  const result = await tool.execute(args)
+
+                  if (options.onTool) {
+                    options.onTool(name, args, {
+                      success: true,
+                      result,
+                    })
+                  }
+
+                  return result
+                } catch (error) {
+                  if (options.onTool) {
+                    options.onTool(name, args, {
+                      success: false,
+                      error: JSON.parse(JSON.stringify(error)),
+                    })
+                  }
+                  throw error
+                }
               }
-              
-              return result
-            } catch (error) {
-              if (options.onTool) {
-                options.onTool(name, args, {
-                  success: false,
-                  error: JSON.parse(JSON.stringify(error))
-                })
-              }
-              throw error
-            }
-          } : undefined
+            : undefined,
         }
       }
     } else {
       for (const [name, tool] of Object.entries(options.tools)) {
         options.tools[name] = {
           ...tool,
-          execute: tool.execute ? async (args: any) => {
-            console.log(
-              `[TOOL:${name}]`,
-              args
-            )
+          execute: tool.execute
+            ? async (args: any) => {
+                console.log(`[TOOL:${name}]`, args)
 
-            try {
-              // @ts-expect-error - TS doesnt like us calling this function even though it exists.
-              const result = await tool.execute(args)
+                try {
+                  // @ts-expect-error - TS doesnt like us calling this function even though it exists.
+                  const result = await tool.execute(args)
 
-              if (options.onTool) {
-                options.onTool(name, args, {
-                  success: true,
-                  result
-                })
+                  if (options.onTool) {
+                    options.onTool(name, args, {
+                      success: true,
+                      result,
+                    })
+                  }
+
+                  return result
+                } catch (error) {
+                  if (options.onTool) {
+                    options.onTool(name, args, {
+                      success: false,
+                      error: JSON.parse(JSON.stringify(error)),
+                    })
+                  }
+                  throw error
+                }
               }
-              
-              return result
-            } catch (error) {
-              if (options.onTool) {
-                options.onTool(name, args, {
-                  success: false,
-                  error: JSON.parse(JSON.stringify(error))
-                })
-              }
-              throw error
-            }
-          } : undefined
+            : undefined,
         }
       }
     }
@@ -283,12 +275,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
     if (isLLMProvider) {
       if (options.model.provider === 'openrouter') {
         // Remove any "illegal" openai keys
-        const illegalKeys = [
-          'default',
-          'minimum',
-          'maximum',
-          'examples'
-        ]
+        const illegalKeys = ['default', 'minimum', 'maximum', 'examples']
 
         const recursiveUpdate = (obj: any) => {
           if (Array.isArray(obj)) {

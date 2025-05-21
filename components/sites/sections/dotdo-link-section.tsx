@@ -16,7 +16,8 @@ export function DotdoLinkSection({ title = 'Deliver economically valuable work' 
                     href={`https://${dotdo.toLowerCase()}`}
                     className='hover:text-primary font-ibm text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                     target='_blank'
-                    rel='noopener noreferrer'>
+                    rel='noopener noreferrer'
+                  >
                     {dotdo}
                   </Link>
                 </li>

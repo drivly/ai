@@ -1,4 +1,3 @@
-
 import { MarkdownContent } from '@/components/shared/markdown-content'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -48,10 +47,10 @@ async function ModelDetailPage({ params }: { params: { lab: string; model: strin
       </div>
     )
   }
-  
+
   const endpoint = model.endpoint as Endpoint | undefined
   const providerInfo = endpoint?.providerInfo
-  
+
   console.log('🚀 ~ ModelDetailPage ~ endpoint:', model.providers)
   // Get the blog URL if available from the model description
   const blogUrlMatch = model.description?.match(/\[blog post here\]\((https:\/\/[^\)]+)\)/)

@@ -9,8 +9,8 @@ vi.mock('process', async () => {
     env: {
       ...process.env,
       NODE_ENV: 'integration',
-      FUNCTIONS_DO_API_KEY: process.env.DO_API_KEY
-    }
+      FUNCTIONS_DO_API_KEY: process.env.DO_API_KEY,
+    },
   }
 })
 
@@ -34,7 +34,7 @@ describe('research function integration test', () => {
     console.log('Tagged template result:', JSON.stringify(result, null, 2))
 
     expect(result).toBeDefined()
-    
+
     if (typeof result === 'string') {
       expect(result.length).toBeGreaterThan(0)
     } else {

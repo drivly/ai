@@ -7,7 +7,7 @@ const PAYLOAD_URL = `http://localhost:${PAYLOAD_PORT}`
 
 export const setupApiStyles = () => {
   const apiKey = process.env.DO_API_KEY || ''
-  
+
   const db = DB({
     baseUrl: PAYLOAD_URL,
     apiKey,
@@ -25,13 +25,13 @@ export const isPayloadRunning = async (): Promise<boolean> => {
   try {
     const apiKey = process.env.DO_API_KEY || ''
     const headers: Record<string, string> = {}
-    
+
     if (apiKey) {
       headers['Authorization'] = `Bearer ${apiKey}`
     }
-    
+
     const response = await fetch(`${PAYLOAD_URL}/api/things`, { headers })
-    
+
     if (response.status === 200) {
       return true
     } else {
@@ -50,11 +50,11 @@ export const createTestData = async (collection: string, data: any) => {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     }
-    
+
     if (apiKey) {
       headers['Authorization'] = `Bearer ${apiKey}`
     }
-    
+
     const response = await fetch(`${PAYLOAD_URL}/api/${collection}`, {
       method: 'POST',
       headers,
@@ -76,11 +76,11 @@ export const cleanupTestData = async (collection: string, id: string) => {
   try {
     const apiKey = process.env.DO_API_KEY || ''
     const headers: Record<string, string> = {}
-    
+
     if (apiKey) {
       headers['Authorization'] = `Bearer ${apiKey}`
     }
-    
+
     const response = await fetch(`${PAYLOAD_URL}/api/${collection}/${id}`, {
       method: 'DELETE',
       headers,

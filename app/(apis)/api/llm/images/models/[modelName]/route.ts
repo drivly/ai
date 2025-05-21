@@ -17,9 +17,9 @@ export const GET = async (req: NextRequest, { params }: { params: Promise<Record
     headers: {
       'Content-Type': icon.headers.get('Content-Type') as string,
       'Cache-Control': 'public, max-age=31536000, immutable',
-      'Expires': new Date(Date.now() + 31536000).toUTCString(),
-      'Vary': 'Accept-Encoding',
-      'ETag': icon.headers.get('ETag') as string,
-    }
+      Expires: new Date(Date.now() + 31536000).toUTCString(),
+      Vary: 'Accept-Encoding',
+      ETag: icon.headers.get('ETag') as string,
+    },
   })
 }

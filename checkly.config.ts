@@ -7,8 +7,8 @@ const config = defineConfig({
   /* A human friendly name for your project */
   projectName: 'do',
   /** A logical ID that needs to be unique across your Checkly account,
-  * See https://www.checklyhq.com/docs/cli/constructs/ to learn more about logical IDs.
-  */
+   * See https://www.checklyhq.com/docs/cli/constructs/ to learn more about logical IDs.
+   */
   logicalId: 'do',
   /* An optional URL to your Git repo */
   repoUrl: 'https://github.com/checkly/checkly-cli',
@@ -30,8 +30,8 @@ const config = defineConfig({
     playwrightConfig: {},
     browserChecks: {
       /* A glob pattern matches any Playwright .spec.ts files and automagically creates a Browser Check. This way, you
-      * can just write native Playwright code. See https://www.checklyhq.com/docs/cli/using-check-test-match/
-      * */
+       * can just write native Playwright code. See https://www.checklyhq.com/docs/cli/using-check-test-match/
+       * */
       testMatch: '**/__checks__/**/*.spec.ts',
     },
   },

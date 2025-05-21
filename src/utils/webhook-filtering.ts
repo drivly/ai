@@ -7,7 +7,7 @@ export const filterEvents = (event: string, patterns: string[]): boolean => {
     return true
   }
 
-  return patterns.some(pattern => {
+  return patterns.some((pattern) => {
     if (pattern === event) {
       return true
     }

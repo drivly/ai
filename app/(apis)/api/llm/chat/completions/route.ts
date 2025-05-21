@@ -1,4 +1,3 @@
-
 import { auth } from '@/auth'
 import { findKey } from '@/lib/openrouter'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
@@ -15,10 +14,13 @@ export const maxDuration = 60
 export const dynamic = 'force-dynamic'
 
 const ErrorResponse = (message: string, code: number = 400) => {
-  return Response.json({
-    success: false,
-    error: message
-  }, { status: code })
+  return Response.json(
+    {
+      success: false,
+      error: message,
+    },
+    { status: code },
+  )
 }
 
 export async function POST(req: Request) {
@@ -79,17 +81,10 @@ export async function POST(req: Request) {
   const { model, prompt, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
 
   // Overwritable variables
-  let {
-    response_format,
-    system,
-    messages
-  } = postData as OpenAICompatibleRequest
+  let { response_format, system, messages } = postData as OpenAICompatibleRequest
 
   // llm.do superset OpenAI standard
-  const {
-    modelOptions,
-    useChat
-  } = postData as LLMCompatibleRequest
+  const { modelOptions, useChat } = postData as LLMCompatibleRequest
 
   if (!prompt && !messages) {
     return ErrorResponse('No prompt or messages provided')
@@ -110,7 +105,7 @@ export async function POST(req: Request) {
       if (message.role === 'tool') {
         return {
           ...message,
-          role: 'assistant'
+          role: 'assistant',
         }
       }
 
@@ -187,18 +182,24 @@ export async function POST(req: Request) {
     if (modelExists.models.length > 0) {
       const requestedCapabilities = Object.keys(modelOptions ?? {})
 
-      return Response.json({
-        success: false,
-        type: 'MODEL_INCOMPATIBLE',
-        error: `Model ${ model } has no providers with given options and constraints. ${ requestedCapabilities.length > 0 ? `The following capabilities are not supported by this model: ${ requestedCapabilities.join(', ') }` : '' }`,
-        requestedCapabilities
-      }, { status: 404 })
+      return Response.json(
+        {
+          success: false,
+          type: 'MODEL_INCOMPATIBLE',
+          error: `Model ${model} has no providers with given options and constraints. ${requestedCapabilities.length > 0 ? `The following capabilities are not supported by this model: ${requestedCapabilities.join(', ')}` : ''}`,
+          requestedCapabilities,
+        },
+        { status: 404 },
+      )
     } else {
-      return Response.json({
-        success: false,
-        type: 'MODEL_NOT_FOUND',
-        error: `Model ${ model } does not exist. Please check the model name and try again.`
-      }, { status: 404 })
+      return Response.json(
+        {
+          success: false,
+          type: 'MODEL_NOT_FOUND',
+          error: `Model ${model} does not exist. Please check the model name and try again.`,
+        },
+        { status: 404 },
+      )
     }
   }
 
@@ -244,7 +245,7 @@ export async function POST(req: Request) {
 
   const openAiResponse = (result: any) => {
     const body = {
-      id: result.id || `msg-${ Math.random().toString(36).substring(2, 15) }`,
+      id: result.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
       created: Date.now(),
       model,
@@ -261,19 +262,21 @@ export async function POST(req: Request) {
               type: 'function',
               function: {
                 name: toolCall.toolName,
-                arguments: JSON.stringify(toolCall.args)
-              }
-            }))
+                arguments: JSON.stringify(toolCall.args),
+              },
+            })),
           },
           index: 0,
-          finish_reason: 'stop'
-        }
-      ],  
-      usage: result.usage ? {
-        prompt_tokens: result.usage.prompt_tokens,
-        completion_tokens: result.usage.completion_tokens,
-        total_tokens: result.usage.total_tokens
-      } : undefined
+          finish_reason: 'stop',
+        },
+      ],
+      usage: result.usage
+        ? {
+            prompt_tokens: result.usage.prompt_tokens,
+            completion_tokens: result.usage.completion_tokens,
+            total_tokens: result.usage.total_tokens,
+          }
+        : undefined,
     }
 
     return Response.json(body, {
@@ -285,8 +288,8 @@ export async function POST(req: Request) {
         'llm-parsed-model': JSON.stringify(parsedModel),
         'llm-response-format': JSON.stringify(response_format),
         'keep-alive': 'timeout=600',
-        'x-powered-by': 'llm.do'
-      }
+        'x-powered-by': 'llm.do',
+      },
     })
   }
 
@@ -347,9 +350,9 @@ export async function POST(req: Request) {
       {
         user: session?.user.email || '',
         tool,
-        args
+        args,
       },
-      result
+      result,
     )
   }
 
@@ -360,7 +363,7 @@ export async function POST(req: Request) {
         const generateObjectErrorPromise = new Promise<string | null>((resolve) => {
           generateObjectError = resolve
         })
-  
+
         const result = await streamObject({
           ...rest,
           model: llmModel,
@@ -376,52 +379,52 @@ export async function POST(req: Request) {
             console.error(error) // your error logging logic here
             generateObjectError(JSON.stringify(error))
           },
-          onTool
+          onTool,
         })
-  
+
         if (useChat) {
           return createDataStreamResponse({
             execute: async (dataStream) => {
               const textStream = result.textStream
-  
+
               // When this promise resolves, it will have an error.
               // We need to pass this error to the client so it can be displayed.
               generateObjectErrorPromise.then((error) => {
                 dataStream.write(`0:"${error?.replaceAll('"', '\\"')}"\n`)
               })
-  
+
               // Simulate a message id
               dataStream.write(`f:{"messageId":"msg-${Math.random().toString(36).substring(2, 15)}"}\n`)
-  
+
               const formatChunk = (chunk: string) => {
                 // Make sure that the chunk can be parsed as JSON
                 return chunk.replaceAll('"', '\\"').replaceAll('\n', '\\n')
               }
-  
+
               dataStream.write(`0:"\`\`\`json\\n"\n`)
-  
+
               for await (const chunk of textStream) {
                 dataStream.write(`0:"${formatChunk(chunk)}"\n`)
               }
-  
+
               dataStream.write(`0:"\\n\`\`\`"\n`)
-  
+
               // // Fixes usagePromise not being exposed via the types
               // const usage = (result as any).usagePromise.status.value as {
               //   promptTokens: number
               //   completionTokens: number
               //   totalTokens: number
               // }
-  
+
               //dataStream.write(`e:{"finishReason":"stop","usage":{"promptTokens":2217,"completionTokens":70},"isContinued":false}\n`)
               //dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":2367,"completionTokens":89}}\n`)
             },
           })
         } else {
           const response = result.toTextStreamResponse()
-  
+
           response.headers.set('Content-Type', 'application/json; charset=utf-8')
-  
+
           return response
         }
       } else {
@@ -438,13 +441,10 @@ export async function POST(req: Request) {
           onTool,
           // @ts-expect-error - onChunk is a valid property, its just not typed yet.
           onChunk: (chunk) => {
-            console.log(
-              'Chunk',
-              chunk
-            )
-          }
+            console.log('Chunk', chunk)
+          },
         })
-  
+
         // We need to support both streaming and useChat use cases.
         if (useChat) {
           return result.toDataStreamResponse()
@@ -467,13 +467,13 @@ export async function POST(req: Request) {
           // @ts-expect-error - TODO Fix this.
           schema,
           onTool,
-          maxSteps: 10
+          maxSteps: 10,
         })
-  
+
         // @ts-expect-error - TS doesnt like us adding random properties to the result.
         // But this is needed to trick our openAI response API into thinking its text.
         result.text = JSON.stringify(result.object)
-  
+
         return openAiResponse(result)
       } else {
         let result = await generateText({
@@ -486,37 +486,43 @@ export async function POST(req: Request) {
           user: session?.user.email || '',
           maxSteps: 10,
           tools,
-          onTool
+          onTool,
         })
 
         const hasJsonTool = !!tools.json
 
-        if (hasJsonTool && !result.toolCalls.length) {}
+        if (hasJsonTool && !result.toolCalls.length) {
+        }
 
         return openAiResponse(result)
       }
     }
   } catch (e) {
-
     console.error(e)
 
     switch ((e as { type: string }).type) {
       case 'AI_PROVIDERS_TOOLS_AUTHORIZATION':
         const error = e as any
 
-        return Response.json({
-          success: false,
-          type: 'TOOL_AUTHORIZATION',
-          error: `To continue with this request, please authorize the following apps: ${error.apps.join(', ')}`,
-          connectionRequests: error.connectionRequests,
-          apps: error.apps
-        }, { status: 400 })
+        return Response.json(
+          {
+            success: false,
+            type: 'TOOL_AUTHORIZATION',
+            error: `To continue with this request, please authorize the following apps: ${error.apps.join(', ')}`,
+            connectionRequests: error.connectionRequests,
+            apps: error.apps,
+          },
+          { status: 400 },
+        )
       default:
-        return Response.json({
-          success: false,
-          type: 'INTERNAL_SERVER_ERROR',
-          error: 'An error occurred while processing your request. This has been logged and will be investigated. Please try again later.'
-        }, { status: 500 })
+        return Response.json(
+          {
+            success: false,
+            type: 'INTERNAL_SERVER_ERROR',
+            error: 'An error occurred while processing your request. This has been logged and will be investigated. Please try again later.',
+          },
+          { status: 500 },
+        )
     }
   }
 }

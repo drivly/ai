@@ -188,69 +188,52 @@ class LLMProvider implements LanguageModelV1 {
       }
     }
 
-    console.log(
-      `Sending request to ${modelSlug} with strategy:`,
-      this.supportsStructuredOutputs ? 'structuredOutputs' : this.defaultObjectGenerationMode
-    )
+    console.log(`Sending request to ${modelSlug} with strategy:`, this.supportsStructuredOutputs ? 'structuredOutputs' : this.defaultObjectGenerationMode)
 
-    console.dir(
-      options,
-      { depth: null }
-    )
+    console.dir(options, { depth: null })
 
-    const provider = new OpenAICompatibleChatLanguageModel(
-      modelSlug,
-      modelConfigMixin,
-      {
-        provider: 'llm-do-internal',
-        url: ({ path }) => `${this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter'}${path}`,
-        supportsStructuredOutputs: this.supportsStructuredOutputs,
-        defaultObjectGenerationMode: this.defaultObjectGenerationMode,
-        headers: () => ({
-          Authorization: `Bearer ${this.apiKey}`,
-        }),
-        fetch: async (req: RequestInfo | URL, init: RequestInit | undefined) => {
-          const targetProvider = this.resolvedModel.provider?.name
+    const provider = new OpenAICompatibleChatLanguageModel(modelSlug, modelConfigMixin, {
+      provider: 'llm-do-internal',
+      url: ({ path }) => `${this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter'}${path}`,
+      supportsStructuredOutputs: this.supportsStructuredOutputs,
+      defaultObjectGenerationMode: this.defaultObjectGenerationMode,
+      headers: () => ({
+        Authorization: `Bearer ${this.apiKey}`,
+      }),
+      fetch: async (req: RequestInfo | URL, init: RequestInit | undefined) => {
+        const targetProvider = this.resolvedModel.provider?.name
 
-          let bodyString = init?.body as string
+        let bodyString = init?.body as string
 
-          if (this.resolvedModel.author != 'openai') {
-            // Fix some providers not supporting a tool role.
-            bodyString = bodyString.replaceAll('"role":"tool"', '"role":"assistant"')
-          }
-
-          const newBody = {
-            ...JSON.parse(bodyString),
-            provider: {
-              only: [
-                targetProvider
-              ]
-            },
-          }
-
-          console.log(
-            {
-              ...init,
-              body: JSON.stringify(newBody),
-            }
-          )
-
-          const data = await fetch(req, {
-            ...init,
-            body: JSON.stringify(newBody),
-          })
-
-          const clone = data.clone()
-
-          console.dir(
-            await clone.json(),
-            { depth: null }
-          )
-
-          return data
+        if (this.resolvedModel.author != 'openai') {
+          // Fix some providers not supporting a tool role.
+          bodyString = bodyString.replaceAll('"role":"tool"', '"role":"assistant"')
         }
-      }
-    )
+
+        const newBody = {
+          ...JSON.parse(bodyString),
+          provider: {
+            only: [targetProvider],
+          },
+        }
+
+        console.log({
+          ...init,
+          body: JSON.stringify(newBody),
+        })
+
+        const data = await fetch(req, {
+          ...init,
+          body: JSON.stringify(newBody),
+        })
+
+        const clone = data.clone()
+
+        console.dir(await clone.json(), { depth: null })
+
+        return data
+      },
+    })
 
     return await provider.doGenerate(options as any)
 

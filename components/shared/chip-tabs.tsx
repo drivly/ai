@@ -37,7 +37,8 @@ const Chip = <T extends string>({ text, selected, setSelected }: ChipProps<T>) =
   return (
     <button
       onClick={() => setSelected(text)}
-      className={`${selected ? 'text-primary font-medium' : 'text-muted-foreground hover:bg-muted/40 hover:dark:text-slate-200'} animate-in relative cursor-pointer px-2 py-1.5 text-xs transition-colors duration-300 focus:outline-none focus-visible:outline-none`}>
+      className={`${selected ? 'text-primary font-medium' : 'text-muted-foreground hover:bg-muted/40 hover:dark:text-slate-200'} animate-in relative cursor-pointer px-2 py-1.5 text-xs transition-colors duration-300 focus:outline-none focus-visible:outline-none`}
+    >
       <span className='relative z-10'>{cleanedText}</span>
       {selected && (
         <motion.span layoutId='pill-tab' transition={{ ...transition, type: 'spring', duration: 0.5 }} className='border-accent-foreground absolute inset-0 z-0 border-b-1' />

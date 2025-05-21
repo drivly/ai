@@ -3,7 +3,6 @@ import { aliases } from './aliases'
 import { Model, Provider } from './types'
 import rawModels from './models'
 
-
 type InternalModel = Model
 
 const allModels = rawModels as unknown as {
@@ -389,12 +388,9 @@ export function filterModels(
       })
       .reduce((p: number, n: number) => (p ? p : n), 0)
 
-  const reversedFields = [
-    'throughput',
-    'cost'
-  ]
+  const reversedFields = ['throughput', 'cost']
 
-  let sortingStrategy = orderBy(parsed?.priorities?.map((f) => `${reversedFields.includes(f) ? '-' : '' }provider.${f}`) || [])
+  let sortingStrategy = orderBy(parsed?.priorities?.map((f) => `${reversedFields.includes(f) ? '-' : ''}provider.${f}`) || [])
 
   // Re-join back on model, replacing the providers with the filtered providers
   return {
@@ -456,7 +452,7 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
       ...augments,
     },
   }
-  
+
   // Only handle specific Claude models with thinking capability
   if (!result.slug) {
     // For claude models with thinking capability
@@ -464,7 +460,7 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
       result.slug = 'anthropic/claude-3.7-sonnet:thinking'
     }
   }
-  
+
   return result
 }
 
@@ -522,4 +518,4 @@ const metaModels = [
     name: 'wideRange',
     models: ['claude-3.7-sonnet', 'gemini', 'gpt-4o-mini', 'ministral-8b', 'qwq-32b'],
   },
-] 
+]
