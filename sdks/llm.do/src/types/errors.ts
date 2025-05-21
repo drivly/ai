@@ -1,9 +1,4 @@
-import {
-  ToolAuthorizationMode
-} from './tools'
-
-// Chat completion errors
-type ToolAuthorizationMode = 'OAUTH' | 'OAUTH2' | 'API_KEY' | 'BEARER_TOKEN'
+import { ToolAuthorizationMode } from './tools'
 
 interface GenericChatCompletionError extends Error {
   success: false
