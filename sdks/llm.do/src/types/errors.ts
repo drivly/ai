@@ -1,4 +1,5 @@
 // Chat completion errors
+type ToolAuthorizationMode = 'OAUTH' | 'OAUTH2' | 'API_KEY' | 'BEARER_TOKEN'
 
 interface GenericChatCompletionError extends Error {
   success: false
@@ -17,24 +18,28 @@ export interface ModelIncompatibleError extends GenericChatCompletionError {
   type: 'MODEL_INCOMPATIBLE'
 }
 
-// Tools based errors
-export interface ToolRedirectError extends GenericChatCompletionError {
-  type: 'TOOL_REDIRECT'
+export interface ToolAuthorizationError extends GenericChatCompletionError {
+  type: 'TOOL_AUTHORIZATION'
   connectionRequests: {
     app: string
-    type: 'API_KEY' | 'OAUTH' | 'OAUTH2'
-    redirectUrl?: string
-    fields?: Record<
-      string,
-      {
-        type: 'string' | 'number' | 'boolean'
-        required: boolean
-        name: string
-        [key: string]: any
-      }
-    >
+    icon: string
+    description: string
+    methods: {
+      type: ToolAuthorizationMode
+      redirectUrl?: string
+      fields?: Record<string, any>
+    }[]
   }[]
+  apps: string[]
+}
+
+export interface ToolUnsupportedError extends GenericChatCompletionError {
+  type: 'UNSUPPORTED_AUTH_SCHEME'
+}
+
+export interface ToolUnknownAuthError extends GenericChatCompletionError {
+  type: 'UNKNOWN_AUTH_SCHEME'
 }
 
 // Discriminated union with all of our errors
-export type ChatCompletionError = ModelNotFoundError | ModelIncompatibleError | ToolRedirectError
+export type ChatCompletionError = ModelNotFoundError | ModelIncompatibleError | ToolAuthorizationError

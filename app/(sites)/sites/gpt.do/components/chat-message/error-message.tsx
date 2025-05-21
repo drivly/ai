@@ -1,11 +1,12 @@
-import type { ToolRedirectError } from '@/sdks/llm.do/src'
+import type { ToolAuthorizationError } from '@/sdks/llm.do/src'
 import { motion } from 'motion/react'
+import { Fragment } from 'react'
 import { useComposioQuery } from '../../hooks/use-composio-query'
 import { AuthCard } from './auth-card'
 import { DefaultErrorCard } from './default-error-card'
 
-// Parse error message string to ToolRedirectError
-function parseToolRedirectError(error?: Error): ToolRedirectError | null {
+// Parse error message string to ToolAuthorizationError
+function parseToolAuthorizationError(error?: Error): ToolAuthorizationError | null {
   if (!error?.message) return null
 
   try {
@@ -19,13 +20,15 @@ function parseToolRedirectError(error?: Error): ToolRedirectError | null {
       parsed.success === false &&
       'type' in parsed &&
       typeof parsed.type === 'string' &&
-      parsed.type === 'TOOLS_REDIRECT' &&
+      parsed.type === 'TOOL_AUTHORIZATION' &&
       'error' in parsed &&
       typeof parsed.error === 'string' &&
       'connectionRequests' in parsed &&
-      Array.isArray(parsed.connectionRequests)
+      Array.isArray(parsed.connectionRequests) &&
+      'apps' in parsed &&
+      Array.isArray(parsed.apps)
     ) {
-      return parsed as ToolRedirectError
+      return parsed as ToolAuthorizationError
     }
   } catch (e) {
     // Not a JSON error or invalid format
@@ -41,34 +44,48 @@ interface ErrorMessageProps {
 }
 
 export function ErrorMessage({ onReload, error, onCancel }: ErrorMessageProps) {
-  const redirectError = parseToolRedirectError(error)
+  const redirectError = parseToolAuthorizationError(error)
 
-  const appNames = redirectError?.connectionRequests?.map((req) => req.app) || []
+  // Use apps array directly from the new error structure
+  const appNames = redirectError?.apps || []
   const app = appNames[0]
 
+  // Find the app info in connectionRequests
+  const appRequest = redirectError?.connectionRequests?.find((req) => req.app === app)
+  const appIcon = appRequest?.icon || ''
+
+  // Fallback to integrations query if icon is not available
   const { data: integrations } = useComposioQuery()
-
   const integration = integrations?.find((integration) => integration.value === app)
-  const integrationName = integration?.value
-  const integrationLogo: string = integration?.logoUrl || ''
 
-  // Handle ToolRedirectError if present
+  const integrationLogo = appIcon || integration?.logoUrl || ''
+
+  // Handle ToolAuthorizationError if present
   if (redirectError?.connectionRequests?.length) {
     return (
-      <motion.div className='mx-auto my-4 w-full' initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3, ease: 'easeInOut' }}>
-        <AuthCard
-          error={redirectError}
-          onSubmit={(app, values) => {
-            onReload()
-          }}
-          onRedirect={(app, url) => {
-            window.open(url, '_blank')
-          }}
-          onCancel={onCancel}
-          integrationLogo={integrationLogo}
-          integrationName={integrationName}
-        />
-      </motion.div>
+      <Fragment>
+        {redirectError.connectionRequests.map((connection) => (
+          <motion.div
+            key={connection.app}
+            className='mx-auto my-4 w-full'
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}>
+            <AuthCard
+              connection={connection}
+              onSubmit={(app, values) => {
+                onReload()
+              }}
+              onRedirect={(app, url) => {
+                window.open(url, '_blank')
+              }}
+              onCancel={onCancel}
+              integrationLogo={connection.icon}
+              integrationName={connection.app}
+            />
+          </motion.div>
+        ))}
+      </Fragment>
     )
   }
 

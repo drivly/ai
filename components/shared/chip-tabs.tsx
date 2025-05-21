@@ -6,11 +6,11 @@ import { type Dispatch, Fragment, type SetStateAction, useState } from 'react'
 export interface ChipTabsProps<TTab extends string, TContent> {
   className?: string
   tabs: TTab[]
-  content: TContent[] | null
-  renderContent: (content: TContent, selected: string) => React.ReactNode
+  options: TContent[] | null
+  renderOption: (option: TContent, selected: string) => React.ReactNode
 }
 
-export const ChipTabs = <TTab extends string, TContent>({ className, tabs, content, renderContent }: ChipTabsProps<TTab, TContent>) => {
+export const ChipTabs = <TTab extends string, TContent>({ className, tabs, options, renderOption }: ChipTabsProps<TTab, TContent>) => {
   const [selected, setSelected] = useState(tabs[0])
 
   const hasMultipleTabs = tabs.length > 1
@@ -20,7 +20,7 @@ export const ChipTabs = <TTab extends string, TContent>({ className, tabs, conte
       <div className={cn('flex flex-wrap items-center bg-transparent', hasMultipleTabs ? 'mb-5' : 'mb-0', className)}>
         {hasMultipleTabs && tabs.map((tab) => <Chip text={tab} selected={selected === tab} setSelected={setSelected} key={tab} />)}
       </div>
-      {content?.map((item, index) => <Fragment key={index}>{renderContent(item, selected)}</Fragment>)}
+      {options?.map((option, index) => <Fragment key={index}>{renderOption(option, selected)}</Fragment>)}
     </Fragment>
   )
 }

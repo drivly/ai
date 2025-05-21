@@ -8,8 +8,9 @@ export interface OAuthCardProps {
   onConnect: (app: string, url: string) => void | Window | null
 }
 
-export const OAuthCard = (props: OAuthCardProps) => {
-  const { integrationName, redirectUrl, onCancel, onConnect } = props
+export const OAuthCard = ({ integrationName, redirectUrl, onCancel, onConnect }: OAuthCardProps) => {
+  const displayName = capitalizeFirstLetter(integrationName)
+
   return (
     <div>
       <div className='flex w-full items-center justify-center gap-2'>
@@ -19,10 +20,10 @@ export const OAuthCard = (props: OAuthCardProps) => {
           </Button>
         )}
         <Button onClick={() => onConnect(integrationName, redirectUrl)} className='w-full flex-1 cursor-pointer'>
-          Connect with {capitalizeFirstLetter(integrationName)}
+          Connect with {displayName}
         </Button>
       </div>
-      <p className='mt-1.5 text-xs text-gray-500'>You'll be redirected to {capitalizeFirstLetter(integrationName)} to authorize access</p>
+      <p className='mt-1.5 text-xs text-gray-500'>You'll be redirected to {displayName} to authorize access</p>
     </div>
   )
 }
