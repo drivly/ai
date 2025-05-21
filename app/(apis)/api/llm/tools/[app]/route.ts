@@ -1,6 +1,7 @@
 import { API } from '@/lib/api'
 import { Composio } from 'composio-core'
 import { z, ZodError } from 'zod'
+import { ToolSetupRequest } from '@/sdks/llm.do/src/types/api'
 
 const composeZodSchema = (fields: any) => {
   const typeToZod: Record<string, z.ZodType> = {
@@ -15,10 +16,13 @@ const composeZodSchema = (fields: any) => {
   )
 }
 
+// localhost:300/llm/tools/slack
+// llm.do/api/tools/slack
+
 export const POST = API(async (request, { db, user, origin, url, domain, params }) => {
   const { app } = params
 
-  const body = await request.json()
+  const body = await request.json() as ToolSetupRequest['body']
 
   const composio = new Composio({ apiKey: process.env.COMPOSIO_API_KEY })
 
@@ -43,14 +47,24 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
     }
   }
   
-  const auth = appMetadata.auth_schemes?.[0] || {}
+  const targetAuth = body.type
 
-  // We're only supporting API keys via this route.
-  if (auth.mode !== 'API_KEY') {
+  if (targetAuth.includes('OAUTH')) {
     return {
       success: false,
       type: 'UNSUPPORTED_AUTH_SCHEME',
-      error: 'Unsupported auth scheme',
+      error: 'Oauth authentication is not supported via this route, please review our docs for more information.',
+      status: 400
+    }
+  }
+
+  const auth = appMetadata.auth_schemes?.find(x => x.mode === targetAuth)
+
+  if (!auth) {
+    return {
+      success: false,
+      type: 'UNKNOWN_AUTH_SCHEME',
+      error: 'Unknown auth scheme',
       status: 400
     }
   }

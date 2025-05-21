@@ -5,7 +5,9 @@ import {
   ChatCompletionError,
   ModelIncompatibleError,
   ModelNotFoundError,
-  ToolRedirectError
+  ToolAuthorizationError,
+  ToolUnsupportedError,
+  ToolUnknownAuthError
 } from './errors'
 
 export type OpenAICompatibleRequest = {
@@ -110,7 +112,7 @@ export type ChatCompletionNonStreamingRequest = {
   throws?: ChatCompletionError
     | ModelIncompatibleError
     | ModelNotFoundError
-    | ToolRedirectError
+    | ToolAuthorizationError
 }
 
 export type ChatCompletionStreamingRequest = {
@@ -125,7 +127,7 @@ export type ChatCompletionStreamingRequest = {
   throws?: ChatCompletionError
     | ModelIncompatibleError
     | ModelNotFoundError
-    | ToolRedirectError
+    | ToolAuthorizationError
 }
 
 /*
@@ -137,8 +139,20 @@ export type ChatCompletionStreamingRequest = {
 export type ToolSetupRequest = {
   method: 'POST',
   route: `/tools/${string}`,
-  body: Record<string, any>
+  body: {
+    type: string
+    fields: Record<string, any>
+  }
   headers: LLMHeaders
+  throws?: ToolUnknownAuthError
+    | ToolUnsupportedError
+}
+
+export type ToolOAuthRequest = {
+  method: 'GET',
+  route: `/tools/${string}/oauth`,
+  throws?: ToolUnknownAuthError
+    | ToolUnsupportedError
 }
 
 export type ListModelsRequest = {

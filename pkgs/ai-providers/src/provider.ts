@@ -3,6 +3,7 @@ import { createAnthropic } from '@ai-sdk/anthropic'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createOpenAI } from '@ai-sdk/openai'
 import { getModel, getModels, Model } from 'language-models'
+import { OpenAICompatibleChatLanguageModel } from '@ai-sdk/openai-compatible'
 
 // Not in use for the inital release.
 const providerRegistry: Record<string, any> = {
@@ -115,13 +116,6 @@ class LLMProvider implements LanguageModelV1 {
     // @ts-expect-error - Type is wrong
     this.resolvedModel = getModel(modelId, options)
 
-    console.log(
-      'MODEL',
-      this.resolvedModel,
-      'OPTIONS',
-      options
-    )
-
     this.apiKey = this.config?.apiKey
 
     if (!this.apiKey) {
@@ -168,7 +162,15 @@ class LLMProvider implements LanguageModelV1 {
   // Fix Anthropic's default object generation mode.
   get defaultObjectGenerationMode() {
     // Access provider property which is added by getModel but not in the Model type
-    return (this.resolvedModel as any).provider?.supportedParameters.includes('tools') ? 'tool' : 'json'
+    if (this.resolvedModel.provider?.supportedParameters.includes('structured_outputs')) {
+      return 'json'
+    }
+
+    return 'tool' // (this.resolvedModel as any).provider?.supportedParameters.includes('tools') ? 'tool' : 'json'
+  }
+
+  get supportsStructuredOutputs() {
+    return this.resolvedModel.provider?.supportedParameters.includes('structured_outputs')
   }
 
   async doGenerate(options: Parameters<LanguageModelV1['doGenerate']>[0]): Promise<Awaited<ReturnType<LanguageModelV1['doGenerate']>>> {
@@ -186,13 +188,71 @@ class LLMProvider implements LanguageModelV1 {
       }
     }
 
-    const provider = createOpenAI({
-      baseURL: this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
-      apiKey: this.apiKey,
-      headers: this.config?.headers
-    })
+    console.log(
+      `Sending request to ${modelSlug} with strategy:`,
+      this.supportsStructuredOutputs ? 'structuredOutputs' : this.defaultObjectGenerationMode
+    )
 
-    return await provider(modelSlug, modelConfigMixin).doGenerate(options)
+    console.dir(
+      options,
+      { depth: null }
+    )
+
+    const provider = new OpenAICompatibleChatLanguageModel(
+      modelSlug,
+      modelConfigMixin,
+      {
+        provider: 'llm-do-internal',
+        url: ({ path }) => `${this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter'}${path}`,
+        supportsStructuredOutputs: this.supportsStructuredOutputs,
+        defaultObjectGenerationMode: this.defaultObjectGenerationMode,
+        headers: () => ({
+          Authorization: `Bearer ${this.apiKey}`,
+        }),
+        fetch: async (req: RequestInfo | URL, init: RequestInit | undefined) => {
+          const targetProvider = this.resolvedModel.provider?.name
+
+          let bodyString = init?.body as string
+
+          if (this.resolvedModel.author != 'openai') {
+            // Fix some providers not supporting a tool role.
+            bodyString = bodyString.replaceAll('"role":"tool"', '"role":"assistant"')
+          }
+
+          const newBody = {
+            ...JSON.parse(bodyString),
+            provider: {
+              only: [
+                targetProvider
+              ]
+            },
+          }
+
+          console.log(
+            {
+              ...init,
+              body: JSON.stringify(newBody),
+            }
+          )
+
+          const data = await fetch(req, {
+            ...init,
+            body: JSON.stringify(newBody),
+          })
+
+          const clone = data.clone()
+
+          console.dir(
+            await clone.json(),
+            { depth: null }
+          )
+
+          return data
+        }
+      }
+    )
+
+    return await provider.doGenerate(options as any)
 
     //return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
   }
