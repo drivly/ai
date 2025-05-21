@@ -78,9 +78,12 @@ export const createUserApikey = async (user: User) => {
 }
 
 /**
- * Fetches a user's API key from the `apikeys` collection based on email or sub (user ID).
- * @param params An object containing either email or sub (user ID).
- * @returns A promise that resolves to the API key string or null if not found or an error occurs.
+ * Retrieves an existing API key for a user or creates a new one if none exists.
+ * First checks the `apikeys` collection for a match based on email or user ID.
+ * If found, returns the existing API key; otherwise, creates and returns a new one.
+ *
+ * @param user - The user object for whom to get or create an API key
+ * @returns A Promise that resolves to the API key string or null if an error occurs
  */
 export const getOrCreateUserApikey = async (user: User) => {
   try {

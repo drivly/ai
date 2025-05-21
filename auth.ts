@@ -86,7 +86,6 @@ type UserId = ExtendedUser['id']
 type ApiKey = string | null
 
 const userRegistry = new Map<UserId, Promise<ApiKey>>()
-const MAX_PROMISE_TTL = 30_000 // 30 seconds maximum lifetime
 
 export const {
   handlers: { GET, POST },
@@ -145,18 +144,12 @@ export const {
               return null
             })
             .finally(() => {
-              const cleanup = () => {
-                if (userRegistry.has(userId)) {
+              // Schedule cleanup after a delay
+              setTimeout(() => {
+                if (userRegistry.get(userId) === apiKeyPromise) {
                   userRegistry.delete(userId)
                 }
-              }
-
-              setTimeout(cleanup, 5000)
-
-              // Additional safeguard for hung promises
-              if (Date.now() - timestamp > MAX_PROMISE_TTL) {
-                cleanup()
-              }
+              }, 5000)
             })
         }
 
