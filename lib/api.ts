@@ -448,6 +448,11 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         return result // Return stream directly without wrapping
       }
 
+      // If the result is a Response, and has a status thats not 200, return it directly.
+      if ((result instanceof Response || result instanceof NextResponse) && result.status !== 200) {
+        return result
+      }
+
       const enhancedUser = await getUser(req, payload)
 
       let authUser: Record<string, any> = {}
