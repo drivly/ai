@@ -57,7 +57,7 @@ export function SidebarUserNav({ user }: { user: User }) {
           <DropdownMenuContent data-testid='user-nav-menu' side='top' className='bg-background w-(--radix-popper-anchor-width)'>
             <DropdownMenuItem data-testid='user-nav-item-theme' className='cursor-pointer' asChild>
               <Link
-                href={`https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00${user.email ? '?prefilled_email=' + encodeURIComponent(user.email) : ''}`}
+                href={`${process.env.NEXT_PUBLIC_STRIPE_BUY_CREDITS_URL}${user.email ? '?prefilled_email=' + encodeURIComponent(user.email) : ''}`}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='w-full cursor-pointer'>
