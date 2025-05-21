@@ -69,6 +69,7 @@ describe('llm.do Chat Completions 💭', () => {
       model: llm(
         model,
         {
+          // @ts-expect-error - TODO Fix this.
           tools: [ 'hackernews.getFrontpage' ]
         }
       ),

@@ -436,6 +436,7 @@ export async function POST(req: Request) {
           maxSteps: 50,
           tools,
           onTool,
+          // @ts-expect-error - onChunk is a valid property, its just not typed yet.
           onChunk: (chunk) => {
             console.log(
               'Chunk',
@@ -463,6 +464,7 @@ export async function POST(req: Request) {
           messages,
           prompt,
           user: session?.user.email || '',
+          // @ts-expect-error - TODO Fix this.
           schema,
           onTool,
           maxSteps: 10
