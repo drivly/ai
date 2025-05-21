@@ -2,7 +2,7 @@
 
 import { jwtVerify } from 'jose'
 
-const AUTH_SECRET = process.env.AUTH_SECRET 
+const AUTH_SECRET = process.env.AUTH_SECRET
 
 // Verify a token is valid
 export async function verifyToken(token: string) {

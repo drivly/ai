@@ -61,7 +61,8 @@ const PureChatItem = ({
                   className='cursor-pointer flex-row justify-between'
                   onClick={() => {
                     setVisibilityType('private')
-                  }}>
+                  }}
+                >
                   <div className='flex flex-row items-center gap-2'>
                     <LockIcon size={12} />
                     <span>Private</span>
@@ -72,7 +73,8 @@ const PureChatItem = ({
                   className='cursor-pointer flex-row justify-between'
                   onClick={() => {
                     setVisibilityType('public')
-                  }}>
+                  }}
+                >
                   <div className='flex flex-row items-center gap-2'>
                     <GlobeIcon />
                     <span>Public</span>

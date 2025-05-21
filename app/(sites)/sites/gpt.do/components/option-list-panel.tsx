@@ -75,7 +75,8 @@ export function OptionListPanel(props: OptionListPanelProps) {
                   : selectedItem && props.title !== 'integration'
                     ? 'border-emerald-200 bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200/50 dark:border-emerald-400/30 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-1 dark:ring-emerald-400/20'
                     : 'border-gray-300 bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 ring-1 ring-gray-200 dark:border-zinc-700 dark:bg-gradient-to-br dark:from-zinc-800 dark:to-zinc-950 dark:text-white dark:ring-1 dark:ring-white/10',
-            )}>
+            )}
+          >
             {SELECTION_STEP_MAP[title]}
           </span>
           <h2 className='flex items-center gap-1 text-sm font-medium text-zinc-700 dark:text-zinc-200'>
@@ -110,7 +111,8 @@ export function OptionListPanel(props: OptionListPanelProps) {
                     variant='ghost'
                     size='sm'
                     className='absolute top-1/2 right-2 h-6 w-6 -translate-y-1/2 transform cursor-pointer p-0 text-gray-400 hover:bg-transparent hover:text-gray-600 dark:text-zinc-500/80 dark:hover:text-zinc-300'
-                    onClick={handleClearClick}>
+                    onClick={handleClearClick}
+                  >
                     <span className='sr-only'>Clear</span>
                     <X className='h-4 w-4' />
                   </Button>
@@ -140,7 +142,8 @@ export function OptionListPanel(props: OptionListPanelProps) {
                         display: 'flex',
                         flexDirection: 'column',
                         padding: '0 4px',
-                      }}>
+                      }}
+                    >
                       {displayItem.type === 'groupHeader'
                         ? props.groupingStrategy === 'groupByKey' &&
                           displayItem.data.displayKey !== KEY_FOR_INVALID_DATES && (
@@ -177,7 +180,8 @@ export function OptionListPanel(props: OptionListPanelProps) {
                                   )}
                                   onClick={() => handleItemClickWithLoading(item, isItemSelected)}
                                   onMouseEnter={() => handleItemMouseEnter(originalIndex)}
-                                  onMouseLeave={() => handleItemMouseLeave()}>
+                                  onMouseLeave={() => handleItemMouseLeave()}
+                                >
                                   <div className='flex w-full items-center gap-2'>
                                     <OptionAvatar logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} label={item.label} />
                                     <span className='line-clamp-1 truncate'>{item.label}</span>

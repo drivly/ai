@@ -49,7 +49,8 @@ export function Step({ step, currentStep }: { step: number; currentStep: number 
           },
         }}
         transition={{ duration: 0.2 }}
-        className='relative flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold'>
+        className='relative flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold'
+      >
         <div className='flex items-center justify-center'>{status === 'complete' ? <CheckIcon className='text-accent-green h-6 w-6' /> : <span>{step}</span>}</div>
       </motion.div>
     </motion.div>

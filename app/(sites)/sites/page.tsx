@@ -34,7 +34,8 @@ async function DirectoryPage() {
           <div className='container mx-auto flex h-[50vh] items-center justify-center px-3 pt-24'>
             <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
           </div>
-        }>
+        }
+      >
         <DotDoSection categories={categories} />
       </Suspense>
     </div>

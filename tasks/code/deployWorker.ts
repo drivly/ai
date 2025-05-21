@@ -56,7 +56,7 @@ export default wrappedModule.fetch
       const deployResult = {
         success: true,
         deploymentUrl: options?.deploymentUrl || 'https://example.com/worker',
-        errors: []
+        errors: [],
       }
 
       await payload.update({

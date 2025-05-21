@@ -133,13 +133,13 @@ const getPackagePaths = () => {
 const enforceInitialVersion = (packagePath) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-  
+
   if (!packageJson.version.startsWith('0.')) {
     console.log(`Setting version for ${packageJson.name} to 0.1.0 (was ${packageJson.version})`)
     packageJson.version = '0.1.0'
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
   }
-  
+
   return packageJson
 }
 

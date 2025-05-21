@@ -14,7 +14,18 @@ type NextPageProps<TParams extends object> = {
 }
 
 export const withSitesWrapper = <
-  TParams extends { comparison?: string; domain?: string; event?: string; id?: string; integration?: string; path?: string; product?: string; slug?: string; lab?: string; model?: string },
+  TParams extends {
+    comparison?: string
+    domain?: string
+    event?: string
+    id?: string
+    integration?: string
+    path?: string
+    product?: string
+    slug?: string
+    lab?: string
+    model?: string
+  },
 >({
   WrappedPage,
   minimal = false,

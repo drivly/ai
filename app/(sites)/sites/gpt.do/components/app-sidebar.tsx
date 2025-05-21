@@ -31,7 +31,8 @@ export function AppSidebar() {
               onClick={() => {
                 setOpenMobile(false)
               }}
-              className='flex flex-row items-center gap-3'>
+              className='flex flex-row items-center gap-3'
+            >
               <span className='hover:bg-muted cursor-pointer rounded-md px-2 text-lg font-semibold'>GPT.do</span>
             </Link>
             <Tooltip>
@@ -44,7 +45,8 @@ export function AppSidebar() {
                     setOpenMobile(false)
                     router.push(basePath + '/new')
                     router.refresh()
-                  }}>
+                  }}
+                >
                   <PlusIcon />
                 </Button>
               </TooltipTrigger>

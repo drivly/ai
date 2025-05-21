@@ -13,4 +13,3 @@ import { HeartbeatCheck } from 'checkly/constructs'
     graceUnit: 'minutes',
 })
  */
-

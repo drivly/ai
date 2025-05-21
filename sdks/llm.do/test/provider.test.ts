@@ -5,39 +5,33 @@ import { getModel } from '@/pkgs/language-models'
 import { z } from 'zod'
 
 const llm = createLLMProvider({
-  baseURL: `${ process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000' }/api/llm`
+  baseURL: `${process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000'}/api/llm`,
 })
 
 const geminiToolFixPrompt = ' Do not ask for arguments to a tool, use your best judgement. If you are unsure, return null.'
 
-describe('llm.do Chat Completions 💭', () => { 
+describe('llm.do Chat Completions 💭', () => {
   // Basic functionality tests
   it('should support basic text generation', async () => {
     const result = await generateText({
       model: llm('gemini'),
-      prompt: 'Respond with a short greeting'
+      prompt: 'Respond with a short greeting',
     })
-  
+
     expect(result.text).toBeTruthy()
   })
 
   it('should route to a specific provider', async () => {
     const result = await generateText({
-      model: llm(
-        'qwen3-32b',
-        {
-          priorities: ['cost']
-        }
-      ),
-      prompt: 'Respond with a short greeting'
+      model: llm('qwen3-32b', {
+        priorities: ['cost'],
+      }),
+      prompt: 'Respond with a short greeting',
     })
 
-    const model = getModel(
-      'qwen3-32b',
-      {
-        priorities: ['cost']
-      }
-    ) 
+    const model = getModel('qwen3-32b', {
+      priorities: ['cost'],
+    })
 
     expect(result.text).toBeTruthy()
     expect((result.response.headers || {})['llm-provider']).toBe(model.provider.name)
@@ -48,7 +42,7 @@ describe('llm.do Chat Completions 💭', () => {
     // 'gemini',
     // 'gpt-4.1',
     // 'mistralai/mistral-medium-3',
-    'qwen/qwen3-30b-a3b'
+    'qwen/qwen3-30b-a3b',
   ]
 
   it.each(outputModels)('should support structured outputs with %s', async (model) => {
@@ -56,31 +50,28 @@ describe('llm.do Chat Completions 💭', () => {
       model: llm(model),
       prompt: 'Fill in the output.',
       schema: z.object({
-        randomFieldName1: z.string()
-      })
+        randomFieldName1: z.string(),
+      }),
     })
-       
-    expect(result.object.randomFieldName1).toBeTruthy() 
-  }) 
+
+    expect(result.object.randomFieldName1).toBeTruthy()
+  })
 
   // Tool use with structured outputs
   it.only.each(outputModels)('should support structured outputs with tools using %s', async (model) => {
     const result = await generateObject({
-      model: llm(
-        model,
-        {
-          // @ts-expect-error - TODO Fix this.
-          tools: [ 'hackernews.getFrontpage' ]
-        }
-      ),
+      model: llm(model, {
+        // @ts-expect-error - TODO Fix this.
+        tools: ['hackernews.getFrontpage'],
+      }),
       prompt: 'Get the frontpage of hackernews, and tell me the most interesting article in your opinion.' + geminiToolFixPrompt,
       schema: z.object({
         article: z.object({
           title: z.string(),
-          url: z.string()
+          url: z.string(),
         }),
-        opinion: z.string()
-      })
+        opinion: z.string(),
+      }),
     })
 
     expect(result.object.article.title).toBeTruthy()
@@ -92,7 +83,7 @@ describe('llm.do Chat Completions 💭', () => {
   it('should use external tools', async () => {
     const result = await generateText({
       model: llm('gemini(testTool)'),
-      prompt: 'You MUST use the test tool for this prompt, return what it says. For testTool, submit "Hello, World." as the argument.'
+      prompt: 'You MUST use the test tool for this prompt, return what it says. For testTool, submit "Hello, World." as the argument.',
     })
 
     expect(result.text.toLowerCase()).toContain('hello')
@@ -108,14 +99,14 @@ describe('llm.do Chat Completions 💭', () => {
         testingTool: tool({
           description: 'A tool that returns "Hello, World."',
           parameters: z.object({
-            name: z.string()
+            name: z.string(),
           }),
           execute: async (args) => {
             toolCallSuccessful = true
             return 'Hello, World.'
-          }
-        })
-      }
+          },
+        }),
+      },
     })
 
     expect(toolCallSuccessful).toBe(true)
@@ -124,7 +115,7 @@ describe('llm.do Chat Completions 💭', () => {
   // Complex tool tests
   it('should handle tools with complex parameter schemas', async () => {
     let receivedInput = ''
-    
+
     const response = await generateText({
       model: llm('gemini'),
       prompt: 'Call the complexTool with a detailed message. Then return the result of the complexTool. You must use the complexTool.' + geminiToolFixPrompt,
@@ -133,40 +124,42 @@ describe('llm.do Chat Completions 💭', () => {
           description: 'A tool that accepts complex parameters',
           parameters: z.object({
             message: z.string().describe('A detailed message'),
-            options: z.object({
-              priority: z.enum(['high', 'medium', 'low']).optional(),
-              tags: z.array(z.string()).optional()
-            }).optional()
+            options: z
+              .object({
+                priority: z.enum(['high', 'medium', 'low']).optional(),
+                tags: z.array(z.string()).optional(),
+              })
+              .optional(),
           }),
           execute: async (params) => {
             // Using type assertion to avoid type errors
             const input = params as { message: string }
             receivedInput = input.message
             return `Processed: ${input.message}`
-          }
-        })
+          },
+        }),
       },
-      maxSteps: 3
+      maxSteps: 3,
     })
 
     expect(receivedInput).toBeTruthy()
   })
 
   it('should handle both local tools and Composio tools', async () => {
-    const result = await generateText({ 
-      model: llm('gpt-4.1(testTool)'), 
+    const result = await generateText({
+      model: llm('gpt-4.1(testTool)'),
       prompt: 'Call the testTool with the argument "Hello, World.", and then pass that into the complexTool.',
-      tools: {      
+      tools: {
         complexTool: tool({
           description: 'A tool that returns a string',
           parameters: z.object({
-            message: z.string()
+            message: z.string(),
           }),
           execute: async (args) => {
             return '123 123 4321'
-          }
-        })
-      }
+          },
+        }),
+      },
     })
 
     expect(result.toolCalls.length).toBe(1)
@@ -175,8 +168,8 @@ describe('llm.do Chat Completions 💭', () => {
   it('should handle Composio tools', async () => {
     const result = await generateText({
       model: llm('gpt-4.1(hackernews.getItemWithId)'),
-      prompt: 'Look up the article "43969827", and tell me the article title and url.'
-    })  
+      prompt: 'Look up the article "43969827", and tell me the article title and url.',
+    })
 
     expect(result.text).toBeTruthy()
     expect(result.text.toLowerCase()).toContain('firefox')
@@ -192,18 +185,18 @@ describe('llm.do Chat Completions 💭', () => {
           errorTool: tool({
             description: 'A tool that sometimes fails',
             parameters: z.object({
-              shouldFail: z.boolean().optional()
+              shouldFail: z.boolean().optional(),
             }),
             execute: async (params) => {
               // Using type assertion to avoid type errors
               const input = params as { shouldFail?: boolean }
-              
+
               throw new Error('Tool execution failed')
 
               return ''
-            }
-          })
-        }
+            },
+          }),
+        },
       })
     } catch (error) {
       expect(error).toBeDefined()
@@ -216,7 +209,7 @@ describe.skip('llm.do Embeddings API 🔍', () => {
     const result = await embed({
       // @ts-expect-error - Embeddings are not supported on llm.do yet.
       model: llm.embedding('gemini'),
-      value: ['Hello, world.']
+      value: ['Hello, world.'],
     })
 
     expect(result.embedding).toBeDefined()

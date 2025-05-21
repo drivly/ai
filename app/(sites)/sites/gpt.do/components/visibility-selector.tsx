@@ -66,7 +66,8 @@ export function VisibilitySelector({
               setOpen(false)
             }}
             className='group/item flex flex-row items-center justify-between gap-4'
-            data-active={visibility.id === visibilityType}>
+            data-active={visibility.id === visibilityType}
+          >
             <div className='flex flex-col items-start gap-1'>
               {visibility.label}
               {visibility.description && <div className='text-muted-foreground text-xs'>{visibility.description}</div>}

@@ -39,7 +39,8 @@ export default function MultistepWizard({ children, complete }: { children: Reac
             <Button
               variant='outline'
               onClick={handleBack}
-              className={`${step === 1 ? 'pointer-events-none opacity-50' : ''} cursor-pointer rounded border-none px-2 py-1 text-neutral-400 transition duration-350 hover:bg-transparent hover:text-neutral-700`}>
+              className={`${step === 1 ? 'pointer-events-none opacity-50' : ''} cursor-pointer rounded border-none px-2 py-1 text-neutral-400 transition duration-350 hover:bg-transparent hover:text-neutral-700`}
+            >
               Back
             </Button>
             <Button
@@ -47,7 +48,8 @@ export default function MultistepWizard({ children, complete }: { children: Reac
               onClick={handleContinue}
               className={`${
                 step > 3 ? 'pointer-events-none opacity-50' : ''
-              } text-muted-foreground h-10 cursor-pointer rounded-sm transition duration-350 hover:bg-[#1A1A1D] hover:text-white active:bg-[#1A1A1D]`}>
+              } text-muted-foreground h-10 cursor-pointer rounded-sm transition duration-350 hover:bg-[#1A1A1D] hover:text-white active:bg-[#1A1A1D]`}
+            >
               Continue
             </Button>
           </div>

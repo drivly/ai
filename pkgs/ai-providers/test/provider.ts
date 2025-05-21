@@ -7,7 +7,7 @@ import { z } from 'zod'
 describe('provider', () => {
   it('should route to the correct model and provider', async () => {
     const model1 = model('gemini(discord.getGuild)', {
-      allowFixingSchema: true
+      allowFixingSchema: true,
     })
 
     console.log(model1)

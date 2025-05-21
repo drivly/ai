@@ -13,16 +13,16 @@ export const research = (topic: string) =>
   }).then((result) => {
     const citations = ((result.response.body as any)?.citations || []) as string[]
     const markdown = result.text
-    
+
     // let enhancedMarkdown = markdown
     // if (citations && citations.length > 0) {
     //   enhancedMarkdown += '\n\n## References\n\n'
-      
+
     //   citations.forEach((citation: string, index: number) => {
     //     enhancedMarkdown += `${index + 1}. ${citation}\n`
     //   })
     // }
-    
+
     return {
       citations, // Keep the original citations array
       markdown,

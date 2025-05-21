@@ -28,9 +28,7 @@ import { db } from 'database.do'
 
 const ideas = await db.ideas.search('agentic workflows')
 
-const brands = await Promise.all(
-  ideas.map(idea => ai.storyBrand({ idea }))
-)
+const brands = await Promise.all(ideas.map((idea) => ai.storyBrand({ idea })))
 
 console.log(brands)
 ```

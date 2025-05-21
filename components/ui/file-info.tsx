@@ -36,7 +36,7 @@ export const FileInfo = ({
   )) => {
   return (
     <div className={fileVariants({ variant, size })}>
-      <p title={title} className='text-ellipsis overflow-hidden line-clamp-1'>
+      <p title={title} className='line-clamp-1 overflow-hidden text-ellipsis'>
         {title}
       </p>
       <p>{fileSize ? formatFileSize(fileSize || 0) : contentType}</p>

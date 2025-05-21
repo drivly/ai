@@ -32,7 +32,7 @@ describe('json5Field', () => {
         padding: { top: 10, bottom: 10 },
       },
     })
-    
+
     expect(fields[0]).toHaveProperty('label', 'Custom Label')
     expect(fields[0].admin).toHaveProperty('language', 'json')
     expect(fields[1].admin).toHaveProperty('hidden', false)

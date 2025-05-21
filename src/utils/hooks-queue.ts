@@ -21,7 +21,7 @@ export const createHooksQueuePlugin = (config: HooksQueueConfig): any => {
 
   Object.entries(config).forEach(([hookPath, taskNames]) => {
     const [collection, hookName] = hookPath.split('.')
-    
+
     if (!collection || !hookName) {
       console.warn(`Invalid hook path: ${hookPath}`)
       return
@@ -32,7 +32,7 @@ export const createHooksQueuePlugin = (config: HooksQueueConfig): any => {
     if (!collections[collection]) {
       collections[collection] = { hooks: {} }
     }
-    
+
     if (!collections[collection].hooks) {
       collections[collection].hooks = {}
     }

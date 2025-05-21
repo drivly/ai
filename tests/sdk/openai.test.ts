@@ -13,9 +13,7 @@ const pdf = getPdfData('ORMwhitePaper.pdf')
 // Use to skip tests in development
 const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = []
 
-console.log(
-  `Skipping tests: ${skipTests.join(', ')}`
-)
+console.log(`Skipping tests: ${skipTests.join(', ')}`)
 
 const geminiToolFixPrompt = ' Do not ask for arguments to a tool, use your best judgement. If you are unsure, return null.'
 
@@ -147,7 +145,7 @@ describe('OpenAI SDK Chat Completions', () => {
         ],
       })
       expect(response).toBeDefined()
-      expect(response.id).toBeDefined() 
+      expect(response.id).toBeDefined()
       expect(response.choices[0].message.content).toContain('elementary fact')
       console.log(`${model}: ${JSON.stringify(response.choices[0].message.content)}`)
     },
@@ -412,53 +410,49 @@ describe('OpenRouter Structured Outputs', () => {
 })
 
 describe('OpenRouter Tool Calling', () => {
-  test(
-    'can create a chat completion with tool calling',
-    async () => {
-      const response = await client.chat.completions.create({
-        model: models[0],
-        messages: [
-          {
-            role: 'user',
-            content: 'What is the weather in New York and London today?',
-          },
-        ],
-        tools: [
-          {
-            type: 'function',
-            function: {
-              name: 'get_weather',
-              description: 'Get the current weather in a given location',
-              parameters: {
-                type: 'object',
-                properties: {
-                  location: {
-                    type: 'string',
-                    description: 'The city and state, e.g. San Francisco, CA',
-                  },
-                  unit: {
-                    type: 'string',
-                    enum: ['celsius', 'fahrenheit'],
-                    description: 'The unit of temperature to use',
-                  },
+  test('can create a chat completion with tool calling', async () => {
+    const response = await client.chat.completions.create({
+      model: models[0],
+      messages: [
+        {
+          role: 'user',
+          content: 'What is the weather in New York and London today?',
+        },
+      ],
+      tools: [
+        {
+          type: 'function',
+          function: {
+            name: 'get_weather',
+            description: 'Get the current weather in a given location',
+            parameters: {
+              type: 'object',
+              properties: {
+                location: {
+                  type: 'string',
+                  description: 'The city and state, e.g. San Francisco, CA',
                 },
-                required: ['location'],
+                unit: {
+                  type: 'string',
+                  enum: ['celsius', 'fahrenheit'],
+                  description: 'The unit of temperature to use',
+                },
               },
+              required: ['location'],
             },
           },
-        ],
-        tool_choice: 'auto',
-      })
-      expect(response).toBeDefined()
-      expect(response.choices[0].message).toBeDefined()
-      if (response.choices[0].message.tool_calls) {
-        expect(response.choices[0].message.tool_calls.length).toBeGreaterThan(0)
-        expect(response.choices[0].message.tool_calls[0].function.name).toBe('get_weather')
-        console.log(`Tool calling: ${JSON.stringify(response.choices[0].message.tool_calls[0])}`)
-      }
-    },
-    60000,
-  )
+        },
+      ],
+      tool_choice: 'auto',
+    })
+    expect(response).toBeDefined()
+    expect(response.choices[0].message).toBeDefined()
+    if (response.choices[0].message.tool_calls) {
+      expect(response.choices[0].message.tool_calls.length).toBeGreaterThan(0)
+      expect(response.choices[0].message.tool_calls[0].function.name).toBe('get_weather')
+      console.log(`Tool calling: ${JSON.stringify(response.choices[0].message.tool_calls[0])}`)
+    }
+  }, 60000)
 })
 
 describe('OpenRouter Images & PDFs', () => {

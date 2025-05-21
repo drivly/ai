@@ -36,7 +36,8 @@ export const ChatMessage = ({ message, error, handleCancel, reload }: ChatMessag
         className='group/message mx-auto flex w-full max-w-4xl gap-4 px-4'
         initial={{ y: 5, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        data-role={message.role}>
+        data-role={message.role}
+      >
         <MessageAvatar
           src={isAssistant ? gptAvatar.src : user?.image || ''}
           alt={isAssistant ? 'AI Assistant' : 'User'}

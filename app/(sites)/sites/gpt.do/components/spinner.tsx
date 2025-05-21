@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 export default function Spinner({ className, width = 24, height = 24, ...props }: React.SVGProps<SVGSVGElement>) {
   return (

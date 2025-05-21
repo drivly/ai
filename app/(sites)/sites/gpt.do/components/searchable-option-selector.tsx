@@ -81,7 +81,8 @@ export function SearchableOptionSelector({
                     'h-10 sm:h-6', // Taller on mobile, original height on sm+
                     'py-2 sm:py-0', // More padding on mobile
                     className,
-                  )}>
+                  )}
+                >
                   <span className='mr-1 truncate'>{selectedItem ? selectedItem.label : placeholder}</span>
                   <ChevronsUpDown className='h-3 w-3 flex-shrink-0 opacity-50' />
                 </Button>
@@ -93,7 +94,8 @@ export function SearchableOptionSelector({
             style={popoverWidth ? { width: `${popoverWidth}px` } : undefined}
             align={align}
             sideOffset={4}
-            ref={containerRef}>
+            ref={containerRef}
+          >
             <Command className='bg-transparent'>
               <CommandInput placeholder={`Search ${title.toLowerCase()}...`} className='h-9 bg-transparent text-zinc-700 dark:text-zinc-300' />
               <CommandList className='max-h-[300px]'>
@@ -104,7 +106,8 @@ export function SearchableOptionSelector({
                       key={option.label}
                       value={option.label}
                       onSelect={handleSelect}
-                      className='rounded-md py-2 text-zinc-700 hover:bg-gray-100 hover:text-zinc-900 aria-selected:bg-gray-100 sm:py-1 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 aria-selected:dark:bg-zinc-800'>
+                      className='rounded-md py-2 text-zinc-700 hover:bg-gray-100 hover:text-zinc-900 aria-selected:bg-gray-100 sm:py-1 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 aria-selected:dark:bg-zinc-800'
+                    >
                       <OptionAvatar logoUrl={option.logoUrl} size={16} direction='up' imageIndex={0} label={option.label} className='mr-1' />
                       {option.label}
                       <Check

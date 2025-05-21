@@ -22,12 +22,12 @@ DO_API_KEY=sk_do_*****************************
 
 The `ai` object is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
 
-~~~ts filename="app.ts"
+```ts filename="app.ts"
 import { ai } from 'functions.do'
 
 // Generate a Lean Canvas
 const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
-~~~
+```
 
 ```ts
 import { ai } from 'functions.do'
