@@ -21,7 +21,7 @@ import { LoaderIcon } from './icons'
 export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme()
   const router = useRouter()
-  const { data: credit } = useCreditQuery()
+  const { data: credit } = useCreditQuery(user.apiKey)
   const { status } = useSession()
 
   const isGuest = guestRegex.test(user?.email ?? '')

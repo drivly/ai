@@ -6,7 +6,7 @@ import type { DefaultSession } from 'next-auth'
 import NextAuth from 'next-auth'
 import type { JWT } from 'next-auth/jwt'
 import authConfig from './auth.config'
-import { createUserApiKey, getUserApikeyAction, getUserById, updateUserById } from './lib/actions/user.action'
+import { getOrCreateUserApikey, getUserById, updateUserById } from './lib/actions/user.action'
 import type { User as PayloadUser } from './payload.types'
 
 export type UserType = 'guest' | 'regular'
@@ -81,6 +81,12 @@ declare module 'next-auth/jwt' {
   }
 }
 
+// Define more descriptive types for the API key system
+type UserId = ExtendedUser['id']
+type ApiKey = string | null
+
+const userRegistry = new Map<UserId, Promise<ApiKey>>()
+
 export const {
   handlers: { GET, POST },
   auth,
@@ -118,20 +124,46 @@ export const {
     jwt: async ({ token, user, account, profile }) => {
       if (!token.sub) return token
 
-      const existingUser = await getUserById(token.sub)
+      const userId = token.sub
+      const existingUser = await getUserById(userId)
+
       if (!existingUser) return token
 
       token.role = existingUser.role
 
-      // Try to fetch an apiKey (if you have a separate action for this)
-      const userApiKey = await getUserApikeyAction({ email: existingUser.email, sub: existingUser.id })
-      if (userApiKey) {
-        token.apiKey = userApiKey
-      } else {
-        // Create a new apiKey if none exists
-        const newApiKey = await createUserApiKey(existingUser)
-        if (newApiKey) {
-          token.apiKey = newApiKey
+      if (!token.apiKey) {
+        if (!userRegistry.has(userId)) {
+          const timestamp = Date.now()
+          const apiKeyPromise = getOrCreateUserApikey(existingUser)
+          userRegistry.set(userId, apiKeyPromise)
+
+          // Clean up after completion (success or failure)
+          apiKeyPromise
+            .catch((error: unknown) => {
+              console.error(`Error creating API key for user ${userId}:`, error)
+              return null
+            })
+            .finally(() => {
+              // Schedule cleanup after a delay
+              setTimeout(() => {
+                if (userRegistry.get(userId) === apiKeyPromise) {
+                  userRegistry.delete(userId)
+                }
+              }, 5000)
+            })
+        }
+
+        // Use the existing or newly created promise
+        try {
+          const apiKeyPromise = userRegistry.get(userId)
+          if (apiKeyPromise) {
+            const userApiKey = await apiKeyPromise
+            if (userApiKey) {
+              token.apiKey = userApiKey
+            }
+          }
+        } catch (error: unknown) {
+          console.error(`Failed to set API key for user ${userId}:`, error)
         }
       }
 

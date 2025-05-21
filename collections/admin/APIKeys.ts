@@ -71,7 +71,7 @@ export const APIKeys: CollectionConfig = {
 
 export async function getApiKey(headers: Headers, payload: BasePayload) {
   const token = headers.get('authorization')?.split(' ')[1]
-  if (token?.startsWith('sk-do-')) {
+  if (token?.startsWith('sk-')) {
     return { apiKey: token }
   }
   const authResult = await payload.auth({ headers })
