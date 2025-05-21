@@ -252,7 +252,7 @@ class LLMProvider implements LanguageModelV1 {
       }
     )
 
-    return await provider.doGenerate(options)
+    return await provider.doGenerate(options as any)
 
     //return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
   }
