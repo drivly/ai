@@ -9,12 +9,12 @@ import type { User } from 'next-auth'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useCreditQuery } from '../hooks/use-credit-query'
 import { guestRegex } from '../lib/utils'
 import { LoaderIcon } from './icons'
-import Link from 'next/link'
 
 // TODO: add stripe add credits link
 // TODO: add balance widget here
@@ -56,7 +56,11 @@ export function SidebarUserNav({ user }: { user: User }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent data-testid='user-nav-menu' side='top' className='bg-background w-(--radix-popper-anchor-width)'>
             <DropdownMenuItem data-testid='user-nav-item-theme' className='cursor-pointer' asChild>
-              <Link href={`https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00?prefilled_email=${user.email}`} target='_blank'>
+              <Link
+                href={`https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00${user.email ? '?prefilled_email=' + encodeURIComponent(user.email) : ''}`}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='w-full cursor-pointer'>
                 Add Credits
               </Link>
             </DropdownMenuItem>
