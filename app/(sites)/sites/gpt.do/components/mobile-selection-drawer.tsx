@@ -4,7 +4,8 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, Dr
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import { useCallback } from 'react'
-import type { ChatConfigChangeType, ConfigOption } from './chat-options-selector'
+import type { ChatConfigChangeType, ConfigOption } from '../lib/types'
+import { OptionAvatar } from './option-avatar'
 
 interface MobileSelectionDrawerProps {
   title: ChatConfigChangeType
@@ -59,6 +60,7 @@ export const MobileSelectionDrawer = ({ title, options, selectedItem, updateOpti
                   value={option.label}
                   onSelect={handleSelect}
                   className='rounded-md py-2 leading-[22px] tracking-wide text-zinc-700 hover:bg-gray-100 hover:text-zinc-900 aria-selected:bg-gray-100 sm:py-1 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 aria-selected:dark:bg-zinc-800'>
+                  <OptionAvatar logoUrl={option.logoUrl} size={16} direction='up' imageIndex={0} label={option.label} className='mr-1' />
                   {option.label}
                   <Check className={cn('ml-auto h-4 w-4', selectedItem?.label === option.label ? 'text-emerald-600 opacity-100 dark:text-emerald-400' : 'opacity-0')} />
                 </CommandItem>

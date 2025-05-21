@@ -7,9 +7,9 @@ import { cn } from '@/lib/utils'
 import { Check, Search, X } from 'lucide-react'
 import { Fragment, useState } from 'react'
 import { useOptionListPanel, type UseOptionListPanelProps } from '../hooks/use-option-list-panel'
+import { SELECTION_STEP_MAP } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
 import { KEY_FOR_INVALID_DATES, minDelay } from '../lib/utils'
-import { SELECTION_STEP_MAP } from './chat-options-selector'
 import { OptionAvatar } from './option-avatar'
 import Spinner from './spinner'
 
@@ -179,7 +179,7 @@ export function OptionListPanel(props: OptionListPanelProps) {
                                   onMouseEnter={() => handleItemMouseEnter(originalIndex)}
                                   onMouseLeave={() => handleItemMouseLeave()}>
                                   <div className='flex w-full items-center gap-2'>
-                                    <OptionAvatar logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} />
+                                    <OptionAvatar logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} label={item.label} />
                                     <span className='line-clamp-1 truncate'>{item.label}</span>
                                     {isLoading ? (
                                       <Spinner height={16} width={16} className='text-muted-foreground/50 ml-auto' />

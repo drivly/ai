@@ -1,6 +1,7 @@
 import { uniqueArrayByObjectPropertyKey } from '@/lib/utils'
 import { constructModelIdentifier, parse } from 'language-models'
 import { getAvailableModels } from '../../models.do/utils'
+import type { OutputFormatKey } from './constants'
 import type { SearchOption } from './types'
 
 // Export the imported functions so consumers don't need to change imports
@@ -154,7 +155,7 @@ export function createModelIdentifierFromParams({
 }: {
   modelId: string
   provider?: string
-  output?: string
+  output?: OutputFormatKey
   tools?: string[]
   system?: Record<string, number | string>
 }): string {
@@ -187,7 +188,6 @@ export async function minDelay<T>(promise: Promise<T>, ms: number) {
   return p
 }
 
-
-export function getSelectedModel(model: string, models: SearchOption[], fallback: SearchOption) {
-  return models.find((m) => m.value === model || m.value.endsWith(model)) || fallback
+export function getSelectedModel(model: string, availableModels: SearchOption[], initialChatModel: SearchOption | null) {
+  return availableModels.find((m) => m.value === model) || initialChatModel || null
 }

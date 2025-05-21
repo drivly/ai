@@ -2,42 +2,46 @@
 
 import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
+import type { LLMChatCompletionBody } from '@/sdks/llm.do/src'
 import { useChat } from '@ai-sdk/react'
 import type { UIMessage } from 'ai'
 import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
-import type { IntegrationPromise } from '../actions/composio.action'
 import { useChatHistory } from '../hooks/use-chat-history'
 import { useChatVisibility } from '../hooks/use-chat-visibility'
 import { useCustomQuery } from '../hooks/use-custom-query'
-import { formatOutput } from '../lib/constants'
-import type { SearchOption } from '../lib/types'
+import { DEFAULT_CHAT_MODEL } from '../lib/constants'
+import type { ComposioDataPromise, SearchOption } from '../lib/types'
 import { getSelectedModel } from '../lib/utils'
 import { ChatHeader } from './chat-header'
+import { ChatMessage } from './chat-message/message'
 import { ChatOptionsSelector } from './chat-options-selector'
 import { ChatWrapper } from './chat-wrapper'
 import { Greeting } from './greeting'
-import { ChatMessage } from './message'
 import { MobileSelectionBanner } from './mobile-selection-banner'
 import { MultimodalInput } from './multimodal-input'
 import type { VisibilityType } from './visibility-selector'
 
 export interface ChatProps {
   id: string
-  initialChatModel: SearchOption
+  initialChatModel: SearchOption | null
   initialVisibilityType: VisibilityType
   availableModels: SearchOption[]
-  toolsPromise: IntegrationPromise
+  toolsPromise: ComposioDataPromise
 }
 
 export const Chat = ({ id, initialChatModel, initialVisibilityType, availableModels, toolsPromise }: ChatProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const user = useAuthUser()
-  const { getChatSession, updateChatMessages, addChatSession } = useChatHistory()
-  const { model, tool, output, q, system, temp, seed, setQueryState } = useCustomQuery()
+  const { chatSessions, getChatSession, updateChatMessages, addChatSession } = useChatHistory()
+  const chatSessionCount = Object.keys(chatSessions).length
+  const { model, tool, output, q, system, temp, setQueryState } = useCustomQuery()
 
   const selectedModelOption = getSelectedModel(model, availableModels, initialChatModel)
+  const shouldDefaultModel = selectedModelOption == null && chatSessionCount === 1
+  const effectiveSelectedModelOption = shouldDefaultModel ? DEFAULT_CHAT_MODEL : selectedModelOption
+
   const currentChat = getChatSession(id)
   const isReadonly = user?.id !== currentChat?.userId
   const initialMessages = currentChat?.messages ?? []
@@ -47,21 +51,18 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     initialMessages,
     maxSteps: 3,
     body: {
-      model: selectedModelOption.value,
+      model: effectiveSelectedModelOption?.value ?? '',
       modelOptions: {
-        tools: tool ? [tool] : undefined,
-        outputFormat: formatOutput(output),
+        tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
+        outputFormat: output,
       },
       system,
-      temp,
-      seed,
-    },
+      temperature: temp,
+    } satisfies LLMChatCompletionBody,
     onError: (error) => {
-      console.error('Chat error:', error)
       toast.error('An error occurred while processing your request. Please try again.')
     },
     onFinish: (response) => {
-      console.log('Chat response:', response)
       // Save all messages when a response is complete
       if (messages.length > 0 && !isReadonly) {
         updateChatMessages(id, messages)
@@ -76,20 +77,20 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
 
   useEffect(() => {
     if (!currentChat && !isReadonly) {
-      addChatSession(id, selectedModelOption)
+      addChatSession(id, effectiveSelectedModelOption)
     }
-  }, [id, selectedModelOption, currentChat, isReadonly, addChatSession])
+  }, [id, effectiveSelectedModelOption, currentChat, isReadonly, addChatSession])
 
   const displayMessages: UIMessage[] =
     status === 'submitted' ? [...messages, { role: 'assistant', content: '', id: 'thinking', experimental_attachments: [], parts: [] }] : messages
 
   return (
-    <ChatWrapper chatId={id} selectedModel={selectedModelOption} messages={initialMessages}>
+    <ChatWrapper chatId={id} selectedModel={effectiveSelectedModelOption} messages={initialMessages}>
       <section className='mx-auto grid w-full'>
         <div className='bg-background flex h-dvh min-w-0 flex-1 flex-col'>
           <ChatHeader
             chatId={id}
-            selectedModelOption={selectedModelOption}
+            selectedModelOption={effectiveSelectedModelOption}
             setSelectedModelOption={(model) => setQueryState({ model: model.value })}
             selectedVisibilityType={visibilityType}
             isReadonly={isReadonly}
@@ -98,13 +99,13 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             output={output}
             setQueryState={setQueryState}
           />
-          <MobileSelectionBanner toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelOption={selectedModelOption} />
+          <MobileSelectionBanner toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelOption={effectiveSelectedModelOption} />
           <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
             {messages.length === 0 && (
               <Greeting
                 title='Welcome to GPT.do'
                 description='Select your model, tool, and output format to get started.'
-                config={<ChatOptionsSelector toolsPromise={toolsPromise} availableModels={availableModels} selectedModelOption={selectedModelOption} />}
+                config={<ChatOptionsSelector toolsPromise={toolsPromise} availableModels={availableModels} selectedModelOption={effectiveSelectedModelOption} />}
               />
             )}
             {displayMessages?.map((message, index) => (
@@ -114,6 +115,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
                 message={message}
                 error={index === displayMessages.length - 1 && error ? error : undefined}
                 reload={reload}
+                handleCancel={() => setMessages((prev) => prev.slice(0, -1))}
               />
             ))}
           </ChatContainer>
@@ -124,7 +126,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             input={input}
             messages={messages}
             status={status}
-            selectedModelOption={selectedModelOption}
+            selectedModelOption={effectiveSelectedModelOption}
             modelOptions={availableModels}
             toolsPromise={toolsPromise}
             append={append}

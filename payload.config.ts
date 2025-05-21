@@ -151,42 +151,42 @@ export default buildConfig({
           console.log(event.type, JSON.stringify(event.data.object, null, 2))
         }
       },
-      // sync: [
-      //   {
-      //     stripeResourceTypeSingular: 'customer',
-      //     stripeResourceType: 'customers',
-      //     collection: 'connectAccounts',
-      //     fields: [
-      //       {
-      //         fieldPath: 'stripeAccountId',
-      //         stripeProperty: 'id',
-      //       },
-      //       {
-      //         fieldPath: 'email',
-      //         stripeProperty: 'email',
-      //       },
-      //       {
-      //         fieldPath: 'name',
-      //         stripeProperty: 'name',
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     stripeResourceTypeSingular: 'product',
-      //     stripeResourceType: 'products',
-      //     collection: 'billingPlans',
-      //     fields: [
-      //       {
-      //         fieldPath: 'stripeProductId',
-      //         stripeProperty: 'id',
-      //       },
-      //       {
-      //         fieldPath: 'name',
-      //         stripeProperty: 'name',
-      //       },
-      //     ],
-      //   },
-      // ],
+      sync: [
+        {
+          stripeResourceTypeSingular: 'customer',
+          stripeResourceType: 'customers',
+          collection: 'connectAccounts',
+          fields: [
+            {
+              fieldPath: 'stripeAccountId',
+              stripeProperty: 'id',
+            },
+            {
+              fieldPath: 'email',
+              stripeProperty: 'email',
+            },
+            {
+              fieldPath: 'name',
+              stripeProperty: 'name',
+            },
+          ],
+        },
+        {
+          stripeResourceTypeSingular: 'product',
+          stripeResourceType: 'products',
+          collection: 'billingPlans',
+          fields: [
+            {
+              fieldPath: 'stripeProductId',
+              stripeProperty: 'id',
+            },
+            {
+              fieldPath: 'name',
+              stripeProperty: 'name',
+            },
+          ],
+        },
+      ],
     }),
     // createHooksQueuePlugin({
     //   'nouns.beforeChange': 'inflectNouns',

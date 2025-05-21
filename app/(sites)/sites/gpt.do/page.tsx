@@ -1,9 +1,8 @@
-import { SearchParams } from 'nuqs'
+import type { SearchParams } from 'nuqs'
 import { requireAuthentication } from './actions/auth.action'
 import { getComposioActionsByIntegrationCached } from './actions/composio.action'
-import { getGptdoBrainCookieAction } from './actions/gpt.action'
+import { getGptdoCookieAction } from './actions/gpt.action'
 import { Chat } from './components/chat'
-import { DEFAULT_CHAT_MODEL } from './lib/constants'
 import { getAIModels } from './lib/utils'
 import { gptdoSearchParamsLoader } from './search-params'
 
@@ -14,8 +13,7 @@ interface ChatHomePageProps {
 export default async function ChatHomePage({ searchParams }: ChatHomePageProps) {
   await requireAuthentication()
   const { tool } = await gptdoSearchParamsLoader(searchParams)
-  const chatModelFromCookie = await getGptdoBrainCookieAction()
-  const initialChatModel = !chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie
+  const initialChatModel = await getGptdoCookieAction({ type: 'model' })
 
   const integrationName = tool?.includes('.') ? tool?.split('.')[0] : tool
 

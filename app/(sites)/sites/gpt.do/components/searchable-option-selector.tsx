@@ -7,7 +7,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { ChatConfigChangeType, ConfigOption } from './chat-options-selector'
+import type { ChatConfigChangeType, ConfigOption } from '../lib/types'
+import { OptionAvatar } from './option-avatar'
 
 interface SearchableOptionSelectorProps {
   title: ChatConfigChangeType
@@ -98,12 +99,13 @@ export function SearchableOptionSelector({
               <CommandList className='max-h-[300px]'>
                 <CommandEmpty>No match found.</CommandEmpty>
                 <CommandGroup>
-                  {options.map((option) => (
+                  {options.map((option, index) => (
                     <CommandItem
                       key={option.label}
                       value={option.label}
                       onSelect={handleSelect}
                       className='rounded-md py-2 text-zinc-700 hover:bg-gray-100 hover:text-zinc-900 aria-selected:bg-gray-100 sm:py-1 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 aria-selected:dark:bg-zinc-800'>
+                      <OptionAvatar logoUrl={option.logoUrl} size={16} direction='up' imageIndex={0} label={option.label} className='mr-1' />
                       {option.label}
                       <Check
                         className={cn(

@@ -8,7 +8,7 @@ import { resolvePathname } from '../lib/utils'
 interface ChatRedirectProps {
   chatId: string
   isNewChat: boolean
-  selectedModel: SearchOption
+  selectedModel: SearchOption | null
   initialDefaultMessages: UIMessage[]
 }
 

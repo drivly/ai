@@ -4,8 +4,8 @@ import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
 import { cn } from '@/lib/utils'
 import { Check, Copy } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import type { ConfigOption } from '../lib/types'
 import { createCleanURLParams } from '../lib/utils'
-import type { ConfigOption } from './chat-options-selector'
 
 interface OptionUrlCreatorProps {
   className?: string
@@ -33,7 +33,7 @@ export function OptionUrlCreator({ className, selectedModel, selectedTool, selec
         tool: toolValue,
         output: outputValue,
       })
-      
+
       chatUrl.search = searchParams.toString()
 
       setOrigin(chatUrl.origin)

@@ -1,4 +1,6 @@
+import { getGeneration } from '@/lib/openrouter'
 import type { CollectionConfig } from 'payload'
+import { getApiKey } from '../admin/APIKeys'
 
 export const Generations: CollectionConfig = {
   slug: 'generations',
@@ -22,5 +24,27 @@ export const Generations: CollectionConfig = {
     // { name: 'function', type: 'relationship', relationTo: 'functions' },
     // { name: 'input', type: 'relationship', relationTo: 'resources' },
     // { name: 'output', type: 'relationship', relationTo: 'resources' },
+  ],
+  endpoints: [
+    {
+      path: '/:id/details',
+      method: 'get',
+      handler: async ({ routeParams = {}, payload, headers }) => {
+        const { id } = routeParams
+        if (typeof id !== 'string' && typeof id !== 'number') {
+          return Response.json({ error: 'Generation ID is required' }, { status: 400 })
+        }
+        const { apiKey } = await getApiKey(headers, payload)
+        if (!apiKey) {
+          return Response.json({ error: 'API key not found' }, { status: 401 })
+        }
+        const generationDoc = await payload.findByID({ collection: 'generations', id })
+        if (!generationDoc) {
+          return Response.json({ error: 'Generation not found' }, { status: 404 })
+        }
+        const generation = await getGeneration((generationDoc.response as { id: string })?.id, apiKey)
+        return Response.json(generation)
+      },
+    },
   ],
 }

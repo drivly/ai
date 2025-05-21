@@ -5,9 +5,8 @@ import { generateObject, generateText, type UIMessage } from 'ai'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { z } from 'zod'
-import type { ConfigOption } from '../components/chat-options-selector'
-import { COOKIE_MAX_AGE, GPTDO_BRAIN_COOKIE, GPTDO_COOKIE_MAP, GPTDO_OUTPUT_COOKIE, GPTDO_TOOLBELT_COOKIE } from '../lib/constants'
-import type { SearchOption } from '../lib/types'
+import { COOKIE_MAX_AGE, GPTDO_COOKIE_MAP } from '../lib/constants'
+import type { ConfigOption } from '../lib/types'
 
 const promptSuggestionSchema = z.object({
   suggestions: z
@@ -110,39 +109,29 @@ export async function generateTitleFromUserMessage({ message }: { message: UIMes
 }
 
 /**
- * Server action to get the GPT.do brain selection from cookies
+ * Server action to get the GPT.do cookie "model" | "tool" | "output" from cookies
  */
-export async function getGptdoBrainCookieAction(): Promise<SearchOption | null> {
+export async function getGptdoCookieAction({ type }: { type: keyof typeof GPTDO_COOKIE_MAP }) {
   const cookieStore = await cookies()
-  const modelCookie = cookieStore.get(GPTDO_BRAIN_COOKIE)
-  return modelCookie?.value ? JSON.parse(modelCookie.value) : null
+  const cookieName = GPTDO_COOKIE_MAP[type]
+
+  const cookieData = cookieStore.get(cookieName)
+  return cookieData?.value ? JSON.parse(cookieData.value) : null
 }
 
 /**
- * Server action to get the GPT.do output selection from cookies
+ * Server action to set the GPT.do cookie "model" | "tool" | "output" from cookies
  */
-export async function getGptdoOutputCookieAction(): Promise<SearchOption | null> {
-  const cookieStore = await cookies()
-  const outputCookie = cookieStore.get(GPTDO_OUTPUT_COOKIE)
-  return outputCookie?.value ? JSON.parse(outputCookie.value) : null
-}
-
-/**
- * Server action to get the GPT.do tool selection from cookies
- */
-export async function getGptdoToolCookieAction(): Promise<SearchOption | null> {
-  const cookieStore = await cookies()
-  const toolCookie = cookieStore.get(GPTDO_TOOLBELT_COOKIE)
-  return toolCookie?.value ? JSON.parse(toolCookie.value) : null
-}
-
 export async function setGptdoCookieAction({ type, option, pathname }: { type: keyof typeof GPTDO_COOKIE_MAP; option: ConfigOption | null; pathname: string }) {
   const cookieStore = await cookies()
+  const cookieName = GPTDO_COOKIE_MAP[type]
 
-  cookieStore.set(GPTDO_COOKIE_MAP[type], JSON.stringify(option), {
-    maxAge: COOKIE_MAX_AGE,
-    path: '/',
-  })
+  if (option === null) cookieStore.delete(cookieName)
+  else
+    cookieStore.set(cookieName, JSON.stringify(option), {
+      maxAge: COOKIE_MAX_AGE,
+      path: '/',
+    })
 
   revalidatePath(pathname)
 

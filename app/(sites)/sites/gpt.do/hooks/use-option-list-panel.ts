@@ -1,8 +1,10 @@
 import { titleCase } from '@/lib/utils' // For title-casing createdBy keys
 import { useVirtualizer } from '@tanstack/react-virtual' // Keep one import
+import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { AvailableIntegration } from '../actions/composio.action'
-import type { ChatConfigChangeType, ConfigOption } from '../components/chat-options-selector'
+import { setGptdoCookieAction } from '../actions/gpt.action'
+import { SELECTION_STEP_ALIASES } from '../lib/constants'
+import type { ChatConfigChangeType, ConfigOption, Integration } from '../lib/types'
 import { groupAndSortOptions, KEY_FOR_INVALID_DATES } from '../lib/utils'
 
 export interface DisplayGroup {
@@ -12,11 +14,11 @@ export interface DisplayGroup {
 
 export interface UseOptionListPanelProps {
   title: ChatConfigChangeType
-  data: ConfigOption[] | AvailableIntegration[] | ReadonlyArray<ConfigOption> // Models - 'createdAt', Tools - 'createdBy'
+  data: ConfigOption[] | Integration[] | ReadonlyArray<ConfigOption> // Models - 'createdAt', Tools - 'createdBy'
   groupingStrategy: 'groupByKey' | 'none'
   groupKeyForFlatList?: keyof ConfigOption // e.g., 'createdAt' or 'createdBy'
   selectedItem?: ConfigOption | null
-  updateOption: (type: ChatConfigChangeType, option: ConfigOption | AvailableIntegration | null) => void
+  updateOption: (type: ChatConfigChangeType, option: ConfigOption | Integration | null) => void
 }
 
 const GROUP_HEADER_ESTIMATED_HEIGHT = 36
@@ -27,7 +29,7 @@ const ITEM_ROW_HEIGHT_NO_SEPARATOR = BUTTON_CONTENT_HEIGHT
 
 export type VirtualDisplayListItem =
   | { id: string; type: 'groupHeader'; data: { displayKey: string } }
-  | { id: string; type: 'item'; data: ConfigOption | AvailableIntegration; originalIndexInNavigableFlatItems: number }
+  | { id: string; type: 'item'; data: ConfigOption | Integration; originalIndexInNavigableFlatItems: number }
 
 // Helper to group by a generic key (like 'createdBy')
 const groupByKeyGeneric = (options: ReadonlyArray<ConfigOption>, keyName: keyof ConfigOption): DisplayGroup[] => {
@@ -58,6 +60,7 @@ export function useOptionListPanel({
   updateOption,
 }: UseOptionListPanelProps) {
   // --- Local State ---
+  const pathname = usePathname()
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchMode, setIsSearchMode] = useState(!selectedItem)
   const [focusedIndex, setFocusedIndex] = useState(-1)
@@ -160,13 +163,14 @@ export function useOptionListPanel({
 
   // --- Handlers ---
   // Clear button ("X") handler
-  const handleClear = useCallback(() => {
+  const handleClear = useCallback(async () => {
+    await setGptdoCookieAction({ type: SELECTION_STEP_ALIASES[title], option: null, pathname })
     updateOption(title, null) // Clear selection in parent/URL
     setIsSearchMode(true) // Switch to search mode
     setSearchQuery('')
 
     inputRef.current?.focus()
-  }, [title, updateOption])
+  }, [pathname, title, updateOption])
 
   const handleInputFocus = useCallback(() => {
     if (!isSearchMode && selectedItem) setSearchQuery(selectedItem.label)
