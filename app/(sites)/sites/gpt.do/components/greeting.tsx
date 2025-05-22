@@ -16,7 +16,8 @@ export const Greeting = ({ title, description, config }: GreetingProps) => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className='text-3xl font-bold tracking-tight text-zinc-900 dark:text-white'>
+          className='text-3xl font-bold tracking-tight text-zinc-900 dark:text-white'
+        >
           {title}
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className='text-zinc-500 dark:text-zinc-400'>

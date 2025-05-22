@@ -81,14 +81,16 @@ export function MultimodalInput({
           {
             'max-w-4xl': messages.length > 0,
           },
-        )}>
+        )}
+      >
         <input type='file' ref={fileInputRef} className='sr-only' onChange={handleFileChange} multiple accept='.png, .jpg, .jpeg, .pdf' tabIndex={-1} />
         <FilePreview attachments={attachments} onRemove={removeAttachment} className='border-border rounded-t-xl border' />
         <PromptInput
           value={input}
           onValueChange={handleInputChangeWrapper}
           isLoading={isLoading}
-          className='relative w-full rounded-t-none rounded-b-xl border-0 bg-transparent p-0'>
+          className='relative w-full rounded-t-none rounded-b-xl border-0 bg-transparent p-0'
+        >
           <ScrollButton
             containerRef={containerRef}
             scrollRef={bottomRef}
@@ -116,7 +118,8 @@ export function MultimodalInput({
                     event.preventDefault()
                     fileInputRef.current?.click()
                   }}
-                  disabled={isLoading || disabled}>
+                  disabled={isLoading || disabled}
+                >
                   <Paperclip className='h-4 w-4' />
                 </Button>
               </PromptInputAction>
@@ -133,7 +136,8 @@ export function MultimodalInput({
                     onClick={(event) => {
                       event.preventDefault()
                       stop()
-                    }}>
+                    }}
+                  >
                     <CircleStop absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
                   </Button>
                 ) : (
@@ -151,7 +155,8 @@ export function MultimodalInput({
                     onClick={(event) => {
                       event.preventDefault()
                       submitForm()
-                    }}>
+                    }}
+                  >
                     <ArrowUp absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
                   </Button>
                 )}
@@ -171,7 +176,8 @@ export function MultimodalInput({
                   onClick={(event) => {
                     event.preventDefault()
                     stop()
-                  }}>
+                  }}
+                >
                   <CircleStop absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
                 </Button>
               ) : (
@@ -189,7 +195,8 @@ export function MultimodalInput({
                   onClick={(event) => {
                     event.preventDefault()
                     submitForm()
-                  }}>
+                  }}
+                >
                   <ArrowUp absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
                 </Button>
               )}

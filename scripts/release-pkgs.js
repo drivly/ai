@@ -39,37 +39,37 @@ const runSemanticRelease = (packagePath) => {
   }
 
   console.log(`Processing package: ${packageJson.name}`)
-  
+
   const validateNoWorkspaceDeps = (pkg) => {
-    const allDeps = { 
-      ...(pkg.dependencies || {}), 
-      ...(pkg.devDependencies || {}), 
-      ...(pkg.peerDependencies || {}) 
-    };
-    
+    const allDeps = {
+      ...(pkg.dependencies || {}),
+      ...(pkg.devDependencies || {}),
+      ...(pkg.peerDependencies || {}),
+    }
+
     const workspaceDeps = Object.entries(allDeps)
       .filter(([_, version]) => version.startsWith('workspace:'))
-      .map(([name]) => name);
-    
+      .map(([name]) => name)
+
     if (workspaceDeps.length > 0) {
-      console.error(`ERROR: Package ${pkg.name} still has workspace dependencies: ${workspaceDeps.join(', ')}`);
-      console.error('Run node scripts/convert-workspace-deps.js in the package directory to fix');
-      process.exit(1);
+      console.error(`ERROR: Package ${pkg.name} still has workspace dependencies: ${workspaceDeps.join(', ')}`)
+      console.error('Run node scripts/convert-workspace-deps.js in the package directory to fix')
+      process.exit(1)
     }
-  };
-  
-  try {
-    execSync('node ../../scripts/convert-workspace-deps.js', { 
-      cwd: packagePath,
-      stdio: 'inherit'
-    });
-  } catch (error) {
-    console.error(`Failed to convert workspace dependencies for ${packageJson.name}`);
-    process.exit(1);
   }
-  
-  const updatedPackageJson = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf8'));
-  validateNoWorkspaceDeps(updatedPackageJson);
+
+  try {
+    execSync('node ../../scripts/convert-workspace-deps.js', {
+      cwd: packagePath,
+      stdio: 'inherit',
+    })
+  } catch (error) {
+    console.error(`Failed to convert workspace dependencies for ${packageJson.name}`)
+    process.exit(1)
+  }
+
+  const updatedPackageJson = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf8'))
+  validateNoWorkspaceDeps(updatedPackageJson)
 
   try {
     const tempConfigPath = path.resolve(process.cwd(), 'temp-semantic-release-config.cjs')

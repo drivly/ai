@@ -118,7 +118,8 @@ export function ClientModelPage({ initialModels, providers, searchParams }: Clie
               variant='outline'
               size='sm'
               onClick={() => setSelectedForComparison([])}
-              className='h-8 rounded-full border border-gray-200 bg-white text-sm font-medium dark:border-gray-800 dark:bg-transparent'>
+              className='h-8 rounded-full border border-gray-200 bg-white text-sm font-medium dark:border-gray-800 dark:bg-transparent'
+            >
               Clear
             </Button>
           </div>

@@ -97,16 +97,16 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
           const siteName = d.replace('.do', '')
           const description = getDomainDescription(d) || ''
           const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
-          
+
           let category = 'Other'
-          
+
           if (collectionSlugs.includes(siteName)) {
             category = 'Collections'
             if (!formattedSites['Collections']) {
               formattedSites['Collections'] = {}
             }
           }
-          
+
           if (!formattedSites[category]) {
             formattedSites[category] = {}
           }

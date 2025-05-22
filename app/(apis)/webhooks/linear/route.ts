@@ -20,7 +20,7 @@ export const POST = API(async (request, { payload }) => {
 
   const webhookId = request.headers.get('linear-delivery')
   const webhookSignature = request.headers.get('linear-signature')
-  
+
   let webhookTimestamp: string | null = null
   try {
     const bodyData = JSON.parse(bodyClone)

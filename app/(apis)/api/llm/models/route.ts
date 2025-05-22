@@ -1,6 +1,6 @@
 import { models } from '@/pkgs/language-models'
 
-const uniquePerField = (array: any[],field: string) => {
+const uniquePerField = (array: any[], field: string) => {
   // Returns all values inside an array
   // based on the field value, ensuring that only one of that field value
   // is returned.
@@ -20,7 +20,7 @@ export async function GET(req: Request) {
       object: 'model',
       created: model.createdAt,
       owned_by: model.author,
-      permission: []
-    }))
+      permission: [],
+    })),
   })
 }

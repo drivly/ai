@@ -1,47 +1,18 @@
+import type { ToolAuthorizationError } from '@/sdks/llm.do/src'
 import { motion } from 'motion/react'
+import { Fragment } from 'react'
 import { useComposioQuery } from '../../hooks/use-composio-query'
 import { AuthCard } from './auth-card'
 import { DefaultErrorCard } from './default-error-card'
-// Base error type
-type ErrorResponse = {
-  success: false
-  type: string
-  error: string
-}
 
-type GenericChatCompletionError = {
-  success: false
-  type: string
-  error: string
-} & Error
-
-// Tools based errors
-export type ToolRedirectError = {
-  type: 'TOOL_REDIRECT'
-  connectionRequests: {
-    app: string
-    type: 'API_KEY' | 'OAUTH' | 'OAUTH2'
-    redirectUrl?: string
-    fields?: Record<
-      string,
-      {
-        type: 'string' | 'number' | 'boolean'
-        required: boolean
-        name: string
-        [key: string]: any
-      }
-    >
-  }[]
-} & GenericChatCompletionError
-
-// Parse error message string to typed error object
-function parseError(error?: Error): ErrorResponse | null {
+// Parse error message string to ToolAuthorizationError
+function parseToolAuthorizationError(error?: Error): ToolAuthorizationError | null {
   if (!error?.message) return null
 
   try {
     const parsed = JSON.parse(error.message) as unknown
 
-    // Validate basic error structure
+    // Validate error structure
     if (
       parsed &&
       typeof parsed === 'object' &&
@@ -49,10 +20,15 @@ function parseError(error?: Error): ErrorResponse | null {
       parsed.success === false &&
       'type' in parsed &&
       typeof parsed.type === 'string' &&
+      parsed.type === 'TOOL_AUTHORIZATION' &&
       'error' in parsed &&
-      typeof parsed.error === 'string'
+      typeof parsed.error === 'string' &&
+      'connectionRequests' in parsed &&
+      Array.isArray(parsed.connectionRequests) &&
+      'apps' in parsed &&
+      Array.isArray(parsed.apps)
     ) {
-      return parsed as ErrorResponse
+      return parsed as ToolAuthorizationError
     }
   } catch (e) {
     // Not a JSON error or invalid format
@@ -67,34 +43,37 @@ interface ErrorMessageProps {
   onReload: () => void
 }
 
-function ErrorMessage({ onReload, error, onCancel }: ErrorMessageProps) {
-  const parsedError = parseError(error)
-  const appNames =
-    parsedError?.type === 'TOOLS_REDIRECT' && Array.isArray((parsedError as any).connectionRequests)
-      ? (parsedError as ToolRedirectError).connectionRequests.map((req: any) => req.app as string)
-      : []
+export function ErrorMessage({ onReload, error, onCancel }: ErrorMessageProps) {
+  const redirectError = parseToolAuthorizationError(error)
 
+  // Use apps array directly from the new error structure
+  const appNames = redirectError?.apps || []
   const app = appNames[0]
 
+  // Find the app info in connectionRequests
+  const appRequest = redirectError?.connectionRequests?.find((req) => req.app === app)
+  const appIcon = appRequest?.icon || ''
+
+  // Fallback to integrations query if icon is not available
   const { data: integrations } = useComposioQuery()
-
   const integration = integrations?.find((integration) => integration.value === app)
-  const integrationName = integration?.value
-  const integrationLogo: string = integration?.logoUrl || ''
 
-  // If we have a parseable error with a type, use that to determine the UI
-  if (parsedError) {
-    switch (parsedError.type) {
-      case 'TOOLS_REDIRECT': {
-        const redirectError = parsedError as ToolRedirectError
-        if (!redirectError.connectionRequests?.length) {
-          break // Fall through to default error if no valid connection requests
-        }
+  const integrationLogo = appIcon || integration?.logoUrl || ''
 
-        return (
-          <motion.div className='mx-auto my-4 w-full' initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3, ease: 'easeInOut' }}>
+  // Handle ToolAuthorizationError if present
+  if (redirectError?.connectionRequests?.length) {
+    return (
+      <Fragment>
+        {redirectError.connectionRequests.map((connection) => (
+          <motion.div
+            key={connection.app}
+            className='mx-auto my-4 w-full'
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
             <AuthCard
-              error={redirectError}
+              connection={connection}
               onSubmit={(app, values) => {
                 onReload()
               }}
@@ -102,16 +81,15 @@ function ErrorMessage({ onReload, error, onCancel }: ErrorMessageProps) {
                 window.open(url, '_blank')
               }}
               onCancel={onCancel}
-              integrationLogo={integrationLogo}
-              integrationName={integrationName}
+              integrationLogo={connection.icon}
+              integrationName={connection.app}
             />
           </motion.div>
-        )
-      }
-    }
+        ))}
+      </Fragment>
+    )
   }
 
+  // Default error handling
   return <DefaultErrorCard error={error} integrationLogo={integrationLogo} onReload={onReload} />
 }
-
-export { ErrorMessage }

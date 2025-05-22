@@ -25,7 +25,8 @@ export const ComparisonTable = ({ title, selectedModels, toggleModelSelection }:
                       variant='ghost'
                       size='sm'
                       onClick={() => toggleModelSelection(model.slug)}
-                      className='h-6 w-6 rounded-full p-0 hover:bg-gray-100 dark:hover:bg-gray-800'>
+                      className='h-6 w-6 rounded-full p-0 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    >
                       <X className='h-4 w-4' />
                     </Button>
                   </div>

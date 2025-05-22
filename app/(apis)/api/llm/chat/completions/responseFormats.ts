@@ -19,7 +19,7 @@ export function injectFormatIntoSystem(system: string, responseFormat: string, i
     You are given a task and you must complete it using JavaScript.
     Do not include any other text in your response other than the JavaScript code.
     ${isUi ? 'Wrap any JavaScript code in \`\`\`javascript markdown blocks.' : 'Do not wrap your code in markdown blocks.'}
-    `
+    `,
   }
 
   // Bypass if no mixin is needed

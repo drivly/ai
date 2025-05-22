@@ -12,10 +12,7 @@ new ApiCheck('root-api-check-1', {
     method: 'GET',
     followRedirects: true,
     skipSSL: false,
-    assertions: [
-      AssertionBuilder.statusCode().equals(200),
-      AssertionBuilder.jsonBody('$[0].api').isNotNull(),
-    ],
+    assertions: [AssertionBuilder.statusCode().equals(200), AssertionBuilder.jsonBody('$[0].api').isNotNull()],
   },
   runParallel: true,
 })

@@ -18,7 +18,8 @@ export function Root({ children, value, ...rest }: RootContentProps) {
     <motion.div
       animate={{ height: bounds.height > 0 ? bounds.height : undefined }}
       transition={{ type: 'spring', bounce: 0, duration: 0.8 }}
-      style={{ overflow: 'hidden', position: 'relative' }}>
+      style={{ overflow: 'hidden', position: 'relative' }}
+    >
       <div ref={ref}>
         <PanelProvider value={{ value }}>
           <div {...rest}>{children}</div>
@@ -53,7 +54,8 @@ export function Content({ children, value, ...rest }: RootContentProps) {
               ease: 'easeInOut',
               duration: 0.3,
             },
-          }}>
+          }}
+        >
           <div {...rest}>{children}</div>
         </motion.div>
       )}

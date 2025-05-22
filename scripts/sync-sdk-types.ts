@@ -63,7 +63,7 @@ const collectionsUtilContent = `/**
  */
 
 export const COLLECTIONS = [
-  ${collections.map(c => `'${c}'`).join(',\n  ')}
+  ${collections.map((c) => `'${c}'`).join(',\n  ')}
 ] as const;
 
 export type Collection = typeof COLLECTIONS[number];

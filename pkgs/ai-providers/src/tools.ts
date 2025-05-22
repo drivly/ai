@@ -15,24 +15,21 @@ export const fetchWebsiteContents = {
         type: 'object',
         properties: {
           'Content-Type': { type: 'string', description: 'The content type of the request' },
-          'Authorization': { type: 'string', description: 'The authorization header' }
-        }
+          Authorization: { type: 'string', description: 'The authorization header' },
+        },
       },
-      additionalProperties: false, 
+      additionalProperties: false,
     },
-    required: ['url']
+    required: ['url'],
   }),
   execute: async (args: any) => {
-    console.log(
-      `[FETCH TOOL] Fetching`,
-      args
-    )
+    console.log(`[FETCH TOOL] Fetching`, args)
 
     const start = Date.now()
 
     const response = await fetch(args.url, {
-      method: args.method ?? 'GET', 
-      headers: args.headers ?? {}
+      method: args.method ?? 'GET',
+      headers: args.headers ?? {},
     })
 
     // We need to do this to avoid overloading the model with too much text
@@ -44,18 +41,16 @@ export const fetchWebsiteContents = {
     text = text.replace(/<style[\s\S]*?<\/style>/g, '')
     // Remove SVGs
     text = text.replace(/<svg[\s\S]*?<\/svg>/g, '')
-    
+
     const markdown = turndown.turndown(
       // Only return the content within the body tag.
-      text.match(/<body>([\s\S]*)<\/body>/)?.[1] ?? text
+      text.match(/<body>([\s\S]*)<\/body>/)?.[1] ?? text,
     )
 
-    console.log(
-      `[FETCH] Finished fetching ${args.url} in ${Date.now() - start}ms`
-    )
+    console.log(`[FETCH] Finished fetching ${args.url} in ${Date.now() - start}ms`)
 
     return markdown
-  }
+  },
 }
 
 export const worker = (options: any) => ({
@@ -66,15 +61,12 @@ export const worker = (options: any) => ({
     type: 'object',
     properties: {
       prompt: { type: 'string', description: 'The prompt to send to the worker. Be clear, with a clear goal in mind.' },
-      additionalProperties: false, 
+      additionalProperties: false,
     },
-    required: ['prompt']
+    required: ['prompt'],
   }),
   execute: async (args: any) => {
-    console.log(
-      `[WORKER TOOL] Starting working with prompt`,
-      args.prompt
-    )
+    console.log(`[WORKER TOOL] Starting working with prompt`, args.prompt)
 
     const start = Date.now()
 
@@ -83,16 +75,13 @@ export const worker = (options: any) => ({
       tools: options.tools,
       prompt: args.prompt,
       user: options.user,
-      maxSteps: 5 // lower cap for workers
+      maxSteps: 5, // lower cap for workers
     })
 
-    console.log(
-      `[WORKER] Resolved worker in ${Date.now() - start}ms`,
-      response.text.slice(0, 100) + '...'
-    )
+    console.log(`[WORKER] Resolved worker in ${Date.now() - start}ms`, response.text.slice(0, 100) + '...')
 
     return response.text
-  }
+  },
 })
 
 export const testTool = {
@@ -103,17 +92,17 @@ export const testTool = {
     type: 'object',
     properties: {
       message: { type: 'string', description: 'The message to return' },
-      additionalProperties: false
+      additionalProperties: false,
     },
-    required: ['message']
+    required: ['message'],
   }),
   execute: async (args: any) => {
     return args.message
-  }
+  },
 }
 
 export const allTools = {
   fetchWebsiteContents,
   worker,
-  testTool
+  testTool,
 }

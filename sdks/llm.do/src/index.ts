@@ -20,9 +20,10 @@ type LLMProviderOptions = {
   headers?: Record<string, string>
 }
 
-type LLMProviderSettings = OpenAICompatibleChatSettings & ParsedModelIdentifier & {
-  tools?: string[] | undefined
-}
+type LLMProviderSettings = OpenAICompatibleChatSettings &
+  ParsedModelIdentifier & {
+    tools?: string[] | undefined
+  }
 
 // Define explicit provider options interface to prevent deep type inference
 interface LLMProviderConstructorOptions {
@@ -96,22 +97,19 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
         // So we're doing this to use our superset standard.
 
         const newBody = {
-          ...JSON.parse(init?.body as string ?? '{}'),
-          modelOptions: settings
+          ...JSON.parse((init?.body as string) ?? '{}'),
+          modelOptions: settings,
         }
 
-        const response = await fetch(
-          url,
-          {
-            ...init,
-            body: JSON.stringify(newBody)
-          }
-        )
+        const response = await fetch(url, {
+          ...init,
+          body: JSON.stringify(newBody),
+        })
 
         return response
-      }
+      },
     }
-    
+
     return new OpenAICompatibleChatLanguageModel(modelId, (settings ?? {}) as LLMProviderSettings, providerOptions as any)
   }
 }

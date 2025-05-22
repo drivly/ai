@@ -22,7 +22,7 @@ async function createTestUserAndApiKey() {
     })
 
     let userId
-    
+
     if (existingUsers.docs.length === 0) {
       console.log('Creating test user...')
       const testUser = await payload.create({
@@ -59,7 +59,7 @@ async function createTestUserAndApiKey() {
           email: 'test@example.com',
         },
       })
-      
+
       const apiKeyValue = apiKey.apiKey
       console.log(`API key created: ${apiKeyValue}`)
       console.log('DO_API_KEY=' + apiKeyValue)
@@ -67,17 +67,17 @@ async function createTestUserAndApiKey() {
     } else {
       const apiKeyValue = existingApiKeys.docs[0].apiKey
       console.log(`API key already exists: ${apiKeyValue || '[hidden]'}`)
-      
+
       if (!apiKeyValue) {
         console.log('API key is hidden. Creating a new one...')
         await payload.delete({
           collection: 'apikeys',
           id: existingApiKeys.docs[0].id,
         })
-        
+
         return await createTestUserAndApiKey()
       }
-      
+
       console.log('DO_API_KEY=' + apiKeyValue)
       return apiKeyValue
     }

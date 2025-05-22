@@ -121,7 +121,8 @@ export const PromptSuggestions = ({ className, append, selectedModel }: PromptSu
                     isLoading && 'cursor-not-allowed opacity-60',
                   )}
                   disabled={isLoading}
-                  onClick={async () => handleSuggestion(suggestion)}>
+                  onClick={async () => handleSuggestion(suggestion)}
+                >
                   <span className='text-sm whitespace-nowrap text-zinc-600 dark:text-zinc-400'>{suggestion.action}</span>
                 </motion.button>
               ))}

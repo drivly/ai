@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { resolvePathname } from '../lib/utils'
+import { SidebarCreditDisplay } from './sidebar-credit-display'
 import { SidebarHistory } from './sidebar-history'
 import { SidebarUserNav } from './sidebar-user-nav'
 import Spinner from './spinner'
@@ -58,7 +59,8 @@ export function AppSidebar() {
           <SidebarHistory user={user} basePath={basePath} />
         </Suspense>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className='gap-1'>
+        {user?.apiKey && <SidebarCreditDisplay apiKey={user.apiKey} email={user.email} />}
         <Suspense fallback={<Spinner height={24} width={24} className='text-muted-foreground/50' />}>{user && <SidebarUserNav user={user} />}</Suspense>
       </SidebarFooter>
     </Sidebar>

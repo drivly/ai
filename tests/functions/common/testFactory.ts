@@ -8,7 +8,6 @@ import { testCases } from './testCases'
 export function createTestSuite(implementation: AIImplementation) {
   const { name, AI, ai, list, markdown } = implementation
 
-  
   const setupMocks = () => {
     if (name === 'lib/ai') {
       const executeFunction = vi.fn().mockResolvedValue({
@@ -19,17 +18,17 @@ export function createTestSuite(implementation: AIImplementation) {
         reasoning: 'Mock reasoning',
         generationHash: 'mock-hash',
       })
-      
+
       vi.mock('@/tasks/ai/executeFunction', () => ({
         executeFunction,
       }))
-      
+
       return { executeFunction }
     }
-    
+
     return {}
   }
-  
+
   describe(`AI Functions (${name})`, () => {
     if (ai) {
       describe('Template Literals', () => {
@@ -41,7 +40,7 @@ export function createTestSuite(implementation: AIImplementation) {
         })
       })
     }
-    
+
     if (ai) {
       describe('Function Calls', () => {
         testCases.functionCalls.forEach((testCase) => {
@@ -52,7 +51,7 @@ export function createTestSuite(implementation: AIImplementation) {
         })
       })
     }
-    
+
     if (ai) {
       describe('Schema Validation', () => {
         testCases.schemaValidation.forEach((testCase) => {
@@ -63,7 +62,7 @@ export function createTestSuite(implementation: AIImplementation) {
         })
       })
     }
-    
+
     if (AI) {
       describe('AI Factory', () => {
         testCases.aiFactory.forEach((testCase) => {
@@ -76,7 +75,7 @@ export function createTestSuite(implementation: AIImplementation) {
         })
       })
     }
-    
+
     if (list) {
       describe('List Function', () => {
         it('should generate an array of items', async () => {
@@ -89,11 +88,13 @@ export function createTestSuite(implementation: AIImplementation) {
         })
       })
     }
-    
+
     if (markdown) {
       describe('Markdown Function', () => {
         it('should generate markdown content', async () => {
-          const result = await markdown`Create a markdown document`
+          const result = await markdown`
+Create a markdown document
+          `
           expect(typeof result).toBe('string')
           expect(result.length).toBeGreaterThan(0)
           expect(result).toMatch(/^#|^-|\*\*|`/)

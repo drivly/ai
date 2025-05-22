@@ -14,7 +14,7 @@ export const testCases = {
       },
     },
   ],
-  
+
   functionCalls: [
     {
       name: 'Function call with object parameters',
@@ -31,7 +31,7 @@ export const testCases = {
       },
     },
   ],
-  
+
   schemaValidation: [
     {
       name: 'Object schema validation',
@@ -48,7 +48,7 @@ export const testCases = {
       },
     },
   ],
-  
+
   aiFactory: [
     {
       name: 'AI factory with schema',

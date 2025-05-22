@@ -42,7 +42,14 @@ export const Thumbnail = ({ showContent, error, type, thumbnailUrl, url, name, o
         </div>
       ) : type === 'image' && !error ? (
         <div className='relative overflow-clip'>
-          <Image src={thumbnailUrl || url} alt={name} width={100} height={100} className='flex shrink-0 -translate-x-px items-center justify-center overflow-hidden rounded-sm' onError={onImageError} />
+          <Image
+            src={thumbnailUrl || url}
+            alt={name}
+            width={100}
+            height={100}
+            className='flex shrink-0 -translate-x-px items-center justify-center overflow-hidden rounded-sm'
+            onError={onImageError}
+          />
         </div>
       ) : type === 'pdf' ? (
         <File />

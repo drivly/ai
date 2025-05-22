@@ -18,11 +18,11 @@ const apiProxyHandler = {
       return async (params: any = {}) => {
         try {
           const headers: Record<string, string> = { 'Content-Type': 'application/json' }
-          
+
           if (!isBrowser() && process.env.DO_API_KEY) {
             headers.authorization = `Bearer ${process.env.DO_API_KEY}`
           }
-          
+
           const url = new URL(`${target._baseUrl}/${prop}`)
           Object.entries(params).forEach(([key, value]) => {
             if (value !== undefined) {
@@ -33,17 +33,17 @@ const apiProxyHandler = {
               }
             }
           })
-          
+
           const response = await fetch(url.toString(), {
             method: 'GET',
             headers,
             credentials: 'include', // For cookie support in browsers
           })
-          
+
           if (!response.ok) {
             throw new Error(`API request failed: ${response.statusText}`)
           }
-          
+
           return response.json()
         } catch (error) {
           console.error(`Error calling ${prop} API:`, error)
@@ -51,7 +51,7 @@ const apiProxyHandler = {
         }
       }
     }
-    
+
     return target[prop]
   },
 }
@@ -61,11 +61,14 @@ const apiProxyHandler = {
  */
 export const createApiProxy = (options: ClientOptions = {}) => {
   const baseUrl = options.baseUrl || 'https://apis.do'
-  
-  const proxy = new Proxy({
-    _baseUrl: baseUrl,
-    _options: options,
-  } as any, apiProxyHandler)
-  
+
+  const proxy = new Proxy(
+    {
+      _baseUrl: baseUrl,
+      _options: options,
+    } as any,
+    apiProxyHandler,
+  )
+
   return proxy
 }

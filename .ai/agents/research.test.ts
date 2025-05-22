@@ -16,10 +16,10 @@ describe('research', () => {
     console.log(result)
     expect(Array.isArray(result.citations)).toBe(true)
     expect(typeof result.markdown).toBe('string')
-    
+
     if (result.citations.length > 0) {
       expect(result.markdown).toContain('## References')
-      
+
       const firstCitation = result.citations[0]
       expect(result.markdown).toContain(`1. ${firstCitation}`)
     }
@@ -31,7 +31,7 @@ describe('research', () => {
     console.log(result)
     expect(Array.isArray(result.citations)).toBe(true)
     expect(typeof result.markdown).toBe('string')
-    
+
     if (result.citations.length === 0) {
       expect(result.markdown).not.toContain('## References')
     }

@@ -19,7 +19,7 @@ const storeResearchResults = async (payload: any, results: ResearchResults) => {
   try {
     const { citations, markdown } = results
     const resultsHash = hash({ citations, markdown })
-    
+
     await payload.create({
       collection: 'resources',
       data: {
@@ -28,7 +28,7 @@ const storeResearchResults = async (payload: any, results: ResearchResults) => {
         type: 'things', // Relationship type
         data: results,
         yaml: JSON.stringify(results),
-        content: markdown
+        content: markdown,
       },
     })
     console.log('Stored new research results:', resultsHash)
@@ -43,16 +43,16 @@ export const GET = API(async (request, { db, user, url, origin, domain, payload 
   const searchQuery = request.nextUrl.search.replace(/^\?/, '')
   const results = await research(searchQuery)
   const { citations, markdown } = results
-  
+
   const topic = searchQuery || 'Unknown Topic'
-  
+
   const resultsWithTopic = {
     ...results,
-    topic
+    topic,
   }
-  
+
   waitUntil(storeResearchResults(payload, resultsWithTopic))
-  
+
   return { research: { results: markdown.split('\n'), citations, markdown } }
 })
 

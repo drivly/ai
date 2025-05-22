@@ -45,8 +45,7 @@ pnpm run generate-zapier-apps
 
     console.log(`Zapier apps in ${outputDir}...`)
     console.log('Note: Actual generation skipped as payload-zapier-apps package is no longer available')
-    
-    
+
     console.log('Zapier apps generation completed successfully!')
   } catch (error) {
     console.error('Error generating Zapier apps:', error)
