@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { resolvePathname } from '../lib/utils'
+import { SidebarCreditDisplay } from './sidebar-credit-display'
 import { SidebarHistory } from './sidebar-history'
 import { SidebarUserNav } from './sidebar-user-nav'
 import Spinner from './spinner'
@@ -31,8 +32,7 @@ export function AppSidebar() {
               onClick={() => {
                 setOpenMobile(false)
               }}
-              className='flex flex-row items-center gap-3'
-            >
+              className='flex flex-row items-center gap-3'>
               <span className='hover:bg-muted cursor-pointer rounded-md px-2 text-lg font-semibold'>GPT.do</span>
             </Link>
             <Tooltip>
@@ -45,8 +45,7 @@ export function AppSidebar() {
                     setOpenMobile(false)
                     router.push(basePath + '/new')
                     router.refresh()
-                  }}
-                >
+                  }}>
                   <PlusIcon />
                 </Button>
               </TooltipTrigger>
@@ -60,7 +59,8 @@ export function AppSidebar() {
           <SidebarHistory user={user} basePath={basePath} />
         </Suspense>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className='gap-1'>
+        {user?.apiKey && <SidebarCreditDisplay apiKey={user.apiKey} email={user.email} />}
         <Suspense fallback={<Spinner height={24} width={24} className='text-muted-foreground/50' />}>{user && <SidebarUserNav user={user} />}</Suspense>
       </SidebarFooter>
     </Sidebar>
