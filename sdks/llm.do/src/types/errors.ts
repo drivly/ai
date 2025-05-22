@@ -1,4 +1,10 @@
+import { ERROR_TYPES } from '../constants'
+import { Prettify } from '@/types/helper-types'
 import { ToolAuthorizationMode } from './tools'
+
+type ErrorType = (typeof ERROR_TYPES)[number]
+type BaseErrorType = Exclude<ErrorType, 'TOOL_AUTHORIZATION'>
+type ToolAuthorizationErrorType = Extract<ErrorType, 'TOOL_AUTHORIZATION'>
 
 interface GenericChatCompletionError extends Error {
   success: false
@@ -6,40 +12,34 @@ interface GenericChatCompletionError extends Error {
   error: string
 }
 
-// Thrown when a model does not exist
-export interface ModelNotFoundError extends GenericChatCompletionError {
-  type: 'MODEL_NOT_FOUND'
+// Error for missing model or unsupported model capabilities
+export interface BaseCompletionError extends GenericChatCompletionError {
+  type: BaseErrorType
 }
 
-// Thrown when a model exists, but that the capabilities requested are not supported
-// tools, reasoning, etc.
-export interface ModelIncompatibleError extends GenericChatCompletionError {
-  type: 'MODEL_INCOMPATIBLE'
+type AllBaseCompletionErrors = {
+  [K in BaseErrorType]: BaseCompletionError & { type: K }
+}[BaseErrorType]
+
+export interface ToolConnectionRequest {
+  app: string
+  icon: string
+  description: string
+  methods: ToolConnectionMethod[]
+}
+
+export interface ToolConnectionMethod {
+  type: ToolAuthorizationMode
+  redirectUrl?: string
+  fields?: Record<string, any>
 }
 
 // Tools based errors
 export interface ToolAuthorizationError extends GenericChatCompletionError {
-  type: 'TOOL_AUTHORIZATION'
-  connectionRequests: {
-    app: string
-    icon: string
-    description: string
-    methods: {
-      type: ToolAuthorizationMode
-      redirectUrl?: string
-      fields?: Record<string, any>
-    }[]
-  }[]
+  type: ToolAuthorizationErrorType
+  connectionRequests: ToolConnectionRequest[]
   apps: string[]
 }
 
-export interface ToolUnsupportedError extends GenericChatCompletionError {
-  type: 'UNSUPPORTED_AUTH_SCHEME'
-}
-
-export interface ToolUnknownAuthError extends GenericChatCompletionError {
-  type: 'UNKNOWN_AUTH_SCHEME'
-}
-
-// Discriminated union with all of our errors
-export type ChatCompletionError = ModelNotFoundError | ModelIncompatibleError | ToolAuthorizationError
+// Discriminated union by ErrorType
+export type ChatCompletionError = Prettify<AllBaseCompletionErrors | ToolAuthorizationError>
