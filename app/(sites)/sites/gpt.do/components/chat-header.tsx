@@ -125,8 +125,7 @@ export function ChatHeader({
               onClick={() => {
                 router.push(basePath + '/new')
                 router.refresh()
-              }}
-            >
+              }}>
               <PlusIcon />
               <span className='md:sr-only'>New Chat</span>
             </Button>

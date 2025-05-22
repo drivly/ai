@@ -1,9 +1,9 @@
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { AppSidebar } from './components/app-sidebar'
 import { TanstackProvider } from './tanstack-provider'
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 export const experimental_ppr = true
 
