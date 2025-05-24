@@ -116,10 +116,10 @@ export default buildConfig({
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
-      webhooks: async ({ event: input, payload }) => {
+      webhooks: async ({ event, payload }) => {
         const createdJob = await payload.jobs.queue({
           workflow: 'handleStripeEvent',
-          input,
+          input: { event },
         })
         await payload.jobs.runByID(createdJob)
       },
