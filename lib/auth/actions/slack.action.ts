@@ -85,13 +85,17 @@ interface WebhookConfig {
 }
 
 const webhooks: Record<string, WebhookConfig> = {
+  careers: {
+    url: process.env.CAREERS_DO_SLACK_URL,
+    defaultTitle: 'New Job Application',
+  },
   waitlist: {
     url: process.env.WAITLIST_DO_SLACK_URL,
     defaultTitle: 'New Waitlist Signup',
   },
-  careers: {
-    url: process.env.CAREERS_DO_SLACK_URL,
-    defaultTitle: 'New Job Application',
+  signups: {
+    url: process.env.SIGNUPS_SLACK_URL,
+    defaultTitle: 'New Signup',
   },
 }
 

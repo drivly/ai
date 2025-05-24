@@ -132,7 +132,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "codehike": "^1.0.5",
-    "coffee-script": "^1.12.7",
+    "coffeescript": "^2.7.0",
     "composio-core": "^0.5.31",
     "crawlee": "^3.13.2",
     "cross-env": "^7.0.3",
@@ -276,6 +276,7 @@
     "onlyBuiltDependencies": [
       "@sentry/cli",
       "@swc/core",
+      "@tailwindcss/oxide",
       "@vercel/speed-insights",
       "actions.do",
       "agents.do",

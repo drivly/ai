@@ -282,6 +282,7 @@ export interface Config {
     };
     workflows: {
       handleGithubEvent: WorkflowHandleGithubEvent;
+      handleStripeEvent: WorkflowHandleStripeEvent;
     };
   };
 }
@@ -556,8 +557,6 @@ export interface BillingPlan {
    * Whether this plan is active and available for purchase
    */
   isActive?: boolean | null;
-  stripeID?: string | null;
-  skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1475,8 +1474,6 @@ export interface ConnectAccount {
     | number
     | boolean
     | null;
-  stripeID?: string | null;
-  skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2852,7 +2849,7 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
-  workflowSlug?: 'handleGithubEvent' | null;
+  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent') | null;
   taskSlug?:
     | (
         | 'inline'
@@ -3640,8 +3637,6 @@ export interface ConnectAccountsSelect<T extends boolean = true> {
   payoutsEnabled?: T;
   platformFeePercent?: T;
   metadata?: T;
-  stripeID?: T;
-  skipSync?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4131,8 +4126,6 @@ export interface BillingPlansSelect<T extends boolean = true> {
   stripeProductId?: T;
   stripePriceId?: T;
   isActive?: T;
-  stripeID?: T;
-  skipSync?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -5609,6 +5602,23 @@ export interface TaskDiscoverServices {
 export interface WorkflowHandleGithubEvent {
   input: {
     payload:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkflowHandleStripeEvent".
+ */
+export interface WorkflowHandleStripeEvent {
+  input: {
+    event:
       | {
           [k: string]: unknown;
         }
