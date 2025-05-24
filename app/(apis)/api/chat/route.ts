@@ -27,8 +27,9 @@ export async function POST(req: Request) {
 
   // If we still don't have an API key, check Payload auth
   if (!apiKey) {
-    // Get user from payload auth
     const payload = await getPayloadFn()
+
+    // Get user from payload auth
     const authResult = await payload.auth({ headers: req.headers })
     const user = authResult.user
 
@@ -55,7 +56,6 @@ export async function POST(req: Request) {
   }
 
   // At this point, apiKey should contain our best API key or null if none found
-  return apiKey
   if (apiKey) {
     const newHeaders = new Headers(req.headers)
     newHeaders.set('Authorization', `Bearer ${apiKey}`)
