@@ -1,3 +1,4 @@
+import { getApiKey } from '@/app/(apis)/api/chat/route'
 import { createKey, findKey, getKey } from '@/lib/openrouter'
 import type { BasePayload, CollectionConfig } from 'payload'
 
@@ -58,8 +59,10 @@ export const APIKeys: CollectionConfig = {
       path: '/credit',
       method: 'get',
       handler: async ({ headers, payload }) => {
-        const { apiKey } = await getApiKey(headers, payload)
-        if (!apiKey) {
+        const apiKey = await getApiKey(headers, payload)
+        if (apiKey instanceof Response) {
+          return apiKey
+        } else if (!apiKey) {
           return Response.json({ error: 'API key not found' }, { status: 404 })
         }
         const usage = await getKey(apiKey)
@@ -67,26 +70,4 @@ export const APIKeys: CollectionConfig = {
       },
     },
   ],
-}
-
-export async function getApiKey(headers: Headers, payload: BasePayload) {
-  const token = headers.get('authorization')?.split(' ')[1]
-  if (token?.startsWith('sk-')) {
-    return { apiKey: token }
-  }
-  const authResult = await payload.auth({ headers })
-  const user = authResult.user
-  let apiKey
-  if (user?.collection === 'apikeys') {
-    apiKey = user.apiKey
-    user.id = typeof user.user === 'string' ? user.user : user.user?.id || ''
-  } else if (user?.id || user?.email) {
-    apiKey = (
-      await payload.find({
-        collection: 'apikeys',
-        where: { or: [{ user: { equals: user?.id } }, { email: { equals: user?.email } }] },
-      })
-    )?.docs?.[0]?.apiKey
-  }
-  return { apiKey, user }
 }
