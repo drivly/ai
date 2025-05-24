@@ -15,8 +15,6 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { collections } from './collections'
-import { getKeyDetails, updateKeyDetails } from './lib/openrouter'
-import type { Apikey } from './payload.types'
 import { tasks, workflows } from './tasks'
 
 const filename = fileURLToPath(import.meta.url)
@@ -115,78 +113,16 @@ export default buildConfig({
       specEndpoint: '/v1/docs/openapi.json',
     }),
     // storage-adapter-placeholder
-
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
-      webhooks: async ({ event, stripe, pluginConfig: stripeConfig, payload }) => {
-        await payload.db.create({
-          collection: 'events',
-          data: {
-            source: 'stripe',
-            type: event.type,
-            metadata: event.data.object,
-          },
+      webhooks: async ({ event: input, payload }) => {
+        const createdJob = await payload.jobs.queue({
+          workflow: 'handleStripeEvent',
+          input,
         })
-        if (event.type === 'checkout.session.completed') {
-          const { customer_details, amount_total } = event.data.object
-          const {
-            docs: [key],
-          } = await payload.db.find<Apikey>({
-            collection: 'apikeys',
-            where: {
-              email: {
-                equals: customer_details?.email,
-              },
-              hash: {
-                exists: true,
-              },
-            },
-          })
-          if (key?.hash) {
-            let details = await getKeyDetails(key.hash)
-            details = await updateKeyDetails(key.hash, { limit: (details.limit || 0) + amount_total / 100 })
-          }
-        } else {
-          console.log(event.type, JSON.stringify(event.data.object, null, 2))
-        }
+        await payload.jobs.runByID(createdJob)
       },
-      sync: [
-        {
-          stripeResourceTypeSingular: 'customer',
-          stripeResourceType: 'customers',
-          collection: 'connectAccounts',
-          fields: [
-            {
-              fieldPath: 'stripeAccountId',
-              stripeProperty: 'id',
-            },
-            {
-              fieldPath: 'email',
-              stripeProperty: 'email',
-            },
-            {
-              fieldPath: 'name',
-              stripeProperty: 'name',
-            },
-          ],
-        },
-        {
-          stripeResourceTypeSingular: 'product',
-          stripeResourceType: 'products',
-          collection: 'billingPlans',
-          fields: [
-            {
-              fieldPath: 'stripeProductId',
-              stripeProperty: 'id',
-            },
-            {
-              fieldPath: 'name',
-              stripeProperty: 'name',
-            },
-          ],
-        },
-      ],
     }),
     // createHooksQueuePlugin({
     //   'nouns.beforeChange': 'inflectNouns',
