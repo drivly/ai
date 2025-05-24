@@ -2,6 +2,7 @@ import { getOrCreateUserApikey } from '@/lib/actions/user.action'
 import { serverAuth } from '@/hooks/server-auth'
 import { createKey, getKey } from '@/lib/openrouter'
 import type { CollectionConfig, Payload } from 'payload'
+import { sendSlackAlert } from '@/lib/auth/actions/slack.action'
 
 export const APIKeys: CollectionConfig = {
   slug: 'apikeys',
@@ -52,6 +53,16 @@ export const APIKeys: CollectionConfig = {
           data.enableAPIKey = true
         }
         return args
+      },
+    ],
+    afterOperation: [
+      async ({ operation, args }) => {
+        if (operation === 'create') {
+          await sendSlackAlert('signups', {
+            Name: args.data.name,
+            Email: args.data.email,
+          })
+        }
       },
     ],
   },

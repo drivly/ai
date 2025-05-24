@@ -63,6 +63,7 @@ export const handleStripeEvent = {
               output: {
                 success: await sendSlackAlert('signups', {
                   Name: customer_details?.name || customer_details?.email,
+                  Amount: amount_total / 100,
                   Phone: customer_details?.phone || 'unknown',
                   Email: customer_details?.email,
                   Address:
