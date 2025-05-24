@@ -1,10 +1,8 @@
-import { API, formatUrl } from '@/lib/api'
-import { domains, domainsConfig, getDomainDescription } from '@/domains.config'
-import { apis, related, parentDomains, childDomains, siteCategories } from '@/api.config'
+import { apis, siteCategories } from '@/api.config'
 import { collectionSlugs } from '@/collections'
+import { domains, domainsConfig, getDomainDescription } from '@/domains.config'
+import { API, formatUrl } from '@/lib/api'
 import { titleCase } from '@/lib/utils'
-import fs from 'fs/promises'
-import path from 'path'
 
 let staticIntegrations: { apps: any[]; categories: any[]; triggers: any; actions: any[] } = {
   apps: [],

@@ -1,8 +1,8 @@
-import { API } from '@/lib/api'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import { apis } from '@/api.config'
 import { domainsConfig } from '@/domains.config'
+import { API } from '@/lib/api'
+import config from '@payload-config'
+import { getPayload } from 'payload'
 
 export const POST = API(async (request, { db, user, origin, url, params }) => {
   if (!process.env.COMPOSIO_API_KEY) {

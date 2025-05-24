@@ -5,7 +5,7 @@ import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/provid
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { filterModels, getModel } from '@/pkgs/language-models'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { CoreMessage, createDataStreamResponse, jsonSchema, Output, tool } from 'ai'
+import { CoreMessage, createDataStreamResponse, jsonSchema, tool } from 'ai'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'

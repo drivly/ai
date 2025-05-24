@@ -1,6 +1,6 @@
 import { getApiKey } from '@/app/(apis)/api/chat/route'
-import { createKey, findKey, getKey } from '@/lib/openrouter'
-import type { BasePayload, CollectionConfig } from 'payload'
+import { createKey, getKey } from '@/lib/openrouter'
+import type { CollectionConfig } from 'payload'
 
 export const APIKeys: CollectionConfig = {
   slug: 'apikeys',

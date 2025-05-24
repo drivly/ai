@@ -1,5 +1,5 @@
-import { API } from '../../../../lib/api'
 import { NextResponse } from 'next/server'
+import { API } from '../../../../lib/api'
 
 export const POST = API(async (req, { payload }) => {
   try {
