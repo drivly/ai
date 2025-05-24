@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import camelcase from 'camelcase'
-import { filterModels, constructModelIdentifier, models, Model, parse } from 'language-models'
+import { constructModelIdentifier, filterModels, models, parse } from 'language-models'
 import { groupByKey } from './utils'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {

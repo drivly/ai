@@ -1,6 +1,6 @@
+import { research } from '@/.ai/agents/research'
 import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
-import { research } from '@/.ai/agents/research'
 import hash from 'object-hash'
 
 export const maxDuration = 600

@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
-import { NextResponse } from 'next/server'
 import { list } from '@/sdks/functions.do/src/list'
+import { NextResponse } from 'next/server'
 
 export const GET = API(async (request, { user, url }) => {
   const { system, prompt, model, stream } = Object.fromEntries(request.nextUrl.searchParams)

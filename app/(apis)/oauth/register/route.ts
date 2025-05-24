@@ -1,7 +1,7 @@
+import { auth } from '@/auth'
 import { API } from '@/lib/api'
 import { getPayloadFn } from '@/lib/get-payload-fn'
 import crypto from 'crypto'
-import { auth } from '@/auth'
 
 export const POST = API(async (request, { url }) => {
   const session = await auth()
