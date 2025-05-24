@@ -1,8 +1,7 @@
 import { API } from '@/lib/api'
-import { constructModelIdentifier, filterModels, parse, getModel } from 'language-models'
 import { createOpenAI } from '@ai-sdk/openai'
-import { generateText } from 'ai'
 import camelCase from 'camelcase'
+import { constructModelIdentifier, getModel } from 'language-models'
 
 const openrouter = createOpenAI({
   apiKey: process.env.OPEN_ROUTER_API_KEY,

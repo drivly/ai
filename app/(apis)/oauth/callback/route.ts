@@ -1,8 +1,7 @@
 import { API } from '@/lib/api'
-import { NextResponse } from 'next/server'
 import { getPayloadFn } from '@/lib/get-payload-fn'
-import { auth } from '@/auth'
 import crypto from 'crypto'
+import { NextResponse } from 'next/server'
 
 /**
  * Callback endpoint for OAuth

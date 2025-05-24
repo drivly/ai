@@ -1,10 +1,9 @@
 import { API } from '@/lib/api'
-import { auth } from '@/auth'
 import { NextResponse } from 'next/server.js'
 
 export const GET = API(async (request, { url, params }) => {
   try {
-    const { provider } = await params
+    const { provider } = params
     const nextAuthCallbackUrl = `/api/auth/callback/${provider}${url.search}`
 
     return NextResponse.redirect(new URL(nextAuthCallbackUrl, url.origin))

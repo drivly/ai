@@ -1,6 +1,5 @@
-import { waitUntil } from '@vercel/functions'
 import { API } from '@/lib/api'
-import { Webhook } from 'svix'
+import { waitUntil } from '@vercel/functions'
 
 export const POST = API(async (request, { db, user, origin, url, domain, payload }) => {
   // Get the raw body

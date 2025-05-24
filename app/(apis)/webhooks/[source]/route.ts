@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
-import { getPayload } from 'payload'
 import config from '@payload-config'
+import { getPayload } from 'payload'
 
 export const POST = API(async (request, { db, user, origin, url, domain, params }) => {
   const sourceParam = params.source

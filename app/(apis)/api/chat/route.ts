@@ -3,7 +3,6 @@ import { serverAuth } from '@/hooks/server-auth'
 import { getOrCreateUserApikey } from '@/lib/actions/user.action'
 import { getPayloadFn } from '@/lib/get-payload-fn'
 import { NextRequest } from 'next/server'
-import { Payload } from 'payload'
 
 // Allow streaming responses up to 600 seconds
 export const maxDuration = 600

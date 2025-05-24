@@ -1,7 +1,7 @@
-import { API } from '@/lib/api'
 import { auth } from '@/auth'
-import { getPayload } from 'payload'
+import { API } from '@/lib/api'
 import config from '@payload-config'
+import { getPayload } from 'payload'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   const session = await auth()
