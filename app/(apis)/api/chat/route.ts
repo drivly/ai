@@ -8,10 +8,10 @@ import { Payload } from 'payload'
 // Allow streaming responses up to 600 seconds
 export const maxDuration = 600
 
-export async function getApiKey(headers: Headers, payload: Payload) {
+export async function POST(req: Request) {
   // Get auth info - require either header API key or NextAuth session
   const nextauthUser = await serverAuth()
-  const headerApiKey = headers.get('Authorization')?.split(' ')[1]
+  const headerApiKey = req.headers.get('Authorization')?.split(' ')[1]
 
   if (!headerApiKey && !nextauthUser) {
     console.log('❌ Chat API: Unauthorized - No valid authentication source')
@@ -29,7 +29,8 @@ export async function getApiKey(headers: Headers, payload: Payload) {
   // If we still don't have an API key, check Payload auth
   if (!apiKey) {
     // Get user from payload auth
-    const authResult = await payload.auth({ headers })
+    const payload = await getPayloadFn()
+    const authResult = await payload.auth({ headers: req.headers })
     const user = authResult.user
 
     // If authenticated payload user has an API key, use it
@@ -56,11 +57,6 @@ export async function getApiKey(headers: Headers, payload: Payload) {
 
   // At this point, apiKey should contain our best API key or null if none found
   return apiKey
-}
-
-export async function POST(req: Request) {
-  const payload = await getPayloadFn()
-  const apiKey = await getApiKey(req.headers, payload)
   if (apiKey) {
     const newHeaders = new Headers(req.headers)
     newHeaders.set('Authorization', `Bearer ${apiKey}`)
