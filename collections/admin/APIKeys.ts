@@ -1,8 +1,7 @@
 import { getOrCreateUserApikey } from '@/lib/actions/user.action'
-import { serverAuth } from '@/hooks/server-auth'
+import { sendSlackAlert } from '@/lib/auth/actions/slack.action'
 import { createKey, getKey } from '@/lib/openrouter'
 import type { CollectionConfig, Payload } from 'payload'
-import { sendSlackAlert } from '@/lib/auth/actions/slack.action'
 
 export const APIKeys: CollectionConfig = {
   slug: 'apikeys',
