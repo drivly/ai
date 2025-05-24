@@ -1,7 +1,7 @@
 import { API } from '@/lib/api'
-import { getPayload } from 'payload'
 import config from '@payload-config'
 import { NextResponse } from 'next/server'
+import { getPayload } from 'payload'
 import Stripe from 'stripe'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
