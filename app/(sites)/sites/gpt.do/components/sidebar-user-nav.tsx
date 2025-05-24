@@ -38,7 +38,8 @@ export function SidebarUserNav({ user }: { user: User }) {
             ) : (
               <SidebarMenuButton
                 data-testid='user-nav-button'
-                className='data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 cursor-pointer'>
+                className='data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 cursor-pointer'
+              >
                 <Image src={user?.image ?? `https://avatar.vercel.sh/${user.email}`} alt={user.email ?? 'User Avatar'} width={24} height={24} className='rounded-full' />
                 <span data-testid='user-email' className='truncate'>
                   {isGuest ? 'Guest' : user?.email}
@@ -53,7 +54,8 @@ export function SidebarUserNav({ user }: { user: User }) {
                 href={`${process.env.NEXT_PUBLIC_STRIPE_BUY_CREDITS_URL}${user.email ? '?prefilled_email=' + encodeURIComponent(user.email) : ''}`}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='w-full cursor-pointer'>
+                className='w-full cursor-pointer'
+              >
                 Add Credits
               </Link>
             </DropdownMenuItem>
@@ -80,7 +82,8 @@ export function SidebarUserNav({ user }: { user: User }) {
                       redirectTo: '/',
                     })
                   }
-                }}>
+                }}
+              >
                 {isGuest ? 'Login to your account' : 'Sign out'}
               </button>
             </DropdownMenuItem>
