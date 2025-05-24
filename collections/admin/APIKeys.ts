@@ -89,7 +89,7 @@ export async function getApiKey(headers: Headers, payload: Payload) {
   const headerApiKey = headers.get('Authorization')?.split(' ')[1]
 
   if (!headerApiKey) {
-    console.log('❌ Chat API: Unauthorized - No valid authentication source')
+    console.log('❌ APIKeys: Unauthorized - No valid authentication source')
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
   }
 
