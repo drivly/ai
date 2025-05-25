@@ -1,4 +1,3 @@
-import { getOrCreateUserApikey } from '@/lib/actions/user.action'
 import { sendSlackAlert } from '@/lib/auth/actions/slack.action'
 import { createKey, getKey } from '@/lib/openrouter'
 import type { CollectionConfig, Payload } from 'payload'
@@ -111,14 +110,25 @@ export async function getApiKey(headers: Headers, payload: Payload) {
     // If authenticated user exists but no API key, get or create one
     else if (user) {
       try {
-        const result = await getOrCreateUserApikey({
-          id: user.id,
-          email: user.email || '',
-          name: user.name || user.email || 'API Key',
+        const existingResult = await payload.find({
+          collection: 'apikeys',
+          where: {
+            or: [{ email: { equals: user.email } }, { user: { equals: user.id } }],
+          },
+          select: { apiKey: true },
         })
 
-        if (result) {
-          apiKey = result
+        if (existingResult.docs[0]?.apiKey) apiKey = existingResult.docs[0].apiKey
+        else {
+          const result = await payload.create({
+            collection: 'apikeys',
+            data: {
+              email: user.email,
+              name: user.name,
+              user: user.id,
+            },
+          })
+          apiKey = result.apiKey || null
         }
       } catch (error) {
         console.error('❌ Chat API: Error getting/creating API key:', error)

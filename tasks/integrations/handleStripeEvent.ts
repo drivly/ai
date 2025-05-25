@@ -77,7 +77,7 @@ export const handleStripeEvent = {
         })
       }
     } else {
-      console.log(event.type, JSON.stringify(event.data.object, null, 2))
+      console.log(event.type)
     }
   },
 } as WorkflowConfig<'handleStripeEvent'>
