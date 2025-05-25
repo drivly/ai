@@ -116,6 +116,7 @@ export async function getApiKey(headers: Headers, payload: Payload) {
             or: [{ email: { equals: user.email } }, { user: { equals: user.id } }],
           },
           select: { apiKey: true },
+          limit: 1,
         })
 
         if (existingResult.docs[0]?.apiKey) apiKey = existingResult.docs[0].apiKey
