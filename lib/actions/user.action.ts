@@ -95,6 +95,7 @@ export const getOrCreateUserApikey = async (params: { email: string; name: strin
         or: [{ email: { equals: params.email } }, { user: { equals: params.id } }],
       },
       select: { apiKey: true },
+      limit: 1,
     })
 
     if (existingResult.docs[0]?.apiKey) return existingResult.docs[0].apiKey
