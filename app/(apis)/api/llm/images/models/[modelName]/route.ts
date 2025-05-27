@@ -1,6 +1,6 @@
 // Returns a model's author icon
 import { getModel } from '@/pkgs/language-models'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 const getModelIcon = async (modelName: string): Promise<string> => {
   const model = await getModel(modelName)

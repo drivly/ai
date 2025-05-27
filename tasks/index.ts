@@ -1,54 +1,55 @@
 import { TaskConfig } from 'payload'
 
+import { processBatchAnthropicTask } from './ai/batchAnthropic'
+import { processBatchCloudflareTask } from './ai/batchCloudflare'
+import { processBatchGoogleVertexAITask } from './ai/batchGoogleVertexAI'
+import { processBatchGroqTask } from './ai/batchGroq'
+import { processBatchOpenAITask } from './ai/batchOpenAI'
+import { processBatchParasailTask } from './ai/batchParasail'
+import { createGenerationBatchTask } from './ai/createGenerationBatch'
+import { executeAgentFunctionConfig } from './ai/executeAgentFunction'
 import { executeFunctionTask } from './ai/executeFunction'
+import { executeTextFunction } from './ai/executeTextFunction'
 import { generateCodeTask } from './ai/generateCode'
 import { generateFunctionExamplesTask } from './ai/generateFunctionExamples'
-import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
-import { monitorHumanFeedbackTaskConfig } from './ai/monitorHumanFeedbackTask'
-import { executeAgentFunctionConfig } from './ai/executeAgentFunction'
-import { updateSlackMessageTask } from './ai/updateSlackMessage'
-import { sendResearchResultsToSlackTask } from './ai/sendResearchResultsToSlack'
-import { executeTextFunction } from './ai/executeTextFunction'
 import { generateMarkdown } from './ai/generateMarkdown'
 import { generateObject } from './ai/generateObject'
 import { generateObjectArray } from './ai/generateObjectArray'
 import { generateText } from './ai/generateText'
-import { processBatchOpenAITask } from './ai/batchOpenAI'
-import { processBatchAnthropicTask } from './ai/batchAnthropic'
-import { processBatchGoogleVertexAITask } from './ai/batchGoogleVertexAI'
-import { processBatchParasailTask } from './ai/batchParasail'
-import { processBatchCloudflareTask } from './ai/batchCloudflare'
-import { processBatchGroqTask } from './ai/batchGroq'
-import { createGenerationBatchTask } from './ai/createGenerationBatch'
+import { monitorHumanFeedbackTaskConfig } from './ai/monitorHumanFeedbackTask'
+import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
+import { researchTask } from './ai/researchTask'
+import { sendResearchResultsToSlackTask } from './ai/sendResearchResultsToSlack'
+import { updateSlackMessageTask } from './ai/updateSlackMessage'
 
-import { executeCodeFunctionTask } from './code/executeCodeFunction'
-import { processCodeFunctionWrapperTask } from './code/processCodeFunctionWrapper'
-import { processCodeFunctionTask } from './code/processCodeFunction'
 import { deployWorkerTask } from './code/deployWorker'
+import { executeCodeFunctionTask } from './code/executeCodeFunction'
+import { processCodeFunctionTask } from './code/processCodeFunction'
+import { processCodeFunctionWrapperTask } from './code/processCodeFunctionWrapper'
 
+import { generateEmbeddingTask } from './data/generateEmbeddingTask'
 import { generateResourceEmbedding } from './data/generateResourceEmbedding'
 import { generateThingEmbedding } from './data/generateThingEmbedding'
 import { hybridSearchResources, searchResources } from './data/searchResources'
 import { hybridSearchThings, searchThings } from './data/searchThings'
-import { generateEmbeddingTask } from './data/generateEmbeddingTask'
 
-import { inflectNounsTask } from './language/inflectNouns'
-import { conjugateVerbsTask } from './language/conjugateVerbs'
+import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
+import { deliverWebhookTask } from './integrations/deliverWebhook'
+import { githubFileOperations } from './integrations/githubFileOperations'
+import { handleGithubEvent } from './integrations/handleGithubEvent'
+import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
+import { handleStripeEvent } from './integrations/handleStripeEvent'
+import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
+import { postGithubComment } from './integrations/postGithubComment'
+import { processDomain } from './integrations/processDomain'
+import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
+
 import { analyzeFunctionTask } from './language/analyzeFunction'
+import { conjugateVerbsTask } from './language/conjugateVerbs'
+import { inflectNounsTask } from './language/inflectNouns'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './language/schemaUtils'
 
-import { handleGithubEvent } from './integrations/handleGithubEvent'
-import { deliverWebhookTask } from './integrations/deliverWebhook'
-import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
-import { processDomain } from './integrations/processDomain'
-import { postGithubComment } from './integrations/postGithubComment'
-import { githubFileOperations } from './integrations/githubFileOperations'
 import { saveExecutionResultsTask } from './saveExecutionResults'
-import { researchTask } from './ai/researchTask'
-import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
-import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
-import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
-import { generateVideoTask } from './ai/generateVideo'
 import { checkServiceHealthTask, discoverServicesTask } from './services/index'
 
 const generateResourceEmbeddingTask = {
@@ -150,19 +151,19 @@ export const tasks = [
   discoverServicesTask,
 ]
 
-export const workflows = [handleGithubEvent]
+export const workflows = [handleGithubEvent, handleStripeEvent]
 
 export {
-  parseSchemaToZod,
-  schemaToJsonSchema,
-  validateWithSchema,
-  inflectNounsTask,
   conjugateVerbsTask,
   executeTextFunction,
   generateMarkdown,
   generateObject,
   generateObjectArray,
   generateText,
-  searchResources,
   hybridSearchResources,
+  inflectNounsTask,
+  parseSchemaToZod,
+  schemaToJsonSchema,
+  searchResources,
+  validateWithSchema,
 }

@@ -1,8 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server.js'
-import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { processHumanFeedbackResponse } from '@/tasks/ai/requestHumanFeedback'
-import { waitUntil } from '@vercel/functions'
+import { NextRequest, NextResponse } from 'next/server.js'
+import { getPayload } from 'payload'
 
 async function verifySlackRequest(request: NextRequest): Promise<boolean> {
   try {

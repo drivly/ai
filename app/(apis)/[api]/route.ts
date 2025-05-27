@@ -1,7 +1,7 @@
-import { API, generateCompletePaginationLinks } from '@/lib/api'
 import { apis } from '@/api.config'
 import { collectionSlugs } from '@/collections/index'
 import { domainsConfig, primaryCollectionSlugs } from '@/domains.config'
+import { API, generateCompletePaginationLinks } from '@/lib/api'
 
 export const GET = API(async (request, { db, user, params, url }) => {
   const { api } = params as { api: string }

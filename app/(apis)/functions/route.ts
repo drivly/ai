@@ -1,6 +1,5 @@
-import { API, generatePaginationLinks, createFunctionsObject, formatUrl } from '@/lib/api'
+import { API, formatUrl } from '@/lib/api'
 import { executeFunction } from '@/tasks/ai/executeFunction'
-import { waitUntil } from '@vercel/functions'
 
 export const GET = API(async (request, { db, user, url, origin, domain }) => {
   const searchParams = request.nextUrl.searchParams

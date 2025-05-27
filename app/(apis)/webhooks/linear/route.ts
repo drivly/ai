@@ -1,5 +1,5 @@
-import { waitUntil } from '@vercel/functions'
 import { API } from '@/lib/api'
+import { waitUntil } from '@vercel/functions'
 import { Webhook } from 'svix'
 
 export const POST = API(async (request, { payload }) => {

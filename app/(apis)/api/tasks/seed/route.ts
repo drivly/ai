@@ -1,6 +1,4 @@
 import { API } from '@/lib/api'
-import config from '@/payload.config'
-import { getPayload } from 'payload'
 import { seedDatabase } from '@/scripts/seedDatabase'
 import fs from 'fs/promises'
 import path from 'path'

@@ -1,5 +1,6 @@
-import { createKey, findKey, getKey } from '@/lib/openrouter'
-import type { BasePayload, CollectionConfig } from 'payload'
+import { sendSlackAlert } from '@/lib/auth/actions/slack.action'
+import { createKey, getKey } from '@/lib/openrouter'
+import type { CollectionConfig, Payload } from 'payload'
 
 export const APIKeys: CollectionConfig = {
   slug: 'apikeys',
@@ -52,14 +53,26 @@ export const APIKeys: CollectionConfig = {
         return args
       },
     ],
+    afterOperation: [
+      async ({ operation, args }) => {
+        if (operation === 'create') {
+          await sendSlackAlert('signups', {
+            Name: args.data.name,
+            Email: args.data.email,
+          })
+        }
+      },
+    ],
   },
   endpoints: [
     {
       path: '/credit',
       method: 'get',
       handler: async ({ headers, payload }) => {
-        const { apiKey } = await getApiKey(headers, payload)
-        if (!apiKey) {
+        const apiKey = await getApiKey(headers, payload)
+        if (apiKey instanceof Response) {
+          return apiKey
+        } else if (!apiKey) {
           return Response.json({ error: 'API key not found' }, { status: 404 })
         }
         const usage = await getKey(apiKey)
@@ -69,24 +82,61 @@ export const APIKeys: CollectionConfig = {
   ],
 }
 
-export async function getApiKey(headers: Headers, payload: BasePayload) {
-  const token = headers.get('authorization')?.split(' ')[1]
-  if (token?.startsWith('sk-')) {
-    return { apiKey: token }
+export async function getApiKey(headers: Headers, payload: Payload) {
+  // Get auth info - require either header API key or NextAuth session
+  const headerApiKey = headers.get('Authorization')?.split(' ')[1]
+
+  if (!headerApiKey) {
+    console.log('❌ APIKeys: Unauthorized - No valid authentication source')
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
   }
-  const authResult = await payload.auth({ headers })
-  const user = authResult.user
-  let apiKey
-  if (user?.collection === 'apikeys') {
-    apiKey = user.apiKey
-    user.id = typeof user.user === 'string' ? user.user : user.user?.id || ''
-  } else if (user?.id || user?.email) {
-    apiKey = (
-      await payload.find({
-        collection: 'apikeys',
-        where: { or: [{ user: { equals: user?.id } }, { email: { equals: user?.email } }] },
-      })
-    )?.docs?.[0]?.apiKey
+
+  // Initialize API key - check header first, then NextAuth user's apiKey
+  let apiKey: string | null = null
+  if (headerApiKey?.startsWith('sk-')) {
+    apiKey = headerApiKey
   }
-  return { apiKey, user }
+
+  // If we still don't have an API key, check Payload auth
+  if (!apiKey) {
+    // Get user from payload auth
+    const authResult = await payload.auth({ headers })
+    const user = authResult.user
+
+    // If authenticated payload user has an API key, use it
+    if (user?.collection === 'apikeys' && user.apiKey) {
+      apiKey = user.apiKey
+    }
+    // If authenticated user exists but no API key, get or create one
+    else if (user) {
+      try {
+        const existingResult = await payload.find({
+          collection: 'apikeys',
+          where: {
+            or: [{ email: { equals: user.email } }, { user: { equals: user.id } }],
+          },
+          select: { apiKey: true },
+          limit: 1,
+        })
+
+        if (existingResult.docs[0]?.apiKey) apiKey = existingResult.docs[0].apiKey
+        else {
+          const result = await payload.create({
+            collection: 'apikeys',
+            data: {
+              email: user.email,
+              name: user.name,
+              user: user.id,
+            },
+          })
+          apiKey = result.apiKey || null
+        }
+      } catch (error) {
+        console.error('❌ Chat API: Error getting/creating API key:', error)
+      }
+    }
+  }
+
+  // At this point, apiKey should contain our best API key or null if none found
+  return apiKey
 }
