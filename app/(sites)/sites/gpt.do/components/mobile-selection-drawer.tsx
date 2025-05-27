@@ -34,7 +34,7 @@ export const MobileSelectionDrawer = ({ title, options, selectedItem, updateOpti
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant='ghost' className={cn('hover:bg-background/80 h-9 flex-1 border-0 bg-transparent px-2 py-1 shadow-none', className)}>
+        <Button variant='ghost' size='sm' className={cn('flex-1 cursor-pointer border-0 bg-transparent shadow-none', className)}>
           <div className='flex items-center gap-1.5'>
             <span className='max-w-[120px] truncate text-sm font-normal'>{selectedItem ? selectedItem.label : placeholder}</span>
           </div>
@@ -59,8 +59,7 @@ export const MobileSelectionDrawer = ({ title, options, selectedItem, updateOpti
                   key={option.label}
                   value={option.label}
                   onSelect={handleSelect}
-                  className='rounded-md py-2 leading-[22px] tracking-wide text-zinc-700 hover:bg-gray-100 hover:text-zinc-900 aria-selected:bg-gray-100 sm:py-1 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 aria-selected:dark:bg-zinc-800'
-                >
+                  className='rounded-md py-2 leading-[22px] tracking-wide text-zinc-700 hover:bg-gray-100 hover:text-zinc-900 aria-selected:bg-gray-100 sm:py-1 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 aria-selected:dark:bg-zinc-800'>
                   <OptionAvatar logoUrl={option.logoUrl} size={16} direction='up' imageIndex={0} label={option.label} className='mr-1' />
                   {option.label}
                   <Check className={cn('ml-auto h-4 w-4', selectedItem?.label === option.label ? 'text-emerald-600 opacity-100 dark:text-emerald-400' : 'opacity-0')} />

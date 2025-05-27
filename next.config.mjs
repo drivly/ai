@@ -43,6 +43,12 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    staleTimes: {
+      dynamic: 60,
+      static: 360,
+    },
+  },
 }
 
 // Configure bundle analyzer to run only when ANALYZE=true

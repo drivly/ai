@@ -5,14 +5,20 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { PlusIcon } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { type ChangeEvent, type KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { type ChangeEvent, Fragment, type KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { setGptdoCookieAction } from '../actions/gpt.action'
 import type { OutputFormatKey } from '../lib/constants'
-import type { SearchOption } from '../lib/types'
+import type { ComposioDataPromise, SearchOption } from '../lib/types'
 import { createModelIdentifierFromParams, parse, resolvePathname } from '../lib/utils'
+import { MobileSelectionBanner } from './mobile-selection-banner'
 import { SidebarToggle } from './sidebar-toggle'
 import { VisibilitySelector, type VisibilityType } from './visibility-selector'
+
+const SearchableOptionContainer = dynamic(() => import('./searchable-option-container').then((mod) => mod.SearchableOptionContainer), {
+  ssr: false,
+})
 
 interface ChatHeaderProps {
   chatId: string
@@ -21,6 +27,7 @@ interface ChatHeaderProps {
   selectedVisibilityType: VisibilityType
   isReadonly: boolean
   modelOptions: SearchOption[]
+  toolsPromise: ComposioDataPromise
   tool: string
   output: OutputFormatKey
   setQueryState: (values: Record<string, any>) => void
@@ -33,6 +40,7 @@ export function ChatHeader({
   selectedVisibilityType,
   isReadonly,
   modelOptions,
+  toolsPromise,
   tool,
   output,
   setQueryState,
@@ -114,42 +122,50 @@ export function ChatHeader({
   const basePath = resolvePathname(pathname)
 
   return (
-    <header className='bg-background sticky top-0 flex items-center gap-2 px-2 py-1.5 md:px-2'>
-      <SidebarToggle />
-      {(!open || isMobile) && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant='outline'
-              className='order-2 ml-auto cursor-pointer px-2 md:order-1 md:ml-0 md:h-fit md:px-2'
-              onClick={() => {
-                router.push(basePath + '/new')
-                router.refresh()
-              }}
-            >
-              <PlusIcon />
-              <span className='md:sr-only'>New Chat</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>New Chat</TooltipContent>
-        </Tooltip>
-      )}
-
-      <Input
-        type='text'
-        value={inputValue}
-        onChange={handleModelChange}
-        onKeyDown={handleKeyDown}
-        placeholder='Enter model with options (e.g. gpt-4o(output:markdown))'
-        className={cn(
-          'order-1 w-full min-w-[100px] transition-all duration-300 md:order-2',
-          shouldDisable && '!border-destructive/50 text-destructive !bg-destructive/10 !ring-destructive/50',
+    <Fragment>
+      <header className='bg-background sticky top-0 flex items-center gap-2 px-2 py-1.5 md:px-2'>
+        <SidebarToggle />
+        {(!open || isMobile) && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant='outline'
+                className='order-2 ml-auto cursor-pointer bg-transparent px-2 hover:bg-gray-100/80 md:order-1 md:ml-0 md:h-fit md:px-2 dark:bg-transparent dark:hover:bg-zinc-800/50'
+                onClick={() => {
+                  router.push(basePath + '/new')
+                  router.refresh()
+                }}>
+                <PlusIcon />
+                <span className='md:sr-only'>New Chat</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>New Chat</TooltipContent>
+          </Tooltip>
         )}
-        style={{ width: `${Math.max(300, (inputValue?.length || 0) * 8)}px`, maxWidth: 'calc(100vw - 200px)' }}
-        spellCheck={false}
-      />
 
-      {!isReadonly && <VisibilitySelector chatId={chatId} selectedVisibilityType={selectedVisibilityType} className='order-1 md:order-3' />}
-    </header>
+        <Input
+          type='text'
+          value={inputValue}
+          onChange={handleModelChange}
+          onKeyDown={handleKeyDown}
+          placeholder='Enter model with options (e.g. gpt-4o(output:markdown))'
+          className={cn(
+            'order-1 w-full min-w-[100px] transition-all duration-300 md:order-2',
+            shouldDisable && '!border-destructive/50 text-destructive !bg-destructive/10 !ring-destructive/50',
+          )}
+          style={{ width: `${Math.max(300, (inputValue?.length || 0) * 8)}px`, maxWidth: 'calc(100vw - 200px)' }}
+          spellCheck={false}
+        />
+
+        {!isReadonly && <VisibilitySelector chatId={chatId} selectedVisibilityType={selectedVisibilityType} className='order-1 md:order-3' />}
+        <SearchableOptionContainer
+          className={cn('ml-auto hidden flex-row items-center md:order-4 md:flex', open && 'md:hidden lg:flex')}
+          modelOptions={modelOptions}
+          toolsPromise={toolsPromise}
+          selectedModelOption={selectedModelOption}
+        />
+      </header>
+      <MobileSelectionBanner toolsPromise={toolsPromise} modelOptions={modelOptions} selectedModelOption={selectedModelOption} className={cn(open && 'md:flex lg:hidden')} />
+    </Fragment>
   )
 }

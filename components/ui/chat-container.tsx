@@ -195,7 +195,7 @@ function ChatContainer({ className, children, autoScroll = true, scrollToRef, re
   return (
     <div className={cn('flex flex-col overflow-y-auto', className)} role='log' ref={chatContainerRef} {...props}>
       {children}
-      <div ref={bottomRef} className='h-[1px] w-full flex-shrink-0 scroll-mt-4' aria-hidden='true' />
+      <div ref={bottomRef} className='min-h-[24px] min-w-[24px] flex-shrink-0 scroll-mt-4' aria-hidden='true' />
     </div>
   )
 }
