@@ -20,6 +20,7 @@ import { toast } from 'sonner'
 import { useChatHistory } from '../hooks/use-chat-history'
 import type { Chat } from '../lib/types'
 import { ChatItem } from './sidebar-history-item'
+import { useIsHydrated } from '../hooks/use-is-hydrated'
 
 type GroupedChats = {
   today: Chat[]
@@ -72,6 +73,7 @@ const groupChatsByDate = (chats: Chat[]): GroupedChats => {
 export function SidebarHistory({ user, basePath }: { user: User | undefined; basePath: string }) {
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const isHydrated = useIsHydrated()
   const router = useRouter()
   const { id } = useParams()
 
@@ -104,6 +106,16 @@ export function SidebarHistory({ user, basePath }: { user: User | undefined; bas
       router.push(basePath + '/new')
     }
   }, [deleteId, id, basePath, router, removeChatSession])
+
+  if (!isHydrated) {
+    return (
+      <SidebarGroup>
+        <SidebarGroupContent>
+          <div className='flex w-full flex-row items-center justify-center gap-2 px-2 text-sm text-zinc-500'>Loading...</div>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    )
+  }
 
   if (!user) {
     return (

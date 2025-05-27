@@ -191,3 +191,28 @@ export async function minDelay<T>(promise: Promise<T>, ms: number) {
 export function getSelectedModel(model: string, availableModels: SearchOption[], initialChatModel: SearchOption | null) {
   return availableModels.find((m) => m.value === model) || initialChatModel || null
 }
+
+export function sanitizeText(text: string) {
+  return text.replace('<has_function_call>', '')
+}
+
+
+export const formatToolResult = (result: any) => {
+  try {
+    // If it's already a string, try to parse and re-stringify it
+    if (typeof result === 'string') {
+      try {
+        const parsed = JSON.parse(result)
+        return `\`\`\`json\n${JSON.stringify(parsed, null, 2)}\n\`\`\``
+      } catch {
+        // If it's not valid JSON, return as is in a code block
+        return `\`\`\`\n${result}\n\`\`\``
+      }
+    }
+    // If it's an object, stringify it nicely
+    return `\`\`\`json\n${JSON.stringify(result, null, 2)}\n\`\`\``
+  } catch {
+    // Fallback to string representation
+    return `\`\`\`\n${String(result)}\n\`\`\``
+  }
+}
