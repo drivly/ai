@@ -44,7 +44,7 @@ export const APIKeys: CollectionConfig = {
       async ({ operation, args }) => {
         const data = args.data
         if (operation === 'create') {
-          const key = await createKey({ name: data.name, limit: 1 })
+          const key = await createKey({ name: data.email, limit: 1 })
           data.apiKey = key.key
           data.hash = key.hash
           data.label = key.label
