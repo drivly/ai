@@ -357,6 +357,11 @@ export async function POST(req: Request) {
   }
 
   try {
+    const headers = {
+      'HTTP-Referer': 'http://workflows.do',
+      'X-Title': 'Workflows.do',
+      Authorization: `Bearer ${apiKey}`,
+    }
     if (stream) {
       if (response_format || parsedModel.outputSchema === 'JSON') {
         let generateObjectError: (error: string) => void = () => {}
@@ -366,6 +371,7 @@ export async function POST(req: Request) {
 
         const result = await streamObject({
           ...rest,
+          headers,
           model: llmModel,
           modelOptions,
           system,
@@ -430,6 +436,7 @@ export async function POST(req: Request) {
       } else {
         const result = await streamText({
           ...rest,
+          headers,
           model: llmModel,
           modelOptions,
           system,
@@ -458,6 +465,7 @@ export async function POST(req: Request) {
 
         const result = await generateObject({
           ...rest,
+          headers,
           model: llmModel,
           modelOptions,
           system,
@@ -478,6 +486,7 @@ export async function POST(req: Request) {
       } else {
         let result = await generateText({
           ...rest,
+          headers,
           model: llmModel,
           modelOptions,
           system,
