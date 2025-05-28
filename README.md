@@ -72,8 +72,23 @@ const amy = Agent({
   integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
   triggers: ['onTicketCreated', 'onMessageReceived'],
   searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
-  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
 })
+```
+
+### [Integrations.do](https://integrations.do) Connect External APIs
+
+```ts
+import { integrations } from 'integrations.do'
+
+// View available integrations
+const services = await integrations.list()
+
+// Connect to GitHub using an API token
+const connection = await integrations.connect('github', { type: 'apiKey', apiKey: process.env.GITHUB_TOKEN })
+
+// Later disconnect when no longer needed
+await integrations.deleteConnection(connection.id)
 ```
 
 ### [Humans.do](https://humans.do) Tasks in a Workflow
