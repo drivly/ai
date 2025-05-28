@@ -36,7 +36,7 @@ export const executeFunction = async ({
 }: {
   input: ExecuteFunctionInput
   req: any
-  payload: any
+  payload: Payload
 }): Promise<ExecuteFunctionOutput> => {
   const headers = req?.headers ? Object.fromEntries(req?.headers) : undefined
   // const { payload } = req
