@@ -100,17 +100,9 @@ export async function POST(req: Request) {
     // Swap tool role for assistant role.
     // Tool responses from user tools comes in as tool role, which is not compatible with
     // the AI SDK.
-    // @ts-expect-error - Read above
-    messages = messages.map((message) => {
-      if (message.role === 'tool') {
-        return {
-          ...message,
-          role: 'assistant',
-        }
-      }
-
-      return message
-    })
+    messages = messages.map((message): CoreMessage =>
+      message.role === 'tool' ? { ...message, role: 'assistant' } : message,
+    )
 
     if (!messages) {
       return ErrorResponse('No messages provided')
@@ -121,8 +113,8 @@ export async function POST(req: Request) {
     const fileMessageIndexes: number[] = []
 
     for (const [index, message] of messages.entries()) {
-      // @ts-expect-error - An error is expected because its not the right type, but we're fixing it.
-      if (message.content[0]?.type === 'file' && (message.content[0] as any).file.file_data) {
+      const content = (message as any).content
+      if (Array.isArray(content) && content[0]?.type === 'file' && content[0]?.file?.file_data) {
         fileMessageIndexes.push(index)
       }
     }
@@ -141,13 +133,13 @@ export async function POST(req: Request) {
 
       // Translate the file to the VerceL AI SDK format
       if (fileMessageIndexes.includes(index)) {
+        const fileData = (message as any).content[0].file.file_data as string
         tempMessages.push({
           role: message.role as 'user',
           content: [
             {
               type: 'file',
-              // @ts-expect-error - Read above
-              data: message.content[0].file.file_data,
+              data: fileData,
               mimeType: 'application/pdf',
             },
           ],
@@ -171,8 +163,7 @@ export async function POST(req: Request) {
     },
   })
 
-  // @ts-expect-error - Object is coming from the client
-  const llmModel = llm(model, modelOptions)
+  const llmModel = llm(model, modelOptions as any)
 
   const { parsed: parsedModel, ...modelData } = getModel(model, modelOptions ?? {})
 
@@ -320,13 +311,11 @@ export async function POST(req: Request) {
             ],
           }
 
-          // @ts-expect-error - We're using this for a different type than what it was built for
-          dataStream.write(`data: ${JSON.stringify(openAICompatibleChunk)}\n\n`)
+          ;(dataStream as any).write(`data: ${JSON.stringify(openAICompatibleChunk)}\n\n`)
         }
 
         // Send the stop reason chunk
-        dataStream.write(
-          // @ts-expect-error - We're using this for a different type than what it was built for
+        ;(dataStream as any).write(
           `data: ${JSON.stringify({
             id: `chatcmpl-${Math.random().toString(36).substring(2, 15)}`,
             model,
@@ -379,8 +368,7 @@ export async function POST(req: Request) {
           prompt,
           user: session?.user.email || '',
           schema: parsedModel.outputSchema === 'JSON' ? undefined : jsonSchema(response_format),
-          // @ts-expect-error - Type error to be fixed.
-          output: parsedModel.outputSchema === 'JSON' ? 'no-schema' : undefined,
+          output: parsedModel.outputSchema === 'JSON' ? ('no-schema' as const) : undefined,
           onError({ error }) {
             console.error(error) // your error logging logic here
             generateObjectError(JSON.stringify(error))
@@ -446,8 +434,7 @@ export async function POST(req: Request) {
           maxSteps: 50,
           tools,
           onTool,
-          // @ts-expect-error - onChunk is a valid property, its just not typed yet.
-          onChunk: (chunk) => {
+          onChunk: (chunk: any) => {
             console.log('Chunk', chunk)
           },
         })
@@ -472,15 +459,12 @@ export async function POST(req: Request) {
           messages,
           prompt,
           user: session?.user.email || '',
-          // @ts-expect-error - TODO Fix this.
           schema,
           onTool,
           maxSteps: 10,
         })
 
-        // @ts-expect-error - TS doesnt like us adding random properties to the result.
-        // But this is needed to trick our openAI response API into thinking its text.
-        result.text = JSON.stringify(result.object)
+        ;(result as any).text = JSON.stringify(result.object)
 
         return openAiResponse(result)
       } else {
