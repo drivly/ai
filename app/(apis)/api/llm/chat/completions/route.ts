@@ -100,6 +100,7 @@ export async function POST(req: Request) {
     // Swap tool role for assistant role.
     // Tool responses from user tools comes in as tool role, which is not compatible with
     // the AI SDK.
+    // @ts-expect-error - Read above
     messages = messages.map((message): CoreMessage =>
       message.role === 'tool' ? { ...message, role: 'assistant' } : message,
     )
