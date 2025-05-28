@@ -163,7 +163,7 @@ export async function POST(req: Request) {
     },
   })
 
-  const llmModel = llm(model, modelOptions as any)
+  const llmModel = llm(model, modelOptions as LLMCompatibleRequest)
 
   const { parsed: parsedModel, ...modelData } = getModel(model, modelOptions ?? {})
 
