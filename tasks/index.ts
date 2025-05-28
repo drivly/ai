@@ -21,6 +21,7 @@ import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
 import { researchTask } from './ai/researchTask'
 import { sendResearchResultsToSlackTask } from './ai/sendResearchResultsToSlack'
 import { updateSlackMessageTask } from './ai/updateSlackMessage'
+import { generateVideoTask } from './ai/generateVideo'
 
 import { deployWorkerTask } from './code/deployWorker'
 import { executeCodeFunctionTask } from './code/executeCodeFunction'
@@ -144,7 +145,7 @@ export const tasks = [
   researchTask,
   sendResearchResultsToSlackTask,
   handleLinearWebhookTask,
-  // generateVideoTask, // Add vid
+  generateVideoTask,
   syncTaskToLinearTask,
   deleteLinearIssueTask,
   checkServiceHealthTask,
