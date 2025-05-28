@@ -7,9 +7,37 @@ import { validateWithSchema } from '../language/schemaUtils'
 import { generateMarkdown } from './generateMarkdown'
 import { generateCode } from './generateCode'
 
+interface ExecuteFunctionInput {
+  functionName?: string
+  args?: Record<string, unknown>
+  project?: string
+  schema?: unknown
+  settings?: Record<string, unknown>
+  timeout?: number | null
+  seeds?: number | null
+  callback?: string | null
+  type?: string | null
+  [key: string]: unknown
+}
+
+interface ExecuteFunctionOutput {
+  output: unknown
+  reasoning?: string
+  generationHash?: string
+  cached?: boolean
+}
+
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
-export const executeFunction = async ({ input, req, payload }: any) => {
+export const executeFunction = async ({
+  input,
+  req,
+  payload,
+}: {
+  input: ExecuteFunctionInput
+  req: any
+  payload: any
+}): Promise<ExecuteFunctionOutput> => {
   const headers = req?.headers ? Object.fromEntries(req?.headers) : undefined
   // const { payload } = req
   if (!payload) payload = req?.payload
@@ -46,7 +74,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       console.error('Error analyzing function:', error)
     }
   }
-  const { settings } = input as any
+  const { settings } = input
   const start = Date.now()
 
   // Determine if this is a text-based function (Markdown, Text, TextArray, etc.)
@@ -219,7 +247,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       reasoning = `Agent function execution queued. Task ID: ${task.id}, Agent ID: ${agentId}`
       generationLatency = Date.now() - start
       request = { functionName, agentId, args, settings }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error executing agent function:', error)
 
       // Create error response
@@ -474,5 +502,5 @@ export const executeFunctionTask = {
     { name: 'reasoning', type: 'text' },
     { name: 'generationHash', type: 'text' },
   ],
-  handler: executeFunction as any,
+  handler: executeFunction,
 } as TaskConfig<'executeFunction'>
