@@ -17,23 +17,10 @@ export const handleStripeEvent = {
   handler: async ({ job, req, inlineTask }: { job: RunningJob<'handleStripeEvent'>; req: PayloadRequest; inlineTask: RunInlineTaskFunction }) => {
     const { payload }: { payload: Payload } = req
     const event = job.input.event as unknown as Stripe.Event
-    await inlineTask('createEvent', {
-      task: async () => {
-        return {
-          output: await payload.db.create({
-            collection: 'events',
-            data: {
-              source: 'stripe',
-              type: event.type,
-              metadata: event.data.object,
-            },
-          }),
-        }
-      },
-    })
-
+    let email: string | null | undefined
     if (event.type === 'checkout.session.completed') {
       const { customer_details, amount_total } = event.data.object as Stripe.Checkout.Session
+      email = customer_details?.email
       const {
         docs: [key],
       } = await inlineTask('findKey', {
@@ -79,5 +66,28 @@ export const handleStripeEvent = {
     } else {
       console.log(event.type)
     }
+    await inlineTask('createEvent', {
+      task: async () => {
+        const {
+          type,
+          data: { object: data },
+          ...metadata
+        } = event
+        return {
+          output: await payload.db.create({
+            collection: 'events',
+            data: {
+              source: 'stripe',
+              type,
+              data,
+              metadata: {
+                ...metadata,
+                user: email || '',
+              },
+            },
+          }),
+        }
+      },
+    })
   },
 } as WorkflowConfig<'handleStripeEvent'>
