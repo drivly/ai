@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
-    "build": "rimraf dist && tsc && rimraf dist/models.d.ts && cp src/models.d.ts dist/",
+    "build": "rimraf dist && tsc && rimraf dist/models.d.ts && copyfiles -u 1 src/models.d.ts dist/",
     "generate:models": "npx tsx generate/build-models.ts",
     "clean": "rimraf dist",
     "lint": "tsc --noEmit",
@@ -18,11 +18,12 @@
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "@types/node": "^22.13.10",
+    "copyfiles": "^2.4.1",
+    "eslint-config": "0.1.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.8.2",
-    "vitest": "^3.0.9",
     "tsconfig": "0.0.0",
-    "eslint-config": "0.1.0"
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "@types/node": "^22.13.10",

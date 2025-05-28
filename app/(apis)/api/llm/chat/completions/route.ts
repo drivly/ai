@@ -5,7 +5,7 @@ import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/provid
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { filterModels, getModel } from '@/pkgs/language-models'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { CoreMessage, createDataStreamResponse, jsonSchema, tool } from 'ai'
+import { CoreMessage, createDataStreamResponse, type GenerateObjectResult, type GenerateTextResult, jsonSchema, JSONValue, tool, ToolSet } from 'ai'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
     }
   }
 
-  const { model, prompt, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
+  const { model = process.env.DEFAULT_MODEL || '', prompt, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
 
   // Overwritable variables
   let { response_format, system, messages } = postData as OpenAICompatibleRequest
@@ -243,9 +243,40 @@ export async function POST(req: Request) {
     })
   }
 
-  const openAiResponse = (result: any) => {
+  const openAiResponse = (
+    result: (GenerateTextResult<ToolSet, unknown> | GenerateObjectResult<JSONValue>) & {
+      id?: string
+      provider?: {
+        pricing?: {
+          prompt?: string
+          completion?: string
+          image?: string
+          request?: string
+          inputCacheRead?: string
+          webSearch?: string
+          internalReasoning?: string
+          discount?: number
+        }
+        inputCost?: number
+        outputCost?: number
+      }
+    },
+  ) => {
+    createDataPoint(
+      'llm.usage',
+      {
+        user: session?.user.email || '',
+      },
+      {
+        id: result.id || result.response.id,
+        inputCost: result.provider?.inputCost,
+        outputCost: result.provider?.outputCost,
+        pricing: result.provider?.pricing,
+        usage: result.usage,
+      },
+    )
     const body = {
-      id: result.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
+      id: result.id || result.response.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
       created: Date.now(),
       model,
@@ -254,11 +285,11 @@ export async function POST(req: Request) {
       choices: [
         {
           message: {
-            content: result.text,
+            content: 'text' in result ? result.text : JSON.stringify(result.object),
             role: 'assistant',
-            tool_calls: (result.toolCalls || []).map((toolCall: any) => ({
+            tool_calls: (('toolCalls' in result && result.toolCalls) || []).map((toolCall) => ({
               index: 0,
-              id: toolCall.id,
+              id: ('id' in toolCall && toolCall.id) || toolCall.toolCallId,
               type: 'function',
               function: {
                 name: toolCall.toolName,
@@ -272,9 +303,9 @@ export async function POST(req: Request) {
       ],
       usage: result.usage
         ? {
-            prompt_tokens: result.usage.prompt_tokens,
-            completion_tokens: result.usage.completion_tokens,
-            total_tokens: result.usage.total_tokens,
+            prompt_tokens: ('prompt_tokens' in result.usage && result.usage.prompt_tokens) || result.usage.promptTokens,
+            completion_tokens: ('completion_tokens' in result.usage && result.usage.completion_tokens) || result.usage.completionTokens,
+            total_tokens: ('total_tokens' in result.usage && result.usage.total_tokens) || result.usage.totalTokens,
           }
         : undefined,
     }
@@ -386,6 +417,20 @@ export async function POST(req: Request) {
             generateObjectError(JSON.stringify(error))
           },
           onTool,
+          onFinish: (result) => {
+            if (result.usage) {
+              createDataPoint(
+                'llm.usage',
+                {
+                  user: session?.user.email || '',
+                },
+                {
+                  id: result.response.id,
+                  ...result.usage,
+                },
+              )
+            }
+          },
         })
 
         if (useChat) {
@@ -449,6 +494,20 @@ export async function POST(req: Request) {
           // @ts-expect-error - onChunk is a valid property, its just not typed yet.
           onChunk: (chunk) => {
             console.log('Chunk', chunk)
+          },
+          onStepFinish: (result) => {
+            if (result.usage) {
+              createDataPoint(
+                'llm.usage',
+                {
+                  user: session?.user.email || '',
+                },
+                {
+                  id: result.response.id,
+                  ...result.usage,
+                },
+              )
+            }
           },
         })
 

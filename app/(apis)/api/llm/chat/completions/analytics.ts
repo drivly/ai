@@ -2,7 +2,7 @@ import config from '@/payload.config'
 import { after } from 'next/server'
 import { getPayload } from 'payload'
 
-type EventType = 'llm.tool-use' | 'llm.completion'
+type EventType = 'llm.tool-use' | 'llm.completion' | 'llm.usage'
 
 // Must at least have a user, everything else is optional.
 type Metadata = {
