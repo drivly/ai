@@ -1,14 +1,13 @@
-import { WorkflowConfig } from 'payload'
-import type { Webhooks } from '@octokit/webhooks'
+import { Payload, PayloadRequest, RunningJob, WorkflowConfig } from 'payload'
+import type { WebhookPayloadIssues } from '@octokit/webhooks'
 
 export const handleGithubEvent = {
   retries: 3,
   slug: 'handleGithubEvent',
   label: 'Handle Github Event',
   inputSchema: [{ name: 'payload', type: 'json', required: true }],
-  handler: async ({ job, tasks, req }: any) => {
-    // TODO: Figure out the correct type for Github Webhooks
-    const event = job.input.payload as any
+  handler: async ({ job, req }: { job: RunningJob<'handleGithubEvent'>; req: PayloadRequest }) => {
+    const event = job.input.payload as WebhookPayloadIssues
     const { payload } = req
 
     if (event.action === 'labeled') {
@@ -36,7 +35,7 @@ export const handleGithubEvent = {
 /**
  * Initiates research on a GitHub issue
  */
-async function initiateResearchOnIssue(event: any, payload: any) {
+async function initiateResearchOnIssue(event: WebhookPayloadIssues, payload: Payload) {
   const issue = event.issue
 
   const researchJob = await payload.jobs.queue({
@@ -91,7 +90,7 @@ async function initiateResearchOnIssue(event: any, payload: any) {
   return researchJob
 }
 
-async function createDevinSession(event: any) {
+async function createDevinSession(event: WebhookPayloadIssues) {
   try {
     const issue = event.issue
     if (!issue) {
