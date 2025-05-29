@@ -17,7 +17,7 @@ export const handleStripeEvent = {
   handler: async ({ job, req, inlineTask }: { job: RunningJob<'handleStripeEvent'>; req: PayloadRequest; inlineTask: RunInlineTaskFunction }) => {
     const { payload }: { payload: Payload } = req
     const event = job.input.event as unknown as Stripe.Event
-    let email: string | null | undefined
+    let email: string = ''
     if (event.type === 'checkout.session.completed') {
       const { customer_details, amount_total } = event.data.object as Stripe.Checkout.Session
       email = customer_details?.email
