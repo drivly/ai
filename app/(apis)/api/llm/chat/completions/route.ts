@@ -5,11 +5,12 @@ import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/provid
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { filterModels, getModel } from '@/pkgs/language-models'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { CoreMessage, createDataStreamResponse, jsonSchema, Output, tool } from 'ai'
+import { jsonSchema, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages } from 'ai'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
 import { schemas } from './schemas'
+
 export const maxDuration = 60
 export const dynamic = 'force-dynamic'
 
@@ -36,7 +37,9 @@ export async function POST(req: Request) {
 
   if (apiKey) {
     // Remove the Bearer prefix
-    apiKey = apiKey.split(' ')[1].replace('sk-do-', 'sk-or-')
+    if (apiKey.includes(' ')) {
+      apiKey = apiKey.split(' ')[1].replace('sk-do-', 'sk-or-')
+    }
 
     // Make sure the API key is valid
     const keyMatch = await findKey(apiKey)
@@ -78,23 +81,31 @@ export async function POST(req: Request) {
     }
   }
 
-  const { model, prompt, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
+  const { model, prompt, stream, tools: userTools } = postData as OpenAICompatibleRequest
 
-  // Overwritable variables
-  let { response_format, system, messages } = postData as OpenAICompatibleRequest
+  // Overwritable variables + llm.do superset OpenAI standard
+  let { response_format, system, messages, modelOptions = {}, useChat } = postData as OpenAICompatibleRequest & LLMCompatibleRequest
 
-  // llm.do superset OpenAI standard
-  const { modelOptions, useChat } = postData as LLMCompatibleRequest
+  // TODO: Figure out the message format
 
   if (!prompt && !messages) {
     return ErrorResponse('No prompt or messages provided')
   }
 
+  if (useChat && !stream) {
+    // Return error
+    return ErrorResponse('useChat is only supported when streaming is true')
+  }
+
+  // TODO: Pull from a database for these formats.
+  // This isnt dynamic and will lead to problems down the line as we need to update the code to update the formats.
   system = injectFormatIntoSystem(system || '', (modelOptions?.outputFormat || '').replace('Code:', ''), useChat || false)
 
   // Fix messages to be in the VerceL AI SDK format.
   // Most notibly, we need to fix files coming in as OpenAI compatible
   // and translate it for the user.
+
+  const modelMessages: ModelMessage[] = []
 
   if (messages) {
     // Swap tool role for assistant role.
@@ -116,51 +127,54 @@ export async function POST(req: Request) {
       return ErrorResponse('No messages provided')
     }
 
-    // Check to see if this message is a file, and in the open ai format.
-    // First get the indexes of file messages
-    const fileMessageIndexes: number[] = []
+    // OpenAI files come in as the wrong format.
+    for (const message of (messages as any)) {
+      const fixedMessageContent = []
 
-    for (const [index, message] of messages.entries()) {
-      // @ts-expect-error - An error is expected because its not the right type, but we're fixing it.
-      if (message.content[0]?.type === 'file' && (message.content[0] as any).file.file_data) {
-        fileMessageIndexes.push(index)
+      for (const messageChunks of message.content) {
+        if (messageChunks?.type === 'file' && messageChunks?.file?.file_data) {
+          fixedMessageContent.push({
+            type: 'file',
+            data: messageChunks.file.file_data,
+            mediaType: messageChunks.file.mime_type || messageChunks.file.file_data.split(';')[0].replace('data:', ''),
+            filename: messageChunks.file.filename,
+          })
+        } else {
+          fixedMessageContent.push(messageChunks)
+        }
       }
+
+      modelMessages.push({
+        role: message.role,
+        content: fixedMessageContent
+      })
     }
 
-    let tempMessages: CoreMessage[] = []
-
-    for (const index of Array.from({ length: messages.length }, (_, i) => i)) {
-      const message = messages[index]
-      // const file = message.content[0] as unknown as {
-      //   type: 'file'
-      //   file: {
-      //     filename: string
-      //     file_data: string
-      //   }
-      // }
-
-      // Translate the file to the VerceL AI SDK format
-      if (fileMessageIndexes.includes(index)) {
-        tempMessages.push({
-          role: message.role as 'user',
-          content: [
-            {
-              type: 'file',
-              // @ts-expect-error - Read above
-              data: message.content[0].file.file_data,
-              mimeType: 'application/pdf',
-            },
-          ],
-        })
-      } else {
-        tempMessages.push(message)
-      }
-    }
-
-    messages = tempMessages
+    messages = modelMessages
   }
 
-  console.log(postData)
+  console.log(
+    `Incoming request:`
+  )
+
+  console.dir(
+    postData,
+    { depth: null }
+  )
+
+  // If the user requests tools, force modelOptions.capabilities to include tools
+  const hasTools = [
+    userTools && Object.keys(userTools).length > 0,
+    modelOptions?.tools && modelOptions.tools.length > 0,
+    response_format
+  ]
+
+  if (hasTools.some(x => x)) {
+    modelOptions.capabilities = [
+      ...(modelOptions.capabilities || []),
+      'tools'
+    ]
+  }
 
   const llm = createLLMProvider({
     baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-testing/openrouter',
@@ -175,6 +189,8 @@ export async function POST(req: Request) {
   const llmModel = llm(model, modelOptions)
 
   const { parsed: parsedModel, ...modelData } = getModel(model, modelOptions ?? {})
+
+  console.log(modelData, parsedModel)
 
   if (!modelData.slug) {
     const modelExists = filterModels(model.split('(')[0])
@@ -210,7 +226,7 @@ export async function POST(req: Request) {
       case 'google':
         return convertJSONSchemaToOpenAPISchema(schema)
       default:
-        return schema
+        return alterSchemaForOpenAI(schema)
     }
   }
 
@@ -227,7 +243,7 @@ export async function POST(req: Request) {
       } else {
         const schema = await fetch(`https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${parsedModel.outputSchema}.schema.json`).then((x) => x.json())
 
-        response_format = jsonSchema(fixSchema(schema))
+        response_format = jsonSchema(fixSchema(schema) as any)
       }
     }
   }
@@ -239,11 +255,13 @@ export async function POST(req: Request) {
     tools[toolData.function.name] = tool({
       type: 'function',
       description: toolData.function.description,
-      parameters: jsonSchema(fixSchema(toolData.function.parameters)),
+      parameters: jsonSchema(fixSchema(toolData.function.parameters) as any),
     })
   }
 
   const openAiResponse = (result: any) => {
+    console.log(result)
+
     const body = {
       id: result.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
@@ -265,6 +283,7 @@ export async function POST(req: Request) {
                 arguments: JSON.stringify(toolCall.args),
               },
             })),
+            reasoning: result.reasoning,
           },
           index: 0,
           finish_reason: 'stop',
@@ -293,56 +312,54 @@ export async function POST(req: Request) {
     })
   }
 
-  const openAIStreamableResponse = (textStream: any) => {
-    // We need to replicate this response format:
-    // data: {"id": "chatcmpl-81ac59df-6615-4967-9462-a0d4bcb002dd", "model": "llama3.2-3b-it-q6", "created": 1733773199, "object": "chat.completion.chunk", "choices": [{"index": 0, "delta": {"content": " any"}, "logprobs": null, "finish_reason": null}]}
-    // data: {"id":"gen-1746649993-JcAnN9JWfGSdco3C13ad","provider":"Google AI Studio","model":"google/gemini-2.0-flash-lite-001","object":"chat.completion.chunk","created":1746649993,"choices":[{"index":0,"delta":{"role":"assistant","content":"Okay"},"finish_reason":null,"native_finish_reason":null,"logprobs":null}]}
+  // const openAIStreamableResponse = (textStream: any) => {
+  //   // We need to replicate this response format:
+  //   // data: {"id": "chatcmpl-81ac59df-6615-4967-9462-a0d4bcb002dd", "model": "llama3.2-3b-it-q6", "created": 1733773199, "object": "chat.completion.chunk", "choices": [{"index": 0, "delta": {"content": " any"}, "logprobs": null, "finish_reason": null}]}
+  //   // data: {"id":"gen-1746649993-JcAnN9JWfGSdco3C13ad","provider":"Google AI Studio","model":"google/gemini-2.0-flash-lite-001","object":"chat.completion.chunk","created":1746649993,"choices":[{"index":0,"delta":{"role":"assistant","content":"Okay"},"finish_reason":null,"native_finish_reason":null,"logprobs":null}]}
 
-    return createDataStreamResponse({
-      execute: async (dataStream) => {
-        const id = `chatcmpl-${Math.random().toString(36).substring(2, 15)}`
+  //   return createDataStreamResponse({
+  //     execute: async (dataStream) => {
+  //       const id = `chatcmpl-${Math.random().toString(36).substring(2, 15)}`
 
-        for await (const chunk of textStream) {
-          const openAICompatibleChunk = {
-            id,
-            model,
-            created: Date.now(),
-            object: 'chat.completion.chunk',
-            choices: [
-              {
-                index: 0,
-                delta: {
-                  content: chunk,
-                },
-                logprobs: null,
-                finish_reason: null,
-              },
-            ],
-          }
+  //       for await (const chunk of textStream) {
+  //         const openAICompatibleChunk = {
+  //           id,
+  //           model,
+  //           created: Date.now(),
+  //           object: 'chat.completion.chunk',
+  //           choices: [
+  //             {
+  //               index: 0,
+  //               delta: {
+  //                 content: chunk,
+  //               },
+  //               logprobs: null,
+  //               finish_reason: null,
+  //             },
+  //           ],
+  //         }
 
-          // @ts-expect-error - We're using this for a different type than what it was built for
-          dataStream.write(`data: ${JSON.stringify(openAICompatibleChunk)}\n\n`)
-        }
+  //         // @ts-expect-error - We're using this for a different type than what it was built for
+  //         dataStream.write(`data: ${JSON.stringify(openAICompatibleChunk)}\n\n`)
+  //       }
 
-        // Send the stop reason chunk
-        dataStream.write(
-          // @ts-expect-error - We're using this for a different type than what it was built for
-          `data: ${JSON.stringify({
-            id: `chatcmpl-${Math.random().toString(36).substring(2, 15)}`,
-            model,
-            created: Date.now(),
-            object: 'chat.completion.chunk',
-            choices: [],
-            finish_reason: 'stop',
-          })}\n`,
-        )
-      },
-    })
-  }
+  //       // Send the stop reason chunk
+  //       dataStream.write(
+  //         // @ts-expect-error - We're using this for a different type than what it was built for
+  //         `data: ${JSON.stringify({
+  //           id: `chatcmpl-${Math.random().toString(36).substring(2, 15)}`,
+  //           model,
+  //           created: Date.now(),
+  //           object: 'chat.completion.chunk',
+  //           choices: [],
+  //           finish_reason: 'stop',
+  //         })}\n`,
+  //       )
+  //     },
+  //   })
+  // }
 
   console.log('Using', stream ? 'streaming' : 'non-streaming', 'with', response_format ? 'response_format' : 'no response_format')
-
-  console.log('Using tools', tools)
 
   const onTool = async (tool: string, args: any, result: object) => {
     createDataPoint(
@@ -356,147 +373,156 @@ export async function POST(req: Request) {
     )
   }
 
+  const constructError = (type: string, message: string) => {
+    const error = new Error(message) as Error & { type: string }
+    error.type = type
+    return error
+  }
+
+  const errors = {
+    NO_OBJECT_GENERATED: constructError('NO_OBJECT_GENERATED', 'No object was generated.'),
+    UNKNOWN_ERROR: constructError('UNKNOWN_ERROR', 'An unknown error occurred while processing your request. This has been logged and will be investigated. Please try again later.'),
+  }
+
   try {
-    if (stream) {
-      if (response_format || parsedModel.outputSchema === 'JSON') {
-        let generateObjectError: (error: string) => void = () => {}
-        const generateObjectErrorPromise = new Promise<string | null>((resolve) => {
-          generateObjectError = resolve
-        })
-
-        const result = await streamObject({
-          ...rest,
-          model: llmModel,
-          modelOptions,
-          system,
-          messages,
-          prompt,
-          user: session?.user.email || '',
-          schema: parsedModel.outputSchema === 'JSON' ? undefined : jsonSchema(response_format),
-          // @ts-expect-error - Type error to be fixed.
-          output: parsedModel.outputSchema === 'JSON' ? 'no-schema' : undefined,
-          onError({ error }) {
-            console.error(error) // your error logging logic here
-            generateObjectError(JSON.stringify(error))
+    tools['fetch'] = tool({
+      type: 'function',
+      description: 'Fetch a URL and return the result.',
+      parameters: jsonSchema({
+        type: 'object',
+        properties: {
+          url: {
+            type: 'string',
+            description: 'The URL to fetch.',
           },
-          onTool,
-        })
-
-        if (useChat) {
-          return createDataStreamResponse({
-            execute: async (dataStream) => {
-              const textStream = result.textStream
-
-              // When this promise resolves, it will have an error.
-              // We need to pass this error to the client so it can be displayed.
-              generateObjectErrorPromise.then((error) => {
-                dataStream.write(`0:"${error?.replaceAll('"', '\\"')}"\n`)
-              })
-
-              // Simulate a message id
-              dataStream.write(`f:{"messageId":"msg-${Math.random().toString(36).substring(2, 15)}"}\n`)
-
-              const formatChunk = (chunk: string) => {
-                // Make sure that the chunk can be parsed as JSON
-                return chunk.replaceAll('"', '\\"').replaceAll('\n', '\\n')
-              }
-
-              dataStream.write(`0:"\`\`\`json\\n"\n`)
-
-              for await (const chunk of textStream) {
-                dataStream.write(`0:"${formatChunk(chunk)}"\n`)
-              }
-
-              dataStream.write(`0:"\\n\`\`\`"\n`)
-
-              // // Fixes usagePromise not being exposed via the types
-              // const usage = (result as any).usagePromise.status.value as {
-              //   promptTokens: number
-              //   completionTokens: number
-              //   totalTokens: number
-              // }
-
-              //dataStream.write(`e:{"finishReason":"stop","usage":{"promptTokens":2217,"completionTokens":70},"isContinued":false}\n`)
-              //dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":2367,"completionTokens":89}}\n`)
-            },
-          })
-        } else {
-          const response = result.toTextStreamResponse()
-
-          response.headers.set('Content-Type', 'application/json; charset=utf-8')
-
-          return response
-        }
-      } else {
-        const result = await streamText({
-          ...rest,
-          model: llmModel,
-          modelOptions,
-          system,
-          messages,
-          prompt,
-          user: session?.user.email || '',
-          maxSteps: 50,
-          tools,
-          onTool,
-          // @ts-expect-error - onChunk is a valid property, its just not typed yet.
-          onChunk: (chunk) => {
-            console.log('Chunk', chunk)
-          },
-        })
-
-        // We need to support both streaming and useChat use cases.
-        if (useChat) {
-          return result.toDataStreamResponse()
-        } else {
-          return openAIStreamableResponse(result.textStream)
-        }
+        },
+        additionalProperties: false,
+        required: [ 'url' ]
+      }),
+      execute: async (args: any) => {
+        const url = args.url as string
+        const response = await fetch(url)
+        const text = await response.text()
+        return text
       }
-    } else {
-      if (response_format) {
-        const schema = jsonSchema(response_format)
+    })
 
-        const result = await generateObject({
-          ...rest,
-          model: llmModel,
-          modelOptions,
-          system,
-          messages,
-          prompt,
-          user: session?.user.email || '',
-          // @ts-expect-error - TODO Fix this.
-          schema,
-          onTool,
-          maxSteps: 10,
-        })
+    if (response_format) {
+      // Add this to the system prompt to tell the model to use the tool when done.
+      system = system + `\n\nWhen you are done, you MUST use the jsonOutput tool to indicate to the user that you are done.`
 
-        // @ts-expect-error - TS doesnt like us adding random properties to the result.
-        // But this is needed to trick our openAI response API into thinking its text.
-        result.text = JSON.stringify(result.object)
-
-        return openAiResponse(result)
-      } else {
-        let result = await generateText({
-          ...rest,
-          model: llmModel,
-          modelOptions,
-          system,
-          messages,
-          prompt,
-          user: session?.user.email || '',
-          maxSteps: 10,
-          tools,
-          onTool,
-        })
-
-        const hasJsonTool = !!tools.json
-
-        if (hasJsonTool && !result.toolCalls.length) {
-        }
-
-        return openAiResponse(result)
-      }
+      tools['jsonOutput'] = tool({
+        type: 'function',
+        description: 'Output the result in a JSON format.',
+        parameters: jsonSchema(fixSchema(response_format) as any),
+      })
     }
+
+    // Force using messages over prompt
+
+    if (prompt && !messages) {
+      messages = [
+        {
+          role: 'user',
+          content: prompt
+        }
+      ]
+    }
+
+    const generateSettings = {
+      model: llmModel,
+      system,
+      messages: messages as any, 
+      tools,
+      maxTokens: modelOptions?.maxTokens || undefined,
+      user: session?.user.email || '',
+      stopWhen: [
+        response_format ? hasToolCall('jsonOutput') : undefined,
+        stepCountIs(10)
+      ].filter(x => !!x)
+    }
+
+    let result = await (stream ? streamText : generateText)(generateSettings)
+
+    if (response_format && !stream) {
+
+      let hasObjectBeenGenerated = false
+      let object = {}
+
+      if (result.finishReason === 'tool-calls' && result.toolCalls.length > 0) {
+        // Check if the jsonOutput tool is in the final response
+        for (const toolCall of result.toolCalls) {
+          if (toolCall.toolName === 'jsonOutput') {
+            hasObjectBeenGenerated = true
+
+            object = toolCall.args
+          }
+        }
+      } else {
+        // Recall but force the model to use the tool.
+        const messagesToRetransmit = (JSON.parse((result.request as any).body as string)).messages.map((x: any) => {
+          x.role = 'assistant' // AI SDK is weird?
+          return x
+        })
+
+        // Add the newest message to the history and then resend the request but forcing the jsonOutput tool.
+
+        messagesToRetransmit.push({
+          role: 'assistant',
+          content: result.text
+        })
+
+        messagesToRetransmit.push({
+          role: 'user',
+          content: 'Condense your response into the jsonOutput tool.'
+        })
+
+        result = await generateText({
+          ...generateSettings,
+          messages: messagesToRetransmit as any,
+          toolChoice: {
+            toolName: 'jsonOutput',
+            type: 'tool'
+          }
+        })
+
+        // Check the tool result, if its still empty, something has seriously gone wrong.
+        if (result.toolCalls.length > 0) {
+          for (const toolCall of result.toolCalls) {
+            if (toolCall.toolName === 'jsonOutput') {
+              object = toolCall.args
+            }
+          }
+        }
+      }
+
+      if (!object) {
+        throw errors.NO_OBJECT_GENERATED
+      }
+
+      // @ts-expect-error - We need to overwrite this readonly property.
+      result.text = JSON.stringify(object)
+      // @ts-expect-error - We need to overwrite this readonly property.
+      result.toolCalls = [] // Make sure to clean up the response.
+    }
+
+    if (useChat) {
+      // List all properties of result
+      const r = result as unknown as ReturnType<typeof aiStreamText>
+
+      return r.toUIMessageStreamResponse({
+        sendReasoning: true
+      })
+    }
+
+    if (stream) {
+      const r = result as unknown as ReturnType<typeof aiStreamText>
+
+      return r.toTextStreamResponse()
+    }
+
+    return openAiResponse(result)
+
   } catch (e) {
     console.error(e)
 

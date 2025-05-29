@@ -44,6 +44,8 @@ export interface LLMCompatibleRequest {
     outputFormat?: (typeof outputFormats)[number]
     // JSON Schema, schema.org type, or basic schema supported
     outputSchema?: any
+    capabilities?: string[]
+    maxTokens?: number
   }
 }
 

@@ -5,6 +5,10 @@ import {
   OpenAICompatibleEmbeddingModel,
   ProviderErrorStructure,
 } from '@ai-sdk/openai-compatible'
+import {
+  createOpenAI
+} from '@ai-sdk/openai'
+
 import { EmbeddingModelV1, ImageModelV1, LanguageModelV1, ProviderV1 } from '@ai-sdk/provider'
 import { FetchFunction, loadApiKey, withoutTrailingSlash } from '@ai-sdk/provider-utils'
 import { ParsedModelIdentifier } from '@/pkgs/language-models/src'
@@ -35,7 +39,7 @@ interface LLMProviderConstructorOptions {
     errorToMessage: (error: any) => string
   }
   defaultObjectGenerationMode: 'tool'
-  fetch: (url: string, init: RequestInit) => Promise<Response>
+  fetch: (url: URL | RequestInfo, init: RequestInit | undefined) => Promise<Response>
 }
 
 // TODO: Ask Nathan about the route.
@@ -106,10 +110,26 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
           body: JSON.stringify(newBody),
         })
 
+        console.dir(
+          (await response.clone().json()),
+          { depth: null }
+        )
+
         return response
       },
     }
 
-    return new OpenAICompatibleChatLanguageModel(modelId, (settings ?? {}) as LLMProviderSettings, providerOptions as any)
+    const openai = createOpenAI({
+      baseURL,
+      apiKey,
+      fetch: providerOptions.fetch,
+      headers: getHeaders()
+    })
+
+    const model = openai(modelId)
+
+    return model
+
+    //return new OpenAICompatibleChatLanguageModel(modelId, (settings ?? {}) as LLMProviderSettings, providerOptions as any)
   }
 }

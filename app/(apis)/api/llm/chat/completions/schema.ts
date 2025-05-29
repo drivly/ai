@@ -8,4 +8,6 @@ export function convertIncomingSchema(schema: any) {
     // OpenAI compatible schema.
     return schema.json_schema.schema
   }
+
+  return schema
 }

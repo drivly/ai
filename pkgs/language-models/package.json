@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
     "build": "rimraf dist && tsc && rimraf dist/models.d.ts && cp src/models.d.ts dist/",
-    "generate:models": "npx tsx generate/build-models.ts",
+    "generate:models": "npx tsx generate/build-models.ts && pnpm build",
     "clean": "rimraf dist",
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",

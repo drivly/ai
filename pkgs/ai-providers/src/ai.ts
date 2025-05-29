@@ -18,6 +18,8 @@ import { fetchWebsiteContents, worker, testTool, allTools } from './tools'
 import { convertJSONSchemaToOpenAPISchema } from './providers/google'
 import { alterSchemaForOpenAI } from './providers/openai'
 
+import { createAnthropic } from '@ai-sdk/anthropic'
+
 const camelCaseToScreamingSnakeCase = (str: string) => {
   // When we see a capital letter, we need to prefix it with an underscore and make the whole string uppercase.
   return str
@@ -63,7 +65,7 @@ export type AIToolAuthorizationError = Error & {
   apps: string[]
 }
 
-// Generates a config object from
+// Generates a config object from the options provided.
 export async function resolveConfig(options: GenerateTextOptions) {
   // If options.model is a string, use our llm provider.
   if (typeof options.model === 'string') {
@@ -262,9 +264,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
       for (const toolName in options.tools) {
         options.tools[toolName].parameters.jsonSchema = convertJSONSchemaToOpenAPISchema(options.tools[toolName].parameters.jsonSchema)
       }
-    }
-
-    if (parsedModel.author == 'openai') {
+    } else {
       // For each tool, we need to replace the jsonSchema with a google compatible one.
       for (const toolName in options.tools) {
         options.tools[toolName].parameters.jsonSchema = alterSchemaForOpenAI(options.tools[toolName].parameters.jsonSchema)
