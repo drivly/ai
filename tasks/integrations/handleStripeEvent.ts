@@ -17,10 +17,10 @@ export const handleStripeEvent = {
   handler: async ({ job, req, inlineTask }: { job: RunningJob<'handleStripeEvent'>; req: PayloadRequest; inlineTask: RunInlineTaskFunction }) => {
     const { payload }: { payload: Payload } = req
     const event = job.input.event as unknown as Stripe.Event
-    let email: string = ''
+    let user: string | null | undefined = ''
     if (event.type === 'checkout.session.completed') {
       const { customer_details, amount_total } = event.data.object as Stripe.Checkout.Session
-      email = customer_details?.email
+      if (customer_details?.email) user = customer_details.email
       const {
         docs: [key],
       } = await inlineTask('findKey', {
@@ -30,7 +30,7 @@ export const handleStripeEvent = {
               collection: 'apikeys',
               where: {
                 email: {
-                  equals: customer_details?.email,
+                  equals: user,
                 },
                 hash: {
                   exists: true,
@@ -63,8 +63,10 @@ export const handleStripeEvent = {
           },
         })
       }
-    } else {
-      console.log(event.type)
+    } else if ('billing_details' in event.data.object) {
+      user = (event.data.object as Stripe.Charge).billing_details.email || ''
+    } else if ('email' in event.data.object) {
+      user = (event.data.object as Stripe.Customer).email || ''
     }
     await inlineTask('createEvent', {
       task: async () => {
@@ -82,7 +84,7 @@ export const handleStripeEvent = {
               data,
               metadata: {
                 ...metadata,
-                user: email || '',
+                user,
               },
             },
           }),
