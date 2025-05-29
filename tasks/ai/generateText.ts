@@ -2,7 +2,11 @@
 type GenerateTextInput = {
   functionName: string
   args: any
-  settings?: any
+  settings?: {
+    referer?: string
+    title?: string
+    [key: string]: any
+  }
 }
 
 type GenerateTextOutput = {
@@ -33,13 +37,15 @@ export const generateText = async ({ input, req }: { input: GenerateTextInput; r
   }
 
   const url = process.env.AI_GATEWAY_URL ? process.env.AI_GATEWAY_URL + '/v1/chat/completions' : 'https://openrouter.ai/api/v1/chat/completions'
+  const referer = settings?.referer || process.env.AI_REFERER
+  const title = settings?.title || process.env.AI_TITLE
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.AI_GATEWAY_TOKEN || process.env.OPEN_ROUTER_API_KEY}`,
-      'HTTP-Referer': 'https://functions.do', // TODO: Figure out the proper logic to set/override the app
-      'X-Title': 'Functions.do - Reliable Structured Outputs Without Complexity', // TODO: Figure out a dynamic place for the app title
+      ...(referer ? { 'HTTP-Referer': referer } : {}),
+      ...(title ? { 'X-Title': title } : {}),
     },
     body: JSON.stringify(request),
   })
