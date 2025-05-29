@@ -266,12 +266,12 @@ export async function POST(req: Request) {
       'llm.usage',
       {
         user: session?.user.email || '',
-      },
-      {
-        id: result.id || result.response.id,
         inputCost: result.provider?.inputCost,
         outputCost: result.provider?.outputCost,
         pricing: result.provider?.pricing,
+      },
+      {
+        id: result.id || result.response.id,
         usage: result.usage,
       },
     )
@@ -426,7 +426,7 @@ export async function POST(req: Request) {
                 },
                 {
                   id: result.response.id,
-                  ...result.usage,
+                  usage: result.usage,
                 },
               )
             }
@@ -504,7 +504,7 @@ export async function POST(req: Request) {
                 },
                 {
                   id: result.response.id,
-                  ...result.usage,
+                  usage: result.usage,
                 },
               )
             }
