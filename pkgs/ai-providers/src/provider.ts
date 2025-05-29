@@ -481,11 +481,6 @@ class LLMProvider implements LanguageModelV2 {
 
             const choice = value.choices[0]
 
-            console.log(
-              `Raw chunk:`,
-              choice
-            )
-
             if (choice?.finish_reason != null) {
               finishReason = mapOpenAICompatibleFinishReason(
                 choice.finish_reason,

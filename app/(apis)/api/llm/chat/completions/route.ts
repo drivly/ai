@@ -5,7 +5,7 @@ import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/provid
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { filterModels, getModel } from '@/pkgs/language-models'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { jsonSchema, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages } from 'ai'
+import { jsonSchema, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages, createUIMessageStream } from 'ai'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
@@ -130,6 +130,14 @@ export async function POST(req: Request) {
     // OpenAI files come in as the wrong format.
     for (const message of (messages as any)) {
       const fixedMessageContent = []
+
+      if (typeof message.content === 'string') {
+        modelMessages.push({
+          role: message.role,
+          content: message.content
+        })
+        continue
+      }
 
       for (const messageChunks of message.content) {
         if (messageChunks?.type === 'file' && messageChunks?.file?.file_data) {
@@ -385,27 +393,29 @@ export async function POST(req: Request) {
   }
 
   try {
-    tools['fetch'] = tool({
-      type: 'function',
-      description: 'Fetch a URL and return the result.',
-      parameters: jsonSchema({
-        type: 'object',
-        properties: {
-          url: {
-            type: 'string',
-            description: 'The URL to fetch.',
+    if (modelOptions?.capabilities?.includes('tools')) {
+      tools['fetch'] = tool({
+        type: 'function',
+        description: 'Fetch a URL and return the result.',
+        parameters: jsonSchema({
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'The URL to fetch.',
+            },
           },
-        },
-        additionalProperties: false,
-        required: [ 'url' ]
-      }),
-      execute: async (args: any) => {
-        const url = args.url as string
-        const response = await fetch(url)
-        const text = await response.text()
-        return text
-      }
-    })
+          additionalProperties: false,
+          required: [ 'url' ]
+        }),
+        execute: async (args: any) => {
+          const url = args.url as string
+          const response = await fetch(url)
+          const text = await response.text()
+          return text
+        }
+      })
+    }
 
     if (response_format) {
       // Add this to the system prompt to tell the model to use the tool when done.
@@ -506,13 +516,58 @@ export async function POST(req: Request) {
       result.toolCalls = [] // Make sure to clean up the response.
     }
 
-    if (useChat) {
+    if (useChat || stream) {
       // List all properties of result
       const r = result as unknown as ReturnType<typeof aiStreamText>
 
-      return r.toUIMessageStreamResponse({
-        sendReasoning: true
+      const stream = createUIMessageStream({
+        execute: async (options) => {
+
+          // Send inital headers
+          options.writer.write({
+            type: 'metadata',
+            metadata: {
+              type: 'llm-provider',
+              provider: modelData.provider.name,
+              model: model,
+              modelOptions: JSON.stringify(modelOptions),
+              parsedModel: JSON.stringify(parsedModel),
+              responseFormat: JSON.stringify(response_format),
+              usage: JSON.stringify(result.usage),
+              finishReason: result.finishReason,
+            }
+          })
+
+          const rawStream = r.toUIMessageStream({
+            sendReasoning: true
+          })
+
+          options.writer.merge(rawStream)
+
+          await r.text
+
+          options.writer.write({
+            type: 'metadata',
+            metadata: {
+              type: 'usage',
+              usage: await r.usage
+            }
+          })
+        }
       })
+
+      return createUIMessageStreamResponse({
+        stream
+      })
+
+      // return r.toUIMessageStreamResponse({
+      //   sendReasoning: true,
+      //   sendFinish: true,
+      //   sendSources: true,
+      //   onError(error) {
+      //     return `Error: ${JSON.stringify(error)}`
+      //   },
+      // })
     }
 
     if (stream) {
