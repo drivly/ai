@@ -125,8 +125,8 @@ importers:
         specifier: ^0.6.14
         version: 0.6.31(axios@1.9.0)(react@19.1.0)(tailwindcss@4.1.8)(typescript@5.7.3)
       '@scalar/nextjs-api-reference':
-        specifier: ^0.7.12
-        version: 0.7.17(next@15.3.1(@babel/core@7.27.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react@19.1.0)
+        specifier: ^0.8.3
+        version: 0.8.3(next@15.3.1(@babel/core@7.27.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react@19.1.0)
       '@sentry/nextjs':
         specifier: ^9.11.0
         version: 9.23.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(encoding@0.1.13)(next@15.3.1(@babel/core@7.27.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react@19.1.0)(webpack@5.99.9(esbuild@0.25.5))
@@ -6100,9 +6100,9 @@ packages:
     resolution: {integrity: sha512-Um2cYyNZoA+wCs196d4vnbf3s+xMt9JtH8l7z1fqogxQ8vE4FiZNN1SYpNLjJ8d8V29qsYWm60dDpCA6t+GsBQ==}
     engines: {node: '>=18'}
 
-  '@scalar/core@0.2.16':
-    resolution: {integrity: sha512-PYIsWbaC/0jE61aundn3koUE+m9beOSEgu+fCxB1G31PmoloIQdVcRp6O95uCa89TofPU317u+8SjeIG8NuWpw==}
-    engines: {node: '>=18'}
+  '@scalar/core@0.3.1':
+    resolution: {integrity: sha512-k5TsihZcSdVnqE6JrRFdsvePDTe2RxjE+1wHdcnyFdIPief+ZdPn2fxCTlN0ozLoe08xlY3N9DHzDaneMpX58Q==}
+    engines: {node: '>=20'}
 
   '@scalar/draggable@0.1.11':
     resolution: {integrity: sha512-EQW9N1+mDORhsbjdtCI3XDvmUKsuKw1uf6r3kT1Mm2zQKT+rWwA0ChsAkEN6OG62C0YumMuXpH71h1seAWptxw==}
@@ -6116,9 +6116,9 @@ packages:
     resolution: {integrity: sha512-E8WLCwo0oLUfC22HEK9HPpJqtOb1cotsghIDZ08jG+ZzirogLSeIU9wl4cfIiHShxFZGQqql1bp1hi0FBrCA8w==}
     engines: {node: '>=18'}
 
-  '@scalar/nextjs-api-reference@0.7.17':
-    resolution: {integrity: sha512-dg+42k/V7W9aSiP2XsQPMvz3guVnBHyg3wAwAPDuCF/029fxzXA8axIR+SlvX2k6F2EYBMW0g+HirhBp3H2mZA==}
-    engines: {node: '>=18'}
+  '@scalar/nextjs-api-reference@0.8.3':
+    resolution: {integrity: sha512-w35X96FNKN1HKxBilB+9y5yxafZrOB4c0zTb1kE/tMoKOyszxsCdzWDJ0qjTbm1yCz5iSjYGBoZCmIxsvrf2KQ==}
+    engines: {node: '>=20'}
     peerDependencies:
       next: ^15.2.4
       react: ^19.0.0
@@ -6139,6 +6139,10 @@ packages:
     resolution: {integrity: sha512-O1GwqLpcRc3GKXTbeBZ5E12fXR2ltpqGWk4RfhoN4ebKZsPVknV5at5425G97E1SwMy12BporRvn90k1Z+MruQ==}
     engines: {node: '>=18'}
 
+  '@scalar/openapi-types@0.3.1':
+    resolution: {integrity: sha512-635pb0OIxhhr2yVPwqExOyNh8eo01JLOqXkDvvflHFBaGo7CHvq5sduwriXdplkn2TRNkxdkdy/eNSOMNPVa1A==}
+    engines: {node: '>=20'}
+
   '@scalar/postman-to-openapi@0.2.17':
     resolution: {integrity: sha512-Pjlsle4I6A7UjgY40teLHDef51mv4xQbCj6sHCmiox1/+1bmPfh8ieG2GpeDBzsBbKGiu3gnTseC+r2/UYRtrg==}
     engines: {node: '>=18'}
@@ -6154,6 +6158,10 @@ packages:
   '@scalar/types@0.1.16':
     resolution: {integrity: sha512-v1L96F8Inn27NUw5Xcl0iifw3SOX0R9WBV6GeswR23s8i1SJz7UiLEi8rLOqOB5DiLtC8hDK0kNl4TKn7MNJWQ==}
     engines: {node: '>=18'}
+
+  '@scalar/types@0.2.1':
+    resolution: {integrity: sha512-eXcxuwazLABrnCjpqE4tG+FgiCKyHhKxB4V8Bn4Uj/XCBTemRd+WSzXp0mmpGuBbqz820j5UGrlZ5cWlUWaWWw==}
+    engines: {node: '>=20'}
 
   '@scalar/use-codemirror@0.11.104':
     resolution: {integrity: sha512-BDIi9+IidKcjmcO0DW5Cz44g3+1Bw3FnqdClsSmlxEf/9ClDKixe1yjgBf1u970YsOcvfMBGhRdF3Up//QpzgA==}
@@ -23605,9 +23613,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@scalar/core@0.2.16':
+  '@scalar/core@0.3.1':
     dependencies:
-      '@scalar/types': 0.1.16
+      '@scalar/types': 0.2.1
 
   '@scalar/draggable@0.1.11(typescript@5.7.3)':
     dependencies:
@@ -23632,10 +23640,10 @@ snapshots:
       '@scalar/openapi-parser': 0.10.17
       yaml: 2.8.0
 
-  '@scalar/nextjs-api-reference@0.7.17(next@15.3.1(@babel/core@7.27.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react@19.1.0)':
+  '@scalar/nextjs-api-reference@0.8.3(next@15.3.1(@babel/core@7.27.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react@19.1.0)':
     dependencies:
-      '@scalar/core': 0.2.16
-      '@scalar/types': 0.1.16
+      '@scalar/core': 0.3.1
+      '@scalar/types': 0.2.1
       next: 15.3.1(@babel/core@7.27.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
       react: 19.1.0
 
@@ -23674,6 +23682,10 @@ snapshots:
     dependencies:
       zod: 3.24.1
 
+  '@scalar/openapi-types@0.3.1':
+    dependencies:
+      zod: 3.24.1
+
   '@scalar/postman-to-openapi@0.2.17':
     dependencies:
       '@scalar/oas-utils': 0.2.144
@@ -23691,6 +23703,12 @@ snapshots:
   '@scalar/types@0.1.16':
     dependencies:
       '@scalar/openapi-types': 0.2.3
+      nanoid: 5.1.5
+      zod: 3.24.1
+
+  '@scalar/types@0.2.1':
+    dependencies:
+      '@scalar/openapi-types': 0.3.1
       nanoid: 5.1.5
       zod: 3.24.1
 
