@@ -11,7 +11,7 @@
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
     "build:next:filtered": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144' next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
-    "dev": "pnpm dev:content & cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next dev --turbo",
+    "dev": "pnpm dev:content & cross-env NODE_OPTIONS='--max-old-space-size=6144' next dev --turbo",
     "dev:email": "email dev",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "eval:dev": "evalite watch",
