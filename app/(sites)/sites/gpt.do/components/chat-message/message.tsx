@@ -54,7 +54,7 @@ export const ChatMessage = ({ message, error, isLoading, handleCancel, reload }:
             const key = `message-${message.id}-part-${index}`
 
             if (type === 'reasoning') {
-              return <MessageReasoning key={key} isLoading={isLoading} reasoning={part.reasoning} />
+              return <MessageReasoning key={key} isLoading={isLoading} reasoning={part.text} />
             }
 
             if (type === 'text') {
@@ -104,7 +104,7 @@ export const ChatMessage = ({ message, error, isLoading, handleCancel, reload }:
             }
           })}
 
-          {(!message.parts || message.parts.length === 0) && message.content && <Markdown>{message.content}</Markdown>}
+          {(!message.parts || message.parts.length === 0) && message.parts[0].type == 'text' && <Markdown>{message.parts[0].text}</Markdown>}
 
           {error && <ErrorMessage error={error} onReload={reload} onCancel={handleCancel} />}
         </div>
