@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
 import fetch from 'node-fetch'
+import { describe, expect, it } from 'vitest'
 
 const baseUrl = 'http://localhost:3000'
 

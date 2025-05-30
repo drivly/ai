@@ -3,7 +3,7 @@ import { findKey } from '@/lib/openrouter'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
 import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
-import { filterModels, getModel } from '@/pkgs/language-models'
+import { filterModels, getModel } from '@/pkgs/language-models/src'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
 import { jsonSchema, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages, createUIMessageStream } from 'ai'
 import { createDataPoint } from './analytics'
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     }
   }
 
-  const { model, prompt, stream, tools: userTools } = postData as OpenAICompatibleRequest
+  const { model = process.env.DEFAULT_MODEL || '', prompt, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
 
   // Overwritable variables + llm.do superset OpenAI standard
   let { response_format, system, messages, modelOptions = {}, useChat } = postData as OpenAICompatibleRequest & LLMCompatibleRequest
@@ -268,10 +268,8 @@ export async function POST(req: Request) {
   }
 
   const openAiResponse = (result: any) => {
-    console.log(result)
-
     const body = {
-      id: result.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
+      id: result.id || result.response.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
       created: Date.now(),
       model,
@@ -280,11 +278,11 @@ export async function POST(req: Request) {
       choices: [
         {
           message: {
-            content: result.text,
+            content: 'text' in result ? result.text : JSON.stringify(result.object),
             role: 'assistant',
-            tool_calls: (result.toolCalls || []).map((toolCall: any) => ({
+            tool_calls: (('toolCalls' in result && result.toolCalls) || []).map((toolCall: any) => ({
               index: 0,
-              id: toolCall.id,
+              id: ('id' in toolCall && toolCall.id) || toolCall.toolCallId,
               type: 'function',
               function: {
                 name: toolCall.toolName,
@@ -299,9 +297,9 @@ export async function POST(req: Request) {
       ],
       usage: result.usage
         ? {
-            prompt_tokens: result.usage.prompt_tokens,
-            completion_tokens: result.usage.completion_tokens,
-            total_tokens: result.usage.total_tokens,
+            prompt_tokens: ('prompt_tokens' in result.usage && result.usage.prompt_tokens) || result.usage.promptTokens,
+            completion_tokens: ('completion_tokens' in result.usage && result.usage.completion_tokens) || result.usage.completionTokens,
+            total_tokens: ('total_tokens' in result.usage && result.usage.total_tokens) || result.usage.totalTokens,
           }
         : undefined,
     }
@@ -449,7 +447,22 @@ export async function POST(req: Request) {
       stopWhen: [
         response_format ? hasToolCall('jsonOutput') : undefined,
         stepCountIs(10)
-      ].filter(x => !!x)
+      ].filter(x => !!x),
+      onTool,
+      onFinish: (result: any) => {
+        if (result.usage) {
+          createDataPoint(
+            'llm.usage',
+            {
+              user: session?.user.email || '',
+            },
+            {
+              id: result.response.id,
+              usage: result.usage,
+            },
+          )
+        }
+      },
     }
 
     let result = await (stream ? streamText : generateText)(generateSettings)

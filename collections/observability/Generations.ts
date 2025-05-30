@@ -34,7 +34,10 @@ export const Generations: CollectionConfig = {
         if (typeof id !== 'string' && typeof id !== 'number') {
           return Response.json({ error: 'Generation ID is required' }, { status: 400 })
         }
-        const { apiKey } = await getApiKey(headers, payload)
+        const apiKey = await getApiKey(headers, payload)
+        if (apiKey instanceof Response) {
+          return apiKey
+        }
         if (!apiKey) {
           return Response.json({ error: 'API key not found' }, { status: 401 })
         }

@@ -10,7 +10,11 @@ export function SidebarToggle({ className }: ComponentProps<typeof SidebarTrigge
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button data-testid='sidebar-toggle-button' onClick={toggleSidebar} variant='outline' className='cursor-pointer md:h-fit md:px-2'>
+        <Button
+          data-testid='sidebar-toggle-button'
+          onClick={toggleSidebar}
+          variant='outline'
+          className='cursor-pointer bg-transparent hover:bg-gray-100/80 md:h-fit md:px-2 dark:bg-transparent dark:hover:bg-zinc-800/50'>
           <PanelLeftIcon size={16} />
         </Button>
       </TooltipTrigger>

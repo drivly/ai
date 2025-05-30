@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
-import { Bot } from 'lucide-react'
+import gptAvatar from '@/public/gptAvatar.png'
+import Image from 'next/image'
 
 // 1. Morphing Dots - dots that change size and opacity
 function ThinkingDotsAnimation() {
@@ -80,7 +81,7 @@ export function ThinkingIndicator<T extends keyof typeof thinking>({ type, class
   return (
     <div className={cn('mt-3 flex items-center gap-2 px-4', className)}>
       <div className='bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full'>
-        <Bot className='text-primary h-4 w-4' />
+        <Image src={gptAvatar.src} alt='GPT Avatar' className='size-7 bg-transparent' width={16} height={16} />
       </div>
 
       {thinking[type]}

@@ -9,7 +9,7 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
-      "runtimeArgs": ["--inspect"],
+      "runtimeArgs": ["--inspect", "--trace-deprecation"],
       "skipFiles": ["<node_internals>/**"],
       "serverReadyAction": {
         "action": "debugWithChrome",
@@ -25,7 +25,7 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
-      "runtimeArgs": ["--inspect"],
+      "runtimeArgs": ["--inspect", "--trace-deprecation"],
       "skipFiles": ["<node_internals>/**"],
       "serverReadyAction": {
         "action": "debugWithEdge",
@@ -42,7 +42,7 @@
       "name": "Open inspector with Vitest",
       "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
       "console": "integratedTerminal",
-      "args": ["--inspect=9229", "--no-file-parallelism"]
+      "args": ["--inspect=9229", "--no-file-parallelism", "--trace-deprecation"]
     },
     {
       "name": "Attach to Workers Runtime",

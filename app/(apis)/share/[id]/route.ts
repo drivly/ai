@@ -1,5 +1,5 @@
-import { NextRequest } from 'next/server.js'
 import { API, handleShareRequest } from '@/lib/api'
+import { NextRequest } from 'next/server.js'
 
 export const GET = API(async (req: NextRequest, ctx) => {
   const { id } = ctx.params

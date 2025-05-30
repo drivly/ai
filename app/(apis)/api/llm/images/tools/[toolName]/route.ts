@@ -1,6 +1,5 @@
 // Returns the tool icon for a given tool name
-import { API } from '@/lib/api'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 type ToolIcon = {
   name: string

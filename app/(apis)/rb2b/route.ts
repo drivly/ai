@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server.js'
-import { NextRequest } from 'next/server.js'
+import { NextRequest, NextResponse } from 'next/server.js'
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams

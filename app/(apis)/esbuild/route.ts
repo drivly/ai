@@ -1,7 +1,7 @@
 import { API } from '@/lib/api'
-import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { NextResponse } from 'next/server.js'
+import { getPayload } from 'payload'
 
 /**
  * ESBuild API route

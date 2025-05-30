@@ -4,8 +4,8 @@ import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
 import type { LLMChatCompletionBody } from '@/sdks/llm.do/src'
 import { useChat } from '@ai-sdk/react'
-import type { UIMessage } from 'ai'
-import { useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
+import { ElementRef, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { useChatHistory } from '../hooks/use-chat-history'
 import { useChatVisibility } from '../hooks/use-chat-visibility'
@@ -17,10 +17,13 @@ import { ChatHeader } from './chat-header'
 import { ChatMessage } from './chat-message/message'
 import { ChatOptionsSelector } from './chat-options-selector'
 import { ChatWrapper } from './chat-wrapper'
-import { Greeting } from './greeting'
-import { MobileSelectionBanner } from './mobile-selection-banner'
 import { MultimodalInput } from './multimodal-input'
+import { ThinkingIndicator } from './thinking'
 import type { VisibilityType } from './visibility-selector'
+
+const Greeting = dynamic(() => import('./greeting').then((mod) => mod.Greeting), {
+  ssr: false,
+})
 
 export interface ChatProps {
   id: string
@@ -31,8 +34,8 @@ export interface ChatProps {
 }
 
 export const Chat = ({ id, initialChatModel, initialVisibilityType, availableModels, toolsPromise }: ChatProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<ElementRef<'div'>>(null)
+  const endRef = useRef<ElementRef<'div'>>(null)
   const user = useAuthUser()
   const { chatSessions, getChatSession, updateChatMessages, addChatSession } = useChatHistory()
   const chatSessionCount = Object.keys(chatSessions).length
@@ -81,9 +84,6 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     }
   }, [id, effectiveSelectedModelOption, currentChat, isReadonly, addChatSession])
 
-  const displayMessages: UIMessage[] =
-    status === 'submitted' ? [...messages, { role: 'assistant', content: '', id: 'thinking', experimental_attachments: [], parts: [] }] : messages
-
   return (
     <ChatWrapper chatId={id} selectedModel={effectiveSelectedModelOption} messages={initialMessages}>
       <section className='mx-auto grid w-full'>
@@ -95,40 +95,43 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             selectedVisibilityType={visibilityType}
             isReadonly={isReadonly}
             modelOptions={availableModels}
+            toolsPromise={toolsPromise}
             tool={tool}
             output={output}
             setQueryState={setQueryState}
           />
-          <MobileSelectionBanner toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelOption={effectiveSelectedModelOption} />
-          <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
-            {messages.length === 0 && (
+          <ChatContainer ref={containerRef} className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6'>
+            {messages.length === 0 ? (
               <Greeting
                 title='Welcome to GPT.do'
                 description='Select your model, tool, and output format to get started.'
                 config={<ChatOptionsSelector toolsPromise={toolsPromise} availableModels={availableModels} selectedModelOption={effectiveSelectedModelOption} />}
               />
+            ) : (
+              messages?.map((message, index) => (
+                <ChatMessage
+                  key={message.id}
+                  message={message}
+                  error={index === messages.length - 1 && error ? error : undefined}
+                  reload={reload}
+                  handleCancel={() => setMessages((prev) => prev.slice(0, -1))}
+                  isLoading={status === 'streaming' && messages.length - 1 === index}
+                />
+              ))
             )}
-            {displayMessages?.map((message, index) => (
-              <ChatMessage
-                data-chat-widget='chat-message'
-                key={message.id}
-                message={message}
-                error={index === displayMessages.length - 1 && error ? error : undefined}
-                reload={reload}
-                handleCancel={() => setMessages((prev) => prev.slice(0, -1))}
-              />
-            ))}
+
+            {status === 'submitted' && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
+              <ThinkingIndicator type='cursor' className='mx-auto flex w-full max-w-4xl gap-4 px-4' />
+            )}
           </ChatContainer>
           <MultimodalInput
-            bottomRef={bottomRef}
+            bottomRef={endRef}
             containerRef={containerRef}
             error={error}
             input={input}
             messages={messages}
             status={status}
             selectedModelOption={effectiveSelectedModelOption}
-            modelOptions={availableModels}
-            toolsPromise={toolsPromise}
             append={append}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}

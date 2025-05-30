@@ -1,8 +1,8 @@
 import { API } from '@/lib/api'
-import { getPayload } from 'payload'
+import config from '@/payload.config'
 import { openai } from '@ai-sdk/openai'
 import { embedMany } from 'ai'
-import config from '@/payload.config'
+import { getPayload } from 'payload'
 
 const MODEL = 'text-embedding-3-large'
 const BATCH_SIZE = 100

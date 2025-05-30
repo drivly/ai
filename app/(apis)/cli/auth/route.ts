@@ -1,6 +1,6 @@
-import { NextResponse, NextRequest } from 'next/server.js'
 import { auth } from '@/auth'
 import crypto from 'crypto'
+import { NextRequest, NextResponse } from 'next/server.js'
 
 export async function GET(request: NextRequest) {
   try {
