@@ -75,7 +75,7 @@ export const worker = (options: any) => ({
       tools: options.tools,
       prompt: args.prompt,
       user: options.user,
-      maxSteps: 5, // lower cap for workers
+      //maxSteps: 5, // lower cap for workers
     })
 
     console.log(`[WORKER] Resolved worker in ${Date.now() - start}ms`, response.text.slice(0, 100) + '...')
