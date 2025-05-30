@@ -275,7 +275,7 @@ class LLMProvider implements LanguageModelV2 {
         }
         return data
       }
-    })(modelSlug, modelConfigMixin)
+    })(modelSlug)
 
     // const provider = new OpenAICompatibleChatLanguageModel(modelSlug, {
     //   provider: 'llm-do-internal',

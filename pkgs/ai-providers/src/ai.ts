@@ -7,7 +7,7 @@ import {
   tool,
   type Tool,
   type ToolSet,
-  type LanguageModelV1,
+  type LanguageModel,
 } from 'ai'
 import { model } from './provider'
 import { VercelAIToolSet, Composio, ConnectionRequest } from 'composio-core'
@@ -29,7 +29,7 @@ const camelCaseToScreamingSnakeCase = (str: string) => {
 }
 
 type ProvidersGenerateMixin = {
-  model: (string & {}) | LanguageModelV1
+  model: (string & {}) | LanguageModel
   user?: string
   openrouterApiKey?: string
   modelOptions?: any
@@ -187,9 +187,9 @@ export async function resolveConfig(options: GenerateTextOptions) {
         options.tools[name] = {
           ...tool,
           parameters: {
-            ...tool.parameters,
+            ...(tool.parameters as any),
             jsonSchema: {
-              ...tool.parameters.jsonSchema,
+              ...(tool.parameters as any).jsonSchema,
               additionalProperties: false,
               strict: true,
             },
@@ -262,12 +262,14 @@ export async function resolveConfig(options: GenerateTextOptions) {
     if (parsedModel.author == 'google') {
       // For each tool, we need to replace the jsonSchema with a google compatible one.
       for (const toolName in options.tools) {
-        options.tools[toolName].parameters.jsonSchema = convertJSONSchemaToOpenAPISchema(options.tools[toolName].parameters.jsonSchema)
+        // @ts-expect-error - This property exists, but isnt typed.
+        options.tools[toolName].parameters.jsonSchema = convertJSONSchemaToOpenAPISchema((options.tools[toolName].parameters as any).jsonSchema)
       }
     } else {
       // For each tool, we need to replace the jsonSchema with a google compatible one.
       for (const toolName in options.tools) {
-        options.tools[toolName].parameters.jsonSchema = alterSchemaForOpenAI(options.tools[toolName].parameters.jsonSchema)
+        // @ts-expect-error - This property exists, but isnt typed.
+        options.tools[toolName].parameters.jsonSchema = alterSchemaForOpenAI((options.tools[toolName].parameters as any).jsonSchema)
       }
     }
 
