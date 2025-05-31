@@ -79,7 +79,7 @@ export interface KeyDetails {
 }
 
 export async function getGeneration(id: string | number, apiKey: string): Promise<Generation> {
-  return await api(`generations/${id}`, { headers: { Authorization: `Bearer ${apiKey}` } })
+  return await api(`generations?id=${id}`, { headers: { Authorization: `Bearer ${apiKey}` } })
 }
 
 export interface Generation {
