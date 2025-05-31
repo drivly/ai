@@ -6,18 +6,16 @@ import { useAuthUser } from '@/hooks/use-auth-user'
 import { cn } from '@/lib/utils'
 import gptAvatar from '@/public/gptAvatar.png'
 import type { UseChatHelpers } from '@ai-sdk/react'
-import type { UIMessage } from 'ai'
+import { AnimatePresence, motion } from 'framer-motion'
 import { nanoid } from 'nanoid'
 import { Fragment } from 'react'
 import { formatToolResult, snakeToHumanCase } from '../../lib/utils'
 import { ErrorMessage } from './error-message'
 import { MessageReasoning } from './message-reasoning'
-import { AnimatePresence } from 'framer-motion'
-import { motion } from 'framer-motion'
 
 export interface ChatMessageProps {
-  message: UIMessage
-  error: Error | undefined
+  message: UseChatHelpers['messages'][number]
+  error: UseChatHelpers['error']
   isLoading: boolean
   reload: UseChatHelpers['reload']
   handleCancel: () => void
@@ -37,21 +35,24 @@ export const ChatMessage = ({ message, error, isLoading, handleCancel, reload }:
           className='size-7 bg-transparent font-bold'
         />
         <div className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
-          {message.experimental_attachments?.map((attachment, index) => (
-            <Attachment
-              key={index}
-              id={nanoid()}
-              url={attachment.url}
-              thumbnailUrl={attachment.url}
-              name={attachment.name || ''}
-              type={attachment.contentType?.includes('image') ? 'image' : 'pdf'}
-              size={0}
-              className='mt-3'
-            />
-          ))}
           {message.parts.map((part, index) => {
             const { type } = part
             const key = `message-${message.id}-part-${index}`
+
+            if (type === 'file') {
+              return (
+                <Attachment
+                  key={index}
+                  id={nanoid()}
+                  url={part.url}
+                  thumbnailUrl={part.url}
+                  name={part.filename || ''}
+                  type={part.mediaType?.includes('image') ? 'image' : 'pdf'}
+                  size={0}
+                  className='mt-3'
+                />
+              )
+            }
 
             if (type === 'reasoning') {
               return <MessageReasoning key={key} isLoading={isLoading} reasoning={part.text} />

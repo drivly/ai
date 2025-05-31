@@ -3,13 +3,13 @@ import { FilePreview } from '@/components/ui/file-preview'
 import { PromptInput, PromptInputAction, PromptInputActions, PromptInputTextarea } from '@/components/ui/prompt-input'
 import { ScrollButton } from '@/components/ui/scroll-button'
 import { cn } from '@/lib/utils'
-import type { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
+import type { UseChatHelpers } from '@ai-sdk/react'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useCallback, type ChangeEvent, type RefObject } from 'react'
 import { useChatInputMethods } from '../hooks/use-chat-input-methods'
-import type { SearchOption } from '../lib/types'
 import { useIsHydrated } from '../hooks/use-is-hydrated'
+import type { SearchOption } from '../lib/types'
 
 const PromptSuggestions = dynamic(() => import('./prompt-suggestions').then((mod) => mod.PromptSuggestions), {
   ssr: false,
@@ -18,21 +18,16 @@ const PromptSuggestions = dynamic(() => import('./prompt-suggestions').then((mod
 type MultimodalInputProps = {
   bottomRef: RefObject<HTMLElement | null>
   containerRef: RefObject<HTMLElement | null>
-  error: Error | undefined
+  error: UseChatHelpers['error']
   input: string
-  messages: UIMessage[]
-  status: 'error' | 'submitted' | 'streaming' | 'ready'
+  messages: UseChatHelpers['messages']
+  status: UseChatHelpers['status']
   selectedModelOption: SearchOption | null
-  append: (message: Message | CreateMessage, chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
-  handleInputChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
-  handleSubmit: (
-    event?: {
-      preventDefault?: () => void
-    },
-    chatRequestOptions?: ChatRequestOptions,
-  ) => void
-  setMessages: (messages: Message[] | ((messages: Message[]) => Message[])) => void
-  stop: () => void
+  append: UseChatHelpers['append']
+  handleInputChange: UseChatHelpers['handleInputChange']
+  handleSubmit: UseChatHelpers['handleSubmit']
+  setMessages: UseChatHelpers['setMessages']
+  stop: UseChatHelpers['stop']
 }
 
 export function MultimodalInput({

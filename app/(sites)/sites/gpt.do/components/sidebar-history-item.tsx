@@ -15,19 +15,15 @@ import { useChatVisibility } from '../hooks/use-chat-visibility'
 import type { Chat } from '../lib/types'
 import { CheckCircleFillIcon, GlobeIcon, LockIcon, MoreHorizontalIcon, ShareIcon, TrashIcon } from './icons'
 
-const PureChatItem = ({
-  chat,
-  isActive,
-  onDelete,
-  setOpenMobile,
-  basePath,
-}: {
+interface SidebarHistoryItemProps {
   chat: Chat
   basePath: string
   isActive: boolean
   onDelete: (chatId: string) => void
   setOpenMobile: (open: boolean) => void
-}) => {
+}
+
+const PureChatItem = ({ chat, isActive, onDelete, setOpenMobile, basePath }: SidebarHistoryItemProps) => {
   const { visibilityType, setVisibilityType } = useChatVisibility({
     chatId: chat.id,
     initialVisibilityType: chat.visibility,
@@ -61,8 +57,7 @@ const PureChatItem = ({
                   className='cursor-pointer flex-row justify-between'
                   onClick={() => {
                     setVisibilityType('private')
-                  }}
-                >
+                  }}>
                   <div className='flex flex-row items-center gap-2'>
                     <LockIcon size={12} />
                     <span>Private</span>
@@ -73,8 +68,7 @@ const PureChatItem = ({
                   className='cursor-pointer flex-row justify-between'
                   onClick={() => {
                     setVisibilityType('public')
-                  }}
-                >
+                  }}>
                   <div className='flex flex-row items-center gap-2'>
                     <GlobeIcon />
                     <span>Public</span>

@@ -4,42 +4,28 @@ import { useAuthUser } from '@/hooks/use-auth-user'
 import type { UIMessage } from 'ai'
 import { useLocalStorage } from 'usehooks-ts'
 import { generateTitleFromUserMessage } from '../actions/gpt.action'
-import type { Chat, Chats, Message, Messages, SearchOption } from '../lib/types'
+import type { Chat, Chats, SearchOption } from '../lib/types'
 
 // Helper function to safely extract text from parts
 function getTextFromParts(parts: UIMessage['parts'] | undefined): string {
   if (!parts || parts.length === 0) return ''
 
+  const textContents: string[] = []
   for (const part of parts) {
     // Handle TextUIPart structure
-    if (part.type === 'text' && 'text' in part && part.text) {
-      return part.text
-    }
-
-    if ('content' in part && typeof part.content === 'string') {
-      return part.content
-    }
-
-    if (typeof part === 'string') {
-      return part
+    if (part.type === 'text' && typeof part.text === 'string') {
+      textContents.push(part.text)
     }
   }
 
-  try {
-    if (parts[0]) {
-      return JSON.stringify(parts[0])
-    }
-  } catch (e) {
-    // Silent fail if we can't stringify
-  }
-
-  return ''
+  // Join multiple text parts with a space. Trim any leading/trailing space from the final string.
+  return textContents.join(' ').trim()
 }
 
 /**
  * Generates a title locally from the first user message
  */
-function generateTitleFromMessages(messages: Message[]): string {
+function generateTitleFromMessages(messages: UIMessage[]): string {
   const firstUserMessage = messages.find((m) => m.role === 'user')
   if (!firstUserMessage) {
     return 'New Chat'
@@ -52,7 +38,7 @@ function generateTitleFromMessages(messages: Message[]): string {
 
 export function useChatHistory() {
   const [chatSessions, setChatSessions] = useLocalStorage<Chats>('gpt-do-chats', {})
-  const [messages, setMessages] = useLocalStorage<Messages>('gpt-do-messages', {})
+  const [messages, setMessages] = useLocalStorage<{ [key: string]: UIMessage[] }>('gpt-do-messages', {})
   const user = useAuthUser()
 
   // Add a new chat
@@ -112,13 +98,10 @@ export function useChatHistory() {
 
       if (!messageExists && existingMessages.length > 0) {
         // This is a new message to append
-        const newMessage: Message = {
+        const newMessage: UIMessage = {
           id: uiMessagesOrMessage.id || `${chatId}-${existingMessages.length}`,
-          chatId,
           role: uiMessagesOrMessage.role,
-          parts: uiMessagesOrMessage.parts || (uiMessagesOrMessage.content ? [{ type: 'text', text: uiMessagesOrMessage.content as string }] : []),
-          attachments: uiMessagesOrMessage.experimental_attachments || [],
-          createdAt: uiMessagesOrMessage.createdAt || new Date(),
+          parts: uiMessagesOrMessage.parts,
         }
 
         // Just append the new message
@@ -135,30 +118,19 @@ export function useChatHistory() {
     }
 
     // Process all messages (either full replacement or first message)
-    const formattedMessages: Message[] = uiMessages.map((msg, index) => {
+    const formattedMessages: UIMessage[] = uiMessages.map((msg, index) => {
       // Prioritize using parts if available
       const msgParts = msg.parts || []
 
       // If there are no parts but there is content, create a text part
-      if (msgParts.length === 0 && msg.content) {
-        // Create a TextUIPart from the content
-        return {
-          id: msg.id || `${chatId}-${index}`,
-          chatId,
-          role: msg.role,
-          parts: [{ type: 'text', text: msg.content as string }],
-          attachments: msg.experimental_attachments || [],
-          createdAt: msg.createdAt || new Date(),
-        }
-      }
+      // Removed logic that accessed msg.content as it's not a standard UIMessage property
+      // and causes type errors. UIMessage content should be in msg.parts.
 
       return {
         id: msg.id || `${chatId}-${index}`,
-        chatId,
+        chatId, // This was in the original code, but seems redundant if it's a property of the chat session
         role: msg.role,
-        parts: msgParts,
-        attachments: msg.experimental_attachments || [],
-        createdAt: msg.createdAt || new Date(),
+        parts: msgParts, // Ensure parts are correctly passed through or constructed
       }
     })
 
@@ -198,26 +170,25 @@ export function useChatHistory() {
   }
 
   // Generate title using the AI server action
-  const generateAITitle = async (chatId: string, message: Message) => {
+  const generateAITitle = async (chatId: string, message: UIMessage | undefined) => {
     try {
       // Get the text content from the message parts
-      const textContent = getTextFromParts(message.parts)
+      const textContent = getTextFromParts(message?.parts)
 
       // If no text was extracted, use a fallback
       if (!textContent) {
         console.warn('No text content extracted from message parts for title generation')
-        updateChatTitle(chatId, generateTitleFromMessages([message]))
+        updateChatTitle(chatId, generateTitleFromMessages(message ? [message] : []))
         return
       }
 
       // Construct UIMessage with both content and parts for the server action
       const uiMessage: UIMessage = {
-        id: message.id,
-        role: message.role,
+        id: message?.id,
+        role: message?.role,
         // Include both content and parts to be safe
         content: textContent,
-        parts: message.parts || [],
-        createdAt: message.createdAt,
+        parts: message?.parts || [],
       } as UIMessage
 
       // Call the server action to generate a title
@@ -231,7 +202,7 @@ export function useChatHistory() {
       console.error('Failed to generate AI title:', error)
       // We don't need to do anything on failure as we already have a basic title
       // Still set a basic title as fallback
-      updateChatTitle(chatId, generateTitleFromMessages([message]))
+      updateChatTitle(chatId, generateTitleFromMessages(message ? [message] : []))
     }
   }
 
@@ -262,8 +233,6 @@ export function useChatHistory() {
       // Include both content and parts for compatibility with different components
       content: getTextFromParts(msg.parts),
       parts: msg.parts,
-      experimental_attachments: msg.attachments,
-      createdAt: msg.createdAt,
     }))
 
     // Return in format compatible with previous implementation
