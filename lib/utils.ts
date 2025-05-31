@@ -84,3 +84,38 @@ export function formatFileSize(bytes: number): string {
 export function uniqueArrayByObjectPropertyKey<TData extends object, TKey extends keyof TData>(data: TData[], key: TKey): TData[] {
   return Array.from(new Map(data.map((item) => [item[key], item])).values())
 }
+
+export interface RetryOptions<T> {
+  maxTries?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+  retryOn?: (result: T) => Promise<boolean> | boolean
+  baseWaitTimeMs?: number
+}
+
+export async function retry<T>(
+  fn: () => Promise<T>,
+  { maxTries = 7, retryOn = () => Promise.resolve(false), baseWaitTimeMs = 2000 }: RetryOptions<T> | undefined = {},
+): Promise<T> {
+  for (let attempt = 1; attempt <= maxTries; attempt++) {
+    try {
+      const result = await fn()
+
+      if (await retryOn(result)) {
+        if (attempt === maxTries) {
+          return result
+        }
+        continue
+      }
+
+      if (attempt > 1) console.log(`Error recovered after ${attempt} attempts`)
+      return result
+    } catch (error) {
+      console.error(error)
+
+      if (attempt === maxTries) throw error
+      else await new Promise((res) => setTimeout(res, 2 ** (attempt - 1) * baseWaitTimeMs))
+    }
+  }
+
+  // If we exit the loop without returning, throw an error (this should never happen with the loop setup)
+  throw new Error('Retry loop exited unexpectedly')
+}

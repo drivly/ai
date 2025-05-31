@@ -1,11 +1,25 @@
 import { auth } from '@/auth'
-import { findKey } from '@/lib/openrouter'
+import { findKey, getGeneration } from '@/lib/openrouter'
+import config from '@/payload.config'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
 import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { filterModels, getModel } from '@/pkgs/language-models'
 import type { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { type CoreMessage, createDataStreamResponse, type GenerateObjectResult, type GenerateTextResult, jsonSchema, type JSONValue, tool, type ToolSet } from 'ai'
+import { waitUntil } from '@vercel/functions'
+import {
+  type CoreMessage,
+  createDataStreamResponse,
+  type GenerateObjectResult,
+  type GenerateTextResult,
+  jsonSchema,
+  type JSONValue,
+  type StepResult,
+  type StreamObjectOnFinishCallback,
+  tool,
+  type ToolSet,
+} from 'ai'
+import { getPayload } from 'payload'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
@@ -262,19 +276,7 @@ export async function POST(req: Request) {
       }
     },
   ) => {
-    createDataPoint(
-      'llm.usage',
-      {
-        user: session?.user.email || '',
-        inputCost: result.provider?.inputCost,
-        outputCost: result.provider?.outputCost,
-        pricing: result.provider?.pricing,
-      },
-      {
-        id: result.id || result.response.id,
-        usage: result.usage,
-      },
-    )
+    recordEvent(result, apiKey, session?.user.email || '')
     const body = {
       id: result.id || result.response.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
@@ -418,18 +420,7 @@ export async function POST(req: Request) {
           },
           onTool,
           onFinish: (result) => {
-            if (result.usage) {
-              createDataPoint(
-                'llm.usage',
-                {
-                  user: session?.user.email || '',
-                },
-                {
-                  id: result.response.id,
-                  usage: result.usage,
-                },
-              )
-            }
+            recordEvent(result, apiKey, session?.user.email || '')
           },
         })
 
@@ -495,19 +486,8 @@ export async function POST(req: Request) {
           onChunk: (chunk) => {
             console.log('Chunk', chunk)
           },
-          onStepFinish: (result) => {
-            if (result.usage) {
-              createDataPoint(
-                'llm.usage',
-                {
-                  user: session?.user.email || '',
-                },
-                {
-                  id: result.response.id,
-                  usage: result.usage,
-                },
-              )
-            }
+          onStepFinish: async (result) => {
+            recordEvent(result, apiKey, session?.user.email || '')
           },
         })
 
@@ -596,3 +576,67 @@ export async function POST(req: Request) {
 }
 
 export const GET = POST
+
+function recordEvent(
+  result: (GenerateTextResult<ToolSet, unknown> | GenerateObjectResult<JSONValue> | StepResult<ToolSet> | Parameters<StreamObjectOnFinishCallback<JSONValue>>[0]) & {
+    id?: string
+    provider?: {
+      pricing?: {
+        prompt?: string
+        completion?: string
+        image?: string
+        request?: string
+        inputCacheRead?: string
+        webSearch?: string
+        internalReasoning?: string
+        discount?: number
+      }
+      inputCost?: number
+      outputCost?: number
+    }
+  },
+  apiKey: string,
+  user: string,
+) {
+  waitUntil(
+    Promise.all([getPayload({ config }), getGeneration(result.response.id, apiKey)]).then(([payload, generation]) =>
+      Promise.all([
+        payload.create({
+          collection: 'events',
+          data: {
+            type: 'llm.usage',
+            source: 'llm.do',
+            data: {
+              id: result.id || result.response.id,
+              usage: result.usage,
+            },
+            metadata: {
+              user,
+              inputCost: result.provider?.inputCost,
+              outputCost: result.provider?.outputCost,
+              pricing: result.provider?.pricing,
+            },
+            // Do More Work tenant.
+            tenant: '67eff7d61cb630b09c9de598',
+          },
+        }),
+        payload.create({
+          collection: 'generations',
+          data: {
+            response: generation,
+            // Do More Work tenant.
+            tenant: '67eff7d61cb630b09c9de598',
+          },
+        }),
+      ]).then(([event, generation]) =>
+        payload.update({
+          collection: 'events',
+          id: event.id,
+          data: {
+            generations: [generation.id],
+          },
+        }),
+      ),
+    ),
+  )
+}
