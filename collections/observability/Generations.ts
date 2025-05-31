@@ -1,8 +1,7 @@
 import { getGeneration } from '@/lib/openrouter'
 import { waitUntil } from '@vercel/functions'
-import type { CollectionConfig, Payload } from 'payload'
+import type { CollectionConfig } from 'payload'
 import { getApiKey } from '../admin/APIKeys'
-import { Generation } from '@/payload.types'
 
 export const Generations: CollectionConfig = {
   slug: 'generations',
@@ -56,38 +55,24 @@ export const Generations: CollectionConfig = {
         })
         if (typeof generationDoc?.response === 'string') {
           try {
-            return Response.json(JSON.parse(generationDoc.response))
+            return Response.json(generationDoc.response)
           } catch (error) {
             console.error('Error parsing generation response', error)
           }
         }
-        const generation = await storeGeneration({ id, apiKey, payload })
+        const generation = await getGeneration(id, apiKey)
+        waitUntil(
+          payload.create({
+            collection: 'generations',
+            data: {
+              response: generation,
+              // Do More Work tenant.
+              tenant: '67eff7d61cb630b09c9de598',
+            },
+          }),
+        )
         return Response.json(generation)
       },
     },
   ],
-}
-
-export async function storeGeneration({
-  id,
-  apiKey,
-  payload,
-  data = {},
-}: {
-  id: string | number
-  apiKey: string
-  payload: Payload
-  data?: Omit<Generation, 'createdAt' | 'updatedAt' | 'sizes' | 'id'>
-}) {
-  const generation = await getGeneration(id, apiKey)
-  waitUntil(
-    payload.create({
-      collection: 'generations',
-      data: {
-        response: JSON.stringify(generation),
-        ...data,
-      },
-    }),
-  )
-  return generation
 }
