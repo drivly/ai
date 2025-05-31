@@ -1,6 +1,16 @@
 import {
   OpenAICompatibleChatLanguageModel,
-  OpenAICompatibleChatSettings,
+  OpenAICompatibleChatModelId,
+  createOpenAICompatible,
+} from '@ai-sdk/openai-compatible'
+import type { ProviderOptions } from '@ai-sdk/provider'
+import {
+  type EmbeddingModelV2,
+  type ImageModelV2,
+  type LanguageModelV2,
+  type ProviderV1,
+} from '@ai-sdk/provider'
+import {
   OpenAICompatibleCompletionLanguageModel,
   OpenAICompatibleEmbeddingModel,
   ProviderErrorStructure,
@@ -9,7 +19,6 @@ import {
   createOpenAI
 } from '@ai-sdk/openai'
 
-import { EmbeddingModelV1, ImageModelV1, LanguageModelV1, ProviderV1 } from '@ai-sdk/provider'
 import { FetchFunction, loadApiKey, withoutTrailingSlash } from '@ai-sdk/provider-utils'
 import { ParsedModelIdentifier } from '@/pkgs/language-models/src'
 
@@ -24,7 +33,7 @@ type LLMProviderOptions = {
   headers?: Record<string, string>
 }
 
-type LLMProviderSettings = OpenAICompatibleChatSettings &
+type LLMProviderSettings = OpenAICompatibleChatModelId &
   ParsedModelIdentifier & {
     tools?: string[] | undefined
   }

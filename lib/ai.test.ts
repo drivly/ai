@@ -33,7 +33,7 @@ describe('AI', () => {
           _model: 'gpt-4o',
           _temperature: 0.7,
         },
-      })
+      }) as any
 
       const result = await ai.categorizeProduct({
         name: 'iPhone 15',
@@ -58,7 +58,7 @@ describe('AI', () => {
           languages: ['string'],
           _model: 'gpt-4o',
         },
-      })
+      }) as any
 
       const result = await ai.listLanguages({
         count: 5,
@@ -75,7 +75,7 @@ describe('AI', () => {
         definedFunction: {
           result: 'string',
         },
-      })
+      }) as any
 
       await expect(ai.undefinedFunction({})).rejects.toThrow('Function undefinedFunction not found in AI config')
     })
@@ -93,7 +93,7 @@ describe('AI', () => {
           _model: 'gpt-4o',
           _temperature: 0.5,
         },
-      })
+      }) as any
 
       await ai.testFunction({ input: 'test' })
 
@@ -123,7 +123,7 @@ describe('AI', () => {
           mdast: 'object',
           _model: 'gpt-4o',
         },
-      })
+      }) as any
 
       const result = await ai.generateMarkdown({
         prompt: 'Create a markdown document',
@@ -157,7 +157,7 @@ describe('AI', () => {
           subcategory: 'string',
           _model: 'gpt-4o',
         },
-      })
+      }) as any
 
       const result = await ai.categorizeProduct({
         name: 'iPhone 15',
@@ -182,7 +182,7 @@ describe('AI', () => {
           features: ['string'],
           _model: 'gpt-4o',
         },
-      })
+      }) as any
 
       const result = await ai.getFeatures({
         product: 'Smartphone',
@@ -217,7 +217,7 @@ describe('AI', () => {
           },
           _model: 'gpt-4o',
         },
-      })
+      }) as any
 
       const result = await ai.getProductDetails({
         product: 'iPhone 15',
