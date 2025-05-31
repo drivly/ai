@@ -1,11 +1,14 @@
 import { auth } from '@/auth'
-import { findKey } from '@/lib/openrouter'
+import { findKey, getGeneration } from '@/lib/openrouter'
+import config from '@/payload.config'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
 import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { filterModels, getModel } from '@/pkgs/language-models'
 import type { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
+import { waitUntil } from '@vercel/functions'
 import { type CoreMessage, createDataStreamResponse, type GenerateObjectResult, type GenerateTextResult, jsonSchema, type JSONValue, tool, type ToolSet } from 'ai'
+import { getPayload } from 'payload'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
@@ -275,6 +278,16 @@ export async function POST(req: Request) {
         usage: result.usage,
       },
     )
+    waitUntil(
+      Promise.all([getPayload({ config }), getGeneration(result.id || result.response.id, apiKey)]).then(([payload, generation]) =>
+        payload.create({
+          collection: 'generations',
+          data: {
+            response: JSON.stringify(generation),
+          },
+        }),
+      ),
+    )
     const body = {
       id: result.id || result.response.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
@@ -418,18 +431,16 @@ export async function POST(req: Request) {
           },
           onTool,
           onFinish: (result) => {
-            if (result.usage) {
-              createDataPoint(
-                'llm.usage',
-                {
-                  user: session?.user.email || '',
-                },
-                {
-                  id: result.response.id,
-                  usage: result.usage,
-                },
-              )
-            }
+            waitUntil(
+              Promise.all([getPayload({ config }), getGeneration(result.response.id, apiKey)]).then(([payload, generation]) =>
+                payload.create({
+                  collection: 'generations',
+                  data: {
+                    response: JSON.stringify(generation),
+                  },
+                }),
+              ),
+            )
           },
         })
 
@@ -495,7 +506,7 @@ export async function POST(req: Request) {
           onChunk: (chunk) => {
             console.log('Chunk', chunk)
           },
-          onStepFinish: (result) => {
+          onStepFinish: async (result) => {
             if (result.usage) {
               createDataPoint(
                 'llm.usage',
@@ -508,6 +519,16 @@ export async function POST(req: Request) {
                 },
               )
             }
+            waitUntil(
+              Promise.all([getPayload({ config }), getGeneration(result.response.id, apiKey)]).then(([payload, generation]) =>
+                payload.create({
+                  collection: 'generations',
+                  data: {
+                    response: JSON.stringify(generation),
+                  },
+                }),
+              ),
+            )
           },
         })
 

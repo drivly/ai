@@ -1,6 +1,8 @@
 import { getGeneration } from '@/lib/openrouter'
-import type { CollectionConfig } from 'payload'
+import { waitUntil } from '@vercel/functions'
+import type { CollectionConfig, Payload } from 'payload'
 import { getApiKey } from '../admin/APIKeys'
+import { Generation } from '@/payload.types'
 
 export const Generations: CollectionConfig = {
   slug: 'generations',
@@ -41,13 +43,47 @@ export const Generations: CollectionConfig = {
         if (!apiKey) {
           return Response.json({ error: 'API key not found' }, { status: 401 })
         }
-        const generationDoc = await payload.findByID({ collection: 'generations', id })
-        if (!generationDoc) {
-          return Response.json({ error: 'Generation not found' }, { status: 404 })
+        const {
+          docs: [generationDoc],
+        } = await payload.find({
+          collection: 'generations',
+          where: {
+            response: {
+              contains: id,
+            },
+          },
+          limit: 1,
+        })
+        if (generationDoc) {
+          return Response.json(generationDoc.response)
         }
-        const generation = await getGeneration((generationDoc.response as { id: string })?.id, apiKey)
+        const generation = await storeGeneration({ id, apiKey, payload })
         return Response.json(generation)
       },
     },
   ],
+}
+
+export async function storeGeneration({
+  id,
+  apiKey,
+  payload,
+  data = {},
+}: {
+  id: string | number
+  apiKey: string
+  payload: Payload
+  data?: Omit<Generation, 'createdAt' | 'updatedAt' | 'sizes' | 'id'>
+}) {
+  const generation = await getGeneration(id, apiKey)
+  waitUntil(
+    payload.create({
+      collection: 'generations',
+      data: {
+        response: JSON.stringify(generation),
+        ...data,
+      },
+    }),
+  )
+  return generation
 }
