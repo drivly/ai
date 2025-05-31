@@ -9,7 +9,7 @@ export const GPTDO_COOKIE_MAP = {
   output: GPTDO_OUTPUT_COOKIE,
 } as const
 
-export const DEFAULT_CHAT_MODEL = { label: 'OpenAI: GPT-4.1', value: 'openai/gpt-4.1' }
+export const DEFAULT_CHAT_MODEL = { label: 'OpenAI: GPT-4.1', value: 'openai/gpt-4.1' } as const
 
 // const outputFormats = ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'] as const
 // { value: 'List', label: 'List', description: 'List of items' },
