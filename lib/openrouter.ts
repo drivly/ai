@@ -1,3 +1,5 @@
+import { retry } from './utils'
+
 const headers = {
   Authorization: `Bearer ${process.env.OPENROUTER_PROVISIONING_KEY}`,
 }
@@ -62,8 +64,9 @@ export async function getKey(apiKey: string): Promise<{
 }
 
 async function api(path: string, options: RequestInit = {}) {
-  const res = await fetch(`https://openrouter.ai/api/v1/${path}`, { headers, ...options })
-  const data = await res.json()
+  const data = await retry(() => fetch(`https://openrouter.ai/api/v1/${path}`, { headers, ...options }).then((res) => res.json()), {
+    retryOn: (data) => data.error,
+  })
   return { key: data.key, error: data.error, ...data.data }
 }
 
@@ -79,10 +82,10 @@ export interface KeyDetails {
 }
 
 export async function getGeneration(id: string | number, apiKey: string): Promise<Generation> {
-  return await api(`generations?id=${id}`, { headers: { Authorization: `Bearer ${apiKey}` } })
+  return await api(`generation?id=${id}`, { headers: { Authorization: `Bearer ${apiKey}` } })
 }
 
-export interface Generation {
+export interface Generation extends Record<string, unknown> {
   id: string
   total_cost: number
   created_at: string
