@@ -54,8 +54,12 @@ export const Generations: CollectionConfig = {
           },
           limit: 1,
         })
-        if (generationDoc) {
-          return Response.json(generationDoc.response)
+        if (typeof generationDoc?.response === 'string') {
+          try {
+            return Response.json(JSON.parse(generationDoc.response))
+          } catch (error) {
+            console.error('Error parsing generation response', error)
+          }
         }
         const generation = await storeGeneration({ id, apiKey, payload })
         return Response.json(generation)
