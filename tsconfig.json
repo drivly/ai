@@ -22,6 +22,8 @@
     "paths": {
       "@/*": ["./*"],
       "@payload-config": ["payload.config.ts"],
+      "ai": ["./node_modules/ai"],
+      "ai/*": ["./node_modules/ai/*"]
     },
     "target": "ES2022",
     "typeRoots": ["./node_modules/@types", "./types"] 

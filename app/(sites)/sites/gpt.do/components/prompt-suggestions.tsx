@@ -1,8 +1,8 @@
 import { transition } from '@/components/sites/navbar/animations'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
+import type { UseChatHelpers } from '@ai-sdk/react'
 import { useQuery } from '@tanstack/react-query'
-import type { ChatRequestOptions, CreateMessage, Message } from 'ai'
 import { motion } from 'motion/react'
 import { type ComponentProps, useCallback } from 'react'
 import { getPromptSuggestions } from '../actions/gpt.action'
@@ -11,7 +11,7 @@ import type { SearchOption } from '../lib/types'
 
 interface PromptSuggestionsProps {
   className?: string
-  append: (message: Message | CreateMessage, chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
+  append: UseChatHelpers['append']
   selectedModel?: SearchOption | null
 }
 
@@ -78,7 +78,7 @@ export const PromptSuggestions = ({ className, append, selectedModel }: PromptSu
   const handleSuggestion = useCallback(
     (suggestion: Suggestion) => {
       return append(
-        { role: 'user', content: suggestion.action },
+        { role: 'user', parts: [{ type: 'text', text: suggestion.action }] },
         {
           body: {
             model: selectedModel?.value,
@@ -121,8 +121,7 @@ export const PromptSuggestions = ({ className, append, selectedModel }: PromptSu
                     isLoading && 'cursor-not-allowed opacity-60',
                   )}
                   disabled={isLoading}
-                  onClick={async () => handleSuggestion(suggestion)}
-                >
+                  onClick={async () => handleSuggestion(suggestion)}>
                   <span className='text-sm whitespace-nowrap text-zinc-600 dark:text-zinc-400'>{suggestion.action}</span>
                 </motion.button>
               ))}

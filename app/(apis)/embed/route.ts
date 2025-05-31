@@ -18,6 +18,7 @@ export const POST = API(async (request, { user }) => {
   }
 
   try {
+    // @ts-expect-error - This is for V4 backwards compatibility.
     const embeddingModel = model.textEmbeddingModel(body.model)
 
     let result

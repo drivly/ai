@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { generateText, tool, embed, generateObject } from 'ai'
+import { generateText, tool, embed, generateObject, stepCountIs } from 'ai'
 import { createLLMProvider } from '../src'
 import { getModel } from '@/pkgs/language-models'
 import { z } from 'zod'
@@ -40,25 +40,25 @@ describe('llm.do Chat Completions 💭', () => {
   // Structured outputs
   const outputModels = [
     // 'gemini',
-    // 'gpt-4.1',
-    // 'mistralai/mistral-medium-3',
-    'qwen/qwen3-30b-a3b',
+    'gpt-4.1',
+    'mistralai/mistral-medium-3',
+    'mistralai/devstral-small',
   ]
 
-  it.each(outputModels)('should support structured outputs with %s', async (model) => {
-    const result = await generateObject({
+  it.each(outputModels)('should support structured outputs using %s', async (model) => { 
+    const result = await generateObject({ 
       model: llm(model),
       prompt: 'Fill in the output.',
       schema: z.object({
         randomFieldName1: z.string(),
-      }),
-    })
+      }),      
+    })  
 
     expect(result.object.randomFieldName1).toBeTruthy()
   })
 
   // Tool use with structured outputs
-  it.only.each(outputModels)('should support structured outputs with tools using %s', async (model) => {
+  it.each(outputModels)('should support structured outputs with tools using %s', async (model) => {
     const result = await generateObject({
       model: llm(model, {
         // @ts-expect-error - TODO Fix this.
@@ -113,12 +113,12 @@ describe('llm.do Chat Completions 💭', () => {
   })
 
   // Complex tool tests
-  it('should handle tools with complex parameter schemas', async () => {
+  it.only('should handle tools with complex parameter schemas', async () => {
     let receivedInput = ''
 
     const response = await generateText({
-      model: llm('gemini'),
-      prompt: 'Call the complexTool with a detailed message. Then return the result of the complexTool. You must use the complexTool.' + geminiToolFixPrompt,
+      model: llm('gpt-4.1'),
+      prompt: 'Call the complexTool with the message "HelloWorld". You should take the output from that tool and give it to the validateToolWasCalled tool.' + geminiToolFixPrompt,
       tools: {
         complexTool: tool({
           description: 'A tool that accepts complex parameters',
@@ -129,17 +129,16 @@ describe('llm.do Chat Completions 💭', () => {
                 priority: z.enum(['high', 'medium', 'low']).optional(),
                 tags: z.array(z.string()).optional(),
               })
-              .optional(),
-          }),
+          }), 
           execute: async (params) => {
             // Using type assertion to avoid type errors
             const input = params as { message: string }
             receivedInput = input.message
-            return `Processed: ${input.message}`
+            return input.message
           },
-        }),
+        })
       },
-      maxSteps: 3,
+      stopWhen: stepCountIs(3),
     })
 
     expect(receivedInput).toBeTruthy()

@@ -23,8 +23,8 @@ function camelCaseDeep<T>(input: T): T {
   return input
 }
 
-async function fetchProviders(slug: string) {
-  const url = `https://openrouter.ai/api/frontend/stats/endpoint?permaslug=${slug}`
+async function fetchProviders(slug: string, isThinkingModel: boolean = false) {
+  const url = `https://openrouter.ai/api/frontend/stats/endpoint?permaslug=${slug}${ isThinkingModel ? '&variant=thinking' : '' }`
 
   const response = (await fetch(url).then((res) => res.json())) as { data: any }
 
@@ -155,7 +155,9 @@ async function main() {
 
       console.log(`[PROVIDERS] Fetching provider metadata for ${model.permaslug}...`)
 
-      const providers = await fetchProviders(model.permaslug)
+      const isThinkingModel = model.name.toLowerCase().includes('thinking')
+
+      const providers = await fetchProviders(model.permaslug, isThinkingModel)
       model.providers = providers.map((provider) => {
         const providerName = providerAliases[provider.providerDisplayName] || provider.providerDisplayName
 
@@ -176,8 +178,16 @@ async function main() {
           icon = `https://openrouter.ai${icon}`
         }
 
+        const params = !model.name.toLowerCase().includes('thinking') ? provider.supportedParameters.filter(p => !p.includes('reason')) : provider.supportedParameters
+
+        // Fix OR not adding reasoning as a supported parameter
+        // for reasoning providers.
+        if (isThinkingModel) {
+          params.push('reasoning')
+        }
+
         return {
-          name: provider.providerDisplayName,
+          name: provider.providerName,
           icon,
           slug: camelCase(providerName),
           quantization: provider.quantization,
@@ -186,13 +196,17 @@ async function main() {
           providerModelId: provider.providerModelId,
           pricing: provider.pricing,
           // Disable claude's reasoning parameter as it's only supported via the :thinking tag.
-          supportedParameters: model.slug === 'anthropic/claude-3.7-sonnet' ? ['max_tokens', 'temperature', 'stop', 'tools', 'tool_choice'] : provider.supportedParameters,
+          supportedParameters: params,
           inputCost: priceToDollars(provider.pricing.prompt),
           outputCost: priceToDollars(provider.pricing.completion),
           throughput: provider.stats?.p50Throughput,
           latency: provider.stats?.p50Latency,
         }
       })
+
+      if (model.name.toLowerCase().includes('thinking')) {
+        model.slug = model.slug + ':thinking'
+      }
 
       completed++
       console.log(`[PROVIDERS] ${completed}/${modelsData.length} models completed`)

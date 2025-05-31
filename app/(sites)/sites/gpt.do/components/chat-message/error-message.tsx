@@ -70,8 +70,7 @@ export function ErrorMessage({ onReload, error, onCancel }: ErrorMessageProps) {
             className='mx-auto my-4 w-full'
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-          >
+            transition={{ duration: 0.3, ease: 'easeInOut' }}>
             <AuthCard
               connection={connection}
               onSubmit={(app, values) => {

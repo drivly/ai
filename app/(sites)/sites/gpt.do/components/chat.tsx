@@ -2,10 +2,11 @@
 
 import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
-import type { LLMChatCompletionBody } from '@/sdks/llm.do/src'
-import { useChat } from '@ai-sdk/react'
+import { createChatStore, useChat } from '@ai-sdk/react'
+import type { UIMessage } from 'ai'
+import { TextStreamChatTransport } from 'ai'
 import dynamic from 'next/dynamic'
-import { ElementRef, useEffect, useRef } from 'react'
+import { type ElementRef, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { useChatHistory } from '../hooks/use-chat-history'
 import { useChatVisibility } from '../hooks/use-chat-visibility'
@@ -50,28 +51,41 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const initialMessages = currentChat?.messages ?? []
 
   const { append, error, input, messages, status, handleInputChange, handleSubmit, reload, setMessages, stop } = useChat({
-    id,
-    initialMessages,
-    maxSteps: 3,
-    body: {
-      model: effectiveSelectedModelOption?.value ?? '',
-      modelOptions: {
-        tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
-        outputFormat: output,
+    chatId: id,
+    chatStore: createChatStore({
+      maxSteps: 3,
+      chats: {
+        [id]: {
+          messages: initialMessages as UIMessage[],
+        },
       },
-      system,
-      temperature: temp,
-    } satisfies LLMChatCompletionBody,
+      transport: new TextStreamChatTransport({
+        api: '/api/chat',
+        body: {
+          model: effectiveSelectedModelOption?.value ?? '',
+          modelOptions: {
+            tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
+            outputFormat: output,
+          },
+          system,
+          temperature: temp,
+        },
+      }),
+    }),
     onError: (error) => {
+      console.log('🚀 ~ Chat ~ error:', error)
       toast.error('An error occurred while processing your request. Please try again.')
     },
     onFinish: (response) => {
+      console.log('🚀 ~ Chat ~ response:', response)
       // Save all messages when a response is complete
       if (messages.length > 0 && !isReadonly) {
-        updateChatMessages(id, messages)
+        updateChatMessages(id, messages as UIMessage[])
       }
     },
   })
+
+  console.log('🚀 ~ Chat ~ messages:', messages)
 
   const { visibilityType } = useChatVisibility({
     chatId: id,
@@ -143,3 +157,91 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     </ChatWrapper>
   )
 }
+
+// ------------------------------------------------------------ //
+// id,
+// initialMessages: initialMessages as Message[],
+// maxSteps: 3,
+// body: {
+//   model: effectiveSelectedModelOption?.value ?? '',
+//   modelOptions: {
+//     tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
+//     outputFormat: output,
+//   },
+//   system,
+//   temperature: temp,
+// } satisfies LLMChatCompletionBody,
+
+// onError: (error) => {
+//   console.log('🚀 ~ Chat ~ error:', error)
+//   toast.error('An error occurred while processing your request. Please try again.')
+// },
+// onFinish: (response) => {
+//   console.log('🚀 ~ Chat ~ response:', response)
+//   // Save all messages when a response is complete
+//   if (messages.length > 0 && !isReadonly) {
+//     updateChatMessages(id, messages as UIMessage[])
+//   }
+// },
+
+//   defaultChatStoreOptions({
+//     api: '/api/chat',
+//     chats: {
+//       [id]: {
+//         messages: initialMessages as UIMessage[],
+//       },
+//     },
+//     maxSteps: 3,
+//     body: {
+//       model: effectiveSelectedModelOption?.value ?? '',
+//       modelOptions: {
+//         tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
+//         outputFormat: output,
+//       },
+//       system,
+//       temperature: temp,
+//     },
+//   }),
+//   onError: (error) => {
+//     console.log('🚀 ~ Chat ~ error:', error)
+//     toast.error('An error occurred while processing your request. Please try again.')
+//   },
+//   onFinish: (response) => {
+//     console.log('🚀 ~ Chat ~ response:', response)
+//     // Save all messages when a response is complete
+//     if (messages.length > 0 && !isReadonly) {
+//       updateChatMessages(id, messages as UIMessage[])
+//     }
+//   },
+// })
+// createChatStore({
+//   maxSteps: 3,
+// chats: {
+//   [id]: {
+//     messages: initialMessages as UIMessage[],
+//   },
+// },
+//   transport: new TextStreamChatTransport({
+//     api: '/api/chat',
+//     body: {
+//       model: effectiveSelectedModelOption?.value ?? '',
+//       modelOptions: {
+//         tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
+//         outputFormat: output,
+//       },
+//       system,
+//       temperature: temp,
+//     },
+//   }),
+// }),
+// onError: (error) => {
+//   console.log('🚀 ~ Chat ~ error:', error)
+//   toast.error('An error occurred while processing your request. Please try again.')
+// },
+// onFinish: (response) => {
+//   console.log('🚀 ~ Chat ~ response:', response)
+//   // Save all messages when a response is complete
+//   if (messages.length > 0 && !isReadonly) {
+//     updateChatMessages(id, messages as UIMessage[])
+//   }
+// },

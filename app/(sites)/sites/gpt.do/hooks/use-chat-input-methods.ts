@@ -1,21 +1,16 @@
 import type { AttachmentFile } from '@/components/ui/file-preview'
 import { generateImageThumbnail, handleFileSelection } from '@/lib/file-handlers'
-import type { ChatRequestOptions, Message, UIMessage } from 'ai'
+import type { UseChatHelpers } from '@ai-sdk/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 interface UseChatInputMethodsProps {
-  error: Error | undefined
+  error: UseChatHelpers['error']
   isDisabled: boolean
   isLoading: boolean
-  input: string
-  messages: UIMessage[]
-  handleSubmit: (
-    event?: {
-      preventDefault?: () => void
-    },
-    chatRequestOptions?: ChatRequestOptions,
-  ) => void
-  setMessages: (messages: Message[] | ((messages: Message[]) => Message[])) => void
+  input: UseChatHelpers['input']
+  messages: UseChatHelpers['messages']
+  handleSubmit: UseChatHelpers['handleSubmit']
+  setMessages: UseChatHelpers['setMessages']
 }
 
 export const useChatInputMethods = ({ error, input, isDisabled, isLoading, messages, handleSubmit, setMessages }: UseChatInputMethodsProps) => {
@@ -35,9 +30,7 @@ export const useChatInputMethods = ({ error, input, isDisabled, isLoading, messa
 
     if (error) setMessages(messages.slice(0, -1))
 
-    handleSubmit(undefined, {
-      experimental_attachments: files,
-    })
+    handleSubmit(undefined, { files })
 
     setAttachments([])
     setFiles(undefined)

@@ -274,6 +274,8 @@ export function filterModels(
 } {
   const parsed = parse(modelIdentifier)
 
+  console.log(parsed)
+
   const modelAndProviders = []
 
   let modelsToFilterMixin = modelsToFilter
@@ -300,13 +302,7 @@ export function filterModels(
         return true
       }
 
-      // Return true if we're looking for claude-3.7-sonnet
-      // Fixes the issue where we need :thinking to be supported
-      if (parsed.model === 'claude-3.7-sonnet' && model.slug.includes('claude-3.7-sonnet') && !model.slug.includes('beta')) {
-        return true
-      }
-
-      return model.slug.split('/')[1] === parsed.model
+      return model.slug.split('/')[1].split(':')[0] === parsed.model.split(':')[0] && (parsed.model.includes('thinking') ? model.name.toLowerCase().includes('thinking') : true)
     })
   }
 
@@ -351,6 +347,15 @@ export function filterModels(
   if (parsed.capabilities) {
     filterChain.push(function capabilitiesFilter(model, provider) {
       return Object.entries(parsed?.capabilities || {}).every(([key, value]) => {
+
+        console.log(
+          'Checking capability:',
+          key,
+          value,
+          provider?.supportedParameters,
+          provider?.supportedParameters?.includes(camelCase(key))
+        )
+
         return provider?.supportedParameters?.includes(camelCase(key))
       })
     })
@@ -434,6 +439,15 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
     } else augmentsString.push(`${value}`)
   })
 
+  console.log(
+    'Model ID:',
+    modelIdentifier
+  )
+
+  if (modelIdentifier.includes('thinking')) {
+    augmentsString.push('reasoning')
+  }
+
   if (parentheses) {
     modelIdentifier = modelIdentifier.replace(parentheses[0], `(${parentheses[1]},${augmentsString.filter(Boolean).join(',')})`)
   } else {
@@ -445,6 +459,7 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
   const parsed = parse(modelIdentifier)
 
   const { models } = filterModels(modelIdentifier)
+
   const result = {
     ...models[0],
     parsed: {
@@ -519,3 +534,7 @@ const metaModels = [
     models: ['claude-3.7-sonnet', 'gemini', 'gpt-4o-mini', 'ministral-8b', 'qwq-32b'],
   },
 ]
+
+console.log(
+  getModel('google/gemini-2.5-flash-preview:thinking')
+)
