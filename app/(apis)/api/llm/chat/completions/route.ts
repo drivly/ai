@@ -84,9 +84,14 @@ export async function POST(req: Request) {
   const { model = process.env.DEFAULT_MODEL || '', prompt, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
 
   // Overwritable variables + llm.do superset OpenAI standard
-  let { response_format, system, messages, modelOptions = {}, useChat } = postData as OpenAICompatibleRequest & LLMCompatibleRequest
+  let { response_format, system, messages, modelOptions = {}, useChat, chatId } = postData as OpenAICompatibleRequest & LLMCompatibleRequest
 
   // TODO: Figure out the message format
+
+  if (chatId) {
+    // This is a useChat request so we need to convert it to model messages first
+    messages = convertToModelMessages(messages as any)
+  }
 
   if (!prompt && !messages) {
     return ErrorResponse('No prompt or messages provided')
