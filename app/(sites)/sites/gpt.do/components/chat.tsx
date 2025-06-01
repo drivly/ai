@@ -4,7 +4,7 @@ import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
 import { createChatStore, useChat } from '@ai-sdk/react'
 import type { UIMessage } from 'ai'
-import { TextStreamChatTransport } from 'ai'
+import { TextStreamChatTransport, DefaultChatTransport } from 'ai'
 import dynamic from 'next/dynamic'
 import { type ElementRef, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
@@ -59,7 +59,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
           messages: initialMessages as UIMessage[],
         },
       },
-      transport: new TextStreamChatTransport({
+      transport: new DefaultChatTransport({
         api: '/api/chat',
         body: {
           model: effectiveSelectedModelOption?.value ?? '',

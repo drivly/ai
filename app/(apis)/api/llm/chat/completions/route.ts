@@ -588,11 +588,11 @@ export async function POST(req: Request) {
       // })
     }
 
-    if (stream) {
-      const r = result as unknown as ReturnType<typeof aiStreamText>
+    // if (stream) {
+    //   const r = result as unknown as ReturnType<typeof aiStreamText>
 
-      return r.toTextStreamResponse()
-    }
+    //   return r.toTextStreamResponse()
+    // }
 
     return openAiResponse(result)
 
