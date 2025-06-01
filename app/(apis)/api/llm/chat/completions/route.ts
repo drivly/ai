@@ -1,11 +1,14 @@
 import { auth } from '@/auth'
-import { findKey } from '@/lib/openrouter'
+import { findKey, getGeneration } from '@/lib/openrouter'
+import config from '@/payload.config'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
 import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
+import { waitUntil } from '@vercel/functions'
 import { filterModels, getModel } from '@/pkgs/language-models/src'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
 import { jsonSchema, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages, createUIMessageStream } from 'ai'
+import { getPayload } from 'payload'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
@@ -686,3 +689,67 @@ export async function POST(req: Request) {
 }
 
 export const GET = POST
+
+function recordEvent(
+  result: (GenerateTextResult<ToolSet, unknown> | GenerateObjectResult<JSONValue> | StepResult<ToolSet> | Parameters<StreamObjectOnFinishCallback<JSONValue>>[0]) & {
+    id?: string
+    provider?: {
+      pricing?: {
+        prompt?: string
+        completion?: string
+        image?: string
+        request?: string
+        inputCacheRead?: string
+        webSearch?: string
+        internalReasoning?: string
+        discount?: number
+      }
+      inputCost?: number
+      outputCost?: number
+    }
+  },
+  apiKey: string,
+  user: string,
+) {
+  waitUntil(
+    Promise.all([getPayload({ config }), getGeneration(result.response.id, apiKey)]).then(([payload, generation]) =>
+      Promise.all([
+        payload.create({
+          collection: 'events',
+          data: {
+            type: 'llm.usage',
+            source: 'llm.do',
+            data: {
+              id: result.id || result.response.id,
+              usage: result.usage,
+            },
+            metadata: {
+              user,
+              inputCost: result.provider?.inputCost,
+              outputCost: result.provider?.outputCost,
+              pricing: result.provider?.pricing,
+            },
+            // Do More Work tenant.
+            tenant: '67eff7d61cb630b09c9de598',
+          },
+        }),
+        payload.create({
+          collection: 'generations',
+          data: {
+            response: generation,
+            // Do More Work tenant.
+            tenant: '67eff7d61cb630b09c9de598',
+          },
+        }),
+      ]).then(([event, generation]) =>
+        payload.update({
+          collection: 'events',
+          id: event.id,
+          data: {
+            generations: [generation.id],
+          },
+        }),
+      ),
+    ),
+  )
+}
