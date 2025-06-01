@@ -42,10 +42,6 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const chatSessionCount = Object.keys(chatSessions).length
   const { model, tool, output, q, system, temp, setQueryState } = useCustomQuery()
 
-  console.log(
-    model, tool, output, q, system, temp
-  )
-
   const selectedModelOption = getSelectedModel(model, availableModels, initialChatModel)
   const shouldDefaultModel = selectedModelOption == null && chatSessionCount === 1
   const effectiveSelectedModelOption = shouldDefaultModel ? DEFAULT_CHAT_MODEL : selectedModelOption
@@ -78,7 +74,9 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     }),
     onError: (error) => {
       console.log('🚀 ~ Chat ~ error:', error)
-      toast.error('An error occurred while processing your request. Please try again.')
+      toast.error(
+        error.message || 'An error occurred while processing your request. Please try again.'
+      )
     },
     onFinish: (response) => {
       console.log('🚀 ~ Chat ~ response:', response)

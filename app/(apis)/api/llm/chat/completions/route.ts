@@ -442,6 +442,12 @@ export async function POST(req: Request) {
       ]
     }
 
+    let errorPromiseResolve: (value: unknown) => void
+
+    const errorPromise = new Promise(res => {
+      errorPromiseResolve = res
+    })
+
     const generateSettings = {
       model: llmModel,
       system,
@@ -468,6 +474,11 @@ export async function POST(req: Request) {
           )
         }
       },
+      onError: (error: any) => {
+        errorPromiseResolve(error)
+
+        return error.message
+      }
     }
 
     let result = await (stream ? streamText : generateText)(generateSettings)
@@ -541,8 +552,20 @@ export async function POST(req: Request) {
       // List all properties of result
       const r = result as unknown as ReturnType<typeof aiStreamText>
 
+      let writer: any = null
+
+      const onError = (e: any): string => {
+        if (e.message.includes('This request requires more credits')) {
+          return 'This request requires more credits. Please add more credits to your account, or try a different model.'
+        }
+
+        return 'An unknown error has occurred while processing your request. If this persists, please contact support.'
+      }
+
       const stream = createUIMessageStream({
+        onError,
         execute: async (options) => {
+          writer = options.writer
 
           // Send inital headers
           options.writer.write({
@@ -559,7 +582,8 @@ export async function POST(req: Request) {
           })
 
           const rawStream = r.toUIMessageStream({
-            sendReasoning: true
+            sendReasoning: true,
+            onError
           })
 
           options.writer.merge(rawStream)
@@ -575,32 +599,59 @@ export async function POST(req: Request) {
               data: {
                 ...usage,
                 timeToComplete: Date.now() - startStream,
-                tokensPerSecond: usage?.totalTokens ? usage.totalTokens / ((Date.now() - startStream) / 1000) : undefined
+                tokensPerSecond: usage?.outputTokens ? usage.outputTokens / ((Date.now() - startStream) / 1000) : undefined
               }
             })
           }
         }
       })
 
-      return createUIMessageStreamResponse({
-        stream
+      // We need to do this song and dance because the stream we're given from the AI SDK is not cancellable.
+      // And if an error occurs, the stream isnt stopped, causing the runtime to hang as it thinks the stream is still running.
+      let cancelStream: () => void
+
+      const cancellableStream = new ReadableStream({
+        start: async (controller) => {
+          cancelStream = () => {
+            // Flush first
+            controller.close()
+          }
+
+          const reader = stream.getReader()
+
+          while (true) {
+            const { done, value } = await reader.read()
+
+            if (done) {
+              controller.close()
+              break
+            }
+
+            controller.enqueue(value)
+          }
+        },
+        cancel: () => {
+          cancelStream()
+        }
       })
 
-      // return r.toUIMessageStreamResponse({
-      //   sendReasoning: true,
-      //   sendFinish: true,
-      //   sendSources: true,
-      //   onError(error) {
-      //     return `Error: ${JSON.stringify(error)}`
-      //   },
-      // })
+      errorPromise.then(async err => {
+        console.error(
+          '[ERROR WHILE STREAMING]',
+          err
+        )
+
+        // Wait at least a single tick to make sure the error is
+        // transmitted before we cancel the stream.
+        await new Promise(res => setTimeout(res, 1))
+
+        cancelStream()
+      })
+
+      return createUIMessageStreamResponse({
+        stream: cancellableStream
+      })
     }
-
-    // if (stream) {
-    //   const r = result as unknown as ReturnType<typeof aiStreamText>
-
-    //   return r.toTextStreamResponse()
-    // }
 
     return openAiResponse(result)
 

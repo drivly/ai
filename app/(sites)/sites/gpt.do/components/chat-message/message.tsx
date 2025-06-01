@@ -110,8 +110,8 @@ export const ChatMessage = ({ message, error, isLoading, handleCancel, reload }:
               const { timeToComplete, inputTokens, outputTokens, reasoningTokens, totalTokens, tokensPerSecond } = part.data as DataUsageFrame
 
               return (
-                <div className='text-xs text-zinc-600 dark:text-zinc-400 inline-block'>
-                  {prettyMilliseconds(timeToComplete)} | {tokensPerSecond.toFixed(2)}t/s | Input: {inputTokens}t, Output: {outputTokens}t, Reasoning: {reasoningTokens}t, Total: {totalTokens}t
+                <div className='text-xs text-zinc-800 dark:text-zinc-600 inline-block font-medium font-mono' key={`${message.id}-usage`}>
+                  {prettyMilliseconds(timeToComplete)} | {tokensPerSecond.toFixed(2)}t/s | Input: {inputTokens}t, Output: {outputTokens}t{reasoningTokens ? `, Reasoning: ${reasoningTokens}t` : ''}, Total: {totalTokens}t
                 </div>
               )
             }
