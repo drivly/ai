@@ -32,14 +32,14 @@ export function MessageReasoning({ isLoading, reasoning }: MessageReasoningProps
     <div className='flex flex-col'>
       {isLoading ? (
         <div className='flex flex-row items-center gap-2'>
-          <div className='font-medium'>Reasoning</div>
+          <div className='font-medium text-zinc-600 dark:text-zinc-400'>Reasoning</div>
           <div className='animate-spin'>
             <LoaderIcon />
           </div>
         </div>
       ) : (
         <div className='flex flex-row items-center gap-2'>
-          <div className='font-medium'>Reasoned for a few seconds</div>
+          <div className='font-medium text-zinc-600 dark:text-zinc-400'>Reasoned for a few seconds</div>
           <button
             data-testid='message-reasoning-toggle'
             type='button'

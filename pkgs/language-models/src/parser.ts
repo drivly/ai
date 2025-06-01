@@ -534,7 +534,3 @@ const metaModels = [
     models: ['claude-3.7-sonnet', 'gemini', 'gpt-4o-mini', 'ministral-8b', 'qwq-32b'],
   },
 ]
-
-console.log(
-  getModel('google/gemini-2.5-flash-preview:thinking')
-)

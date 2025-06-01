@@ -340,6 +340,9 @@ importers:
       posthog-node:
         specifier: ^4.14.0
         version: 4.14.0
+      pretty-ms:
+        specifier: ^9.2.0
+        version: 9.2.0
       query-string:
         specifier: ^9.1.2
         version: 9.1.2

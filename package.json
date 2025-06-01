@@ -180,6 +180,7 @@
     "postal-mime": "^2.4.3",
     "posthog-js": "^1.234.4",
     "posthog-node": "^4.14.0",
+    "pretty-ms": "^9.2.0",
     "query-string": "^9.1.2",
     "react": "19.1.0",
     "react-canvas-confetti": "^2.0.7",

@@ -42,6 +42,10 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const chatSessionCount = Object.keys(chatSessions).length
   const { model, tool, output, q, system, temp, setQueryState } = useCustomQuery()
 
+  console.log(
+    model, tool, output, q, system, temp
+  )
+
   const selectedModelOption = getSelectedModel(model, availableModels, initialChatModel)
   const shouldDefaultModel = selectedModelOption == null && chatSessionCount === 1
   const effectiveSelectedModelOption = shouldDefaultModel ? DEFAULT_CHAT_MODEL : selectedModelOption
@@ -64,7 +68,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
         body: {
           model: effectiveSelectedModelOption?.value ?? '',
           modelOptions: {
-            tools: tool ? tool.split(',').map((t) => t.trim()) : undefined,
+            tools: tool ? tool.split(',').map((t) => t.trim()) : [],
             outputFormat: output,
           },
           system,

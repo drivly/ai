@@ -534,6 +534,9 @@ export async function POST(req: Request) {
       result.toolCalls = [] // Make sure to clean up the response.
     }
 
+    let startStream = Date.now()
+    let endReasoning = null // Used to track if/when reasoning has ended
+
     if (useChat || stream) {
       // List all properties of result
       const r = result as unknown as ReturnType<typeof aiStreamText>
@@ -543,16 +546,15 @@ export async function POST(req: Request) {
 
           // Send inital headers
           options.writer.write({
-            type: 'metadata',
-            metadata: {
+            type: 'data-metadata',
+            data: {
               type: 'llm-provider',
               provider: modelData.provider.name,
               model: model,
-              modelOptions: JSON.stringify(modelOptions),
-              parsedModel: JSON.stringify(parsedModel),
-              responseFormat: JSON.stringify(response_format),
-              usage: JSON.stringify(result.usage),
-              finishReason: result.finishReason,
+              modelOptions,
+              parsedModel,
+              responseFormat: response_format,
+              created: Date.now()
             }
           })
 
@@ -564,13 +566,19 @@ export async function POST(req: Request) {
 
           await r.text
 
-          options.writer.write({
-            type: 'metadata',
-            metadata: {
-              type: 'usage',
-              usage: await r.usage
-            }
-          })
+          const usage = await r.usage
+
+          // Only send a usage frame when we have a usage object.
+          if (usage) {
+            options.writer.write({
+              type: 'data-usage',
+              data: {
+                ...usage,
+                timeToComplete: Date.now() - startStream,
+                tokensPerSecond: usage?.totalTokens ? usage.totalTokens / ((Date.now() - startStream) / 1000) : undefined
+              }
+            })
+          }
         }
       })
 

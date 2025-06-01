@@ -9,6 +9,8 @@ import type { UseChatHelpers } from '@ai-sdk/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { nanoid } from 'nanoid'
 import { Fragment } from 'react'
+import prettyMilliseconds from 'pretty-ms'
+import type { DataUsageFrame } from '@/sdks/llm.do/src/types/api/streaming'
 import { formatToolResult, snakeToHumanCase } from '../../lib/utils'
 import { ErrorMessage } from './error-message'
 import { MessageReasoning } from './message-reasoning'
@@ -100,6 +102,16 @@ export const ChatMessage = ({ message, error, isLoading, handleCancel, reload }:
                       </AccordionItem>
                     </Accordion>
                   )}
+                </div>
+              )
+            }
+
+            if (type === 'data-usage') {
+              const { timeToComplete, inputTokens, outputTokens, reasoningTokens, totalTokens, tokensPerSecond } = part.data as DataUsageFrame
+
+              return (
+                <div className='text-xs text-zinc-600 dark:text-zinc-400 inline-block'>
+                  {prettyMilliseconds(timeToComplete)} | {tokensPerSecond.toFixed(2)}t/s | Input: {inputTokens}t, Output: {outputTokens}t, Reasoning: {reasoningTokens}t, Total: {totalTokens}t
                 </div>
               )
             }
