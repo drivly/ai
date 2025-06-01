@@ -10,6 +10,7 @@ describeE2E('functions.do E2E API Tests', () => {
   let client: FunctionsClient
 
   beforeAll(() => {
+    // @ts-ignore - TS doesnt allow writing readonly properties like process.env.NODE_ENV
     process.env.NODE_ENV = 'development'
 
     client = new FunctionsClient({
@@ -70,6 +71,7 @@ describeE2E('functions.do E2E API Tests', () => {
 
 describeE2E('AI Factory E2E Tests', () => {
   beforeAll(() => {
+    // @ts-ignore - TS doesnt allow writing readonly properties like process.env.NODE_ENV
     process.env.NODE_ENV = 'development'
     process.env.FUNCTIONS_DO_API_KEY = apiKey
   })
@@ -100,6 +102,7 @@ describeE2E('TypeScript Generation E2E Tests', () => {
   let client: FunctionsClient
 
   beforeAll(() => {
+    // @ts-ignore - TS doesnt allow writing readonly properties like process.env.NODE_ENV
     process.env.NODE_ENV = 'development'
     process.env.FUNCTIONS_DO_API_KEY = apiKey
 

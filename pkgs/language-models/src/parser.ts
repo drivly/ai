@@ -297,6 +297,10 @@ export function filterModels(
 
   if (parsed.model) {
     filterChain.push(function modelFilter(model) {
+      if (!parsed.model) {
+        return false
+      }
+
       // Wildcard search for any model that matches everything else.
       if (parsed.model == '*') {
         return true

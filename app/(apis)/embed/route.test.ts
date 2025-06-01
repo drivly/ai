@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { POST } from './route'
 
 vi.mock('@/lib/api', () => ({
-  API: (fn) => fn,
+  API: (fn: any) => fn,
 }))
 
 vi.mock('ai', () => ({
@@ -35,7 +35,7 @@ describe('Embed API', () => {
     })
 
     const mockUser = { id: 'user123' }
-    const mockContext = { user: mockUser }
+    const mockContext = { user: mockUser, params: Promise.resolve({}) }
 
     const response = await POST(request, mockContext)
     const data = await response.json()
@@ -54,7 +54,7 @@ describe('Embed API', () => {
     })
 
     const mockUser = { id: 'user123' }
-    const mockContext = { user: mockUser }
+    const mockContext = { user: mockUser, params: Promise.resolve({}) }
 
     const response = await POST(request, mockContext)
     const data = await response.json()

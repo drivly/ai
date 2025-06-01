@@ -3,7 +3,6 @@ import {
   OpenAICompatibleChatModelId,
   createOpenAICompatible,
 } from '@ai-sdk/openai-compatible'
-import type { ProviderOptions } from '@ai-sdk/provider'
 import {
   type EmbeddingModelV2,
   type ImageModelV2,
@@ -33,9 +32,9 @@ type LLMProviderOptions = {
   headers?: Record<string, string>
 }
 
-type LLMProviderSettings = OpenAICompatibleChatModelId &
-  ParsedModelIdentifier & {
+type LLMProviderSettings = ParsedModelIdentifier & {
     tools?: string[] | undefined
+    capabilities?: string[]
   }
 
 // Define explicit provider options interface to prevent deep type inference
