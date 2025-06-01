@@ -7,7 +7,7 @@ import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { waitUntil } from '@vercel/functions'
 import { filterModels, getModel } from '@/pkgs/language-models/src'
 import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { jsonSchema, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages, createUIMessageStream } from 'ai'
+import { jsonSchema, ToolSet, GenerateTextResult, GenerateObjectResult, JSONValue, StepResult, StreamObjectOnFinishCallback, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages, createUIMessageStream } from 'ai'
 import { getPayload } from 'payload'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
@@ -276,6 +276,9 @@ export async function POST(req: Request) {
   }
 
   const openAiResponse = (result: any) => {
+    // Log to database.
+    recordEvent(result, apiKey, session?.user.email || '')
+
     const body = {
       id: result.id || result.response.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
@@ -463,24 +466,22 @@ export async function POST(req: Request) {
         stepCountIs(10)
       ].filter(x => !!x),
       onTool,
-      onFinish: (result: any) => {
-        if (result.usage) {
-          createDataPoint(
-            'llm.usage',
-            {
-              user: session?.user.email || '',
-            },
-            {
-              id: result.response.id,
-              usage: result.usage,
-            },
-          )
-        }
-      },
       onError: (error: any) => {
         errorPromiseResolve(error)
 
         return error.message
+      }
+    }
+
+    if (stream) {
+      // @ts-expect-error - TS doesnt know this is a valid property.
+      generateSettings.onFinish = (result: any) => {
+        recordEvent(result, apiKey, session?.user.email || '')
+      }
+
+      // @ts-expect-error - TS doesnt know this is a valid property.
+      generateSettings.onStepFinish = (result: any) => {
+        recordEvent(result, apiKey, session?.user.email || '')
       }
     }
 
