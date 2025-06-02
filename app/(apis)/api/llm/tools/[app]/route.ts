@@ -72,7 +72,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
   const schema = composeZodSchema(fields)
 
   try {
-    schema.parse(body)
+    schema.parse(body.fields)
   } catch (error) {
     return {
       success: false,
@@ -86,7 +86,11 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
   const integration = await composio.integrations.getOrCreateIntegration({
     name: appMetadata.name,
     authScheme: auth.mode as ToolAuthorizationMode,
-    appUniqueKey: appMetadata.name
+    appUniqueKey: appMetadata.name,
+    useComposioAuth: false,
+    authConfig: {
+      
+    }
   })
 
   // At this point, the body should match the schema thats being asked for.
@@ -94,7 +98,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
     integrationId: integration.id,
     authMode: auth.mode as ToolAuthorizationMode,  
     entityId: user.email,
-    connectionParams: body,
+    connectionParams: body.fields,
   })
 
   return {

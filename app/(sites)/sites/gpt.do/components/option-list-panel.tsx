@@ -183,8 +183,17 @@ export function OptionListPanel(props: OptionListPanelProps) {
                                   onMouseLeave={() => handleItemMouseLeave()}
                                 >
                                   <div className='flex w-full items-center gap-2'>
-                                    <OptionAvatar logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} label={item.label} />
-                                    <span className='line-clamp-1 truncate'>{item.label}</span>
+                                    <OptionAvatar className="flex shrink-0" logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} label={item.label} />
+                                    <div className="flex flex-col">
+                                      <span className='line-clamp-1 truncate'>{item.label}</span>
+                                      {/* { item.capabilities?.length > 0 ? (
+                                        <div className='flex items-center gap-1 mt-[0.2rem]'>
+                                          {item.capabilities?.map((capability: string) => (
+                                            <span key={capability} className='border font-mono text-[0.5rem] py-[0.05rem] px-[0.2rem] font-medium rounded-sm transition-all duration-500 border-indigo-200 bg-indigo-100 text-indigo-700 ring-1 ring-indigo-200/50 dark:border-indigo-400/30 dark:bg-indigo-400/10 dark:text-indigo-400 dark:ring-1 dark:ring-indigo-400/20'>{capability}</span>
+                                          ))}
+                                        </div> 
+                                      ) : null } */}
+                                    </div>
                                     {isLoading ? (
                                       <Spinner height={16} width={16} className='text-muted-foreground/50 ml-auto' />
                                     ) : isItemSelected ? (

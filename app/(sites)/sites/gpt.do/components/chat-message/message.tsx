@@ -111,7 +111,7 @@ export const ChatMessage = ({ message, error, isLoading, handleCancel, reload }:
 
               return (
                 <div className='text-xs text-zinc-800 dark:text-zinc-600 inline-block font-medium font-mono' key={`${message.id}-usage`}>
-                  {prettyMilliseconds(timeToComplete)} | {tokensPerSecond.toFixed(2)}t/s | Input: {inputTokens}t, Output: {outputTokens}t{reasoningTokens ? `, Reasoning: ${reasoningTokens}t` : ''}, Total: {totalTokens}t
+                  {prettyMilliseconds(timeToComplete)} | {(tokensPerSecond || 0).toFixed(2)}t/s | Input: {inputTokens}t, Output: {outputTokens}t{reasoningTokens ? `, Reasoning: ${reasoningTokens}t` : ''}, Total: {totalTokens}t
                 </div>
               )
             }

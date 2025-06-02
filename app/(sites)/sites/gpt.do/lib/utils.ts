@@ -177,6 +177,10 @@ export const getAIModels = () => {
     label: model.name,
     value: model.slug,
     logoUrl: 'authorIcon' in model && model.authorIcon ? model.authorIcon : undefined,
+    capabilities: [
+      model.providers?.filter(x => x.supportedParameters.includes('tools'))?.length ? 'tools' : undefined,
+      model.providers?.filter(x => x.supportedParameters.includes('reasoning'))?.length ? 'reasoning' : undefined,
+    ].filter(Boolean)
   }))
   return uniqueArrayByObjectPropertyKey(loadedModels, 'label')
 }
