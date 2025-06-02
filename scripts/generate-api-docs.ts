@@ -20,7 +20,7 @@ const generateApiDocs = async () => {
 
     console.log('Running API documentation generation task...')
     try {
-      await payload.jobs.runByID({ id: (job as any)?.id })
+      await payload.jobs.runByID(job)
       console.log('API documentation generated successfully!')
     } catch (jobError) {
       console.error('Error generating API documentation:', jobError)
