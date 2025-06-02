@@ -566,13 +566,19 @@ export async function POST(req: Request) {
 
 export const GET = POST
 
-function recordEvent(result: any, apiKey: string, user: string) {
+function recordEvent(result: unknown, apiKey: string, user: string) {
   waitUntil(
     getPayload({ config }).then((payload) =>
       payload.jobs
         .queue({
           workflow: 'recordEvent',
-          input: { result, apiKey, user },
+          input: {
+            result: result as {
+              [k: string]: unknown
+            },
+            apiKey,
+            user,
+          },
         })
         .then((job) => payload.jobs.runByID(job)),
     ),
