@@ -24,8 +24,7 @@ export function createDataPoint(type: EventType, metadata: Metadata, data: Recor
           source: 'llm.do',
           data,
           metadata,
-          // Do More Work tenant.
-          tenant: '67eff7d61cb630b09c9de598',
+          tenant: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Default project ID (Do More Work tenant)
         },
       })
     } catch (error) {

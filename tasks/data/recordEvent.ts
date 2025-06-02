@@ -68,8 +68,7 @@ export const recordEvent = {
           collection: 'generations',
           data: {
             response,
-            // Do More Work tenant.
-            tenant: '67eff7d61cb630b09c9de598',
+            tenant: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Default project ID (Do More Work tenant)
           },
         },
       }),
@@ -91,8 +90,7 @@ export const recordEvent = {
             outputCost: result.provider?.outputCost,
             pricing: result.provider?.pricing,
           },
-          // Do More Work tenant.
-          tenant: '67eff7d61cb630b09c9de598',
+          tenant: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Default project ID (Do More Work tenant)
         },
       },
     })
