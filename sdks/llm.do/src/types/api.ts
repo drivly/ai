@@ -44,7 +44,16 @@ export interface LLMCompatibleRequest {
     outputFormat?: (typeof outputFormats)[number]
     // JSON Schema, schema.org type, or basic schema supported
     outputSchema?: any
+    capabilities?: string[]
+    maxTokens?: number
   }
+
+  /**
+   * useChat id that can be used to identify the incoming message format.
+   * 
+   * Usually this is only sent via the useChat hook and shouldnt be used directly.
+   */
+  chatId?: string
 }
 
 export type LLMChatCompletionBody = OpenAICompatibleRequest & LLMCompatibleRequest

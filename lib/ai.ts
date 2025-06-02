@@ -1,5 +1,6 @@
 import { executeFunction } from '@/tasks/ai/executeFunction'
 import { createOpenAI } from '@ai-sdk/openai'
+import { LanguageModelV2 } from '@ai-sdk/provider'
 
 type StringArray = Array<string>
 type SchemaValue = string | number | StringArray | { [key: string]: SchemaValue } | SchemaValue[]
@@ -69,12 +70,23 @@ export const AI = <T extends Record<string, FunctionDefinition | AIWorkflow>>(co
   }) as Result
 }
 
-export const model = createOpenAI({
-  compatibility: 'compatible',
-  apiKey: process.env.AI_GATEWAY_TOKEN!,
-  baseURL: process.env.AI_GATEWAY_URL!,
-  headers: {
-    'HTTP-Referer': 'https://workflows.do', // Optional. Site URL for rankings on openrouter.ai.
-    'X-Title': 'Workflows.do Business-as-Code', // Optional. Site title for rankings on openrouter.ai.
-  },
-})
+// Hack to bypass the new V5 openAI provider not supporting model options.
+export const model = (model: string, modelOptions?: any) => {
+  const modelProvider = createOpenAI({
+    apiKey: process.env.AI_GATEWAY_TOKEN!,
+    baseURL: process.env.AI_GATEWAY_URL!,
+    headers: {
+      'HTTP-Referer': 'https://workflows.do', // Optional. Site URL for rankings on openrouter.ai.
+      'X-Title': 'Workflows.do Business-as-Code', // Optional. Site title for rankings on openrouter.ai.
+    },
+  })(model)
+
+  // @ts-expect-error - This is for V4 backwards compatibility.
+  modelProvider.textEmbeddingModel = () => {
+    throw new Error('textEmbeddingModel is not supported by the openAI provider')
+  }
+
+  return modelProvider as {
+    textEmbeddingModel: (model: string) => LanguageModelV2
+  } & LanguageModelV2
+}

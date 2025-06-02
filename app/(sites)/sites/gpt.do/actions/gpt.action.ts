@@ -73,9 +73,7 @@ export async function generateTitleFromUserMessage({ message }: { message: UIMes
     let messageContent = ''
 
     // Try to extract content from either message.content or message.parts
-    if (typeof message.content === 'string' && message.content) {
-      messageContent = message.content
-    } else if (message.parts && message.parts.length > 0) {
+    if (message.parts && message.parts.length > 0) {
       // Attempt to get text from parts
       for (const part of message.parts) {
         if (part.type === 'text' && 'text' in part && part.text) {

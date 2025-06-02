@@ -1,11 +1,23 @@
 import {
   OpenAICompatibleChatLanguageModel,
-  OpenAICompatibleChatSettings,
+  OpenAICompatibleChatModelId,
+  createOpenAICompatible,
+} from '@ai-sdk/openai-compatible'
+import {
+  type EmbeddingModelV2,
+  type ImageModelV2,
+  type LanguageModelV2,
+  type ProviderV1,
+} from '@ai-sdk/provider'
+import {
   OpenAICompatibleCompletionLanguageModel,
   OpenAICompatibleEmbeddingModel,
   ProviderErrorStructure,
 } from '@ai-sdk/openai-compatible'
-import { EmbeddingModelV1, ImageModelV1, LanguageModelV1, ProviderV1 } from '@ai-sdk/provider'
+import {
+  createOpenAI
+} from '@ai-sdk/openai'
+
 import { FetchFunction, loadApiKey, withoutTrailingSlash } from '@ai-sdk/provider-utils'
 import { ParsedModelIdentifier } from '@/pkgs/language-models/src'
 
@@ -20,9 +32,9 @@ type LLMProviderOptions = {
   headers?: Record<string, string>
 }
 
-type LLMProviderSettings = OpenAICompatibleChatSettings &
-  ParsedModelIdentifier & {
+type LLMProviderSettings = ParsedModelIdentifier & {
     tools?: string[] | undefined
+    capabilities?: string[]
   }
 
 // Define explicit provider options interface to prevent deep type inference
@@ -35,7 +47,7 @@ interface LLMProviderConstructorOptions {
     errorToMessage: (error: any) => string
   }
   defaultObjectGenerationMode: 'tool'
-  fetch: (url: string, init: RequestInit) => Promise<Response>
+  fetch: (url: URL | RequestInfo, init: RequestInit | undefined) => Promise<Response>
 }
 
 // TODO: Ask Nathan about the route.
@@ -106,10 +118,26 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
           body: JSON.stringify(newBody),
         })
 
+        console.dir(
+          (await response.clone().json()),
+          { depth: null }
+        )
+
         return response
       },
     }
 
-    return new OpenAICompatibleChatLanguageModel(modelId, (settings ?? {}) as LLMProviderSettings, providerOptions as any)
+    const openai = createOpenAI({
+      baseURL,
+      apiKey,
+      fetch: providerOptions.fetch,
+      headers: getHeaders()
+    })
+
+    const model = openai(modelId)
+
+    return model
+
+    //return new OpenAICompatibleChatLanguageModel(modelId, (settings ?? {}) as LLMProviderSettings, providerOptions as any)
   }
 }

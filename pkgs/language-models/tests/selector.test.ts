@@ -9,7 +9,7 @@ describe('selector', () => {
 
   it('should fail to find a model', () => {
     // Expect an error to be thrown
-    const model = getModel('google/gemini-2.0-flash-001:reasoning')
+    const model = getModel('google/gemini-3-flash')
 
     expect(model).toBeDefined()
     expect(model?.slug).toBe(undefined)

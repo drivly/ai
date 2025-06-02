@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ai, AI } from './index'
 
 beforeEach(() => {
+  // @ts-ignore - TS doesnt allow writing readonly properties like process.env.NODE_ENV
   process.env.NODE_ENV = 'test'
 })
 

@@ -26,17 +26,8 @@ export interface Chats {
   [id: string]: Chat
 }
 
-export interface Message {
-  id: string
-  chatId: string
-  role: 'data' | 'system' | 'user' | 'assistant'
-  parts: UIMessage['parts']
-  attachments: UIMessage['experimental_attachments']
-  createdAt: Date
-}
-
 export interface Messages {
-  [chatId: string]: Message[]
+  [chatId: string]: UIMessage[]
 }
 
 export interface GetComposioToolsParams {

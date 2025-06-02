@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { capitalizeFirstLetter } from '@/lib/utils'
-import type { ToolAuthorizationError } from '@/sdks/llm.do/src'
+import type { ToolAuthorizationError, ToolSetupRequest } from '@/sdks/llm.do/src'
 import { KeyRound } from 'lucide-react'
 import Image from 'next/image'
 import { type FormEvent, Fragment, useCallback, useState } from 'react'
@@ -46,7 +46,7 @@ export function AuthCard({ connection, onSubmit, onRedirect, onCancel, integrati
   }, [])
 
   const handleSubmit = useCallback(
-    async (app: string, e?: FormEvent) => {
+    async (app: string, methodType: string, e?: FormEvent) => {
       e?.preventDefault()
       let isValid = true
       const apiKeyMethod = connection.methods.find((method) => method.type === 'API_KEY')
@@ -63,7 +63,10 @@ export function AuthCard({ connection, onSubmit, onRedirect, onCancel, integrati
         const res = await fetch(`/api/llm/tools/${app ?? integrationName}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formValues[app]),
+          body: JSON.stringify({
+            type: methodType,
+            fields: formValues[app],
+          } as ToolSetupRequest['body']),
         })
         if (!res.ok) throw new Error('Failed to authenticate')
 
@@ -107,19 +110,19 @@ export function AuthCard({ connection, onSubmit, onRedirect, onCancel, integrati
           renderOption={(method, selected) => (
             <Fragment>
               {!method.type.includes('OAUTH') && method.fields && selected === method.type && (
-                <form onSubmit={(e) => handleSubmit(connection.app, e)} className='flex w-full flex-col'>
-                  {Object.entries(method.fields).map(([fieldName, field]) => (
-                    <div key={fieldName} className='pb-6'>
-                      <label htmlFor={`${connection.app}_${fieldName}`} className='mb-1 block text-sm text-zinc-600 dark:text-zinc-400'>
+                <form onSubmit={(e) => handleSubmit(connection.app, method.type, e)} className='flex w-full flex-col'>
+                  {Object.entries(method.fields).map(([fieldIndex, field]) => (
+                    <div key={field.name} className='pb-6'>
+                      <label htmlFor={`${connection.app}_${field.name}`} className='mb-1 block text-sm text-zinc-600 dark:text-zinc-400'>
                         {field.displayName || field.name}
-                        {field.required && <span className='text-zinc-500 dark:text-zinc-400'>*</span>}
+                        {field.required && <span className='ml-1 text-zinc-500 dark:text-zinc-400'>*</span>}
                       </label>
                       <Input
-                        id={`${connection.app}_${fieldName}`}
-                        name={fieldName}
+                        id={`${connection.app}_${field.name}`}
+                        name={field.name}
                         type={field.is_secret ? 'password' : field.type === 'number' ? 'number' : 'text'}
-                        value={formValues[connection.app]?.[fieldName] || ''}
-                        onChange={(e) => handleInputChange(connection.app, fieldName, e.target.value)}
+                        value={formValues[connection.app]?.[field.name] || ''}
+                        onChange={(e) => handleInputChange(connection.app, field.name, e.target.value)}
                         placeholder={`Enter your ` + field.displayName || field.name}
                         required={field.required}
                       />

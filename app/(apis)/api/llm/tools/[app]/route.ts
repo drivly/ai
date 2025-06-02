@@ -2,6 +2,7 @@ import { API } from '@/lib/api'
 import { Composio } from 'composio-core'
 import { z, ZodError } from 'zod'
 import { ToolSetupRequest } from '@/sdks/llm.do/src/types/api'
+import { ToolAuthorizationMode } from '@/sdks/llm.do/src/types/tools'
 
 const composeZodSchema = (fields: any) => {
   const typeToZod: Record<string, z.ZodType> = {
@@ -71,7 +72,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
   const schema = composeZodSchema(fields)
 
   try {
-    schema.parse(body)
+    schema.parse(body.fields)
   } catch (error) {
     return {
       success: false,
@@ -84,16 +85,20 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
 
   const integration = await composio.integrations.getOrCreateIntegration({
     name: appMetadata.name,
-    authScheme: 'API_KEY',
+    authScheme: auth.mode as ToolAuthorizationMode,
     appUniqueKey: appMetadata.name,
+    useComposioAuth: false,
+    authConfig: {
+      
+    }
   })
 
   // At this point, the body should match the schema thats being asked for.
   const result = await composio.connectedAccounts.initiate({
     integrationId: integration.id,
-    authMode: 'API_KEY',
+    authMode: auth.mode as ToolAuthorizationMode,  
     entityId: user.email,
-    connectionParams: body,
+    connectionParams: body.fields,
   })
 
   return {

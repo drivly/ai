@@ -4463,7 +4463,7 @@ export interface TaskCreateRecord {
       | null;
   };
   output: {
-    record?:
+    record:
       | {
           [k: string]: unknown;
         }

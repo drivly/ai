@@ -37,7 +37,7 @@ export const listBlogPostTitles = (
   } = {},
 ) =>
   generateObject({
-    model: model(modelName, { structuredOutputs: true }),
+    model: model(modelName),
     system,
     prompt: `List ${count} blog post titles: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
     temperature,
@@ -64,7 +64,7 @@ export const siteContent = (
   } = {},
 ) =>
   generateObject({
-    model: model(modelName, { structuredOutputs: true }),
+    model: model(modelName),
     system,
     prompt: `Write site content for: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
     temperature,

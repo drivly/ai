@@ -97,7 +97,7 @@ describe('experiment', () => {
 
       const result = await experiment('test-experiment', mockConfig)
 
-      expect(result.config.temperatures).toEqual([0.5])
+      expect(result?.config.temperatures).toEqual([0.5])
       expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
     },
     TEST_TIMEOUT,
@@ -120,7 +120,7 @@ describe('experiment', () => {
 
       const result = await experiment('test-experiment', mockConfig)
 
-      expect(result.results).toHaveLength(8)
+      expect(result?.results).toHaveLength(8)
       expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
     },
     TEST_TIMEOUT,
@@ -142,9 +142,9 @@ describe('experiment', () => {
 
       const result = await experiment('test-experiment', mockConfig)
 
-      expect(result.results).toHaveLength(4)
+      expect(result?.results).toHaveLength(4)
 
-      const baselineResults = result.results.filter((r) => r.id.includes('baseline'))
+      const baselineResults = result?.results.filter((r) => r.id.includes('baseline'))
       expect(baselineResults).toHaveLength(2) // One baseline per input
     },
     TEST_TIMEOUT,
@@ -166,9 +166,9 @@ describe('experiment', () => {
 
       const result = await experiment('test-experiment', mockConfig)
 
-      expect(result.results).toHaveLength(4)
+      expect(result?.results).toHaveLength(4)
 
-      const baselineResults = result.results.filter((r) => r.id.includes('baseline'))
+      const baselineResults = result?.results.filter((r) => r.id.includes('baseline'))
       expect(baselineResults).toHaveLength(2) // One baseline per input
     },
     TEST_TIMEOUT,
@@ -189,12 +189,12 @@ describe('experiment', () => {
 
       const result = await experiment('test-experiment', mockConfig)
 
-      expect(result.results).toHaveLength(4)
+      expect(result?.results).toHaveLength(4)
 
-      const baselineResults = result.results.filter((r) => r.id.includes('baseline'))
+      const baselineResults = result?.results.filter((r) => r.id.includes('baseline'))
       expect(baselineResults).toHaveLength(2) // One baseline per input
 
-      const nonBaselineResults = result.results.filter((r) => !r.id.includes('baseline'))
+      const nonBaselineResults = result?.results.filter((r) => !r.id.includes('baseline'))
       expect(nonBaselineResults).toHaveLength(2) // One evaluation per input for the second model
     },
     TEST_TIMEOUT,
@@ -239,7 +239,7 @@ describe('experiment', () => {
 
       const result = await experiment('test-experiment', mockConfig)
 
-      expect(result.name).toBe('test-experiment')
+      expect(result?.name).toBe('test-experiment')
       expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
     },
     TEST_TIMEOUT,
@@ -284,7 +284,7 @@ describe('experiment', () => {
 
       const result = await experiment('test-experiment', mockConfig)
 
-      expect(result.name).toBe('test-experiment')
+      expect(result?.name).toBe('test-experiment')
       expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
     },
     TEST_TIMEOUT,

@@ -1,6 +1,6 @@
 ---
 description: 
-globs: ./app/(sites)/sites/gpt.do/**/*.{tsx},*.tsx
+globs: *.tsx
 alwaysApply: false
 ---
 # Nextjs Shadcn Style Guide
