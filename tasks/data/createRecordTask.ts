@@ -16,6 +16,6 @@ export const createRecordTask = {
       data: data as Record<string, unknown>,
       req,
     })
-    return { output: { data: newRecord } }
+    return { output: { record: newRecord } }
   },
 } as TaskConfig<'createRecord'>
