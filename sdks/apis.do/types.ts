@@ -242,6 +242,7 @@ export interface Config {
       })
   jobs: {
     tasks: {
+      createRecord: TaskCreateRecord
       executeFunction: TaskExecuteFunction
       generateCode: TaskGenerateCode
       requestHumanFeedback: TaskRequestHumanFeedback
@@ -289,6 +290,7 @@ export interface Config {
     workflows: {
       handleGithubEvent: WorkflowHandleGithubEvent
       handleStripeEvent: WorkflowHandleStripeEvent
+      recordEvent: WorkflowRecordEvent
     }
   }
 }
@@ -2725,6 +2727,7 @@ export interface PayloadJob {
         completedAt: string
         taskSlug:
           | 'inline'
+          | 'createRecord'
           | 'executeFunction'
           | 'generateCode'
           | 'requestHumanFeedback'
@@ -2797,6 +2800,7 @@ export interface PayloadJob {
           taskSlug?:
             | (
                 | 'inline'
+                | 'createRecord'
                 | 'executeFunction'
                 | 'generateCode'
                 | 'requestHumanFeedback'
@@ -2843,10 +2847,11 @@ export interface PayloadJob {
         id?: string | null
       }[]
     | null
-  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent') | null
+  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent' | 'recordEvent') | null
   taskSlug?:
     | (
         | 'inline'
+        | 'createRecord'
         | 'executeFunction'
         | 'generateCode'
         | 'requestHumanFeedback'
@@ -4436,6 +4441,35 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCreateRecord".
+ */
+export interface TaskCreateRecord {
+  input: {
+    collection: string
+    data:
+      | {
+          [k: string]: unknown
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null
+  }
+  output: {
+    record?:
+      | {
+          [k: string]: unknown
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null
+  }
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskExecuteFunction".
  */
 export interface TaskExecuteFunction {
@@ -5621,6 +5655,25 @@ export interface WorkflowHandleStripeEvent {
       | number
       | boolean
       | null
+  }
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkflowRecordEvent".
+ */
+export interface WorkflowRecordEvent {
+  input: {
+    result:
+      | {
+          [k: string]: unknown
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null
+    user: string
+    apiKey: string
   }
 }
 /**

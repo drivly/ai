@@ -27,9 +27,11 @@ import { executeCodeFunctionTask } from './code/executeCodeFunction'
 import { processCodeFunctionTask } from './code/processCodeFunction'
 import { processCodeFunctionWrapperTask } from './code/processCodeFunctionWrapper'
 
+import { createRecordTask } from './data/createRecordTask'
 import { generateEmbeddingTask } from './data/generateEmbeddingTask'
 import { generateResourceEmbedding } from './data/generateResourceEmbedding'
 import { generateThingEmbedding } from './data/generateThingEmbedding'
+import { recordEvent } from './data/recordEvent'
 import { hybridSearchResources, searchResources } from './data/searchResources'
 import { hybridSearchThings, searchThings } from './data/searchThings'
 
@@ -105,6 +107,7 @@ const processDomainTask = {
 } as unknown as TaskConfig
 
 export const tasks = [
+  createRecordTask,
   executeFunctionTask,
   generateCodeTask,
   requestHumanFeedbackTask,
@@ -151,7 +154,7 @@ export const tasks = [
   discoverServicesTask,
 ]
 
-export const workflows = [handleGithubEvent, handleStripeEvent]
+export const workflows = [handleGithubEvent, handleStripeEvent, recordEvent]
 
 export {
   conjugateVerbsTask,
