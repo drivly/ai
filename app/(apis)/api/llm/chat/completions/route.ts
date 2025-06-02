@@ -691,66 +691,21 @@ export async function POST(req: Request) {
 
 export const GET = POST
 
-function recordEvent(
-  result: (GenerateTextResult<ToolSet, unknown> | GenerateObjectResult<JSONValue> | StepResult<ToolSet> | Parameters<StreamObjectOnFinishCallback<JSONValue>>[0]) & {
-    id?: string
-    provider?: {
-      pricing?: {
-        prompt?: string
-        completion?: string
-        image?: string
-        request?: string
-        inputCacheRead?: string
-        webSearch?: string
-        internalReasoning?: string
-        discount?: number
-      }
-      inputCost?: number
-      outputCost?: number
-    }
-  },
-  apiKey: string,
-  user: string,
-) {
+function recordEvent(result: unknown, apiKey: string, user: string) {
   waitUntil(
-    Promise.all([getPayload({ config }), getGeneration(result.response.id, apiKey)]).then(([payload, generation]) =>
-      Promise.all([
-        payload.create({
-          collection: 'events',
-          data: {
-            type: 'llm.usage',
-            source: 'llm.do',
-            data: {
-              id: result.id || result.response.id,
-              usage: result.usage,
+    getPayload({ config }).then((payload) =>
+      payload.jobs
+        .queue({
+          workflow: 'recordEvent',
+          input: {
+            result: result as {
+              [k: string]: unknown
             },
-            metadata: {
-              user,
-              inputCost: result.provider?.inputCost,
-              outputCost: result.provider?.outputCost,
-              pricing: result.provider?.pricing,
-            },
-            // Do More Work tenant.
-            tenant: '67eff7d61cb630b09c9de598',
+            apiKey,
+            user,
           },
-        }),
-        payload.create({
-          collection: 'generations',
-          data: {
-            response: generation,
-            // Do More Work tenant.
-            tenant: '67eff7d61cb630b09c9de598',
-          },
-        }),
-      ]).then(([event, generation]) =>
-        payload.update({
-          collection: 'events',
-          id: event.id,
-          data: {
-            generations: [generation.id],
-          },
-        }),
-      ),
+        })
+        .then((job) => payload.jobs.runByID(job)),
     ),
   )
 }
