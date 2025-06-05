@@ -21,6 +21,7 @@ export async function GET(req: Request) {
       created: model.createdAt,
       owned_by: model.author,
       permission: [],
+      metadata: model
     })),
   })
 }
