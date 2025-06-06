@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   let apiKey: string | null = null
   if (headerApiKey?.startsWith('sk-')) {
     apiKey = headerApiKey
-  } else if (nextauthUser?.apiKey) {
+  } else if (nextauthUser?.apiKey?.startsWith('sk-')) {
     apiKey = nextauthUser.apiKey
   }
 
@@ -34,16 +34,17 @@ export async function POST(req: Request) {
     const user = authResult.user
 
     // If authenticated payload user has an API key, use it
-    if (user?.collection === 'apikeys' && user.apiKey) {
+    if (user?.collection === 'apikeys' && user.apiKey && user.type === 'llm') {
       apiKey = user.apiKey
     }
     // If authenticated user exists but no API key, get or create one
-    else if (user) {
+    else if (nextauthUser || user) {
       try {
         const result = await getOrCreateUserApikey({
-          id: nextauthUser?.id || user.id,
-          email: nextauthUser?.email || user.email || '',
-          name: nextauthUser?.name || user.name || user.email || 'API Key',
+          id: nextauthUser?.id || user?.id || '',
+          email: nextauthUser?.email || user?.email || '',
+          name: nextauthUser?.name || user?.name || user?.email || 'API Key',
+          type: 'llm',
         })
 
         if (result) {

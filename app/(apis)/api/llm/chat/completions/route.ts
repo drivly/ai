@@ -1,13 +1,23 @@
 import { auth } from '@/auth'
 import { findKey } from '@/lib/openrouter'
 import config from '@/payload.config'
-import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
+import { createLLMProvider, generateText, streamText } from '@/pkgs/ai-providers/src'
 import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
-import { waitUntil } from '@vercel/functions'
 import { filterModels, getModel } from '@/pkgs/language-models/src'
-import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
-import { jsonSchema, ToolSet, GenerateTextResult, GenerateObjectResult, JSONValue, StepResult, StreamObjectOnFinishCallback, Output, tool, hasToolCall, StreamTextResult, stepCountIs, createUIMessageStreamResponse, streamText as aiStreamText, ModelMessage, convertToModelMessages, createUIMessageStream } from 'ai'
+import type { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
+import { waitUntil } from '@vercel/functions'
+import {
+  streamText as aiStreamText,
+  convertToModelMessages,
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  hasToolCall,
+  jsonSchema,
+  type ModelMessage,
+  stepCountIs,
+  tool,
+} from 'ai'
 import { getPayload } from 'payload'
 import { createDataPoint } from './analytics'
 import { injectFormatIntoSystem } from './responseFormats'
@@ -136,13 +146,13 @@ export async function POST(req: Request) {
     }
 
     // OpenAI files come in as the wrong format.
-    for (const message of (messages as any)) {
+    for (const message of messages as any) {
       const fixedMessageContent = []
 
       if (typeof message.content === 'string') {
         modelMessages.push({
           role: message.role,
-          content: message.content
+          content: message.content,
         })
         continue
       }
@@ -162,34 +172,22 @@ export async function POST(req: Request) {
 
       modelMessages.push({
         role: message.role,
-        content: fixedMessageContent
+        content: fixedMessageContent,
       })
     }
 
     messages = modelMessages
   }
 
-  console.log(
-    `Incoming request:`
-  )
+  console.log(`Incoming request:`)
 
-  console.dir(
-    postData,
-    { depth: null }
-  )
+  console.dir(postData, { depth: null })
 
   // If the user requests tools, force modelOptions.capabilities to include tools
-  const hasTools = [
-    userTools && Object.keys(userTools).length > 0,
-    modelOptions?.tools && modelOptions.tools.length > 0,
-    response_format
-  ]
+  const hasTools = [userTools && Object.keys(userTools).length > 0, modelOptions?.tools && modelOptions.tools.length > 0, response_format]
 
-  if (hasTools.some(x => x)) {
-    modelOptions.capabilities = [
-      ...(modelOptions.capabilities || []),
-      'tools'
-    ]
+  if (hasTools.some((x) => x)) {
+    modelOptions.capabilities = [...(modelOptions.capabilities || []), 'tools']
   }
 
   const llm = createLLMProvider({
@@ -276,8 +274,7 @@ export async function POST(req: Request) {
   }
 
   const openAiResponse = (result: any) => {
-    // Log to database.
-    recordEvent(result, apiKey, session?.user.email || '')
+    recordUsageEvent(result, apiKey, session?.user.email || '')
 
     const body = {
       id: result.id || result.response.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
@@ -351,7 +348,10 @@ export async function POST(req: Request) {
 
   const errors = {
     NO_OBJECT_GENERATED: constructError('NO_OBJECT_GENERATED', 'No object was generated.'),
-    UNKNOWN_ERROR: constructError('UNKNOWN_ERROR', 'An unknown error occurred while processing your request. This has been logged and will be investigated. Please try again later.'),
+    UNKNOWN_ERROR: constructError(
+      'UNKNOWN_ERROR',
+      'An unknown error occurred while processing your request. This has been logged and will be investigated. Please try again later.',
+    ),
   }
 
   try {
@@ -368,14 +368,14 @@ export async function POST(req: Request) {
             },
           },
           additionalProperties: false,
-          required: [ 'url' ]
+          required: ['url'],
         }),
         execute: async (args: any) => {
           const url = args.url as string
           const response = await fetch(url)
           const text = await response.text()
           return text
-        }
+        },
       })
     }
 
@@ -396,67 +396,60 @@ export async function POST(req: Request) {
       messages = [
         {
           role: 'user',
-          content: prompt
-        }
+          content: prompt,
+        },
       ]
     }
 
     let errorPromiseResolve: (value: unknown) => void
 
-    const errorPromise = new Promise(res => {
+    const errorPromise = new Promise((res) => {
       errorPromiseResolve = res
     })
 
     const generateSettings = {
       model: llmModel,
       system,
-      messages: messages as any, 
+      messages: messages as any,
       tools,
       maxTokens: modelOptions?.maxTokens || undefined,
       user: session?.user.email || '',
-      stopWhen: [
-        response_format ? hasToolCall('jsonOutput') : undefined,
-        stepCountIs(10)
-      ].filter(x => !!x),
+      stopWhen: [response_format ? hasToolCall('jsonOutput') : undefined, stepCountIs(10)].filter((x) => !!x),
       onTool,
       onError: (error: any) => {
         errorPromiseResolve(error)
 
         return error.message
-      }
+      },
     }
 
     if (stream) {
       // @ts-expect-error - TS doesnt know this is a valid property.
       generateSettings.onFinish = (result: any) => {
-        recordEvent(result, apiKey, session?.user.email || '')
+        recordUsageEvent(result, apiKey, session?.user.email || '')
       }
 
       // @ts-expect-error - TS doesnt know this is a valid property.
       generateSettings.onStepFinish = (result: any) => {
-        recordEvent(result, apiKey, session?.user.email || '')
+        recordUsageEvent(result, apiKey, session?.user.email || '')
       }
     }
 
     let result = await (stream ? streamText : generateText)(generateSettings)
 
     if (response_format && !stream) {
-
-      let hasObjectBeenGenerated = false
       let object = {}
 
       if (result.finishReason === 'tool-calls' && result.toolCalls.length > 0) {
         // Check if the jsonOutput tool is in the final response
         for (const toolCall of result.toolCalls) {
           if (toolCall.toolName === 'jsonOutput') {
-            hasObjectBeenGenerated = true
-
             object = toolCall.args
           }
         }
       } else {
         // Recall but force the model to use the tool.
-        const messagesToRetransmit = (JSON.parse((result.request as any).body as string)).messages.map((x: any) => {
+        const messagesToRetransmit = JSON.parse((result.request as any).body as string).messages.map((x: any) => {
           x.role = 'assistant' // AI SDK is weird?
           return x
         })
@@ -465,12 +458,12 @@ export async function POST(req: Request) {
 
         messagesToRetransmit.push({
           role: 'assistant',
-          content: result.text
+          content: result.text,
         })
 
         messagesToRetransmit.push({
           role: 'user',
-          content: 'Condense your response into the jsonOutput tool.'
+          content: 'Condense your response into the jsonOutput tool.',
         })
 
         result = await generateText({
@@ -478,8 +471,8 @@ export async function POST(req: Request) {
           messages: messagesToRetransmit as any,
           toolChoice: {
             toolName: 'jsonOutput',
-            type: 'tool'
-          }
+            type: 'tool',
+          },
         })
 
         // Check the tool result, if its still empty, something has seriously gone wrong.
@@ -503,7 +496,6 @@ export async function POST(req: Request) {
     }
 
     let startStream = Date.now()
-    let endReasoning = null // Used to track if/when reasoning has ended
 
     if (useChat || stream) {
       // List all properties of result
@@ -534,13 +526,13 @@ export async function POST(req: Request) {
               modelOptions,
               parsedModel,
               responseFormat: response_format,
-              created: Date.now()
-            }
+              created: Date.now(),
+            },
           })
 
           const rawStream = r.toUIMessageStream({
             sendReasoning: true,
-            onError
+            onError,
           })
 
           options.writer.merge(rawStream)
@@ -556,11 +548,11 @@ export async function POST(req: Request) {
               data: {
                 ...usage,
                 timeToComplete: Date.now() - startStream,
-                tokensPerSecond: usage?.outputTokens ? usage.outputTokens / ((Date.now() - startStream) / 1000) : undefined
-              }
+                tokensPerSecond: usage?.outputTokens ? usage.outputTokens / ((Date.now() - startStream) / 1000) : undefined,
+              },
             })
           }
-        }
+        },
       })
 
       // We need to do this song and dance because the stream we're given from the AI SDK is not cancellable.
@@ -589,29 +581,25 @@ export async function POST(req: Request) {
         },
         cancel: () => {
           cancelStream()
-        }
+        },
       })
 
-      errorPromise.then(async err => {
-        console.error(
-          '[ERROR WHILE STREAMING]',
-          err
-        )
+      errorPromise.then(async (err) => {
+        console.error('[ERROR WHILE STREAMING]', err)
 
         // Wait at least a single tick to make sure the error is
         // transmitted before we cancel the stream.
-        await new Promise(res => setTimeout(res, 1))
+        await new Promise((res) => setTimeout(res, 1))
 
         cancelStream()
       })
 
       return createUIMessageStreamResponse({
-        stream: cancellableStream
+        stream: cancellableStream,
       })
     }
 
     return openAiResponse(result)
-
   } catch (e) {
     console.error(e)
 
@@ -644,12 +632,18 @@ export async function POST(req: Request) {
 
 export const GET = POST
 
-function recordEvent(result: unknown, apiKey: string, user: string) {
+/**
+ * Record LLM usage event to the database.
+ * @param result - The result of the event.
+ * @param apiKey - The API key used to make the request.
+ * @param user - The email address of the user who made the request.
+ */
+function recordUsageEvent(result: unknown, apiKey: string, user: string) {
   waitUntil(
     getPayload({ config }).then((payload) =>
       payload.jobs
         .queue({
-          workflow: 'recordEvent',
+          workflow: 'recordUsageEvent',
           input: {
             result: result as {
               [k: string]: unknown

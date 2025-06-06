@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { executeFunction } from './executeFunction'
+import { executeFunction } from '../ai/executeFunction'
 import { generateSchema } from '../pkgs/ai-functions/generateSchema'
-import { validateWithSchema } from './schemaUtils'
+import { validateWithSchema } from '..'
 
 vi.mock('./generateObject', () => ({
   generateObject: vi.fn().mockResolvedValue({

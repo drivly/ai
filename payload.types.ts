@@ -284,7 +284,7 @@ export interface Config {
     workflows: {
       handleGithubEvent: WorkflowHandleGithubEvent;
       handleStripeEvent: WorkflowHandleStripeEvent;
-      recordEvent: WorkflowRecordEvent;
+      recordUsageEvent: WorkflowRecordUsageEvent;
     };
   };
 }
@@ -2603,6 +2603,7 @@ export interface Webhook {
 export interface Apikey {
   id: string;
   name: string;
+  type: 'api' | 'llm';
   user?: (string | null) | User;
   organization?: (string | null) | Organization;
   email?: string | null;
@@ -2853,7 +2854,7 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
-  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent' | 'recordEvent') | null;
+  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent' | 'recordUsageEvent') | null;
   taskSlug?:
     | (
         | 'inline'
@@ -4309,6 +4310,7 @@ export interface WebhooksSelect<T extends boolean = true> {
  */
 export interface ApikeysSelect<T extends boolean = true> {
   name?: T;
+  type?: T;
   user?: T;
   organization?: T;
   email?: T;
@@ -5665,9 +5667,9 @@ export interface WorkflowHandleStripeEvent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "WorkflowRecordEvent".
+ * via the `definition` "WorkflowRecordUsageEvent".
  */
-export interface WorkflowRecordEvent {
+export interface WorkflowRecordUsageEvent {
   input: {
     result:
       | {

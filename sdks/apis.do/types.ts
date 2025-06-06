@@ -1,6 +1,6 @@
 /**
  * Type definitions for apis.do SDK
- * 
+ *
  * These types are copied from Payload CMS collection types.
  */
 
@@ -65,270 +65,270 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | 'Pacific/Fiji'
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
-    apikeys: ApikeyAuthOperations;
-  };
-  blocks: {};
+    users: UserAuthOperations
+    apikeys: ApikeyAuthOperations
+  }
+  blocks: {}
   collections: {
-    functions: Function;
-    workflows: Workflow;
-    agents: Agent;
-    services: Service;
-    queues: Queue;
-    tasks: Task;
-    goals: Goal;
-    plans: Plan;
-    waitlist: Waitlist;
-    nouns: Noun;
-    things: Thing;
-    verbs: Verb;
-    databases: Database;
-    resources: Resource;
-    chatResources: ChatResource;
-    relationships: Relationship;
-    integrationCategories: IntegrationCategory;
-    integrations: Integration;
-    connectAccounts: ConnectAccount;
-    connections: Connection;
-    integrationTriggers: IntegrationTrigger;
-    integrationActions: IntegrationAction;
-    triggers: Trigger;
-    searches: Search;
-    actions: Action;
-    experiments: Experiment;
-    experimentMetrics: ExperimentMetric;
-    models: Model;
-    providers: Provider;
-    labs: Lab;
-    prompts: Prompt;
-    settings: Setting;
-    types: Type;
-    modules: Module;
-    packages: Package;
-    deployments: Deployment;
-    benchmarks: Benchmark;
-    evals: Eval;
-    evalRuns: EvalRun;
-    evalResults: EvalResult;
-    datasets: Dataset;
-    events: Event;
-    errors: Error;
-    generations: Generation;
-    generationBatches: GenerationBatch;
-    traces: Trace;
-    kpis: Kpi;
-    organizations: Organization;
-    billingPlans: BillingPlan;
-    subscriptions: Subscription;
-    usage: Usage;
-    config: Config1;
-    projects: Project;
-    domains: Domain;
-    users: User;
-    roles: Role;
-    tags: Tag;
-    webhooks: Webhook;
-    apikeys: Apikey;
-    oauthClients: OauthClient;
-    oauthCodes: OauthCode;
-    oauthTokens: OauthToken;
-    'payload-jobs': PayloadJob;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
+    functions: Function
+    workflows: Workflow
+    agents: Agent
+    services: Service
+    queues: Queue
+    tasks: Task
+    goals: Goal
+    plans: Plan
+    waitlist: Waitlist
+    nouns: Noun
+    things: Thing
+    verbs: Verb
+    databases: Database
+    resources: Resource
+    chatResources: ChatResource
+    relationships: Relationship
+    integrationCategories: IntegrationCategory
+    integrations: Integration
+    connectAccounts: ConnectAccount
+    connections: Connection
+    integrationTriggers: IntegrationTrigger
+    integrationActions: IntegrationAction
+    triggers: Trigger
+    searches: Search
+    actions: Action
+    experiments: Experiment
+    experimentMetrics: ExperimentMetric
+    models: Model
+    providers: Provider
+    labs: Lab
+    prompts: Prompt
+    settings: Setting
+    types: Type
+    modules: Module
+    packages: Package
+    deployments: Deployment
+    benchmarks: Benchmark
+    evals: Eval
+    evalRuns: EvalRun
+    evalResults: EvalResult
+    datasets: Dataset
+    events: Event
+    errors: Error
+    generations: Generation
+    generationBatches: GenerationBatch
+    traces: Trace
+    kpis: Kpi
+    organizations: Organization
+    billingPlans: BillingPlan
+    subscriptions: Subscription
+    usage: Usage
+    config: Config1
+    projects: Project
+    domains: Domain
+    users: User
+    roles: Role
+    tags: Tag
+    webhooks: Webhook
+    apikeys: Apikey
+    oauthClients: OauthClient
+    oauthCodes: OauthCode
+    oauthTokens: OauthToken
+    'payload-jobs': PayloadJob
+    'payload-locked-documents': PayloadLockedDocument
+    'payload-preferences': PayloadPreference
+    'payload-migrations': PayloadMigration
+  }
   collectionsJoins: {
     queues: {
-      tasks: 'tasks';
-    };
+      tasks: 'tasks'
+    }
     tasks: {
-      subtasks: 'tasks';
-      dependents: 'tasks';
-    };
+      subtasks: 'tasks'
+      dependents: 'tasks'
+    }
     nouns: {
-      resources: 'resources';
-    };
+      resources: 'resources'
+    }
     things: {
-      resources: 'resources';
-    };
+      resources: 'resources'
+    }
     kpis: {
-      goals: 'goals';
-    };
-  };
+      goals: 'goals'
+    }
+  }
   collectionsSelect: {
-    functions: FunctionsSelect<false> | FunctionsSelect<true>;
-    workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
-    agents: AgentsSelect<false> | AgentsSelect<true>;
-    services: ServicesSelect<false> | ServicesSelect<true>;
-    queues: QueuesSelect<false> | QueuesSelect<true>;
-    tasks: TasksSelect<false> | TasksSelect<true>;
-    goals: GoalsSelect<false> | GoalsSelect<true>;
-    plans: PlansSelect<false> | PlansSelect<true>;
-    waitlist: WaitlistSelect<false> | WaitlistSelect<true>;
-    nouns: NounsSelect<false> | NounsSelect<true>;
-    things: ThingsSelect<false> | ThingsSelect<true>;
-    verbs: VerbsSelect<false> | VerbsSelect<true>;
-    databases: DatabasesSelect<false> | DatabasesSelect<true>;
-    resources: ResourcesSelect<false> | ResourcesSelect<true>;
-    chatResources: ChatResourcesSelect<false> | ChatResourcesSelect<true>;
-    relationships: RelationshipsSelect<false> | RelationshipsSelect<true>;
-    integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
-    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
-    connectAccounts: ConnectAccountsSelect<false> | ConnectAccountsSelect<true>;
-    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
-    integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
-    integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
-    triggers: TriggersSelect<false> | TriggersSelect<true>;
-    searches: SearchesSelect<false> | SearchesSelect<true>;
-    actions: ActionsSelect<false> | ActionsSelect<true>;
-    experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
-    experimentMetrics: ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>;
-    models: ModelsSelect<false> | ModelsSelect<true>;
-    providers: ProvidersSelect<false> | ProvidersSelect<true>;
-    labs: LabsSelect<false> | LabsSelect<true>;
-    prompts: PromptsSelect<false> | PromptsSelect<true>;
-    settings: SettingsSelect<false> | SettingsSelect<true>;
-    types: TypesSelect<false> | TypesSelect<true>;
-    modules: ModulesSelect<false> | ModulesSelect<true>;
-    packages: PackagesSelect<false> | PackagesSelect<true>;
-    deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
-    benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>;
-    evals: EvalsSelect<false> | EvalsSelect<true>;
-    evalRuns: EvalRunsSelect<false> | EvalRunsSelect<true>;
-    evalResults: EvalResultsSelect<false> | EvalResultsSelect<true>;
-    datasets: DatasetsSelect<false> | DatasetsSelect<true>;
-    events: EventsSelect<false> | EventsSelect<true>;
-    errors: ErrorsSelect<false> | ErrorsSelect<true>;
-    generations: GenerationsSelect<false> | GenerationsSelect<true>;
-    generationBatches: GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
-    traces: TracesSelect<false> | TracesSelect<true>;
-    kpis: KpisSelect<false> | KpisSelect<true>;
-    organizations: OrganizationsSelect<false> | OrganizationsSelect<true>;
-    billingPlans: BillingPlansSelect<false> | BillingPlansSelect<true>;
-    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
-    usage: UsageSelect<false> | UsageSelect<true>;
-    config: ConfigSelect<false> | ConfigSelect<true>;
-    projects: ProjectsSelect<false> | ProjectsSelect<true>;
-    domains: DomainsSelect<false> | DomainsSelect<true>;
-    users: UsersSelect<false> | UsersSelect<true>;
-    roles: RolesSelect<false> | RolesSelect<true>;
-    tags: TagsSelect<false> | TagsSelect<true>;
-    webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
-    apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
-    oauthClients: OauthClientsSelect<false> | OauthClientsSelect<true>;
-    oauthCodes: OauthCodesSelect<false> | OauthCodesSelect<true>;
-    oauthTokens: OauthTokensSelect<false> | OauthTokensSelect<true>;
-    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
-  };
+    functions: FunctionsSelect<false> | FunctionsSelect<true>
+    workflows: WorkflowsSelect<false> | WorkflowsSelect<true>
+    agents: AgentsSelect<false> | AgentsSelect<true>
+    services: ServicesSelect<false> | ServicesSelect<true>
+    queues: QueuesSelect<false> | QueuesSelect<true>
+    tasks: TasksSelect<false> | TasksSelect<true>
+    goals: GoalsSelect<false> | GoalsSelect<true>
+    plans: PlansSelect<false> | PlansSelect<true>
+    waitlist: WaitlistSelect<false> | WaitlistSelect<true>
+    nouns: NounsSelect<false> | NounsSelect<true>
+    things: ThingsSelect<false> | ThingsSelect<true>
+    verbs: VerbsSelect<false> | VerbsSelect<true>
+    databases: DatabasesSelect<false> | DatabasesSelect<true>
+    resources: ResourcesSelect<false> | ResourcesSelect<true>
+    chatResources: ChatResourcesSelect<false> | ChatResourcesSelect<true>
+    relationships: RelationshipsSelect<false> | RelationshipsSelect<true>
+    integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>
+    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>
+    connectAccounts: ConnectAccountsSelect<false> | ConnectAccountsSelect<true>
+    connections: ConnectionsSelect<false> | ConnectionsSelect<true>
+    integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>
+    integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>
+    triggers: TriggersSelect<false> | TriggersSelect<true>
+    searches: SearchesSelect<false> | SearchesSelect<true>
+    actions: ActionsSelect<false> | ActionsSelect<true>
+    experiments: ExperimentsSelect<false> | ExperimentsSelect<true>
+    experimentMetrics: ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>
+    models: ModelsSelect<false> | ModelsSelect<true>
+    providers: ProvidersSelect<false> | ProvidersSelect<true>
+    labs: LabsSelect<false> | LabsSelect<true>
+    prompts: PromptsSelect<false> | PromptsSelect<true>
+    settings: SettingsSelect<false> | SettingsSelect<true>
+    types: TypesSelect<false> | TypesSelect<true>
+    modules: ModulesSelect<false> | ModulesSelect<true>
+    packages: PackagesSelect<false> | PackagesSelect<true>
+    deployments: DeploymentsSelect<false> | DeploymentsSelect<true>
+    benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>
+    evals: EvalsSelect<false> | EvalsSelect<true>
+    evalRuns: EvalRunsSelect<false> | EvalRunsSelect<true>
+    evalResults: EvalResultsSelect<false> | EvalResultsSelect<true>
+    datasets: DatasetsSelect<false> | DatasetsSelect<true>
+    events: EventsSelect<false> | EventsSelect<true>
+    errors: ErrorsSelect<false> | ErrorsSelect<true>
+    generations: GenerationsSelect<false> | GenerationsSelect<true>
+    generationBatches: GenerationBatchesSelect<false> | GenerationBatchesSelect<true>
+    traces: TracesSelect<false> | TracesSelect<true>
+    kpis: KpisSelect<false> | KpisSelect<true>
+    organizations: OrganizationsSelect<false> | OrganizationsSelect<true>
+    billingPlans: BillingPlansSelect<false> | BillingPlansSelect<true>
+    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>
+    usage: UsageSelect<false> | UsageSelect<true>
+    config: ConfigSelect<false> | ConfigSelect<true>
+    projects: ProjectsSelect<false> | ProjectsSelect<true>
+    domains: DomainsSelect<false> | DomainsSelect<true>
+    users: UsersSelect<false> | UsersSelect<true>
+    roles: RolesSelect<false> | RolesSelect<true>
+    tags: TagsSelect<false> | TagsSelect<true>
+    webhooks: WebhooksSelect<false> | WebhooksSelect<true>
+    apikeys: ApikeysSelect<false> | ApikeysSelect<true>
+    oauthClients: OauthClientsSelect<false> | OauthClientsSelect<true>
+    oauthCodes: OauthCodesSelect<false> | OauthCodesSelect<true>
+    oauthTokens: OauthTokensSelect<false> | OauthTokensSelect<true>
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
+  }
   db: {
-    defaultIDType: string;
-  };
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+    defaultIDType: string
+  }
+  globals: {}
+  globalsSelect: {}
+  locale: null
   user:
     | (User & {
-        collection: 'users';
+        collection: 'users'
       })
     | (Apikey & {
-        collection: 'apikeys';
-      });
+        collection: 'apikeys'
+      })
   jobs: {
     tasks: {
-      createRecord: TaskCreateRecord;
-      executeFunction: TaskExecuteFunction;
-      generateCode: TaskGenerateCode;
-      requestHumanFeedback: TaskRequestHumanFeedback;
-      monitorHumanFeedbackTask: TaskMonitorHumanFeedbackTask;
-      executeAgentFunction: TaskExecuteAgentFunction;
-      updateSlackMessage: TaskUpdateSlackMessage;
-      processBatchOpenAI: TaskProcessBatchOpenAI;
-      processBatchAnthropic: TaskProcessBatchAnthropic;
-      processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
-      processBatchParasail: TaskProcessBatchParasail;
-      processBatchCloudflare: TaskProcessBatchCloudflare;
-      processBatchGroq: TaskProcessBatchGroq;
-      createGenerationBatch: TaskCreateGenerationBatch;
-      generateFunctionExamples: TaskGenerateFunctionExamples;
-      executeCodeFunction: TaskExecuteCodeFunction;
-      processCodeFunctionWrapper: TaskProcessCodeFunctionWrapper;
-      processCodeFunction: TaskProcessCodeFunction;
-      deployWorker: TaskDeployWorker;
-      generateResourceEmbedding: TaskGenerateResourceEmbedding;
-      generateThingEmbedding: TaskGenerateThingEmbedding;
-      searchThings: TaskSearchThings;
-      hybridSearchThings: TaskHybridSearchThings;
-      generateEmbedding: TaskGenerateEmbedding;
-      inflectNouns: TaskInflectNouns;
-      conjugateVerbs: TaskConjugateVerbs;
-      analyzeFunction: TaskAnalyzeFunction;
-      deliverWebhook: TaskDeliverWebhook;
-      initiateComposioConnection: TaskInitiateComposioConnection;
-      processDomain: TaskProcessDomain;
-      postGithubComment: TaskPostGithubComment;
-      githubFileOperations: TaskGithubFileOperations;
-      saveExecutionResults: TaskSaveExecutionResults;
-      researchTask: TaskResearchTask;
-      sendResearchResultsToSlack: TaskSendResearchResultsToSlack;
-      handleLinearWebhook: TaskHandleLinearWebhook;
-      syncTaskToLinear: TaskSyncTaskToLinear;
-      deleteLinearIssue: TaskDeleteLinearIssue;
-      checkServiceHealth: TaskCheckServiceHealth;
-      discoverServices: TaskDiscoverServices;
+      createRecord: TaskCreateRecord
+      executeFunction: TaskExecuteFunction
+      generateCode: TaskGenerateCode
+      requestHumanFeedback: TaskRequestHumanFeedback
+      monitorHumanFeedbackTask: TaskMonitorHumanFeedbackTask
+      executeAgentFunction: TaskExecuteAgentFunction
+      updateSlackMessage: TaskUpdateSlackMessage
+      processBatchOpenAI: TaskProcessBatchOpenAI
+      processBatchAnthropic: TaskProcessBatchAnthropic
+      processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI
+      processBatchParasail: TaskProcessBatchParasail
+      processBatchCloudflare: TaskProcessBatchCloudflare
+      processBatchGroq: TaskProcessBatchGroq
+      createGenerationBatch: TaskCreateGenerationBatch
+      generateFunctionExamples: TaskGenerateFunctionExamples
+      executeCodeFunction: TaskExecuteCodeFunction
+      processCodeFunctionWrapper: TaskProcessCodeFunctionWrapper
+      processCodeFunction: TaskProcessCodeFunction
+      deployWorker: TaskDeployWorker
+      generateResourceEmbedding: TaskGenerateResourceEmbedding
+      generateThingEmbedding: TaskGenerateThingEmbedding
+      searchThings: TaskSearchThings
+      hybridSearchThings: TaskHybridSearchThings
+      generateEmbedding: TaskGenerateEmbedding
+      inflectNouns: TaskInflectNouns
+      conjugateVerbs: TaskConjugateVerbs
+      analyzeFunction: TaskAnalyzeFunction
+      deliverWebhook: TaskDeliverWebhook
+      initiateComposioConnection: TaskInitiateComposioConnection
+      processDomain: TaskProcessDomain
+      postGithubComment: TaskPostGithubComment
+      githubFileOperations: TaskGithubFileOperations
+      saveExecutionResults: TaskSaveExecutionResults
+      researchTask: TaskResearchTask
+      sendResearchResultsToSlack: TaskSendResearchResultsToSlack
+      handleLinearWebhook: TaskHandleLinearWebhook
+      syncTaskToLinear: TaskSyncTaskToLinear
+      deleteLinearIssue: TaskDeleteLinearIssue
+      checkServiceHealth: TaskCheckServiceHealth
+      discoverServices: TaskDiscoverServices
       inline: {
-        input: unknown;
-        output: unknown;
-      };
-    };
+        input: unknown
+        output: unknown
+      }
+    }
     workflows: {
-      handleGithubEvent: WorkflowHandleGithubEvent;
-      handleStripeEvent: WorkflowHandleStripeEvent;
-      recordEvent: WorkflowRecordEvent;
-    };
-  };
+      handleGithubEvent: WorkflowHandleGithubEvent
+      handleStripeEvent: WorkflowHandleStripeEvent
+      recordUsageEvent: WorkflowRecordUsageEvent
+    }
+  }
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 export interface ApikeyAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 /**
  * Reusable AI capabilities with typed inputs and outputs
@@ -337,18 +337,18 @@ export interface ApikeyAuthOperations {
  * via the `definition` "functions".
  */
 export interface Function {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
-  type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
+  id: string
+  tenant?: (string | null) | Project
+  name: string
+  type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null
   /**
    * Make this function available to other users
    */
-  public?: boolean | null;
+  public?: boolean | null
   /**
    * Original function this was cloned from
    */
-  clonedFrom?: (string | null) | Function;
+  clonedFrom?: (string | null) | Function
   /**
    * Monetization settings for this function
    */
@@ -356,62 +356,62 @@ export interface Function {
     /**
      * Enable monetization for this function
      */
-    isMonetized?: boolean | null;
+    isMonetized?: boolean | null
     /**
      * Billing model for this function
      */
-    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
+    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null
     /**
      * Price per use in USD cents (platform fee is 30% above LLM costs)
      */
-    pricePerUse?: number | null;
+    pricePerUse?: number | null
     /**
      * Unit of measurement for consumption
      */
-    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
+    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null
     /**
      * Price per consumption unit in USD cents
      */
-    consumptionRate?: number | null;
+    consumptionRate?: number | null
     /**
      * Subscription plan for this function
      */
-    billingPlan?: (string | null) | BillingPlan;
+    billingPlan?: (string | null) | BillingPlan
     /**
      * Stripe Product ID (auto-generated)
      */
-    stripeProductId?: string | null;
+    stripeProductId?: string | null
     /**
      * Stripe Price ID (auto-generated)
      */
-    stripePriceId?: string | null;
-  };
-  format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' | 'Video') | null;
-  schemaYaml?: string | null;
+    stripePriceId?: string | null
+  }
+  format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' | 'Video') | null
+  schemaYaml?: string | null
   shape?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  code?: string | null;
-  prompt?: (string | null) | Prompt;
-  role?: string | null;
-  user?: (string | null) | User;
-  agent?: (string | null) | Agent;
+    | null
+  code?: string | null
+  prompt?: (string | null) | Prompt
+  role?: string | null
+  user?: (string | null) | User
+  agent?: (string | null) | Agent
   /**
    * Example arguments for this function
    */
-  examples?: (string | Resource)[] | null;
+  examples?: (string | Resource)[] | null
   /**
    * Goals this function contributes to
    */
-  goals?: (string | Goal)[] | null;
-  updatedAt: string;
-  createdAt: string;
+  goals?: (string | Goal)[] | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages projects and their associated domains
@@ -420,16 +420,16 @@ export interface Function {
  * via the `definition` "projects".
  */
 export interface Project {
-  id: string;
-  name?: string | null;
-  domain?: string | null;
-  domains?: (string | Domain)[] | null;
+  id: string
+  name?: string | null
+  domain?: string | null
+  domains?: (string | Domain)[] | null
   /**
    * Goals associated with this project
    */
-  goals?: (string | Goal)[] | null;
-  updatedAt: string;
-  createdAt: string;
+  goals?: (string | Goal)[] | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages domain connections and DNS configuration
@@ -438,22 +438,22 @@ export interface Project {
  * via the `definition` "domains".
  */
 export interface Domain {
-  id: string;
-  name: string;
-  domain: string;
-  project: string | Project;
-  status?: ('pending' | 'active' | 'error') | null;
+  id: string
+  name: string
+  domain: string
+  project: string | Project
+  status?: ('pending' | 'active' | 'error') | null
   hostnames?:
     | {
-        hostname?: string | null;
-        id?: string | null;
+        hostname?: string | null
+        id?: string | null
       }[]
-    | null;
-  vercelId?: string | null;
-  cloudflareId?: string | null;
-  errorMessage?: string | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  vercelId?: string | null
+  cloudflareId?: string | null
+  errorMessage?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages objectives and key results for tracking progress
@@ -462,21 +462,21 @@ export interface Domain {
  * via the `definition` "goals".
  */
 export interface Goal {
-  id: string;
-  tenant?: (string | null) | Project;
-  title: string;
+  id: string
+  tenant?: (string | null) | Project
+  title: string
   /**
    * The objective of this goal
    */
-  objective: string;
+  objective: string
   keyResults: {
-    description: string;
-    value: number;
-    kpiRelationship?: (string | null) | Kpi;
-    id?: string | null;
-  }[];
-  updatedAt: string;
-  createdAt: string;
+    description: string
+    value: number
+    kpiRelationship?: (string | null) | Kpi
+    id?: string | null
+  }[]
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages key performance indicators for tracking business metrics
@@ -485,40 +485,40 @@ export interface Goal {
  * via the `definition` "kpis".
  */
 export interface Kpi {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
+  id: string
+  tenant?: (string | null) | Project
+  name: string
   /**
    * Current value of the KPI
    */
-  value?: number | null;
+  value?: number | null
   /**
    * Target value of the KPI
    */
-  target?: number | null;
+  target?: number | null
   /**
    * Unit of measurement (e.g., $, %, users)
    */
-  unit?: string | null;
+  unit?: string | null
   /**
    * Format for displaying the KPI value
    */
-  format?: ('number' | 'currency' | 'percentage') | null;
+  format?: ('number' | 'currency' | 'percentage') | null
   /**
    * Detailed description of what this KPI measures
    */
-  description?: string | null;
+  description?: string | null
   /**
    * The project or tenant this KPI belongs to
    */
-  project?: (string | null) | Project;
+  project?: (string | null) | Project
   goals?: {
-    docs?: (string | Goal)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
+    docs?: (string | Goal)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Define pricing plans for the platform
@@ -527,46 +527,46 @@ export interface Kpi {
  * via the `definition` "billingPlans".
  */
 export interface BillingPlan {
-  id: string;
+  id: string
   /**
    * Name of the billing plan
    */
-  name: string;
+  name: string
   /**
    * Description of the billing plan
    */
-  description?: string | null;
+  description?: string | null
   /**
    * Type of billing model
    */
-  billingType: 'prepaid' | 'postpaid' | 'subscription';
+  billingType: 'prepaid' | 'postpaid' | 'subscription'
   /**
    * Amount in cents
    */
-  amount: number;
-  currency: 'usd' | 'eur' | 'gbp';
+  amount: number
+  currency: 'usd' | 'eur' | 'gbp'
   /**
    * Billing interval for subscriptions
    */
-  interval?: ('month' | 'year') | null;
+  interval?: ('month' | 'year') | null
   /**
    * Number of credits included (for pre-paid plans)
    */
-  credits?: number | null;
+  credits?: number | null
   /**
    * Stripe Product ID (auto-generated)
    */
-  stripeProductId?: string | null;
+  stripeProductId?: string | null
   /**
    * Stripe Price ID (auto-generated)
    */
-  stripePriceId?: string | null;
+  stripePriceId?: string | null
   /**
    * Whether this plan is active and available for purchase
    */
-  isActive?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
+  isActive?: boolean | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages prompt templates for AI model interactions
@@ -575,11 +575,11 @@ export interface BillingPlan {
  * via the `definition` "prompts".
  */
 export interface Prompt {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages user accounts and their associated roles
@@ -588,34 +588,34 @@ export interface Prompt {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
-  name: string;
-  image?: string | null;
-  role: 'user' | 'admin' | 'superAdmin';
-  emailVerified: boolean;
+  id: string
+  name: string
+  image?: string | null
+  role: 'user' | 'admin' | 'superAdmin'
+  emailVerified: boolean
   /**
    * User roles for permissions and access control
    */
-  roles?: (string | Role)[] | null;
+  roles?: (string | Role)[] | null
   tenants?:
     | {
-        tenant: string | Project;
-        id?: string | null;
+        tenant: string | Project
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
+    | null
+  updatedAt: string
+  createdAt: string
+  enableAPIKey?: boolean | null
+  apiKey?: string | null
+  apiKeyIndex?: string | null
+  email: string
+  resetPasswordToken?: string | null
+  resetPasswordExpiration?: string | null
+  salt?: string | null
+  hash?: string | null
+  loginAttempts?: number | null
+  lockUntil?: string | null
+  password?: string | null
 }
 /**
  * Manages user roles and permissions within the system
@@ -624,14 +624,14 @@ export interface User {
  * via the `definition` "roles".
  */
 export interface Role {
-  id: string;
-  name: string;
+  id: string
+  name: string
   /**
    * Grant super admin privileges to users with this role
    */
-  superAdmin?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
+  superAdmin?: boolean | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Autonomous AI agents that can perform tasks using functions and workflows
@@ -640,17 +640,17 @@ export interface Role {
  * via the `definition` "agents".
  */
 export interface Agent {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
   /**
    * Make this agent available to other users
    */
-  public?: boolean | null;
+  public?: boolean | null
   /**
    * Original agent this was cloned from
    */
-  clonedFrom?: (string | null) | Agent;
+  clonedFrom?: (string | null) | Agent
   /**
    * Monetization settings for this agent
    */
@@ -658,42 +658,42 @@ export interface Agent {
     /**
      * Enable monetization for this agent
      */
-    isMonetized?: boolean | null;
+    isMonetized?: boolean | null
     /**
      * Billing model for this agent
      */
-    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
+    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null
     /**
      * Price per use in USD cents (platform fee is 30% above LLM costs)
      */
-    pricePerUse?: number | null;
+    pricePerUse?: number | null
     /**
      * Unit of measurement for consumption
      */
-    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
+    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null
     /**
      * Price per consumption unit in USD cents
      */
-    consumptionRate?: number | null;
+    consumptionRate?: number | null
     /**
      * Subscription plan for this agent
      */
-    billingPlan?: (string | null) | BillingPlan;
+    billingPlan?: (string | null) | BillingPlan
     /**
      * Stripe Product ID (auto-generated)
      */
-    stripeProductId?: string | null;
+    stripeProductId?: string | null
     /**
      * Stripe Price ID (auto-generated)
      */
-    stripePriceId?: string | null;
-  };
+    stripePriceId?: string | null
+  }
   /**
    * Goals this agent contributes to
    */
-  goals?: (string | Goal)[] | null;
-  updatedAt: string;
-  createdAt: string;
+  goals?: (string | Goal)[] | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Structured data resources with embeddings for semantic search
@@ -702,44 +702,44 @@ export interface Agent {
  * via the `definition` "resources".
  */
 export interface Resource {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  sqid?: string | null;
-  hash?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  sqid?: string | null
+  hash?: string | null
   type?:
     | ({
-        relationTo: 'nouns';
-        value: string | Noun;
+        relationTo: 'nouns'
+        value: string | Noun
       } | null)
     | ({
-        relationTo: 'things';
-        value: string | Thing;
-      } | null);
-  yaml?: string | null;
+        relationTo: 'things'
+        value: string | Thing
+      } | null)
+  yaml?: string | null
   data?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   embedding?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  subjectOf?: (string | Relationship)[] | null;
-  objectOf?: (string | Relationship)[] | null;
-  content?: string | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  subjectOf?: (string | Relationship)[] | null
+  objectOf?: (string | Relationship)[] | null
+  content?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines semantic noun entities with their various grammatical forms
@@ -748,62 +748,62 @@ export interface Resource {
  * via the `definition` "nouns".
  */
 export interface Noun {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
   /**
    * Singular form like User
    */
-  singular?: string | null;
+  singular?: string | null
   /**
    * Plural form like Users
    */
-  plural?: string | null;
+  plural?: string | null
   /**
    * Possessive form like User's
    */
-  possessive?: string | null;
+  possessive?: string | null
   /**
    * Plural possessive form like Users'
    */
-  pluralPossessive?: string | null;
+  pluralPossessive?: string | null
   /**
    * Related verb like Use
    */
-  verb?: string | null;
+  verb?: string | null
   /**
    * Third person singular present tense like Uses
    */
-  act?: string | null;
+  act?: string | null
   /**
    * Gerund like Using
    */
-  activity?: string | null;
+  activity?: string | null
   /**
    * Past tense like Used
    */
-  event?: string | null;
+  event?: string | null
   /**
    * Display order in admin interface
    */
-  order?: number | null;
+  order?: number | null
   /**
    * Admin group for organizing collections
    */
-  group?: string | null;
+  group?: string | null
   type?:
     | {
-        relationTo: 'things';
-        value: string | Thing;
+        relationTo: 'things'
+        value: string | Thing
       }[]
-    | null;
+    | null
   resources?: {
-    docs?: (string | Resource)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
+    docs?: (string | Resource)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines semantic types with their various grammatical forms
@@ -812,47 +812,47 @@ export interface Noun {
  * via the `definition` "things".
  */
 export interface Thing {
-  id: string;
-  name?: string | null;
+  id: string
+  name?: string | null
   /**
    * Singular form
    */
-  singular?: string | null;
+  singular?: string | null
   /**
    * Plural form
    */
-  plural?: string | null;
+  plural?: string | null
   /**
    * Possessive form
    */
-  possessive?: string | null;
+  possessive?: string | null
   /**
    * Plural possessive form
    */
-  pluralPossessive?: string | null;
+  pluralPossessive?: string | null
   /**
    * Related verb
    */
-  verb?: string | null;
+  verb?: string | null
   /**
    * Third person singular present tense
    */
-  act?: string | null;
+  act?: string | null
   /**
    * Gerund
    */
-  activity?: string | null;
+  activity?: string | null
   /**
    * Past tense
    */
-  event?: string | null;
+  event?: string | null
   resources?: {
-    docs?: (string | Resource)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
+    docs?: (string | Resource)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines semantic relationships between resources using subject-verb-object patterns
@@ -861,13 +861,13 @@ export interface Thing {
  * via the `definition` "relationships".
  */
 export interface Relationship {
-  id: string;
-  subject?: (string | null) | Resource;
-  verb?: (string | null) | Verb;
-  object?: (string | null) | Resource;
-  hash?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  subject?: (string | null) | Resource
+  verb?: (string | null) | Verb
+  object?: (string | null) | Resource
+  hash?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines action verbs and their conjugations for semantic relationships
@@ -876,58 +876,58 @@ export interface Relationship {
  * via the `definition` "verbs".
  */
 export interface Verb {
-  id: string;
-  tenant?: (string | null) | Project;
+  id: string
+  tenant?: (string | null) | Project
   /**
    * Active tense like Create
    */
-  action?: string | null;
+  action?: string | null
   /**
    * Third person singular present tense like Creates
    */
-  act?: string | null;
+  act?: string | null
   /**
    * Gerund like Creating
    */
-  activity?: string | null;
+  activity?: string | null
   /**
    * Past tense like Created
    */
-  event?: string | null;
+  event?: string | null
   /**
    * Subject like Creator
    */
-  subject?: string | null;
+  subject?: string | null
   /**
    * Object like Creation
    */
-  object?: string | null;
+  object?: string | null
   /**
    * Opposite like Destroy
    */
-  inverse?: string | null;
+  inverse?: string | null
   /**
    * Third person singular present tense like Destroys
    */
-  inverseAct?: string | null;
+  inverseAct?: string | null
   /**
    * Gerund like Destroying
    */
-  inverseActivity?: string | null;
+  inverseActivity?: string | null
   /**
    * Past tense like Destroyed
    */
-  inverseEvent?: string | null;
+  inverseEvent?: string | null
   /**
    * Subject like Destroyer
    */
-  inverseSubject?: string | null;
+  inverseSubject?: string | null
   /**
    * Object like Destruction
    */
-  inverseObject?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  inverseObject?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Orchestrates functions into reusable business processes
@@ -936,27 +936,27 @@ export interface Verb {
  * via the `definition` "workflows".
  */
 export interface Workflow {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  type?: string | null;
-  code?: string | null;
-  functions?: (string | null) | Function;
-  module?: (string | null) | Module;
-  package?: (string | null) | Package;
-  deployment?: (string | null) | Deployment;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  type?: string | null
+  code?: string | null
+  functions?: (string | null) | Function
+  module?: (string | null) | Module
+  package?: (string | null) | Package
+  deployment?: (string | null) | Deployment
   /**
    * Goals this workflow contributes to
    */
-  goals?: (string | Goal)[] | null;
+  goals?: (string | Goal)[] | null
   /**
    * Make this workflow available to other users
    */
-  public?: boolean | null;
+  public?: boolean | null
   /**
    * Original workflow this was cloned from
    */
-  clonedFrom?: (string | null) | Workflow;
+  clonedFrom?: (string | null) | Workflow
   /**
    * Monetization settings for this workflow
    */
@@ -964,38 +964,38 @@ export interface Workflow {
     /**
      * Enable monetization for this workflow
      */
-    isMonetized?: boolean | null;
+    isMonetized?: boolean | null
     /**
      * Billing model for this workflow
      */
-    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
+    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null
     /**
      * Price per use in USD cents (platform fee is 30% above LLM costs)
      */
-    pricePerUse?: number | null;
+    pricePerUse?: number | null
     /**
      * Unit of measurement for consumption
      */
-    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
+    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null
     /**
      * Price per consumption unit in USD cents
      */
-    consumptionRate?: number | null;
+    consumptionRate?: number | null
     /**
      * Subscription plan for this workflow
      */
-    billingPlan?: (string | null) | BillingPlan;
+    billingPlan?: (string | null) | BillingPlan
     /**
      * Stripe Product ID (auto-generated)
      */
-    stripeProductId?: string | null;
+    stripeProductId?: string | null
     /**
      * Stripe Price ID (auto-generated)
      */
-    stripePriceId?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
+    stripePriceId?: string | null
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages code modules that can be imported and used in functions
@@ -1004,11 +1004,11 @@ export interface Workflow {
  * via the `definition` "modules".
  */
 export interface Module {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines packages for publishing to NPM with included collections
@@ -1017,21 +1017,21 @@ export interface Module {
  * via the `definition` "packages".
  */
 export interface Package {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
   /**
    * The package.json content for publishing to NPM
    */
   package?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Collections to include in this package
    */
@@ -1040,12 +1040,12 @@ export interface Package {
         /**
          * Collection slug to include
          */
-        items?: string | null;
-        id?: string | null;
+        items?: string | null
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages deployments of code to production environments
@@ -1054,11 +1054,11 @@ export interface Package {
  * via the `definition` "deployments".
  */
 export interface Deployment {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Services-as-Software with billing capabilities
@@ -1067,31 +1067,31 @@ export interface Deployment {
  * via the `definition` "services".
  */
 export interface Service {
-  id: string;
-  name: string;
-  status: 'active' | 'inactive' | 'degraded';
-  description?: string | null;
-  endpoint: string;
-  version?: string | null;
+  id: string
+  name: string
+  status: 'active' | 'inactive' | 'degraded'
+  description?: string | null
+  endpoint: string
+  version?: string | null
   /**
    * Business objective this service aims to achieve
    */
   objective: {
-    description: string;
-  };
+    description: string
+  }
   /**
    * Key results for measuring service success
    */
   keyResults?:
     | {
-        description: string;
-        target?: number | null;
-        currentValue?: number | null;
-        unit?: string | null;
-        dueDate?: string | null;
-        id?: string | null;
+        description: string
+        target?: number | null
+        currentValue?: number | null
+        unit?: string | null
+        dueDate?: string | null
+        id?: string | null
       }[]
-    | null;
+    | null
   /**
    * Service pricing configuration
    */
@@ -1099,79 +1099,79 @@ export interface Service {
     /**
      * Pricing model for this service
      */
-    model: 'cost-based' | 'margin-based' | 'activity-based' | 'outcome-based';
+    model: 'cost-based' | 'margin-based' | 'activity-based' | 'outcome-based'
     /**
      * Base cost in USD
      */
-    costBase?: number | null;
+    costBase?: number | null
     /**
      * Fixed costs in USD
      */
-    fixedCosts?: number | null;
+    fixedCosts?: number | null
     /**
      * Variable costs in USD
      */
-    variableCosts?: number | null;
+    variableCosts?: number | null
     /**
      * Margin percentage (0-100)
      */
-    marginPercentage?: number | null;
+    marginPercentage?: number | null
     /**
      * Billable activities with rates
      */
     activities?:
       | {
-          name: string;
-          description?: string | null;
-          rate: number;
-          id?: string | null;
+          name: string
+          description?: string | null
+          rate: number
+          id?: string | null
         }[]
-      | null;
+      | null
     /**
      * Billable outcomes with targets and prices
      */
     outcomes?:
       | {
-          metric: string;
-          description?: string | null;
-          targetValue: number;
-          price: number;
-          unit?: string | null;
-          id?: string | null;
+          metric: string
+          description?: string | null
+          targetValue: number
+          price: number
+          unit?: string | null
+          id?: string | null
         }[]
-      | null;
-  };
+      | null
+  }
   /**
    * Service implementation details
    */
   implementation: {
-    type: 'function' | 'workflow' | 'agent';
-    id: string;
-    version?: string | null;
+    type: 'function' | 'workflow' | 'agent'
+    id: string
+    version?: string | null
     configuration?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   /**
    * Additional metadata for the service
    */
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages work queues for task assignment and processing
@@ -1180,17 +1180,17 @@ export interface Service {
  * via the `definition` "queues".
  */
 export interface Queue {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
-  role: string | Role;
+  id: string
+  tenant?: (string | null) | Project
+  name: string
+  role: string | Role
   tasks?: {
-    docs?: (string | Task)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
+    docs?: (string | Task)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages work items and assignments within the platform
@@ -1199,60 +1199,60 @@ export interface Queue {
  * via the `definition` "tasks".
  */
 export interface Task {
-  id: string;
-  tenant?: (string | null) | Project;
-  title: string;
-  status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
-  queue?: (string | null) | Queue;
+  id: string
+  tenant?: (string | null) | Project
+  title: string
+  status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null
+  queue?: (string | null) | Queue
   assigned?:
     | (
         | {
-            relationTo: 'users';
-            value: string | User;
+            relationTo: 'users'
+            value: string | User
           }
         | {
-            relationTo: 'roles';
-            value: string | Role;
+            relationTo: 'roles'
+            value: string | Role
           }
         | {
-            relationTo: 'agents';
-            value: string | Agent;
+            relationTo: 'agents'
+            value: string | Agent
           }
       )[]
-    | null;
-  parent?: (string | null) | Task;
-  description?: string | null;
+    | null
+  parent?: (string | null) | Task
+  description?: string | null
   subtasks?: {
-    docs?: (string | Task)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  dependentOn?: (string | Task)[] | null;
+    docs?: (string | Task)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  dependentOn?: (string | Task)[] | null
   dependents?: {
-    docs?: (string | Task)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+    docs?: (string | Task)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   linearMetadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Strategic plans with actionable steps to achieve goals
@@ -1261,29 +1261,29 @@ export interface Task {
  * via the `definition` "plans".
  */
 export interface Plan {
-  id: string;
-  name: string;
-  description?: string | null;
-  status?: ('draft' | 'active' | 'completed' | 'archived') | null;
-  startDate?: string | null;
-  endDate?: string | null;
-  owner?: (string | null) | User;
-  goals?: (string | Goal)[] | null;
-  tags?: (string | Tag)[] | null;
-  priority?: ('low' | 'medium' | 'high' | 'critical') | null;
+  id: string
+  name: string
+  description?: string | null
+  status?: ('draft' | 'active' | 'completed' | 'archived') | null
+  startDate?: string | null
+  endDate?: string | null
+  owner?: (string | null) | User
+  goals?: (string | Goal)[] | null
+  tags?: (string | Tag)[] | null
+  priority?: ('low' | 'medium' | 'high' | 'critical') | null
   steps?:
     | {
-        name: string;
-        description?: string | null;
-        order?: number | null;
-        duration?: number | null;
-        assignee?: (string | null) | User;
-        status?: ('not_started' | 'in_progress' | 'completed' | 'blocked') | null;
-        id?: string | null;
+        name: string
+        description?: string | null
+        order?: number | null
+        duration?: number | null
+        assignee?: (string | null) | User
+        status?: ('not_started' | 'in_progress' | 'completed' | 'blocked') | null
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages tags for categorizing and organizing content
@@ -1292,9 +1292,9 @@ export interface Plan {
  * via the `definition` "tags".
  */
 export interface Tag {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages waitlist email submissions
@@ -1303,13 +1303,13 @@ export interface Tag {
  * via the `definition` "waitlist".
  */
 export interface Waitlist {
-  id: string;
-  email: string;
-  domain: string;
-  createdAt: string;
-  status?: ('pending' | 'contacted' | 'converted') | null;
-  notes?: string | null;
-  updatedAt: string;
+  id: string
+  email: string
+  domain: string
+  createdAt: string
+  status?: ('pending' | 'contacted' | 'converted') | null
+  notes?: string | null
+  updatedAt: string
 }
 /**
  * Manages database connections and configurations
@@ -1318,29 +1318,17 @@ export interface Waitlist {
  * via the `definition` "databases".
  */
 export interface Database {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
-  domain: string;
-  type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
-  schemaEnforcement: 'flexible' | 'enforced';
-  databaseType?: ('Mongo' | 'Postgres' | 'Sqlite') | null;
-  regions?:
-    | (
-        | 'us-east-1'
-        | 'us-east-2'
-        | 'us-west-1'
-        | 'us-west-2'
-        | 'eu-west-1'
-        | 'ap-northeast-1'
-        | 'ap-southeast-1'
-        | 'eu-central-1'
-        | 'ap-south-1'
-      )
-    | null;
-  nouns?: (string | Noun)[] | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  name: string
+  domain: string
+  type: 'Integrated' | 'Dedicated' | 'Self-Hosted'
+  schemaEnforcement: 'flexible' | 'enforced'
+  databaseType?: ('Mongo' | 'Postgres' | 'Sqlite') | null
+  regions?: ('us-east-1' | 'us-east-2' | 'us-west-1' | 'us-west-2' | 'eu-west-1' | 'ap-northeast-1' | 'ap-southeast-1' | 'eu-central-1' | 'ap-south-1') | null
+  nouns?: (string | Noun)[] | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * User-generated chat content and messages
@@ -1349,50 +1337,50 @@ export interface Database {
  * via the `definition` "chatResources".
  */
 export interface ChatResource {
-  id: string;
-  tenant?: (string | null) | Project;
-  title: string;
-  user: string | User;
-  resourceType: 'chat' | 'message' | 'document' | 'suggestion';
-  content?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  title: string
+  user: string | User
+  resourceType: 'chat' | 'message' | 'document' | 'suggestion'
+  content?: string | null
   parts?:
     | {
-        type?: ('text' | 'image' | 'code' | 'file') | null;
-        content?: string | null;
+        type?: ('text' | 'image' | 'code' | 'file') | null
+        content?: string | null
         metadata?:
           | {
-              [k: string]: unknown;
+              [k: string]: unknown
             }
           | unknown[]
           | string
           | number
           | boolean
-          | null;
-        id?: string | null;
+          | null
+        id?: string | null
       }[]
-    | null;
-  parentId?: (string | null) | ChatResource;
+    | null
+  parentId?: (string | null) | ChatResource
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  visibility?: ('private' | 'public') | null;
+    | null
+  visibility?: ('private' | 'public') | null
   votes?:
     | {
-        user?: (string | null) | User;
-        type?: ('up' | 'down') | null;
-        createdAt?: string | null;
-        id?: string | null;
+        user?: (string | null) | User
+        type?: ('up' | 'down') | null
+        createdAt?: string | null
+        id?: string | null
       }[]
-    | null;
-  kind?: ('text' | 'code' | 'image') | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  kind?: ('text' | 'code' | 'image') | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Organizes integrations into logical categories for easier discovery
@@ -1401,11 +1389,11 @@ export interface ChatResource {
  * via the `definition` "integrationCategories".
  */
 export interface IntegrationCategory {
-  id: string;
-  tenant?: (string | null) | Project;
-  category?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  category?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages external service integrations and their configurations
@@ -1414,12 +1402,12 @@ export interface IntegrationCategory {
  * via the `definition` "integrations".
  */
 export interface Integration {
-  tenant?: (string | null) | Project;
-  id: string;
-  name?: string | null;
-  provider?: ('composio' | 'linear') | null;
-  updatedAt: string;
-  createdAt: string;
+  tenant?: (string | null) | Project
+  id: string
+  name?: string | null
+  provider?: ('composio' | 'linear') | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Store Stripe Connect account information
@@ -1428,62 +1416,62 @@ export interface Integration {
  * via the `definition` "connectAccounts".
  */
 export interface ConnectAccount {
-  id: string;
-  tenant?: (string | null) | Project;
+  id: string
+  tenant?: (string | null) | Project
   /**
    * Name of the connection
    */
-  name: string;
+  name: string
   /**
    * User who created this connection
    */
-  user?: (string | null) | User;
+  user?: (string | null) | User
   /**
    * Integration this connection is for
    */
-  integration?: (string | null) | Integration;
+  integration?: (string | null) | Integration
   /**
    * Project associated with this Connect account
    */
-  project: string | Project;
+  project: string | Project
   /**
    * Stripe Connect Account ID
    */
-  stripeAccountId: string;
+  stripeAccountId: string
   /**
    * Type of Stripe Connect account
    */
-  accountType: 'standard' | 'express' | 'custom';
+  accountType: 'standard' | 'express' | 'custom'
   /**
    * Current status of the Connect account
    */
-  status: 'pending' | 'active' | 'restricted' | 'rejected';
+  status: 'pending' | 'active' | 'restricted' | 'rejected'
   /**
    * Whether charges are enabled for this account
    */
-  chargesEnabled?: boolean | null;
+  chargesEnabled?: boolean | null
   /**
    * Whether payouts are enabled for this account
    */
-  payoutsEnabled?: boolean | null;
+  payoutsEnabled?: boolean | null
   /**
    * Platform fee percentage for this account
    */
-  platformFeePercent?: number | null;
+  platformFeePercent?: number | null
   /**
    * Additional metadata from Stripe
    */
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages connections to external services and APIs
@@ -1492,23 +1480,23 @@ export interface ConnectAccount {
  * via the `definition` "connections".
  */
 export interface Connection {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  user: string | User;
-  integration: string | Integration;
-  status?: ('active' | 'inactive' | 'pending') | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  user: string | User
+  integration: string | Integration
+  status?: ('active' | 'inactive' | 'pending') | null
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines events from external systems that can trigger workflows
@@ -1517,34 +1505,34 @@ export interface Connection {
  * via the `definition` "integrationTriggers".
  */
 export interface IntegrationTrigger {
-  id: string;
-  tenant?: (string | null) | Project;
-  displayName?: string | null;
-  description?: string | null;
-  appKey?: string | null;
-  appName?: string | null;
-  appId?: string | null;
-  logo?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  displayName?: string | null
+  description?: string | null
+  appKey?: string | null
+  appName?: string | null
+  appId?: string | null
+  logo?: string | null
   payload?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   config?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines actions that can be performed through external integrations
@@ -1553,34 +1541,34 @@ export interface IntegrationTrigger {
  * via the `definition` "integrationActions".
  */
 export interface IntegrationAction {
-  id: string;
-  tenant?: (string | null) | Project;
-  displayName?: string | null;
-  description?: string | null;
-  appKey?: string | null;
-  appName?: string | null;
-  appId?: string | null;
-  version?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  displayName?: string | null
+  description?: string | null
+  appKey?: string | null
+  appName?: string | null
+  appId?: string | null
+  version?: string | null
   parameters?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   response?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines event triggers that can initiate workflows and actions
@@ -1589,29 +1577,29 @@ export interface IntegrationAction {
  * via the `definition` "triggers".
  */
 export interface Trigger {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
   payload?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   config?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Records and manages search queries and their results
@@ -1620,31 +1608,31 @@ export interface Trigger {
  * via the `definition` "searches".
  */
 export interface Search {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  query?: string | null;
-  searchType?: ('text' | 'vector' | 'hybrid') | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  query?: string | null
+  searchType?: ('text' | 'vector' | 'hybrid') | null
   results?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   embedding?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Records of actions performed within the system
@@ -1653,31 +1641,31 @@ export interface Search {
  * via the `definition` "actions".
  */
 export interface Action {
-  id: string;
-  name?: string | null;
-  description?: string | null;
-  functionId?: (string | null) | Function;
-  verbId?: (string | null) | Verb;
+  id: string
+  name?: string | null
+  description?: string | null
+  functionId?: (string | null) | Function
+  verbId?: (string | null) | Verb
   parameters?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   result?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Feature flags and A/B testing experiments with real-world user feedback metrics
@@ -1686,50 +1674,50 @@ export interface Action {
  * via the `definition` "experiments".
  */
 export interface Experiment {
-  id: string;
-  tenant?: (string | null) | Project;
+  id: string
+  tenant?: (string | null) | Project
   /**
    * Unique name for the experiment (used as the feature flag key)
    */
-  name: string;
+  name: string
   /**
    * Description of what this experiment is testing
    */
-  description?: string | null;
+  description?: string | null
   /**
    * Current status of the experiment
    */
-  status: 'draft' | 'active' | 'paused' | 'completed';
+  status: 'draft' | 'active' | 'paused' | 'completed'
   /**
    * Feature flag provider to use for this experiment
    */
-  provider: 'vercel' | 'internal';
+  provider: 'vercel' | 'internal'
   /**
    * Different variations to test in this experiment
    */
   variants: {
-    id: string | null;
+    id: string | null
     /**
      * Description of this variant
      */
-    description?: string | null;
+    description?: string | null
     /**
      * Whether this is the control/baseline variant
      */
-    isControl?: boolean | null;
+    isControl?: boolean | null
     /**
      * Configuration values for this variant
      */
     config:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  }[];
+      | null
+  }[]
   /**
    * Metrics to track for this experiment
    */
@@ -1738,22 +1726,22 @@ export interface Experiment {
         /**
          * Name of the metric (e.g., click_through_rate, conversion_rate)
          */
-        name: string;
+        name: string
         /**
          * Description of what this metric measures
          */
-        description?: string | null;
+        description?: string | null
         /**
          * Whether higher values for this metric are better
          */
-        higherIsBetter?: boolean | null;
+        higherIsBetter?: boolean | null
         /**
          * Whether this is a primary metric for the experiment
          */
-        primary?: boolean | null;
-        id?: string | null;
+        primary?: boolean | null
+        id?: string | null
       }[]
-    | null;
+    | null
   /**
    * How traffic is allocated between variants
    */
@@ -1761,32 +1749,32 @@ export interface Experiment {
     /**
      * Type of traffic allocation
      */
-    type: 'percentage' | 'user' | 'session';
+    type: 'percentage' | 'user' | 'session'
     /**
      * Allocation values for each variant (e.g., {"control": 50, "variant-a": 25, "variant-b": 25})
      */
     values:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   /**
    * Targeting rules for this experiment (optional)
    */
   targeting?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Duration of the experiment
    */
@@ -1794,26 +1782,26 @@ export interface Experiment {
     /**
      * When the experiment starts
      */
-    startDate?: string | null;
+    startDate?: string | null
     /**
      * When the experiment ends
      */
-    endDate?: string | null;
-  };
+    endDate?: string | null
+  }
   /**
    * Aggregated results of the experiment (updated periodically)
    */
   results?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Metrics collected from real-world user feedback for experiments
@@ -1822,49 +1810,49 @@ export interface Experiment {
  * via the `definition` "experimentMetrics".
  */
 export interface ExperimentMetric {
-  id: string;
+  id: string
   /**
    * The experiment this metric is associated with
    */
-  experimentId: string | Experiment;
+  experimentId: string | Experiment
   /**
    * The variant ID this metric is for
    */
-  variantId: string;
+  variantId: string
   /**
    * User ID associated with this metric (if available)
    */
-  userId?: string | null;
+  userId?: string | null
   /**
    * Session ID associated with this metric (if available)
    */
-  sessionId?: string | null;
+  sessionId?: string | null
   /**
    * Name of the metric (e.g., click_through_rate, conversion_rate)
    */
-  metricName: string;
+  metricName: string
   /**
    * Numeric value of the metric
    */
-  value: number;
+  value: number
   /**
    * When this metric was recorded
    */
-  timestamp?: string | null;
+  timestamp?: string | null
   /**
    * Additional metadata for this metric (e.g., browser, device, page)
    */
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines AI models with their capabilities and pricing information
@@ -1873,27 +1861,27 @@ export interface ExperimentMetric {
  * via the `definition` "models".
  */
 export interface Model {
-  tenant?: (string | null) | Project;
-  name: string;
-  id: string;
-  provider: string | Provider;
-  lab?: (string | null) | Lab;
-  description?: string | null;
-  context_length?: number | null;
+  tenant?: (string | null) | Project
+  name: string
+  id: string
+  provider: string | Provider
+  lab?: (string | null) | Lab
+  description?: string | null
+  context_length?: number | null
   pricing?: {
-    prompt?: number | null;
-    completion?: number | null;
-  };
+    prompt?: number | null
+    completion?: number | null
+  }
   capabilities?:
     | {
-        capability?: string | null;
-        id?: string | null;
+        capability?: string | null
+        id?: string | null
       }[]
-    | null;
-  modelUrl?: string | null;
-  imageUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  modelUrl?: string | null
+  imageUrl?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines AI service providers and their connection details
@@ -1902,13 +1890,13 @@ export interface Model {
  * via the `definition` "providers".
  */
 export interface Provider {
-  name: string;
-  id: string;
-  description?: string | null;
-  website?: string | null;
-  logoUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  name: string
+  id: string
+  description?: string | null
+  website?: string | null
+  logoUrl?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines research labs and their experimental AI capabilities
@@ -1917,13 +1905,13 @@ export interface Provider {
  * via the `definition` "labs".
  */
 export interface Lab {
-  name: string;
-  id: string;
-  description?: string | null;
-  website?: string | null;
-  logoUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  name: string
+  id: string
+  description?: string | null
+  website?: string | null
+  logoUrl?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages configuration settings for experiments and features
@@ -1932,20 +1920,20 @@ export interface Lab {
  * via the `definition` "settings".
  */
 export interface Setting {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
   settings?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines TypeScript type definitions used throughout the system
@@ -1954,31 +1942,31 @@ export interface Setting {
  * via the `definition` "types".
  */
 export interface Type {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  hash?: string | null;
-  type?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  hash?: string | null
+  type?: string | null
   json?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   schema?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Tracks performance benchmarks for AI functions and models
@@ -1987,11 +1975,11 @@ export interface Type {
  * via the `definition` "benchmarks".
  */
 export interface Benchmark {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Defines evaluation tests for measuring AI function performance
@@ -2000,45 +1988,45 @@ export interface Benchmark {
  * via the `definition` "evals".
  */
 export interface Eval {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
-  description?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name: string
+  description?: string | null
   /**
    * Input data for the evaluation test
    */
   input?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Expected output data for comparison
    */
   expected?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Tags for categorizing and filtering tests
    */
   tags?:
     | {
-        tag?: string | null;
-        id?: string | null;
+        tag?: string | null
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Records of evaluation test runs and their results
@@ -2047,38 +2035,38 @@ export interface Eval {
  * via the `definition` "evalRuns".
  */
 export interface EvalRun {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
-  description?: string | null;
+  id: string
+  tenant?: (string | null) | Project
+  name: string
+  description?: string | null
   /**
    * References to evaluation tests included in this run
    */
   testIds?:
     | {
-        test: string | Eval;
-        id?: string | null;
+        test: string | Eval
+        id?: string | null
       }[]
-    | null;
+    | null
   /**
    * References to evaluation results for this run
    */
   results?:
     | {
-        result?: (string | null) | EvalResult;
-        id?: string | null;
+        result?: (string | null) | EvalResult
+        id?: string | null
       }[]
-    | null;
+    | null
   /**
    * When the evaluation run started
    */
-  startedAt?: string | null;
+  startedAt?: string | null
   /**
    * When the evaluation run completed
    */
-  completedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  completedAt?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Stores detailed results from evaluation test runs
@@ -2087,51 +2075,51 @@ export interface EvalRun {
  * via the `definition` "evalResults".
  */
 export interface EvalResult {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
+  id: string
+  tenant?: (string | null) | Project
+  name: string
   /**
    * Reference to the evaluation test this result is for
    */
-  testId: string | Eval;
+  testId: string | Eval
   /**
    * Output data from running the test
    */
   output?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Overall score for this evaluation result (0-1)
    */
-  score?: number | null;
+  score?: number | null
   /**
    * Detailed metrics for this evaluation result
    */
   metrics?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Duration of the test execution in milliseconds
    */
-  duration?: number | null;
+  duration?: number | null
   /**
    * Error message if the test execution failed
    */
-  error?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  error?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages datasets used for training and evaluating AI models
@@ -2140,11 +2128,11 @@ export interface EvalResult {
  * via the `definition` "datasets".
  */
 export interface Dataset {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Records of all significant occurrences within the platform
@@ -2153,37 +2141,37 @@ export interface Dataset {
  * via the `definition` "events".
  */
 export interface Event {
-  id: string;
-  tenant?: (string | null) | Project;
-  type?: string | null;
-  source?: string | null;
-  subject?: (string | null) | Resource;
+  id: string
+  tenant?: (string | null) | Project
+  type?: string | null
+  source?: string | null
+  subject?: (string | null) | Resource
   data?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  trigger?: (string | null) | Trigger;
-  search?: (string | null) | Search;
-  function?: (string | null) | Function;
-  workflow?: (string | null) | Workflow;
-  agent?: (string | null) | Agent;
-  generations?: (string | Generation)[] | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  trigger?: (string | null) | Trigger
+  search?: (string | null) | Search
+  function?: (string | null) | Function
+  workflow?: (string | null) | Workflow
+  agent?: (string | null) | Agent
+  generations?: (string | Generation)[] | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Records of AI model generation requests and responses
@@ -2192,42 +2180,42 @@ export interface Event {
  * via the `definition` "generations".
  */
 export interface Generation {
-  id: string;
-  tenant?: (string | null) | Project;
-  settings?: (string | null) | Resource;
+  id: string
+  tenant?: (string | null) | Project
+  settings?: (string | null) | Resource
   request?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   response?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   error?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  status?: ('success' | 'error') | null;
-  duration?: number | null;
-  processingMode?: ('realtime' | 'batch') | null;
-  batch?: (string | null) | GenerationBatch;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  status?: ('success' | 'error') | null
+  duration?: number | null
+  processingMode?: ('realtime' | 'batch') | null
+  batch?: (string | null) | GenerationBatch
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Batches
@@ -2236,31 +2224,31 @@ export interface Generation {
  * via the `definition` "generationBatches".
  */
 export interface GenerationBatch {
-  id: string;
-  name: string;
-  provider: 'openai' | 'anthropic' | 'google' | 'parasail' | 'cloudflare' | 'groq';
-  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
+  id: string
+  name: string
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail' | 'cloudflare' | 'groq'
+  status?: ('queued' | 'processing' | 'completed' | 'failed') | null
   /**
    * Provider-specific batch configuration
    */
   batchConfig?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * ID of the batch job in the provider system
    */
-  providerBatchId?: string | null;
-  generations?: (string | Generation)[] | null;
-  startedAt?: string | null;
-  completedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  providerBatchId?: string | null
+  generations?: (string | Generation)[] | null
+  startedAt?: string | null
+  completedAt?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Records system errors and exceptions for debugging
@@ -2269,27 +2257,27 @@ export interface GenerationBatch {
  * via the `definition` "errors".
  */
 export interface Error {
-  id: string;
-  tenant?: (string | null) | Project;
-  message: string;
+  id: string
+  tenant?: (string | null) | Project
+  message: string
   /**
    * Error stack trace
    */
-  stack?: string | null;
+  stack?: string | null
   /**
    * Error digest for identifying specific errors
    */
-  digest?: string | null;
+  digest?: string | null
   /**
    * URL where the error occurred
    */
-  url?: string | null;
+  url?: string | null
   /**
    * Source of the error (client/server/etc)
    */
-  source?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  source?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Tracks execution paths and performance metrics for debugging
@@ -2298,11 +2286,11 @@ export interface Error {
  * via the `definition` "traces".
  */
 export interface Trace {
-  id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  tenant?: (string | null) | Project
+  name?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Organizations that can be Stripe customers
@@ -2311,63 +2299,63 @@ export interface Trace {
  * via the `definition` "organizations".
  */
 export interface Organization {
-  id: string;
+  id: string
   /**
    * Name of the organization
    */
-  name: string;
+  name: string
   /**
    * Primary user associated with this organization
    */
-  user: string | User;
+  user: string | User
   /**
    * Stripe Customer ID
    */
-  stripeCustomerId?: string | null;
+  stripeCustomerId?: string | null
   /**
    * Email address used for this organization
    */
-  email?: string | null;
+  email?: string | null
   /**
    * Additional billing details from Stripe
    */
   billingDetails?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Default payment method ID
    */
-  defaultPaymentMethod?: string | null;
+  defaultPaymentMethod?: string | null
   /**
    * Users who are members of this organization
    */
   members?:
     | {
-        user: string | User;
-        role: 'admin' | 'member' | 'viewer';
-        id?: string | null;
+        user: string | User
+        role: 'admin' | 'member' | 'viewer'
+        id?: string | null
       }[]
-    | null;
+    | null
   /**
    * Additional metadata from Stripe
    */
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Track active subscriptions
@@ -2376,49 +2364,49 @@ export interface Organization {
  * via the `definition` "subscriptions".
  */
 export interface Subscription {
-  id: string;
+  id: string
   /**
    * Stripe customer for this subscription
    */
-  organization: string | Organization;
+  organization: string | Organization
   /**
    * Billing plan for this subscription
    */
-  plan: string | BillingPlan;
+  plan: string | BillingPlan
   /**
    * Current status of the subscription
    */
-  status: 'active' | 'past_due' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'trialing' | 'unpaid';
+  status: 'active' | 'past_due' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'trialing' | 'unpaid'
   /**
    * Stripe Subscription ID
    */
-  stripeSubscriptionId: string;
+  stripeSubscriptionId: string
   /**
    * Start of the current billing period
    */
-  periodStart?: string | null;
+  periodStart?: string | null
   /**
    * End of the current billing period
    */
-  periodEnd?: string | null;
+  periodEnd?: string | null
   /**
    * Whether the subscription will be canceled at the end of the current period
    */
-  cancelAtPeriodEnd?: boolean | null;
+  cancelAtPeriodEnd?: boolean | null
   /**
    * Additional metadata from Stripe
    */
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Record consumption for usage-based billing
@@ -2427,53 +2415,53 @@ export interface Subscription {
  * via the `definition` "usage".
  */
 export interface Usage {
-  id: string;
+  id: string
   /**
    * Stripe customer for this usage record
    */
-  organization: string | Organization;
+  organization: string | Organization
   /**
    * Type of resource being used
    */
-  resourceType: 'function' | 'workflow' | 'agent';
+  resourceType: 'function' | 'workflow' | 'agent'
   /**
    * ID of the resource being used
    */
-  resourceId: string;
+  resourceId: string
   /**
    * Amount of usage (tokens, requests, compute time, etc.)
    */
-  quantity: number;
+  quantity: number
   /**
    * Unit of measurement for the usage
    */
-  unit: 'tokens' | 'requests' | 'compute_ms' | 'credits';
+  unit: 'tokens' | 'requests' | 'compute_ms' | 'credits'
   /**
    * Cost in cents for this usage (if applicable)
    */
-  cost?: number | null;
+  cost?: number | null
   /**
    * When this usage occurred
    */
-  timestamp: string;
+  timestamp: string
   /**
    * Stripe Usage Record ID (if applicable)
    */
-  stripeUsageRecordId?: string | null;
+  stripeUsageRecordId?: string | null
   /**
    * Additional metadata about this usage
    */
   metadata?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Configuration for .ai folder synchronization
@@ -2482,55 +2470,55 @@ export interface Usage {
  * via the `definition` "config".
  */
 export interface Config1 {
-  id: string;
+  id: string
   /**
    * Relative path within .ai folder
    */
-  path: string;
+  path: string
   /**
    * SHA-256 hash of file content to detect changes
    */
-  contentHash: string;
+  contentHash: string
   /**
    * Project this configuration belongs to
    */
-  project: string | Project;
+  project: string | Project
   /**
    * Timestamp of last successful sync
    */
-  lastSyncedAt: string;
+  lastSyncedAt: string
   /**
    * Timestamp when file was last modified locally
    */
-  lastModifiedLocally?: string | null;
+  lastModifiedLocally?: string | null
   /**
    * Timestamp when file was last modified in the database
    */
-  lastModifiedRemotely?: string | null;
+  lastModifiedRemotely?: string | null
   /**
    * Timestamp when file was last modified in GitHub
    */
-  lastModifiedGithub?: string | null;
+  lastModifiedGithub?: string | null
   /**
    * GitHub repository (owner/repo) if applicable
    */
-  repository?: string | null;
+  repository?: string | null
   /**
    * Current sync status of the file
    */
-  syncStatus: 'synced' | 'conflict' | 'pending';
+  syncStatus: 'synced' | 'conflict' | 'pending'
   /**
    * Additional metadata for the file
    */
   data?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Sync configuration settings
    */
@@ -2538,7 +2526,7 @@ export interface Config1 {
     /**
      * Source of truth for synchronization
      */
-    syncMode: 'database' | 'local' | 'github';
+    syncMode: 'database' | 'local' | 'github'
     /**
      * GitHub repository settings
      */
@@ -2546,20 +2534,20 @@ export interface Config1 {
       /**
        * GitHub repository in owner/repo format
        */
-      repository?: string | null;
+      repository?: string | null
       /**
        * Branch to sync with
        */
-      branch?: string | null;
+      branch?: string | null
       /**
        * Create PRs for changes instead of direct commits
        */
-      createPRs?: boolean | null;
+      createPRs?: boolean | null
       /**
        * Template for PR descriptions
        */
-      prTemplate?: string | null;
-    };
+      prTemplate?: string | null
+    }
     /**
      * File patterns to track for synchronization
      */
@@ -2568,13 +2556,13 @@ export interface Config1 {
           /**
            * File pattern (e.g., *.json, *.ts, schemas/*)
            */
-          pattern?: string | null;
-          id?: string | null;
+          pattern?: string | null
+          id?: string | null
         }[]
-      | null;
-  };
-  updatedAt: string;
-  createdAt: string;
+      | null
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages webhook endpoints for event notifications
@@ -2583,22 +2571,22 @@ export interface Config1 {
  * via the `definition` "webhooks".
  */
 export interface Webhook {
-  id: string;
-  name?: string | null;
-  url: string;
+  id: string
+  name?: string | null
+  url: string
   filters?:
     | {
         /**
          * Use Noun.Verb format (e.g., Listing.Created) or wildcards (e.g., Listing.* or *.Created)
          */
-        pattern: string;
-        id?: string | null;
+        pattern: string
+        id?: string | null
       }[]
-    | null;
-  enabled?: boolean | null;
-  secret?: string | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  enabled?: boolean | null
+  secret?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages API keys for authentication and access control
@@ -2607,29 +2595,30 @@ export interface Webhook {
  * via the `definition` "apikeys".
  */
 export interface Apikey {
-  id: string;
-  name: string;
-  user?: (string | null) | User;
-  organization?: (string | null) | Organization;
-  email?: string | null;
-  description?: string | null;
-  hash?: string | null;
-  label?: string | null;
-  url?: string | null;
+  id: string
+  name: string
+  type: 'api' | 'llm'
+  user?: (string | null) | User
+  organization?: (string | null) | Organization
+  email?: string | null
+  description?: string | null
+  hash?: string | null
+  label?: string | null
+  url?: string | null
   /**
    * Domains of authorized Cloudflare Workers
    */
   cfWorkerDomains?:
     | {
-        domain: string;
-        id?: string | null;
+        domain: string
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
+    | null
+  updatedAt: string
+  createdAt: string
+  enableAPIKey?: boolean | null
+  apiKey?: string | null
+  apiKeyIndex?: string | null
 }
 /**
  * Manages OAuth client applications and their credentials
@@ -2638,18 +2627,18 @@ export interface Apikey {
  * via the `definition` "oauthClients".
  */
 export interface OauthClient {
-  id: string;
-  name: string;
-  clientId: string;
-  clientSecret: string;
+  id: string
+  name: string
+  clientId: string
+  clientSecret: string
   redirectURLs: {
-    url: string;
-    id?: string | null;
-  }[];
-  disabled?: boolean | null;
-  createdBy?: (string | null) | User;
-  updatedAt: string;
-  createdAt: string;
+    url: string
+    id?: string | null
+  }[]
+  disabled?: boolean | null
+  createdBy?: (string | null) | User
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages OAuth authorization codes for authentication flows
@@ -2658,15 +2647,15 @@ export interface OauthClient {
  * via the `definition` "oauthCodes".
  */
 export interface OauthCode {
-  id: string;
-  code: string;
-  provider: string;
-  redirectUri: string;
-  userId: string | User;
-  expiresAt: string;
-  used?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  code: string
+  provider: string
+  redirectUri: string
+  userId: string | User
+  expiresAt: string
+  used?: boolean | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manages OAuth access tokens for authenticated users
@@ -2675,68 +2664,68 @@ export interface OauthCode {
  * via the `definition` "oauthTokens".
  */
 export interface OauthToken {
-  id: string;
-  token: string;
-  provider: string;
-  userId: string | User;
-  clientId: string;
-  expiresAt: string;
-  scope?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  token: string
+  provider: string
+  userId: string | User
+  clientId: string
+  expiresAt: string
+  scope?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: string;
+  id: string
   /**
    * Input data provided to the job
    */
   input?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   taskStatus?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  completedAt?: string | null;
-  totalTried?: number | null;
+    | null
+  completedAt?: string | null
+  totalTried?: number | null
   /**
    * If hasError is true this job will not be retried
    */
-  hasError?: boolean | null;
+  hasError?: boolean | null
   /**
    * If hasError is true, this is the error that caused it
    */
   error?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
   /**
    * Task execution log
    */
   log?:
     | {
-        executedAt: string;
-        completedAt: string;
+        executedAt: string
+        completedAt: string
         taskSlug:
           | 'inline'
           | 'createRecord'
@@ -2778,36 +2767,36 @@ export interface PayloadJob {
           | 'syncTaskToLinear'
           | 'deleteLinearIssue'
           | 'checkServiceHealth'
-          | 'discoverServices';
-        taskID: string;
+          | 'discoverServices'
+        taskID: string
         input?:
           | {
-              [k: string]: unknown;
+              [k: string]: unknown
             }
           | unknown[]
           | string
           | number
           | boolean
-          | null;
+          | null
         output?:
           | {
-              [k: string]: unknown;
+              [k: string]: unknown
             }
           | unknown[]
           | string
           | number
           | boolean
-          | null;
-        state: 'failed' | 'succeeded';
+          | null
+        state: 'failed' | 'succeeded'
         error?:
           | {
-              [k: string]: unknown;
+              [k: string]: unknown
             }
           | unknown[]
           | string
           | number
           | boolean
-          | null;
+          | null
         parent?: {
           taskSlug?:
             | (
@@ -2853,13 +2842,13 @@ export interface PayloadJob {
                 | 'checkServiceHealth'
                 | 'discoverServices'
               )
-            | null;
-          taskID?: string | null;
-        };
-        id?: string | null;
+            | null
+          taskID?: string | null
+        }
+        id?: string | null
       }[]
-    | null;
-  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent' | 'recordEvent') | null;
+    | null
+  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent' | 'recordUsageEvent') | null
   taskSlug?:
     | (
         | 'inline'
@@ -2904,1552 +2893,1553 @@ export interface PayloadJob {
         | 'checkServiceHealth'
         | 'discoverServices'
       )
-    | null;
-  queue?: string | null;
-  waitUntil?: string | null;
-  processing?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  queue?: string | null
+  waitUntil?: string | null
+  processing?: boolean | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: string
   document?:
     | ({
-        relationTo: 'functions';
-        value: string | Function;
+        relationTo: 'functions'
+        value: string | Function
       } | null)
     | ({
-        relationTo: 'workflows';
-        value: string | Workflow;
+        relationTo: 'workflows'
+        value: string | Workflow
       } | null)
     | ({
-        relationTo: 'agents';
-        value: string | Agent;
+        relationTo: 'agents'
+        value: string | Agent
       } | null)
     | ({
-        relationTo: 'services';
-        value: string | Service;
+        relationTo: 'services'
+        value: string | Service
       } | null)
     | ({
-        relationTo: 'queues';
-        value: string | Queue;
+        relationTo: 'queues'
+        value: string | Queue
       } | null)
     | ({
-        relationTo: 'tasks';
-        value: string | Task;
+        relationTo: 'tasks'
+        value: string | Task
       } | null)
     | ({
-        relationTo: 'goals';
-        value: string | Goal;
+        relationTo: 'goals'
+        value: string | Goal
       } | null)
     | ({
-        relationTo: 'plans';
-        value: string | Plan;
+        relationTo: 'plans'
+        value: string | Plan
       } | null)
     | ({
-        relationTo: 'waitlist';
-        value: string | Waitlist;
+        relationTo: 'waitlist'
+        value: string | Waitlist
       } | null)
     | ({
-        relationTo: 'nouns';
-        value: string | Noun;
+        relationTo: 'nouns'
+        value: string | Noun
       } | null)
     | ({
-        relationTo: 'things';
-        value: string | Thing;
+        relationTo: 'things'
+        value: string | Thing
       } | null)
     | ({
-        relationTo: 'verbs';
-        value: string | Verb;
+        relationTo: 'verbs'
+        value: string | Verb
       } | null)
     | ({
-        relationTo: 'databases';
-        value: string | Database;
+        relationTo: 'databases'
+        value: string | Database
       } | null)
     | ({
-        relationTo: 'resources';
-        value: string | Resource;
+        relationTo: 'resources'
+        value: string | Resource
       } | null)
     | ({
-        relationTo: 'chatResources';
-        value: string | ChatResource;
+        relationTo: 'chatResources'
+        value: string | ChatResource
       } | null)
     | ({
-        relationTo: 'relationships';
-        value: string | Relationship;
+        relationTo: 'relationships'
+        value: string | Relationship
       } | null)
     | ({
-        relationTo: 'integrationCategories';
-        value: string | IntegrationCategory;
+        relationTo: 'integrationCategories'
+        value: string | IntegrationCategory
       } | null)
     | ({
-        relationTo: 'integrations';
-        value: string | Integration;
+        relationTo: 'integrations'
+        value: string | Integration
       } | null)
     | ({
-        relationTo: 'connectAccounts';
-        value: string | ConnectAccount;
+        relationTo: 'connectAccounts'
+        value: string | ConnectAccount
       } | null)
     | ({
-        relationTo: 'connections';
-        value: string | Connection;
+        relationTo: 'connections'
+        value: string | Connection
       } | null)
     | ({
-        relationTo: 'integrationTriggers';
-        value: string | IntegrationTrigger;
+        relationTo: 'integrationTriggers'
+        value: string | IntegrationTrigger
       } | null)
     | ({
-        relationTo: 'integrationActions';
-        value: string | IntegrationAction;
+        relationTo: 'integrationActions'
+        value: string | IntegrationAction
       } | null)
     | ({
-        relationTo: 'triggers';
-        value: string | Trigger;
+        relationTo: 'triggers'
+        value: string | Trigger
       } | null)
     | ({
-        relationTo: 'searches';
-        value: string | Search;
+        relationTo: 'searches'
+        value: string | Search
       } | null)
     | ({
-        relationTo: 'actions';
-        value: string | Action;
+        relationTo: 'actions'
+        value: string | Action
       } | null)
     | ({
-        relationTo: 'experiments';
-        value: string | Experiment;
+        relationTo: 'experiments'
+        value: string | Experiment
       } | null)
     | ({
-        relationTo: 'experimentMetrics';
-        value: string | ExperimentMetric;
+        relationTo: 'experimentMetrics'
+        value: string | ExperimentMetric
       } | null)
     | ({
-        relationTo: 'models';
-        value: string | Model;
+        relationTo: 'models'
+        value: string | Model
       } | null)
     | ({
-        relationTo: 'providers';
-        value: string | Provider;
+        relationTo: 'providers'
+        value: string | Provider
       } | null)
     | ({
-        relationTo: 'labs';
-        value: string | Lab;
+        relationTo: 'labs'
+        value: string | Lab
       } | null)
     | ({
-        relationTo: 'prompts';
-        value: string | Prompt;
+        relationTo: 'prompts'
+        value: string | Prompt
       } | null)
     | ({
-        relationTo: 'settings';
-        value: string | Setting;
+        relationTo: 'settings'
+        value: string | Setting
       } | null)
     | ({
-        relationTo: 'types';
-        value: string | Type;
+        relationTo: 'types'
+        value: string | Type
       } | null)
     | ({
-        relationTo: 'modules';
-        value: string | Module;
+        relationTo: 'modules'
+        value: string | Module
       } | null)
     | ({
-        relationTo: 'packages';
-        value: string | Package;
+        relationTo: 'packages'
+        value: string | Package
       } | null)
     | ({
-        relationTo: 'deployments';
-        value: string | Deployment;
+        relationTo: 'deployments'
+        value: string | Deployment
       } | null)
     | ({
-        relationTo: 'benchmarks';
-        value: string | Benchmark;
+        relationTo: 'benchmarks'
+        value: string | Benchmark
       } | null)
     | ({
-        relationTo: 'evals';
-        value: string | Eval;
+        relationTo: 'evals'
+        value: string | Eval
       } | null)
     | ({
-        relationTo: 'evalRuns';
-        value: string | EvalRun;
+        relationTo: 'evalRuns'
+        value: string | EvalRun
       } | null)
     | ({
-        relationTo: 'evalResults';
-        value: string | EvalResult;
+        relationTo: 'evalResults'
+        value: string | EvalResult
       } | null)
     | ({
-        relationTo: 'datasets';
-        value: string | Dataset;
+        relationTo: 'datasets'
+        value: string | Dataset
       } | null)
     | ({
-        relationTo: 'events';
-        value: string | Event;
+        relationTo: 'events'
+        value: string | Event
       } | null)
     | ({
-        relationTo: 'errors';
-        value: string | Error;
+        relationTo: 'errors'
+        value: string | Error
       } | null)
     | ({
-        relationTo: 'generations';
-        value: string | Generation;
+        relationTo: 'generations'
+        value: string | Generation
       } | null)
     | ({
-        relationTo: 'generationBatches';
-        value: string | GenerationBatch;
+        relationTo: 'generationBatches'
+        value: string | GenerationBatch
       } | null)
     | ({
-        relationTo: 'traces';
-        value: string | Trace;
+        relationTo: 'traces'
+        value: string | Trace
       } | null)
     | ({
-        relationTo: 'kpis';
-        value: string | Kpi;
+        relationTo: 'kpis'
+        value: string | Kpi
       } | null)
     | ({
-        relationTo: 'organizations';
-        value: string | Organization;
+        relationTo: 'organizations'
+        value: string | Organization
       } | null)
     | ({
-        relationTo: 'billingPlans';
-        value: string | BillingPlan;
+        relationTo: 'billingPlans'
+        value: string | BillingPlan
       } | null)
     | ({
-        relationTo: 'subscriptions';
-        value: string | Subscription;
+        relationTo: 'subscriptions'
+        value: string | Subscription
       } | null)
     | ({
-        relationTo: 'usage';
-        value: string | Usage;
+        relationTo: 'usage'
+        value: string | Usage
       } | null)
     | ({
-        relationTo: 'config';
-        value: string | Config1;
+        relationTo: 'config'
+        value: string | Config1
       } | null)
     | ({
-        relationTo: 'projects';
-        value: string | Project;
+        relationTo: 'projects'
+        value: string | Project
       } | null)
     | ({
-        relationTo: 'domains';
-        value: string | Domain;
+        relationTo: 'domains'
+        value: string | Domain
       } | null)
     | ({
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'users'
+        value: string | User
       } | null)
     | ({
-        relationTo: 'roles';
-        value: string | Role;
+        relationTo: 'roles'
+        value: string | Role
       } | null)
     | ({
-        relationTo: 'tags';
-        value: string | Tag;
+        relationTo: 'tags'
+        value: string | Tag
       } | null)
     | ({
-        relationTo: 'webhooks';
-        value: string | Webhook;
+        relationTo: 'webhooks'
+        value: string | Webhook
       } | null)
     | ({
-        relationTo: 'apikeys';
-        value: string | Apikey;
+        relationTo: 'apikeys'
+        value: string | Apikey
       } | null)
     | ({
-        relationTo: 'oauthClients';
-        value: string | OauthClient;
+        relationTo: 'oauthClients'
+        value: string | OauthClient
       } | null)
     | ({
-        relationTo: 'oauthCodes';
-        value: string | OauthCode;
+        relationTo: 'oauthCodes'
+        value: string | OauthCode
       } | null)
     | ({
-        relationTo: 'oauthTokens';
-        value: string | OauthToken;
+        relationTo: 'oauthTokens'
+        value: string | OauthToken
       } | null)
     | ({
-        relationTo: 'payload-jobs';
-        value: string | PayloadJob;
-      } | null);
-  globalSlug?: string | null;
+        relationTo: 'payload-jobs'
+        value: string | PayloadJob
+      } | null)
+  globalSlug?: string | null
   user:
     | {
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'users'
+        value: string | User
       }
     | {
-        relationTo: 'apikeys';
-        value: string | Apikey;
-      };
-  updatedAt: string;
-  createdAt: string;
+        relationTo: 'apikeys'
+        value: string | Apikey
+      }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: string
   user:
     | {
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'users'
+        value: string | User
       }
     | {
-        relationTo: 'apikeys';
-        value: string | Apikey;
-      };
-  key?: string | null;
+        relationTo: 'apikeys'
+        value: string | Apikey
+      }
+  key?: string | null
   value?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "functions_select".
  */
 export interface FunctionsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  type?: T;
-  public?: T;
-  clonedFrom?: T;
+  tenant?: T
+  name?: T
+  type?: T
+  public?: T
+  clonedFrom?: T
   pricing?:
     | T
     | {
-        isMonetized?: T;
-        billingModel?: T;
-        pricePerUse?: T;
-        consumptionUnit?: T;
-        consumptionRate?: T;
-        billingPlan?: T;
-        stripeProductId?: T;
-        stripePriceId?: T;
-      };
-  format?: T;
-  schemaYaml?: T;
-  shape?: T;
-  code?: T;
-  prompt?: T;
-  role?: T;
-  user?: T;
-  agent?: T;
-  examples?: T;
-  goals?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        isMonetized?: T
+        billingModel?: T
+        pricePerUse?: T
+        consumptionUnit?: T
+        consumptionRate?: T
+        billingPlan?: T
+        stripeProductId?: T
+        stripePriceId?: T
+      }
+  format?: T
+  schemaYaml?: T
+  shape?: T
+  code?: T
+  prompt?: T
+  role?: T
+  user?: T
+  agent?: T
+  examples?: T
+  goals?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "workflows_select".
  */
 export interface WorkflowsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  type?: T;
-  code?: T;
-  functions?: T;
-  module?: T;
-  package?: T;
-  deployment?: T;
-  goals?: T;
-  public?: T;
-  clonedFrom?: T;
+  tenant?: T
+  name?: T
+  type?: T
+  code?: T
+  functions?: T
+  module?: T
+  package?: T
+  deployment?: T
+  goals?: T
+  public?: T
+  clonedFrom?: T
   pricing?:
     | T
     | {
-        isMonetized?: T;
-        billingModel?: T;
-        pricePerUse?: T;
-        consumptionUnit?: T;
-        consumptionRate?: T;
-        billingPlan?: T;
-        stripeProductId?: T;
-        stripePriceId?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        isMonetized?: T
+        billingModel?: T
+        pricePerUse?: T
+        consumptionUnit?: T
+        consumptionRate?: T
+        billingPlan?: T
+        stripeProductId?: T
+        stripePriceId?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "agents_select".
  */
 export interface AgentsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  public?: T;
-  clonedFrom?: T;
+  tenant?: T
+  name?: T
+  public?: T
+  clonedFrom?: T
   pricing?:
     | T
     | {
-        isMonetized?: T;
-        billingModel?: T;
-        pricePerUse?: T;
-        consumptionUnit?: T;
-        consumptionRate?: T;
-        billingPlan?: T;
-        stripeProductId?: T;
-        stripePriceId?: T;
-      };
-  goals?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        isMonetized?: T
+        billingModel?: T
+        pricePerUse?: T
+        consumptionUnit?: T
+        consumptionRate?: T
+        billingPlan?: T
+        stripeProductId?: T
+        stripePriceId?: T
+      }
+  goals?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services_select".
  */
 export interface ServicesSelect<T extends boolean = true> {
-  name?: T;
-  status?: T;
-  description?: T;
-  endpoint?: T;
-  version?: T;
+  name?: T
+  status?: T
+  description?: T
+  endpoint?: T
+  version?: T
   objective?:
     | T
     | {
-        description?: T;
-      };
+        description?: T
+      }
   keyResults?:
     | T
     | {
-        description?: T;
-        target?: T;
-        currentValue?: T;
-        unit?: T;
-        dueDate?: T;
-        id?: T;
-      };
+        description?: T
+        target?: T
+        currentValue?: T
+        unit?: T
+        dueDate?: T
+        id?: T
+      }
   pricing?:
     | T
     | {
-        model?: T;
-        costBase?: T;
-        fixedCosts?: T;
-        variableCosts?: T;
-        marginPercentage?: T;
+        model?: T
+        costBase?: T
+        fixedCosts?: T
+        variableCosts?: T
+        marginPercentage?: T
         activities?:
           | T
           | {
-              name?: T;
-              description?: T;
-              rate?: T;
-              id?: T;
-            };
+              name?: T
+              description?: T
+              rate?: T
+              id?: T
+            }
         outcomes?:
           | T
           | {
-              metric?: T;
-              description?: T;
-              targetValue?: T;
-              price?: T;
-              unit?: T;
-              id?: T;
-            };
-      };
+              metric?: T
+              description?: T
+              targetValue?: T
+              price?: T
+              unit?: T
+              id?: T
+            }
+      }
   implementation?:
     | T
     | {
-        type?: T;
-        id?: T;
-        version?: T;
-        configuration?: T;
-      };
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        type?: T
+        id?: T
+        version?: T
+        configuration?: T
+      }
+  metadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "queues_select".
  */
 export interface QueuesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  role?: T;
-  tasks?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  role?: T
+  tasks?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tasks_select".
  */
 export interface TasksSelect<T extends boolean = true> {
-  tenant?: T;
-  title?: T;
-  status?: T;
-  queue?: T;
-  assigned?: T;
-  parent?: T;
-  description?: T;
-  subtasks?: T;
-  dependentOn?: T;
-  dependents?: T;
-  metadata?: T;
-  linearMetadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  title?: T
+  status?: T
+  queue?: T
+  assigned?: T
+  parent?: T
+  description?: T
+  subtasks?: T
+  dependentOn?: T
+  dependents?: T
+  metadata?: T
+  linearMetadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "goals_select".
  */
 export interface GoalsSelect<T extends boolean = true> {
-  tenant?: T;
-  title?: T;
-  objective?: T;
+  tenant?: T
+  title?: T
+  objective?: T
   keyResults?:
     | T
     | {
-        description?: T;
-        value?: T;
-        kpiRelationship?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        description?: T
+        value?: T
+        kpiRelationship?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "plans_select".
  */
 export interface PlansSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
-  status?: T;
-  startDate?: T;
-  endDate?: T;
-  owner?: T;
-  goals?: T;
-  tags?: T;
-  priority?: T;
+  name?: T
+  description?: T
+  status?: T
+  startDate?: T
+  endDate?: T
+  owner?: T
+  goals?: T
+  tags?: T
+  priority?: T
   steps?:
     | T
     | {
-        name?: T;
-        description?: T;
-        order?: T;
-        duration?: T;
-        assignee?: T;
-        status?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        name?: T
+        description?: T
+        order?: T
+        duration?: T
+        assignee?: T
+        status?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "waitlist_select".
  */
 export interface WaitlistSelect<T extends boolean = true> {
-  email?: T;
-  domain?: T;
-  createdAt?: T;
-  status?: T;
-  notes?: T;
-  updatedAt?: T;
+  email?: T
+  domain?: T
+  createdAt?: T
+  status?: T
+  notes?: T
+  updatedAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "nouns_select".
  */
 export interface NounsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  singular?: T;
-  plural?: T;
-  possessive?: T;
-  pluralPossessive?: T;
-  verb?: T;
-  act?: T;
-  activity?: T;
-  event?: T;
-  order?: T;
-  group?: T;
-  type?: T;
-  resources?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  singular?: T
+  plural?: T
+  possessive?: T
+  pluralPossessive?: T
+  verb?: T
+  act?: T
+  activity?: T
+  event?: T
+  order?: T
+  group?: T
+  type?: T
+  resources?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "things_select".
  */
 export interface ThingsSelect<T extends boolean = true> {
-  name?: T;
-  singular?: T;
-  plural?: T;
-  possessive?: T;
-  pluralPossessive?: T;
-  verb?: T;
-  act?: T;
-  activity?: T;
-  event?: T;
-  resources?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  singular?: T
+  plural?: T
+  possessive?: T
+  pluralPossessive?: T
+  verb?: T
+  act?: T
+  activity?: T
+  event?: T
+  resources?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "verbs_select".
  */
 export interface VerbsSelect<T extends boolean = true> {
-  tenant?: T;
-  action?: T;
-  act?: T;
-  activity?: T;
-  event?: T;
-  subject?: T;
-  object?: T;
-  inverse?: T;
-  inverseAct?: T;
-  inverseActivity?: T;
-  inverseEvent?: T;
-  inverseSubject?: T;
-  inverseObject?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  action?: T
+  act?: T
+  activity?: T
+  event?: T
+  subject?: T
+  object?: T
+  inverse?: T
+  inverseAct?: T
+  inverseActivity?: T
+  inverseEvent?: T
+  inverseSubject?: T
+  inverseObject?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "databases_select".
  */
 export interface DatabasesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  domain?: T;
-  type?: T;
-  schemaEnforcement?: T;
-  databaseType?: T;
-  regions?: T;
-  nouns?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  domain?: T
+  type?: T
+  schemaEnforcement?: T
+  databaseType?: T
+  regions?: T
+  nouns?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resources_select".
  */
 export interface ResourcesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  sqid?: T;
-  hash?: T;
-  type?: T;
-  yaml?: T;
-  data?: T;
-  embedding?: T;
-  subjectOf?: T;
-  objectOf?: T;
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  sqid?: T
+  hash?: T
+  type?: T
+  yaml?: T
+  data?: T
+  embedding?: T
+  subjectOf?: T
+  objectOf?: T
+  content?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "chatResources_select".
  */
 export interface ChatResourcesSelect<T extends boolean = true> {
-  tenant?: T;
-  title?: T;
-  user?: T;
-  resourceType?: T;
-  content?: T;
+  tenant?: T
+  title?: T
+  user?: T
+  resourceType?: T
+  content?: T
   parts?:
     | T
     | {
-        type?: T;
-        content?: T;
-        metadata?: T;
-        id?: T;
-      };
-  parentId?: T;
-  metadata?: T;
-  visibility?: T;
+        type?: T
+        content?: T
+        metadata?: T
+        id?: T
+      }
+  parentId?: T
+  metadata?: T
+  visibility?: T
   votes?:
     | T
     | {
-        user?: T;
-        type?: T;
-        createdAt?: T;
-        id?: T;
-      };
-  kind?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        user?: T
+        type?: T
+        createdAt?: T
+        id?: T
+      }
+  kind?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "relationships_select".
  */
 export interface RelationshipsSelect<T extends boolean = true> {
-  subject?: T;
-  verb?: T;
-  object?: T;
-  hash?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  subject?: T
+  verb?: T
+  object?: T
+  hash?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrationCategories_select".
  */
 export interface IntegrationCategoriesSelect<T extends boolean = true> {
-  tenant?: T;
-  category?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  category?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations_select".
  */
 export interface IntegrationsSelect<T extends boolean = true> {
-  tenant?: T;
-  id?: T;
-  name?: T;
-  provider?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  id?: T
+  name?: T
+  provider?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "connectAccounts_select".
  */
 export interface ConnectAccountsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  user?: T;
-  integration?: T;
-  project?: T;
-  stripeAccountId?: T;
-  accountType?: T;
-  status?: T;
-  chargesEnabled?: T;
-  payoutsEnabled?: T;
-  platformFeePercent?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  user?: T
+  integration?: T
+  project?: T
+  stripeAccountId?: T
+  accountType?: T
+  status?: T
+  chargesEnabled?: T
+  payoutsEnabled?: T
+  platformFeePercent?: T
+  metadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "connections_select".
  */
 export interface ConnectionsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  user?: T;
-  integration?: T;
-  status?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  user?: T
+  integration?: T
+  status?: T
+  metadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrationTriggers_select".
  */
 export interface IntegrationTriggersSelect<T extends boolean = true> {
-  tenant?: T;
-  displayName?: T;
-  description?: T;
-  appKey?: T;
-  appName?: T;
-  appId?: T;
-  logo?: T;
-  payload?: T;
-  config?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  displayName?: T
+  description?: T
+  appKey?: T
+  appName?: T
+  appId?: T
+  logo?: T
+  payload?: T
+  config?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrationActions_select".
  */
 export interface IntegrationActionsSelect<T extends boolean = true> {
-  tenant?: T;
-  displayName?: T;
-  description?: T;
-  appKey?: T;
-  appName?: T;
-  appId?: T;
-  version?: T;
-  parameters?: T;
-  response?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  displayName?: T
+  description?: T
+  appKey?: T
+  appName?: T
+  appId?: T
+  version?: T
+  parameters?: T
+  response?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "triggers_select".
  */
 export interface TriggersSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  payload?: T;
-  config?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  payload?: T
+  config?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "searches_select".
  */
 export interface SearchesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  query?: T;
-  searchType?: T;
-  results?: T;
-  embedding?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  query?: T
+  searchType?: T
+  results?: T
+  embedding?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "actions_select".
  */
 export interface ActionsSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
-  functionId?: T;
-  verbId?: T;
-  parameters?: T;
-  result?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  description?: T
+  functionId?: T
+  verbId?: T
+  parameters?: T
+  result?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "experiments_select".
  */
 export interface ExperimentsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  description?: T;
-  status?: T;
-  provider?: T;
+  tenant?: T
+  name?: T
+  description?: T
+  status?: T
+  provider?: T
   variants?:
     | T
     | {
-        id?: T;
-        description?: T;
-        isControl?: T;
-        config?: T;
-      };
+        id?: T
+        description?: T
+        isControl?: T
+        config?: T
+      }
   metrics?:
     | T
     | {
-        name?: T;
-        description?: T;
-        higherIsBetter?: T;
-        primary?: T;
-        id?: T;
-      };
+        name?: T
+        description?: T
+        higherIsBetter?: T
+        primary?: T
+        id?: T
+      }
   trafficAllocation?:
     | T
     | {
-        type?: T;
-        values?: T;
-      };
-  targeting?: T;
+        type?: T
+        values?: T
+      }
+  targeting?: T
   duration?:
     | T
     | {
-        startDate?: T;
-        endDate?: T;
-      };
-  results?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        startDate?: T
+        endDate?: T
+      }
+  results?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "experimentMetrics_select".
  */
 export interface ExperimentMetricsSelect<T extends boolean = true> {
-  experimentId?: T;
-  variantId?: T;
-  userId?: T;
-  sessionId?: T;
-  metricName?: T;
-  value?: T;
-  timestamp?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  experimentId?: T
+  variantId?: T
+  userId?: T
+  sessionId?: T
+  metricName?: T
+  value?: T
+  timestamp?: T
+  metadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "models_select".
  */
 export interface ModelsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  id?: T;
-  provider?: T;
-  lab?: T;
-  description?: T;
-  context_length?: T;
+  tenant?: T
+  name?: T
+  id?: T
+  provider?: T
+  lab?: T
+  description?: T
+  context_length?: T
   pricing?:
     | T
     | {
-        prompt?: T;
-        completion?: T;
-      };
+        prompt?: T
+        completion?: T
+      }
   capabilities?:
     | T
     | {
-        capability?: T;
-        id?: T;
-      };
-  modelUrl?: T;
-  imageUrl?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        capability?: T
+        id?: T
+      }
+  modelUrl?: T
+  imageUrl?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "providers_select".
  */
 export interface ProvidersSelect<T extends boolean = true> {
-  name?: T;
-  id?: T;
-  description?: T;
-  website?: T;
-  logoUrl?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  id?: T
+  description?: T
+  website?: T
+  logoUrl?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "labs_select".
  */
 export interface LabsSelect<T extends boolean = true> {
-  name?: T;
-  id?: T;
-  description?: T;
-  website?: T;
-  logoUrl?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  id?: T
+  description?: T
+  website?: T
+  logoUrl?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "prompts_select".
  */
 export interface PromptsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings_select".
  */
 export interface SettingsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  settings?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  settings?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "types_select".
  */
 export interface TypesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  hash?: T;
-  type?: T;
-  json?: T;
-  schema?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  hash?: T
+  type?: T
+  json?: T
+  schema?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "modules_select".
  */
 export interface ModulesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "packages_select".
  */
 export interface PackagesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  package?: T;
+  tenant?: T
+  name?: T
+  package?: T
   collections?:
     | T
     | {
-        items?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        items?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "deployments_select".
  */
 export interface DeploymentsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "benchmarks_select".
  */
 export interface BenchmarksSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "evals_select".
  */
 export interface EvalsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  description?: T;
-  input?: T;
-  expected?: T;
+  tenant?: T
+  name?: T
+  description?: T
+  input?: T
+  expected?: T
   tags?:
     | T
     | {
-        tag?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        tag?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "evalRuns_select".
  */
 export interface EvalRunsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  description?: T;
+  tenant?: T
+  name?: T
+  description?: T
   testIds?:
     | T
     | {
-        test?: T;
-        id?: T;
-      };
+        test?: T
+        id?: T
+      }
   results?:
     | T
     | {
-        result?: T;
-        id?: T;
-      };
-  startedAt?: T;
-  completedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        result?: T
+        id?: T
+      }
+  startedAt?: T
+  completedAt?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "evalResults_select".
  */
 export interface EvalResultsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  testId?: T;
-  output?: T;
-  score?: T;
-  metrics?: T;
-  duration?: T;
-  error?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  testId?: T
+  output?: T
+  score?: T
+  metrics?: T
+  duration?: T
+  error?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "datasets_select".
  */
 export interface DatasetsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
-  tenant?: T;
-  type?: T;
-  source?: T;
-  subject?: T;
-  data?: T;
-  metadata?: T;
-  trigger?: T;
-  search?: T;
-  function?: T;
-  workflow?: T;
-  agent?: T;
-  generations?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  type?: T
+  source?: T
+  subject?: T
+  data?: T
+  metadata?: T
+  trigger?: T
+  search?: T
+  function?: T
+  workflow?: T
+  agent?: T
+  generations?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "errors_select".
  */
 export interface ErrorsSelect<T extends boolean = true> {
-  tenant?: T;
-  message?: T;
-  stack?: T;
-  digest?: T;
-  url?: T;
-  source?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  message?: T
+  stack?: T
+  digest?: T
+  url?: T
+  source?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "generations_select".
  */
 export interface GenerationsSelect<T extends boolean = true> {
-  tenant?: T;
-  settings?: T;
-  request?: T;
-  response?: T;
-  error?: T;
-  status?: T;
-  duration?: T;
-  processingMode?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  settings?: T
+  request?: T
+  response?: T
+  error?: T
+  status?: T
+  duration?: T
+  processingMode?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "generationBatches_select".
  */
 export interface GenerationBatchesSelect<T extends boolean = true> {
-  name?: T;
-  provider?: T;
-  status?: T;
-  batchConfig?: T;
-  providerBatchId?: T;
-  generations?: T;
-  startedAt?: T;
-  completedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  provider?: T
+  status?: T
+  batchConfig?: T
+  providerBatchId?: T
+  generations?: T
+  startedAt?: T
+  completedAt?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "traces_select".
  */
 export interface TracesSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "kpis_select".
  */
 export interface KpisSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  value?: T;
-  target?: T;
-  unit?: T;
-  format?: T;
-  description?: T;
-  project?: T;
-  goals?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  tenant?: T
+  name?: T
+  value?: T
+  target?: T
+  unit?: T
+  format?: T
+  description?: T
+  project?: T
+  goals?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "organizations_select".
  */
 export interface OrganizationsSelect<T extends boolean = true> {
-  name?: T;
-  user?: T;
-  stripeCustomerId?: T;
-  email?: T;
-  billingDetails?: T;
-  defaultPaymentMethod?: T;
+  name?: T
+  user?: T
+  stripeCustomerId?: T
+  email?: T
+  billingDetails?: T
+  defaultPaymentMethod?: T
   members?:
     | T
     | {
-        user?: T;
-        role?: T;
-        id?: T;
-      };
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        user?: T
+        role?: T
+        id?: T
+      }
+  metadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "billingPlans_select".
  */
 export interface BillingPlansSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
-  billingType?: T;
-  amount?: T;
-  currency?: T;
-  interval?: T;
-  credits?: T;
-  stripeProductId?: T;
-  stripePriceId?: T;
-  isActive?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  description?: T
+  billingType?: T
+  amount?: T
+  currency?: T
+  interval?: T
+  credits?: T
+  stripeProductId?: T
+  stripePriceId?: T
+  isActive?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "subscriptions_select".
  */
 export interface SubscriptionsSelect<T extends boolean = true> {
-  organization?: T;
-  plan?: T;
-  status?: T;
-  stripeSubscriptionId?: T;
-  periodStart?: T;
-  periodEnd?: T;
-  cancelAtPeriodEnd?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  organization?: T
+  plan?: T
+  status?: T
+  stripeSubscriptionId?: T
+  periodStart?: T
+  periodEnd?: T
+  cancelAtPeriodEnd?: T
+  metadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "usage_select".
  */
 export interface UsageSelect<T extends boolean = true> {
-  organization?: T;
-  resourceType?: T;
-  resourceId?: T;
-  quantity?: T;
-  unit?: T;
-  cost?: T;
-  timestamp?: T;
-  stripeUsageRecordId?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  organization?: T
+  resourceType?: T
+  resourceId?: T
+  quantity?: T
+  unit?: T
+  cost?: T
+  timestamp?: T
+  stripeUsageRecordId?: T
+  metadata?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "config_select".
  */
 export interface ConfigSelect<T extends boolean = true> {
-  path?: T;
-  contentHash?: T;
-  project?: T;
-  lastSyncedAt?: T;
-  lastModifiedLocally?: T;
-  lastModifiedRemotely?: T;
-  lastModifiedGithub?: T;
-  repository?: T;
-  syncStatus?: T;
-  data?: T;
+  path?: T
+  contentHash?: T
+  project?: T
+  lastSyncedAt?: T
+  lastModifiedLocally?: T
+  lastModifiedRemotely?: T
+  lastModifiedGithub?: T
+  repository?: T
+  syncStatus?: T
+  data?: T
   syncConfig?:
     | T
     | {
-        syncMode?: T;
+        syncMode?: T
         github?:
           | T
           | {
-              repository?: T;
-              branch?: T;
-              createPRs?: T;
-              prTemplate?: T;
-            };
+              repository?: T
+              branch?: T
+              createPRs?: T
+              prTemplate?: T
+            }
         trackFiles?:
           | T
           | {
-              pattern?: T;
-              id?: T;
-            };
-      };
-  updatedAt?: T;
-  createdAt?: T;
+              pattern?: T
+              id?: T
+            }
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
-  name?: T;
-  domain?: T;
-  domains?: T;
-  goals?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  domain?: T
+  domains?: T
+  goals?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "domains_select".
  */
 export interface DomainsSelect<T extends boolean = true> {
-  name?: T;
-  domain?: T;
-  project?: T;
-  status?: T;
+  name?: T
+  domain?: T
+  project?: T
+  status?: T
   hostnames?:
     | T
     | {
-        hostname?: T;
-        id?: T;
-      };
-  vercelId?: T;
-  cloudflareId?: T;
-  errorMessage?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        hostname?: T
+        id?: T
+      }
+  vercelId?: T
+  cloudflareId?: T
+  errorMessage?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  image?: T;
-  role?: T;
-  emailVerified?: T;
-  roles?: T;
+  name?: T
+  image?: T
+  role?: T
+  emailVerified?: T
+  roles?: T
   tenants?:
     | T
     | {
-        tenant?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
+        tenant?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
+  enableAPIKey?: T
+  apiKey?: T
+  apiKeyIndex?: T
+  email?: T
+  resetPasswordToken?: T
+  resetPasswordExpiration?: T
+  salt?: T
+  hash?: T
+  loginAttempts?: T
+  lockUntil?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles_select".
  */
 export interface RolesSelect<T extends boolean = true> {
-  name?: T;
-  superAdmin?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  superAdmin?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags_select".
  */
 export interface TagsSelect<T extends boolean = true> {
-  id?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  id?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "webhooks_select".
  */
 export interface WebhooksSelect<T extends boolean = true> {
-  name?: T;
-  url?: T;
+  name?: T
+  url?: T
   filters?:
     | T
     | {
-        pattern?: T;
-        id?: T;
-      };
-  enabled?: T;
-  secret?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        pattern?: T
+        id?: T
+      }
+  enabled?: T
+  secret?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "apikeys_select".
  */
 export interface ApikeysSelect<T extends boolean = true> {
-  name?: T;
-  user?: T;
-  organization?: T;
-  email?: T;
-  description?: T;
-  hash?: T;
-  label?: T;
-  url?: T;
+  name?: T
+  type?: T
+  user?: T
+  organization?: T
+  email?: T
+  description?: T
+  hash?: T
+  label?: T
+  url?: T
   cfWorkerDomains?:
     | T
     | {
-        domain?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
+        domain?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
+  enableAPIKey?: T
+  apiKey?: T
+  apiKeyIndex?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "oauthClients_select".
  */
 export interface OauthClientsSelect<T extends boolean = true> {
-  name?: T;
-  clientId?: T;
-  clientSecret?: T;
+  name?: T
+  clientId?: T
+  clientSecret?: T
   redirectURLs?:
     | T
     | {
-        url?: T;
-        id?: T;
-      };
-  disabled?: T;
-  createdBy?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        url?: T
+        id?: T
+      }
+  disabled?: T
+  createdBy?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "oauthCodes_select".
  */
 export interface OauthCodesSelect<T extends boolean = true> {
-  code?: T;
-  provider?: T;
-  redirectUri?: T;
-  userId?: T;
-  expiresAt?: T;
-  used?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  code?: T
+  provider?: T
+  redirectUri?: T
+  userId?: T
+  expiresAt?: T
+  used?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "oauthTokens_select".
  */
 export interface OauthTokensSelect<T extends boolean = true> {
-  token?: T;
-  provider?: T;
-  userId?: T;
-  clientId?: T;
-  expiresAt?: T;
-  scope?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  token?: T
+  provider?: T
+  userId?: T
+  clientId?: T
+  expiresAt?: T
+  scope?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs_select".
  */
 export interface PayloadJobsSelect<T extends boolean = true> {
-  input?: T;
-  taskStatus?: T;
-  completedAt?: T;
-  totalTried?: T;
-  hasError?: T;
-  error?: T;
+  input?: T
+  taskStatus?: T
+  completedAt?: T
+  totalTried?: T
+  hasError?: T
+  error?: T
   log?:
     | T
     | {
-        executedAt?: T;
-        completedAt?: T;
-        taskSlug?: T;
-        taskID?: T;
-        input?: T;
-        output?: T;
-        state?: T;
-        error?: T;
+        executedAt?: T
+        completedAt?: T
+        taskSlug?: T
+        taskID?: T
+        input?: T
+        output?: T
+        state?: T
+        error?: T
         parent?:
           | T
           | {
-              taskSlug?: T;
-              taskID?: T;
-            };
-        id?: T;
-      };
-  workflowSlug?: T;
-  taskSlug?: T;
-  queue?: T;
-  waitUntil?: T;
-  processing?: T;
-  updatedAt?: T;
-  createdAt?: T;
+              taskSlug?: T
+              taskID?: T
+            }
+        id?: T
+      }
+  workflowSlug?: T
+  taskSlug?: T
+  queue?: T
+  waitUntil?: T
+  processing?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  document?: T
+  globalSlug?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T;
-  key?: T;
-  value?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  user?: T
+  key?: T
+  value?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4457,28 +4447,28 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface TaskCreateRecord {
   input: {
-    collection: string;
+    collection: string
     data:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
     record:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4486,52 +4476,52 @@ export interface TaskCreateRecord {
  */
 export interface TaskExecuteFunction {
   input: {
-    functionName: string;
+    functionName: string
     args:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    project?: string | null;
+      | null
+    project?: string | null
     schema?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     settings?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    timeout?: number | null;
-    seeds?: number | null;
-    callback?: string | null;
-  };
+      | null
+    timeout?: number | null
+    seeds?: number | null
+    callback?: string | null
+  }
   output: {
     output?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    reasoning?: string | null;
-    generationHash?: string | null;
-  };
+      | null
+    reasoning?: string | null
+    generationHash?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4539,38 +4529,38 @@ export interface TaskExecuteFunction {
  */
 export interface TaskGenerateCode {
   input: {
-    prompt: string;
+    prompt: string
     settings?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
     raw?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    code?: string | null;
+      | null
+    code?: string | null
     parsed?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4578,46 +4568,46 @@ export interface TaskGenerateCode {
  */
 export interface TaskRequestHumanFeedback {
   input: {
-    taskId?: string | null;
-    title: string;
-    description: string;
+    taskId?: string | null
+    title: string
+    description: string
     options?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    freeText?: boolean | null;
-    platform?: ('slack' | 'teams' | 'discord') | null;
-    userId?: string | null;
-    roleId?: string | null;
-    timeout?: number | null;
-  };
+      | null
+    freeText?: boolean | null
+    platform?: ('slack' | 'teams' | 'discord') | null
+    userId?: string | null
+    roleId?: string | null
+    timeout?: number | null
+  }
   output: {
-    taskId?: string | null;
-    status?: string | null;
+    taskId?: string | null
+    status?: string | null
     response?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     messageId?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4625,25 +4615,25 @@ export interface TaskRequestHumanFeedback {
  */
 export interface TaskMonitorHumanFeedbackTask {
   input: {
-    taskId: string;
-    functionName: string;
-    timeout?: number | null;
-    callback?: string | null;
-  };
+    taskId: string
+    functionName: string
+    timeout?: number | null
+    callback?: string | null
+  }
   output: {
-    status?: string | null;
-    taskId?: string | null;
+    status?: string | null
+    taskId?: string | null
     response?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    nextCheck?: string | null;
-  };
+      | null
+    nextCheck?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4651,41 +4641,41 @@ export interface TaskMonitorHumanFeedbackTask {
  */
 export interface TaskExecuteAgentFunction {
   input: {
-    agentId: string;
-    prompt: string;
+    agentId: string
+    prompt: string
     context?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    taskId: string;
+      | null
+    taskId: string
     options?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
-    status?: string | null;
-    taskId?: string | null;
+    status?: string | null
+    taskId?: string | null
     response?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4693,31 +4683,31 @@ export interface TaskExecuteAgentFunction {
  */
 export interface TaskUpdateSlackMessage {
   input: {
-    response_url: string;
+    response_url: string
     blocks:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    text?: string | null;
-    replace_original?: boolean | null;
-    delete_original?: boolean | null;
-  };
+      | null
+    text?: string | null
+    replace_original?: boolean | null
+    delete_original?: boolean | null
+  }
   output: {
     result?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4725,22 +4715,22 @@ export interface TaskUpdateSlackMessage {
  */
 export interface TaskProcessBatchOpenAI {
   input: {
-    batchId: string;
-    checkStatus?: boolean | null;
-  };
+    batchId: string
+    checkStatus?: boolean | null
+  }
   output: {
-    status?: string | null;
-    error?: string | null;
+    status?: string | null
+    error?: string | null
     batchStatus?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4748,22 +4738,22 @@ export interface TaskProcessBatchOpenAI {
  */
 export interface TaskProcessBatchAnthropic {
   input: {
-    batchId: string;
-    checkStatus?: boolean | null;
-  };
+    batchId: string
+    checkStatus?: boolean | null
+  }
   output: {
-    status?: string | null;
-    error?: string | null;
+    status?: string | null
+    error?: string | null
     batchStatus?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4771,22 +4761,22 @@ export interface TaskProcessBatchAnthropic {
  */
 export interface TaskProcessBatchGoogleVertexAI {
   input: {
-    batchId: string;
-    checkStatus?: boolean | null;
-  };
+    batchId: string
+    checkStatus?: boolean | null
+  }
   output: {
-    status?: string | null;
-    error?: string | null;
+    status?: string | null
+    error?: string | null
     batchStatus?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4794,22 +4784,22 @@ export interface TaskProcessBatchGoogleVertexAI {
  */
 export interface TaskProcessBatchParasail {
   input: {
-    batchId: string;
-    checkStatus?: boolean | null;
-  };
+    batchId: string
+    checkStatus?: boolean | null
+  }
   output: {
-    status?: string | null;
-    error?: string | null;
+    status?: string | null
+    error?: string | null
     batchStatus?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4817,22 +4807,22 @@ export interface TaskProcessBatchParasail {
  */
 export interface TaskProcessBatchCloudflare {
   input: {
-    batchId: string;
-    checkStatus?: boolean | null;
-  };
+    batchId: string
+    checkStatus?: boolean | null
+  }
   output: {
-    status?: string | null;
-    error?: string | null;
+    status?: string | null
+    error?: string | null
     batchStatus?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4840,22 +4830,22 @@ export interface TaskProcessBatchCloudflare {
  */
 export interface TaskProcessBatchGroq {
   input: {
-    batchId: string;
-    checkStatus?: boolean | null;
-  };
+    batchId: string
+    checkStatus?: boolean | null
+  }
   output: {
-    status?: string | null;
-    error?: string | null;
+    status?: string | null
+    error?: string | null
     batchStatus?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4863,33 +4853,33 @@ export interface TaskProcessBatchGroq {
  */
 export interface TaskCreateGenerationBatch {
   input: {
-    name: string;
-    provider: string;
+    name: string
+    provider: string
     batchConfig:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     generations?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
-    success?: boolean | null;
-    batchId?: string | null;
-    jobId?: string | null;
-    error?: string | null;
-  };
+    success?: boolean | null
+    batchId?: string | null
+    jobId?: string | null
+    error?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4897,24 +4887,24 @@ export interface TaskCreateGenerationBatch {
  */
 export interface TaskGenerateFunctionExamples {
   input: {
-    functionId: string;
-    count?: number | null;
-    force?: boolean | null;
-  };
+    functionId: string
+    count?: number | null
+    force?: boolean | null
+  }
   output: {
-    success?: boolean | null;
-    message?: string | null;
+    success?: boolean | null
+    message?: string | null
     examples?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    error?: string | null;
-  };
+      | null
+    error?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4922,40 +4912,40 @@ export interface TaskGenerateFunctionExamples {
  */
 export interface TaskExecuteCodeFunction {
   input: {
-    code: string;
+    code: string
     args?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    timeout?: number | null;
-    memoryLimit?: number | null;
-  };
+      | null
+    timeout?: number | null
+    memoryLimit?: number | null
+  }
   output: {
     result?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     logs?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    error?: string | null;
-  };
+      | null
+    error?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4963,15 +4953,15 @@ export interface TaskExecuteCodeFunction {
  */
 export interface TaskProcessCodeFunctionWrapper {
   input: {
-    functionId: string;
-  };
+    functionId: string
+  }
   output: {
-    function?: string | null;
-    taskId?: string | null;
-    success?: boolean | null;
-    error?: string | null;
-    message?: string | null;
-  };
+    function?: string | null
+    taskId?: string | null
+    success?: boolean | null
+    error?: string | null
+    message?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4979,15 +4969,15 @@ export interface TaskProcessCodeFunctionWrapper {
  */
 export interface TaskProcessCodeFunction {
   input: {
-    functionId: string;
-  };
+    functionId: string
+  }
   output: {
-    function?: string | null;
-    moduleId?: string | null;
-    packageId?: string | null;
-    success?: boolean | null;
-    error?: string | null;
-  };
+    function?: string | null
+    moduleId?: string | null
+    packageId?: string | null
+    success?: boolean | null
+    error?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4997,35 +4987,35 @@ export interface TaskDeployWorker {
   input: {
     worker:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     options?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
     result?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    deployment?: string | null;
-  };
+      | null
+    deployment?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5033,19 +5023,19 @@ export interface TaskDeployWorker {
  */
 export interface TaskGenerateResourceEmbedding {
   input: {
-    id: string;
-  };
+    id: string
+  }
   output: {
     resource?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5053,19 +5043,19 @@ export interface TaskGenerateResourceEmbedding {
  */
 export interface TaskGenerateThingEmbedding {
   input: {
-    id: string;
-  };
+    id: string
+  }
   output: {
     thing?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5073,20 +5063,20 @@ export interface TaskGenerateThingEmbedding {
  */
 export interface TaskSearchThings {
   input: {
-    query: string;
-    limit?: number | null;
-  };
+    query: string
+    limit?: number | null
+  }
   output: {
     results?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5094,20 +5084,20 @@ export interface TaskSearchThings {
  */
 export interface TaskHybridSearchThings {
   input: {
-    query: string;
-    limit?: number | null;
-  };
+    query: string
+    limit?: number | null
+  }
   output: {
     results?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5115,19 +5105,19 @@ export interface TaskHybridSearchThings {
  */
 export interface TaskGenerateEmbedding {
   input: {
-    text: string;
-  };
+    text: string
+  }
   output: {
     embedding?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5135,18 +5125,18 @@ export interface TaskGenerateEmbedding {
  */
 export interface TaskInflectNouns {
   input: {
-    noun: string;
-  };
+    noun: string
+  }
   output: {
-    singular?: string | null;
-    plural?: string | null;
-    possessive?: string | null;
-    pluralPossessive?: string | null;
-    verb?: string | null;
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-  };
+    singular?: string | null
+    plural?: string | null
+    possessive?: string | null
+    pluralPossessive?: string | null
+    verb?: string | null
+    act?: string | null
+    activity?: string | null
+    event?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5154,21 +5144,21 @@ export interface TaskInflectNouns {
  */
 export interface TaskConjugateVerbs {
   input: {
-    verb: string;
-  };
+    verb: string
+  }
   output: {
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-    subject?: string | null;
-    object?: string | null;
-    inverse?: string | null;
-    inverseAct?: string | null;
-    inverseActivity?: string | null;
-    inverseEvent?: string | null;
-    inverseSubject?: string | null;
-    inverseObject?: string | null;
-  };
+    act?: string | null
+    activity?: string | null
+    event?: string | null
+    subject?: string | null
+    object?: string | null
+    inverse?: string | null
+    inverseAct?: string | null
+    inverseActivity?: string | null
+    inverseEvent?: string | null
+    inverseSubject?: string | null
+    inverseObject?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5176,52 +5166,52 @@ export interface TaskConjugateVerbs {
  */
 export interface TaskAnalyzeFunction {
   input: {
-    name: string;
+    name: string
     schema?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
-    type?: string | null;
-    format?: string | null;
-    verb?: string | null;
-    subject?: string | null;
-    object?: string | null;
+    type?: string | null
+    format?: string | null
+    verb?: string | null
+    subject?: string | null
+    object?: string | null
     examples?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     verbForms?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     nounForms?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    confidence?: number | null;
-  };
+      | null
+    confidence?: number | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5231,20 +5221,20 @@ export interface TaskDeliverWebhook {
   input: {
     event:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    webhookId: string;
-  };
+      | null
+    webhookId: string
+  }
   output: {
-    status?: string | null;
-    message?: string | null;
-    statusCode?: number | null;
-  };
+    status?: string | null
+    message?: string | null
+    statusCode?: number | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5252,32 +5242,32 @@ export interface TaskDeliverWebhook {
  */
 export interface TaskInitiateComposioConnection {
   input: {
-    integrationId: string;
-    userId: string;
-    taskId?: string | null;
-    redirectUrl?: string | null;
+    integrationId: string
+    userId: string
+    taskId?: string | null
+    redirectUrl?: string | null
     metadata?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
     connection?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    authorization_url?: string | null;
-  };
+      | null
+    authorization_url?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5285,13 +5275,13 @@ export interface TaskInitiateComposioConnection {
  */
 export interface TaskProcessDomain {
   input: {
-    domainId: string;
-    operation: string;
-    domain?: string | null;
-    vercelId?: string | null;
-    cloudflareId?: string | null;
-  };
-  output: {};
+    domainId: string
+    operation: string
+    domain?: string | null
+    vercelId?: string | null
+    cloudflareId?: string | null
+  }
+  output: {}
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5299,19 +5289,19 @@ export interface TaskProcessDomain {
  */
 export interface TaskPostGithubComment {
   input: {
-    issueNumber: number;
-    repository: string;
+    issueNumber: number
+    repository: string
     researchResults:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
-  output?: unknown;
+      | null
+  }
+  output?: unknown
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5319,27 +5309,27 @@ export interface TaskPostGithubComment {
  */
 export interface TaskGithubFileOperations {
   input: {
-    repository: string;
-    branch?: string | null;
-    path: string;
-    content?: string | null;
-    message?: string | null;
-    operation: string;
-    prTitle?: string | null;
-    prBody?: string | null;
-  };
+    repository: string
+    branch?: string | null
+    path: string
+    content?: string | null
+    message?: string | null
+    operation: string
+    prTitle?: string | null
+    prBody?: string | null
+  }
   output: {
     data?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    error?: string | null;
-  };
+      | null
+    error?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5347,98 +5337,98 @@ export interface TaskGithubFileOperations {
  */
 export interface TaskSaveExecutionResults {
   input: {
-    prompt?: string | null;
+    prompt?: string | null
     object?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    functionName?: string | null;
+      | null
+    functionName?: string | null
     args?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     settings?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     argsDoc?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     functionDoc?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    reasoning?: string | null;
+      | null
+    reasoning?: string | null
     generation?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    generationLatency?: number | null;
+      | null
+    generationLatency?: number | null
     headers?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     seeds?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    callback?: string | null;
-    isTextFunction?: string | null;
+      | null
+    callback?: string | null
+    isTextFunction?: string | null
     latency?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    generationHash?: string | null;
-  };
+      | null
+    generationHash?: string | null
+  }
   output: {
-    success?: string | null;
-  };
+    success?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5446,39 +5436,39 @@ export interface TaskSaveExecutionResults {
  */
 export interface TaskResearchTask {
   input: {
-    topic: string;
-    depth?: number | null;
+    topic: string
+    depth?: number | null
     sources?:
       | {
-          sourceUrl?: string | null;
+          sourceUrl?: string | null
         }[]
-      | null;
-    format?: string | null;
-    taskId: string;
+      | null
+    format?: string | null
+    taskId: string
     callback?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
-    summary?: string | null;
+    summary?: string | null
     findings?:
       | {
-          finding?: string | null;
+          finding?: string | null
         }[]
-      | null;
+      | null
     sources?:
       | {
-          sourceUrl?: string | null;
+          sourceUrl?: string | null
         }[]
-      | null;
-    confidence?: number | null;
-  };
+      | null
+    confidence?: number | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5486,31 +5476,31 @@ export interface TaskResearchTask {
  */
 export interface TaskSendResearchResultsToSlack {
   input: {
-    channel: string;
-    threadTs?: string | null;
-    responseTs: string;
+    channel: string
+    threadTs?: string | null
+    responseTs: string
     results:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    query: string;
-  };
+      | null
+    query: string
+  }
   output: {
     result?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5520,15 +5510,15 @@ export interface TaskHandleLinearWebhook {
   input: {
     payload:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
-  output?: unknown;
+      | null
+  }
+  output?: unknown
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5538,29 +5528,29 @@ export interface TaskSyncTaskToLinear {
   input: {
     data:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     originalDoc?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
-    status?: string | null;
-    message?: string | null;
-    linearIssueId?: string | null;
-    linearIssueUrl?: string | null;
-  };
+    status?: string | null
+    message?: string | null
+    linearIssueId?: string | null
+    linearIssueUrl?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5570,27 +5560,27 @@ export interface TaskDeleteLinearIssue {
   input: {
     data:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
+      | null
     originalDoc?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
-    status?: string | null;
-    message?: string | null;
-  };
+    status?: string | null
+    message?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5598,14 +5588,14 @@ export interface TaskDeleteLinearIssue {
  */
 export interface TaskCheckServiceHealth {
   input: {
-    id: string;
-    timeout?: number | null;
-  };
+    id: string
+    timeout?: number | null
+  }
   output: {
-    status?: string | null;
-    responseTime?: number | null;
-    message?: string | null;
-  };
+    status?: string | null
+    responseTime?: number | null
+    message?: string | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5615,25 +5605,25 @@ export interface TaskDiscoverServices {
   input: {
     query?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
   output: {
     services?:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5643,14 +5633,14 @@ export interface WorkflowHandleGithubEvent {
   input: {
     payload:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -5660,44 +5650,41 @@ export interface WorkflowHandleStripeEvent {
   input: {
     event:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-  };
+      | null
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "WorkflowRecordEvent".
+ * via the `definition` "WorkflowRecordUsageEvent".
  */
-export interface WorkflowRecordEvent {
+export interface WorkflowRecordUsageEvent {
   input: {
     result:
       | {
-          [k: string]: unknown;
+          [k: string]: unknown
         }
       | unknown[]
       | string
       | number
       | boolean
-      | null;
-    user: string;
-    apiKey: string;
-  };
+      | null
+    user: string
+    apiKey: string
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+  [k: string]: unknown
 }
-
-
-
 
 /**
  * Workflow step configuration
