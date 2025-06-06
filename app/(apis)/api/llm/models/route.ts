@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   const filters: ((model: any) => boolean)[] = []
 
   for (const [key, value] of searchParams.entries()) {
-    filters.push((model) => model[key]?.toLowerCase().includes(value.toLowerCase()))
+    filters.push((model) => model[key]?.toLowerCase()?.includes(String(value).toLowerCase()))
   }
 
   return Response.json({
