@@ -1,7 +1,7 @@
 import { getGeneration } from '@/lib/openrouter'
 import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
-import { getApiKey } from '../admin/APIKeys'
+import { getLLMApiKey } from '../admin/APIKeys'
 
 export const Generations: CollectionConfig = {
   slug: 'generations',
@@ -35,7 +35,7 @@ export const Generations: CollectionConfig = {
         if (typeof id !== 'string' && typeof id !== 'number') {
           return Response.json({ error: 'Generation ID is required' }, { status: 400 })
         }
-        const apiKey = await getApiKey(headers, payload)
+        const apiKey = await getLLMApiKey(headers, payload)
         if (apiKey instanceof Response) {
           return apiKey
         }

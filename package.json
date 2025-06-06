@@ -337,7 +337,7 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.11.1",
   "nextBundleAnalysis": {
     "budget": 358400,
     "budgetPercentIncreaseRed": 20,

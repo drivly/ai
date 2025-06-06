@@ -57,6 +57,7 @@ async function createTestUserAndApiKey() {
           name: 'Test API Key',
           description: 'API key for automated tests',
           email: 'test@example.com',
+          type: 'api',
         },
       })
 

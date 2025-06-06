@@ -1,9 +1,9 @@
 import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
-import type { CollectionConfig } from 'payload'
-import type { OpenAPIObject, SchemaObject, PathItemObject, OperationObject, ParameterObject, ResponseObject, RequestBodyObject, ComponentsObject } from 'openapi3-ts/oas30'
 import fs from 'fs/promises'
+import type { ComponentsObject, OpenAPIObject, OperationObject, ParameterObject, PathItemObject, RequestBodyObject, ResponseObject, SchemaObject } from 'openapi3-ts/oas30'
 import path from 'path'
+import type { CollectionConfig } from 'payload'
 
 /**
  * Generate a full OpenAPI specification based on Payload collections

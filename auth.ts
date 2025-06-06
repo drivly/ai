@@ -121,7 +121,7 @@ export const {
 
       return session
     },
-    jwt: async ({ token, user, account, profile }) => {
+    jwt: async ({ token, account, profile }) => {
       if (!token.sub) return token
 
       const userId = token.sub
@@ -133,7 +133,7 @@ export const {
 
       if (!token.apiKey) {
         if (!userRegistry.has(userId)) {
-          const apiKeyPromise = getOrCreateUserApikey(existingUser)
+          const apiKeyPromise = getOrCreateUserApikey({ ...existingUser, type: 'api' })
           userRegistry.set(userId, apiKeyPromise)
 
           // Clean up after completion (success or failure)

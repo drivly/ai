@@ -1,4 +1,3 @@
-import { generateText } from '@/sdks/gpt.do/dist'
 import fs from 'fs'
 import OpenAI from 'openai'
 import type { ResponseInput } from 'openai/resources/responses/responses.mjs'
@@ -11,9 +10,7 @@ const models = ['openai/o4-mini', 'google/gemini-2.0-flash-001', 'anthropic/clau
 const pdf = getPdfData('ORMwhitePaper.pdf')
 
 // Use to skip tests in development
-const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = [
-  'pdf'
-]
+const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = ['pdf']
 
 console.log(`Skipping tests: ${skipTests.join(', ')}`)
 
