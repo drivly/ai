@@ -86,7 +86,7 @@
     "ts-node": "^10.9.2",
     "tsconfig": "workspace:*",
     "tsup": "^8.0.1",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.3",
     "vitest": "^3.0.9"
   },
   "dependencies": {}
