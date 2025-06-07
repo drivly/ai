@@ -270,7 +270,7 @@
     "rimraf": "^5.0.5",
     "tailwindcss": "^4.0.17",
     "turbo": "^2.5.3",
-    "typescript": "5.7.3",
+    "typescript": "5.8.3",
     "vitest": "^3.0.9",
     "yaml-loader": "^0.8.1"
   },

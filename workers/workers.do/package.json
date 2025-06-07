@@ -23,7 +23,7 @@
     "@cloudflare/vitest-pool-workers": "^0.8.22",
     "@cloudflare/workers-types": "^4.20250414.0",
     "esbuild": "^0.25.2",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.3",
     "vitest": "^1.6.1",
     "vitest-environment-miniflare": "^2.14.4",
     "wrangler": "^4.2.0"
