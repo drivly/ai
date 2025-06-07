@@ -45,14 +45,14 @@ export const APIKeys: CollectionConfig = {
     beforeOperation: [
       async ({ operation, args }) => {
         const data = args.data
-        if (operation === 'create') {
-          if (data.type === 'llm') {
+        if (operation === 'create' && data && !data.apiKey) {
+          if (data.type === 'api') {
+            data.apiKey = `key_${nanoid(32)}`
+          } else if (data.type === 'llm') {
             const key = await createKey({ name: data.email, limit: 1 })
             data.apiKey = key.key
             data.hash = key.hash
             data.label = key.label
-          } else if (data.type === 'api' && !data.apiKey) {
-            data.apiKey = `key_${nanoid(32)}`
           }
           data.enableAPIKey = true
         }
@@ -90,7 +90,7 @@ export const APIKeys: CollectionConfig = {
 
 export async function getLLMApiKey(headers: Headers, payload: Payload) {
   // Get auth info - require either header API key or NextAuth session
-  const headerApiKey = headers.get('Authorization')?.split(' ')[1]
+  const headerApiKey = headers.get('Authorization')?.split(' ').pop()
 
   if (!headerApiKey) {
     console.log('❌ APIKeys: Unauthorized - No valid authentication source')
@@ -101,10 +101,13 @@ export async function getLLMApiKey(headers: Headers, payload: Payload) {
   let apiKey: string | null = null
   if (headerApiKey?.startsWith('sk-')) {
     apiKey = headerApiKey
-  }
-
-  // If we still don't have an API key, check Payload auth
-  if (!apiKey) {
+  } else {
+    // If we still don't have an API key, check Payload auth
+    if (headerApiKey.startsWith('key_')) {
+      headers.set('Authorization', 'apikeys API-Key ' + headerApiKey)
+    } else {
+      headers.set('Authorization', 'users API-Key ' + headerApiKey)
+    }
     // Get user from payload auth
     const authResult = await payload.auth({ headers })
     const user = authResult.user
@@ -120,7 +123,10 @@ export async function getLLMApiKey(headers: Headers, payload: Payload) {
           collection: 'apikeys',
           where: {
             type: { equals: 'llm' },
-            or: [{ email: { equals: user.email } }, { user: { equals: user.id } }],
+            or: [
+              { email: { equals: user.email } },
+              { user: { equals: (user?.collection === 'apikeys' && user.user && (typeof user.user === 'string' ? user.user : user.user.id)) || user.id } },
+            ],
           },
           select: { apiKey: true },
           limit: 1,

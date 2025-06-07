@@ -10,7 +10,10 @@ export const maxDuration = 600
 export async function POST(req: Request) {
   // Get auth info - require either header API key or NextAuth session
   const nextauthUser = await serverAuth()
-  const headerApiKey = req.headers.get('Authorization')?.split(' ')[1]
+  let headerApiKey = req.headers.get('Authorization')?.split(' ').pop()
+  if (!headerApiKey || (!headerApiKey?.startsWith('sk-') && nextauthUser?.apiKey?.startsWith('sk-'))) {
+    headerApiKey = nextauthUser?.apiKey
+  }
 
   if (!headerApiKey && !nextauthUser) {
     console.log('❌ Chat API: Unauthorized - No valid authentication source')
@@ -21,35 +24,32 @@ export async function POST(req: Request) {
   let apiKey: string | null = null
   if (headerApiKey?.startsWith('sk-')) {
     apiKey = headerApiKey
-  } else if (nextauthUser?.apiKey?.startsWith('sk-')) {
-    apiKey = nextauthUser.apiKey
-  }
-
-  // If we still don't have an API key, check Payload auth
-  if (!apiKey) {
+  } else {
+    // If we still don't have an API key, check Payload auth
     const payload = await getPayloadFn()
+    const headers = new Headers(req.headers)
+    if (headerApiKey?.startsWith('key_')) {
+      headers.set('Authorization', 'apikeys API-Key ' + headerApiKey)
+    } else if (headerApiKey) {
+      headers.set('Authorization', 'users API-Key ' + headerApiKey)
+    }
 
     // Get user from payload auth
-    const authResult = await payload.auth({ headers: req.headers })
+    const authResult = await payload.auth({ headers })
     const user = authResult.user
 
     // If authenticated payload user has an API key, use it
     if (user?.collection === 'apikeys' && user.apiKey && user.type === 'llm') {
       apiKey = user.apiKey
-    }
-    // If authenticated user exists but no API key, get or create one
-    else if (nextauthUser || user) {
+    } else if (nextauthUser || user) {
+      // If authenticated user exists but no API key, get or create one
       try {
-        const result = await getOrCreateUserApikey({
-          id: nextauthUser?.id || user?.id || '',
+        apiKey = await getOrCreateUserApikey({
+          id: nextauthUser?.id || (user?.collection === 'apikeys' && (typeof user.user === 'string' ? user.user : user.user?.id)) || user?.id || '',
           email: nextauthUser?.email || user?.email || '',
           name: nextauthUser?.name || user?.name || user?.email || 'API Key',
           type: 'llm',
         })
-
-        if (result) {
-          apiKey = result
-        }
       } catch (error) {
         console.error('❌ Chat API: Error getting/creating API key:', error)
       }
@@ -58,13 +58,13 @@ export async function POST(req: Request) {
 
   // At this point, apiKey should contain our best API key or null if none found
   if (apiKey) {
-    const newHeaders = new Headers(req.headers)
-    newHeaders.set('Authorization', `Bearer ${apiKey}`)
+    const headers = new Headers(req.headers)
+    headers.set('Authorization', `Bearer ${apiKey}`)
     const newUrl = new URL('/llm/chat/completions?stream=true&useChat=true', req.url)
 
     const newRequest = new NextRequest(newUrl, {
       method: req.method,
-      headers: newHeaders,
+      headers,
       body: req.body,
     })
 
