@@ -1,15 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server.js'
-import punycode from 'punycode'
-import { getPayload } from 'payload'
-import config from '../payload.config'
-import { PayloadDB } from './db'
-import { auth } from '../auth'
-import { UAParser } from 'ua-parser-js'
 import { geolocation } from '@vercel/functions'
-import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
-
-import { parentDomains, childDomains, sdks } from '../domains.config'
+import { NextRequest, NextResponse } from 'next/server.js'
+import { getPayload } from 'payload'
+import punycode from 'punycode/'
+import { UAParser } from 'ua-parser-js'
+import { auth } from '../auth'
+import { childDomains, parentDomains, sdks } from '../domains.config'
+import config from '../payload.config'
+import { continents, countries, flags, locations, metros } from './constants/cf'
+import type { PayloadDB } from './db'
 
 /**
  * Context object passed to API handlers
@@ -402,8 +401,6 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 
         try {
           // const authResult = await payload.auth.me()
-          // permissions = authResult?.permissions || {}
-          // user = authResult?.user || {}
           const authResult = await payload.auth(req)
           permissions = authResult?.permissions || {}
           user = authResult?.user || {}

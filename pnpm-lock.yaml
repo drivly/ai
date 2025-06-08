@@ -343,6 +343,9 @@ importers:
       pretty-ms:
         specifier: ^9.2.0
         version: 9.2.0
+      punycode:
+        specifier: ^2.3.1
+        version: 2.3.1
       query-string:
         specifier: ^9.1.2
         version: 9.2.0
@@ -503,6 +506,9 @@ importers:
       '@types/object-hash':
         specifier: ^3.0.6
         version: 3.0.6
+      '@types/punycode':
+        specifier: ^2.1.4
+        version: 2.1.4
       '@types/react':
         specifier: 18.3.23
         version: 18.3.23
@@ -7153,6 +7159,9 @@ packages:
 
   '@types/prop-types@15.7.14':
     resolution: {integrity: sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==}
+
+  '@types/punycode@2.1.4':
+    resolution: {integrity: sha512-trzh6NzBnq8yw5e35f8xe8VTYjqM3NE7bohBtvDVf/dtUer3zYTLK1Ka3DG3p7bdtoaOHZucma6FfVKlQ134pQ==}
 
   '@types/react-dom@17.0.26':
     resolution: {integrity: sha512-Z+2VcYXJwOqQ79HreLU/1fyQ88eXSSFh6I3JdrEHQIfYSI0kCQpTGvOrbE6jFGGYXKsHuwY9tBa/w5Uo6KzrEg==}
@@ -24712,6 +24721,8 @@ snapshots:
       pg-types: 2.2.0
 
   '@types/prop-types@15.7.14': {}
+
+  '@types/punycode@2.1.4': {}
 
   '@types/react-dom@17.0.26(@types/react@17.0.87)':
     dependencies:
