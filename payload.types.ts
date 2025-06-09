@@ -149,8 +149,20 @@ export interface Config {
     things: {
       resources: 'resources';
     };
+    resources: {
+      subjectOf: 'relationships';
+    };
+    relationships: {
+      object: 'resources';
+    };
+    generationBatches: {
+      generations: 'generations';
+    };
     kpis: {
       goals: 'goals';
+    };
+    projects: {
+      domains: 'domains';
     };
   };
   collectionsSelect: {
@@ -417,7 +429,11 @@ export interface Project {
   id: string;
   name?: string | null;
   domain?: string | null;
-  domains?: (string | Domain)[] | null;
+  domains?: {
+    docs?: (string | Domain)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   /**
    * Goals associated with this project
    */
@@ -572,6 +588,62 @@ export interface Prompt {
   id: string;
   tenant?: (string | null) | Project;
   name?: string | null;
+  format?: {
+    questions?:
+      | {
+          question?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    role?: string | null;
+    instructions?:
+      | {
+          instruction?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    context?: string | null;
+    examples?:
+      | {
+          title?: string | null;
+          example: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  agent?: {
+    paramSchema?: string | null;
+    paramJsonSchema?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    maxSteps?: number | null;
+    modelName?: string | null;
+    schema?: string | null;
+    jsonSchema?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    toolsOnly?: boolean | null;
+    tools?:
+      | {
+          tool?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  system?: string | null;
+  text?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -729,7 +801,11 @@ export interface Resource {
     | number
     | boolean
     | null;
-  subjectOf?: (string | Relationship)[] | null;
+  subjectOf?: {
+    docs?: (string | Relationship)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   objectOf?: (string | Relationship)[] | null;
   content?: string | null;
   updatedAt: string;
@@ -858,7 +934,11 @@ export interface Relationship {
   id: string;
   subject?: (string | null) | Resource;
   verb?: (string | null) | Verb;
-  object?: (string | null) | Resource;
+  object?: {
+    docs?: (string | Resource)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   hash?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -2250,7 +2330,11 @@ export interface GenerationBatch {
    * ID of the batch job in the provider system
    */
   providerBatchId?: string | null;
-  generations?: (string | Generation)[] | null;
+  generations?: {
+    docs?: (string | Generation)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   startedAt?: string | null;
   completedAt?: string | null;
   updatedAt: string;
@@ -3856,6 +3940,50 @@ export interface LabsSelect<T extends boolean = true> {
 export interface PromptsSelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  format?:
+    | T
+    | {
+        questions?:
+          | T
+          | {
+              question?: T;
+              id?: T;
+            };
+        role?: T;
+        instructions?:
+          | T
+          | {
+              instruction?: T;
+              id?: T;
+            };
+        context?: T;
+        examples?:
+          | T
+          | {
+              title?: T;
+              example?: T;
+              id?: T;
+            };
+      };
+  agent?:
+    | T
+    | {
+        paramSchema?: T;
+        paramJsonSchema?: T;
+        maxSteps?: T;
+        modelName?: T;
+        schema?: T;
+        jsonSchema?: T;
+        toolsOnly?: T;
+        tools?:
+          | T
+          | {
+              tool?: T;
+              id?: T;
+            };
+      };
+  system?: T;
+  text?: T;
   updatedAt?: T;
   createdAt?: T;
 }

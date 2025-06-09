@@ -19,13 +19,13 @@ export const Resources: CollectionConfig = {
         { name: 'type', type: 'relationship', relationTo: ['nouns', 'things'] },
       ],
     },
-    ...(simplerJSON({
+    ...simplerJSON({
       jsonFieldName: 'data',
       codeFieldName: 'yaml',
       label: 'Data',
       defaultFormat: 'yaml',
       editorOptions: { padding: { top: 20, bottom: 20 } },
-    }) as any),
+    }),
     { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
     { name: 'subjectOf', type: 'join', collection: 'relationships', on: 'subject' },
     { name: 'objectOf', type: 'relationship', relationTo: 'relationships', hasMany: true },
