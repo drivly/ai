@@ -11,7 +11,7 @@ export const Relationships: CollectionConfig = {
   fields: [
     { name: 'subject', type: 'relationship', relationTo: 'resources' },
     { name: 'verb', type: 'relationship', relationTo: 'verbs' },
-    { name: 'object', type: 'relationship', relationTo: 'resources' },
+    { name: 'object', type: 'join', collection: 'resources', on: 'objectOf' },
     { name: 'hash', type: 'text' },
   ],
 }

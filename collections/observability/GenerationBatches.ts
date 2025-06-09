@@ -41,9 +41,9 @@ export const GenerationBatches: CollectionConfig = {
     },
     {
       name: 'generations',
-      type: 'relationship',
-      relationTo: 'generations',
-      hasMany: true,
+      type: 'join',
+      collection: 'generations',
+      on: 'batch',
     },
     { name: 'startedAt', type: 'date' },
     { name: 'completedAt', type: 'date' },
