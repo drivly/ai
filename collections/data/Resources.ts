@@ -27,7 +27,7 @@ export const Resources: CollectionConfig = {
       editorOptions: { padding: { top: 20, bottom: 20 } },
     }) as any),
     { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
-    { name: 'subjectOf', type: 'relationship', relationTo: 'relationships', hasMany: true },
+    { name: 'subjectOf', type: 'join', collection: 'relationships', on: 'subject' },
     { name: 'objectOf', type: 'relationship', relationTo: 'relationships', hasMany: true },
     {
       name: 'content',
