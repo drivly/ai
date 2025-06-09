@@ -3,27 +3,13 @@
  * Replaces functions previously imported from payload-utils
  */
 
-type Field = {
-  name: string
-  type: string
-  label?: string
-  admin?: {
-    language?: string
-    condition?: (data: any) => boolean
-    hidden?: boolean
-    editorOptions?: any
-  }
-  hooks?: {
-    beforeChange?: Array<(args: { value: any; data: any }) => any>
-    afterRead?: Array<(args: { value: any; data: any }) => any>
-  }
-}
+import { Field } from 'payload'
 
 type SimplerJSONOptions = {
   jsonFieldName?: string
   codeFieldName?: string
   label?: string
-  defaultFormat?: 'yaml' | 'json5'
+  defaultFormat?: 'yaml' | 'json5' | 'typescript'
   hideJsonField?: boolean
   adminCondition?: (data: any) => boolean
   editorOptions?: {
@@ -55,7 +41,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
       },
       hooks: {
         beforeChange: [
-          ({ value, data }: { value: any; data: any }) => {
+          ({ value, data }) => {
             if (!value || !data) return value
             try {
               if (defaultFormat === 'yaml') {
@@ -72,7 +58,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
           },
         ],
         afterRead: [
-          ({ value, data }: { value: any; data: any }) => {
+          ({ value, data }) => {
             if (!data || !data[jsonFieldName]) return value
             try {
               if (defaultFormat === 'yaml') {

@@ -158,7 +158,7 @@ export const Functions: CollectionConfig = {
     //     condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
     //   },
     // },
-    ...(simplerJSON as any)({
+    ...simplerJSON({
       jsonFieldName: 'shape',
       codeFieldName: 'schemaYaml',
       label: 'Schema',
