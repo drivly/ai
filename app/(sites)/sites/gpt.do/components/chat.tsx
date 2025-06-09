@@ -101,7 +101,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   }, [id, effectiveSelectedModelOption, currentChat, isReadonly, addChatSession])
 
   return (
-    <ChatWrapper chatId={id} selectedModel={effectiveSelectedModelOption} messages={initialMessages} key={id}>
+    <ChatWrapper chatId={id} selectedModel={effectiveSelectedModelOption} messages={initialMessages}>
       <section className='mx-auto grid w-full'>
         <div className='bg-background flex h-dvh min-w-0 flex-1 flex-col'>
           <ChatHeader
