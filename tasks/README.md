@@ -19,6 +19,7 @@ Tasks related to AI model interactions, text generation, and function execution:
 - **generateObject.ts**: Generate structured objects using AI
 - **generateObjectArray.ts**: Generate arrays of structured objects
 - **generateText.ts**: Generate text content using AI models
+- **generateVideo.ts**: Generate videos from markdown
 - **requestHumanFeedback.ts**: Request and process human feedback on AI outputs
 
 ## Code
