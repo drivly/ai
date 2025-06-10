@@ -47,7 +47,7 @@
   "devDependencies": {
     "eslint-config": "0.1.0",
     "evalite": "^0.10.0",
-    "typescript": "^5.0.0",
+    "typescript": "^5.8.3",
     "vitest": "^3.0.9",
     "tsconfig": "0.0.0",
     "tsup": "^8.0.1"

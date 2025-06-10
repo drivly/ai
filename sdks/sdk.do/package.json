@@ -58,7 +58,7 @@
     "@types/react": "18.3.23",
     "evalite": "^0.10.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.3",
     "vitest": "^3.0.9",
     "tsconfig": "0.0.0"
   },
