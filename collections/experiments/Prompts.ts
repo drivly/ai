@@ -64,14 +64,14 @@ export const Prompts: CollectionConfig = {
           (({ data }) =>
             (data?.format
               ? `${data.name ? '# ' + data.name + '\n\n' : ''}${
-                  data.format.questions?.length ? '## Questions\n\n' + data.format.questions.map(q => q.question).join('\n') + '\n\n' : ''
+                  data.format.questions?.length ? '## Questions\n\n' + data.format.questions.map((q) => q.question).join('\n') + '\n\n' : ''
                 }${data.format.role ? '## Role\n\n' + data.format.role + '\n\n' : ''}${
-                  data.format.instructions?.length ? '## Instructions\n\n' + data.format.instructions.join('\n') + '\n\n' : ''
+                  data.format.instructions?.length ? '## Instructions\n\n' + data.format.instructions.map((i) => i.instruction).join('\n') + '\n\n' : ''
                 }${data.format.context ? '## Context\n\n' + data.format.context + '\n\n' : ''}${
                   data.format.examples?.length
                     ? '## Examples\n\n' + data.format.examples.map((e) => `${e.title ? `### ${e.title}\n\n` : ''}${e.example}`).join('\n\n') + '\n\n'
                     : ''
-                }${data.format.questions?.length ? '## Questions\n\n' + data.format.questions.map(q => q.question).join('\n') + '\n' : ''}`
+                }${data.format.questions?.length ? '## Questions\n\n' + data.format.questions.map((q) => q.question).join('\n') + '\n' : ''}`
               : '') + (data?.system || '')) as FieldHook<Prompt>,
         ],
       },
