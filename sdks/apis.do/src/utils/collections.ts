@@ -66,14 +66,14 @@ export const COLLECTIONS = [
   'apikeys',
   'oauthClients',
   'oauthCodes',
-  'oauthTokens',
-] as const
+  'oauthTokens'
+] as const;
 
-export type Collection = (typeof COLLECTIONS)[number]
+export type Collection = typeof COLLECTIONS[number];
 
 /**
  * Checks if a string is a valid collection name
  */
 export function isCollection(name: string): name is Collection {
-  return COLLECTIONS.includes(name as Collection)
+  return COLLECTIONS.includes(name as Collection);
 }
