@@ -22,7 +22,7 @@
   "dependencies": {
     "@ai-sdk/anthropic": "2.0.0-alpha.7",
     "@ai-sdk/google": "^1.2.1",
-    "@ai-sdk/google-vertex": "^2.2.14",
+    "@ai-sdk/google-vertex": "^2.2.24",
     "@ai-sdk/openai": "2.0.0-alpha.7",
     "@ai-sdk/provider-utils": "3.0.0-alpha.7",
     "ai": "5.0.0-alpha.7",
