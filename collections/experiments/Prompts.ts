@@ -1,6 +1,5 @@
 import { Prompt } from '@/payload.types'
 import type { CollectionConfig, FieldHook } from 'payload'
-import { simplerJSON } from '../../src/utils/json-fields'
 
 export const Prompts: CollectionConfig = {
   slug: 'prompts',
@@ -12,6 +11,7 @@ export const Prompts: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text' },
     { name: 'system', type: 'text' },
+    { name: 'modelName', type: 'text' },
     {
       name: 'format',
       type: 'group',
@@ -31,30 +31,28 @@ export const Prompts: CollectionConfig = {
       ],
     },
     {
-      name: 'agent',
-      type: 'group',
-      fields: [
-        ...simplerJSON({
-          codeFieldName: 'paramSchema',
-          jsonFieldName: 'paramJsonSchema',
-          defaultFormat: 'typescript',
-          editorOptions: { padding: { top: 20, bottom: 20 } },
-        }),
-        { name: 'maxSteps', type: 'number' },
-        { name: 'modelName', type: 'text' },
-        ...simplerJSON({
-          codeFieldName: 'schema',
-          jsonFieldName: 'jsonSchema',
-          defaultFormat: 'typescript',
-          editorOptions: { padding: { top: 20, bottom: 20 } },
-        }),
-        { name: 'toolsOnly', type: 'checkbox' },
-        { name: 'tools', type: 'array', fields: [{ name: 'tool', type: 'text' }] },
-      ],
+      name: 'paramJsonSchema',
+      type: 'code',
+      admin: {
+        language: 'json',
+      },
     },
+    { name: 'maxSteps', type: 'number' },
+    {
+      name: 'jsonSchema',
+      type: 'code',
+      admin: {
+        language: 'typescript',
+      },
+    },
+    { name: 'tools', type: 'array', fields: [{ name: 'tool', type: 'text' }] },
+    { name: 'toolsOnly', type: 'checkbox' },
     {
       name: 'text',
-      type: 'text',
+      type: 'code',
+      admin: {
+        language: 'markdown',
+      },
       hooks: {
         beforeChange: [
           ({ siblingData }) => {
@@ -74,7 +72,7 @@ export const Prompts: CollectionConfig = {
                     ? '## Examples\n\n' + data.format.examples.map((e) => `${e.title ? `### ${e.title}\n\n` : ''}${e.example}`).join('\n\n') + '\n\n'
                     : ''
                 }${data.format.questions?.length ? '## Questions\n\n' + data.format.questions.join('\n') + '\n' : ''}`
-              : '') + data?.system || '') as FieldHook<Prompt>,
+              : '') + (data?.system || '')) as FieldHook<Prompt>,
         ],
       },
     },

@@ -9,7 +9,7 @@ type SimplerJSONOptions = {
   jsonFieldName?: string
   codeFieldName?: string
   label?: string
-  defaultFormat?: 'yaml' | 'json5' | 'typescript'
+  defaultFormat?: 'yaml' | 'json5'
   hideJsonField?: boolean
   adminCondition?: (data: any) => boolean
   editorOptions?: {

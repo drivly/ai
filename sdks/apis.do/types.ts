@@ -594,6 +594,8 @@ export interface Prompt {
   id: string
   tenant?: (string | null) | Project
   name?: string | null
+  system?: string | null
+  modelName?: string | null
   format?: {
     questions?:
       | {
@@ -617,38 +619,16 @@ export interface Prompt {
         }[]
       | null
   }
-  agent?: {
-    paramSchema?: string | null
-    paramJsonSchema?:
-      | {
-          [k: string]: unknown
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null
-    maxSteps?: number | null
-    modelName?: string | null
-    schema?: string | null
-    jsonSchema?:
-      | {
-          [k: string]: unknown
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null
-    toolsOnly?: boolean | null
-    tools?:
-      | {
-          tool?: string | null
-          id?: string | null
-        }[]
-      | null
-  }
-  system?: string | null
+  paramJsonSchema?: string | null
+  maxSteps?: number | null
+  jsonSchema?: string | null
+  tools?:
+    | {
+        tool?: string | null
+        id?: string | null
+      }[]
+    | null
+  toolsOnly?: boolean | null
   text?: string | null
   updatedAt: string
   createdAt: string
@@ -3934,6 +3914,8 @@ export interface LabsSelect<T extends boolean = true> {
 export interface PromptsSelect<T extends boolean = true> {
   tenant?: T
   name?: T
+  system?: T
+  modelName?: T
   format?:
     | T
     | {
@@ -3959,24 +3941,16 @@ export interface PromptsSelect<T extends boolean = true> {
               id?: T
             }
       }
-  agent?:
+  paramJsonSchema?: T
+  maxSteps?: T
+  jsonSchema?: T
+  tools?:
     | T
     | {
-        paramSchema?: T
-        paramJsonSchema?: T
-        maxSteps?: T
-        modelName?: T
-        schema?: T
-        jsonSchema?: T
-        toolsOnly?: T
-        tools?:
-          | T
-          | {
-              tool?: T
-              id?: T
-            }
+        tool?: T
+        id?: T
       }
-  system?: T
+  toolsOnly?: T
   text?: T
   updatedAt?: T
   createdAt?: T
