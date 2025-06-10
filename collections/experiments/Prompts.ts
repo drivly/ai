@@ -32,6 +32,12 @@ export const Prompts: CollectionConfig = {
               name: 'type',
               type: 'select',
               options: ['text', 'image', 'file', 'tool_call', 'tool_result', 'reasoning', 'redacted_reasoning'],
+              required: true,
+              defaultValue: 'text',
+            },
+            {
+              name: 'text',
+              type: 'text',
             },
             {
               name: 'imageString',
@@ -46,10 +52,6 @@ export const Prompts: CollectionConfig = {
             { name: 'dataFile', type: 'upload', relationTo: 'files' },
             { name: 'filename', type: 'text' },
             { name: 'mimeType', type: 'text' },
-            {
-              name: 'text',
-              type: 'text',
-            },
             { name: 'signature', type: 'text' },
             { name: 'data', type: 'text' },
             {

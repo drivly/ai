@@ -32,15 +32,15 @@ export const Files: CollectionConfig = {
   },
   fields: [
     {
+      name: 'filename',
+      type: 'text',
+      required: true,
+    },
+    {
       name: 'mimeType',
       type: 'text',
       required: true,
       defaultValue: 'image/jpeg',
-    },
-    {
-      name: 'filename',
-      type: 'text',
-      required: true,
     },
   ],
 }
