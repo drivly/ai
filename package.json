@@ -73,7 +73,7 @@
   "dependencies": {
     "@ai-sdk/anthropic": "2.0.0-alpha.7",
     "@ai-sdk/openai": "2.0.0-alpha.4",
-    "@ai-sdk/openai-compatible": "1.0.0-alpha.7",
+    "@ai-sdk/openai-compatible": "1.0.0-canary.19",
     "@ai-sdk/provider": "2.0.0-alpha.7",
     "@ai-sdk/react": "2.0.0-alpha.7",
     "@auth/mongodb-adapter": "^3.8.0",
