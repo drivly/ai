@@ -60,6 +60,7 @@ import { BillingPlans } from './billing/BillingPlans'
 import { Subscriptions } from './billing/Subscriptions'
 import { Usage } from './billing/Usage'
 import { Actions } from './events/Actions'
+import { Files } from './experiments/Files'
 
 export const collections = [
   // Register AI collections first
@@ -106,6 +107,7 @@ export const collections = [
   Labs,
   Prompts,
   Settings,
+  Files,
 
   Types,
   Modules,

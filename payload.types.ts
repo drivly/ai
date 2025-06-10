@@ -100,6 +100,7 @@ export interface Config {
     labs: Lab;
     prompts: Prompt;
     settings: Setting;
+    files: File;
     types: Type;
     modules: Module;
     packages: Package;
@@ -198,6 +199,7 @@ export interface Config {
     labs: LabsSelect<false> | LabsSelect<true>;
     prompts: PromptsSelect<false> | PromptsSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
+    files: FilesSelect<false> | FilesSelect<true>;
     types: TypesSelect<false> | TypesSelect<true>;
     modules: ModulesSelect<false> | ModulesSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
@@ -590,29 +592,72 @@ export interface Prompt {
   name?: string | null;
   system?: string | null;
   modelName?: string | null;
-  format?: {
-    questions?:
-      | {
-          question?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-    role?: string | null;
-    instructions?:
-      | {
-          instruction?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-    context?: string | null;
-    examples?:
-      | {
-          title?: string | null;
-          example: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
+  messages?:
+    | {
+        role: 'system' | 'user' | 'assistant' | 'tool';
+        contentString?: string | null;
+        contentArray?:
+          | {
+              type?:
+                | ('text' | 'image' | 'file' | 'tool_call' | 'tool_result' | 'reasoning' | 'redacted_reasoning')
+                | null;
+              imageString?: string | null;
+              imageFile?: (string | null) | File;
+              dataString?: string | null;
+              dataFile?: (string | null) | File;
+              filename?: string | null;
+              mimeType?: string | null;
+              text?: string | null;
+              signature?: string | null;
+              data?: string | null;
+              toolCallId?: string | null;
+              toolName?: string | null;
+              args?:
+                | {
+                    [k: string]: unknown;
+                  }
+                | unknown[]
+                | string
+                | number
+                | boolean
+                | null;
+              result?:
+                | {
+                    [k: string]: unknown;
+                  }
+                | unknown[]
+                | string
+                | number
+                | boolean
+                | null;
+              isError?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  questions?:
+    | {
+        question?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  role?: string | null;
+  instructions?:
+    | {
+        instruction?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  context?: string | null;
+  examples?:
+    | {
+        title?: string | null;
+        example: string;
+        id?: string | null;
+      }[]
+    | null;
   paramJsonSchema?: string | null;
   maxSteps?: number | null;
   jsonSchema?: string | null;
@@ -626,6 +671,50 @@ export interface Prompt {
   text?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "files".
+ */
+export interface File {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename: string;
+  mimeType: string;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * Manages user accounts and their associated roles
@@ -3106,6 +3195,10 @@ export interface PayloadLockedDocument {
         value: string | Setting;
       } | null)
     | ({
+        relationTo: 'files';
+        value: string | File;
+      } | null)
+    | ({
         relationTo: 'types';
         value: string | Type;
       } | null)
@@ -3922,30 +4015,53 @@ export interface PromptsSelect<T extends boolean = true> {
   name?: T;
   system?: T;
   modelName?: T;
-  format?:
+  messages?:
     | T
     | {
-        questions?:
-          | T
-          | {
-              question?: T;
-              id?: T;
-            };
         role?: T;
-        instructions?:
+        contentString?: T;
+        contentArray?:
           | T
           | {
-              instruction?: T;
+              type?: T;
+              imageString?: T;
+              imageFile?: T;
+              dataString?: T;
+              dataFile?: T;
+              filename?: T;
+              mimeType?: T;
+              text?: T;
+              signature?: T;
+              data?: T;
+              toolCallId?: T;
+              toolName?: T;
+              args?: T;
+              result?: T;
+              isError?: T;
               id?: T;
             };
-        context?: T;
-        examples?:
-          | T
-          | {
-              title?: T;
-              example?: T;
-              id?: T;
-            };
+        id?: T;
+      };
+  questions?:
+    | T
+    | {
+        question?: T;
+        id?: T;
+      };
+  role?: T;
+  instructions?:
+    | T
+    | {
+        instruction?: T;
+        id?: T;
+      };
+  context?: T;
+  examples?:
+    | T
+    | {
+        title?: T;
+        example?: T;
+        id?: T;
       };
   paramJsonSchema?: T;
   maxSteps?: T;
@@ -3971,6 +4087,57 @@ export interface SettingsSelect<T extends boolean = true> {
   settings?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "files_select".
+ */
+export interface FilesSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        tablet?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

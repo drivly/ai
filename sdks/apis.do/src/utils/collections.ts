@@ -37,6 +37,7 @@ export const COLLECTIONS = [
   'labs',
   'prompts',
   'settings',
+  'files',
   'types',
   'modules',
   'packages',
