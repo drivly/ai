@@ -17,17 +17,27 @@ import { schemas } from './schemas'
 export const maxDuration = 60
 export const dynamic = 'force-dynamic'
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Max-Age': '86400'
+}
+
 const ErrorResponse = (message: string, code: number = 400) => {
   return Response.json(
     {
       success: false,
       error: message,
     },
-    { status: code },
+    {
+      status: code,
+      headers: CORS_HEADERS
+    },
   )
 }
 
-export async function POST(req: Request) {
+export async function handleRequest(req: Request) {
   const qs = new URL(req.url).searchParams
 
   // Support both normal auth, and API key authentication
@@ -35,7 +45,7 @@ export async function POST(req: Request) {
   let apiKey = req.headers.get('Authorization') || ''
 
   if (!session && !apiKey) {
-    return new Response('Unauthorized', { status: 401 })
+    return ErrorResponse('Unauthorized - No session or API key provided', 401)
   }
 
   if (apiKey) {
@@ -54,7 +64,7 @@ export async function POST(req: Request) {
       : null
 
     if (!user) {
-      return new Response('Unauthorized', { status: 401 })
+      return ErrorResponse('Unauthorized - API key provided is invalid or does not exist', 401)
     }
 
     session = {
@@ -97,12 +107,12 @@ export async function POST(req: Request) {
   }
 
   if (!prompt && !messages) {
-    return ErrorResponse('No prompt or messages provided')
+    return ErrorResponse('No prompt or messages provided', 400)
   }
 
   if (useChat && !stream) {
     // Return error
-    return ErrorResponse('useChat is only supported when streaming is true')
+    return ErrorResponse('useChat is only supported when streaming is true', 400)
   }
 
   // TODO: Pull from a database for these formats.
@@ -221,7 +231,7 @@ export async function POST(req: Request) {
           error: `Model ${model} has no providers with given options and constraints. ${requestedCapabilities.length > 0 ? `The following capabilities are not supported by this model: ${requestedCapabilities.join(', ')}` : ''}`,
           requestedCapabilities,
         },
-        { status: 404 },
+        { status: 404, headers: CORS_HEADERS },
       )
     } else {
       return Response.json(
@@ -230,7 +240,7 @@ export async function POST(req: Request) {
           type: 'MODEL_NOT_FOUND',
           error: `Model ${model} does not exist. Please check the model name and try again.`,
         },
-        { status: 404 },
+        { status: 404, headers: CORS_HEADERS },
       )
     }
   }
@@ -325,6 +335,7 @@ export async function POST(req: Request) {
         'llm-response-format': JSON.stringify(response_format),
         'keep-alive': 'timeout=600',
         'x-powered-by': 'llm.do',
+        ...CORS_HEADERS
       },
     })
   }
@@ -605,9 +616,18 @@ export async function POST(req: Request) {
         cancelStream()
       })
 
-      return createUIMessageStreamResponse({
+      const resp = createUIMessageStreamResponse({
         stream: cancellableStream
       })
+
+      // Add CORS headers
+      resp.headers.set('Access-Control-Allow-Origin', '*')
+      resp.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+      resp.headers.set('Access-Control-Allow-Headers', 'Content-Type')
+      resp.headers.set('Access-Control-Max-Age', '86400')
+      resp.headers.set('x-powered-by', 'llm.do')
+
+      return resp
     }
 
     return openAiResponse(result)
@@ -627,7 +647,7 @@ export async function POST(req: Request) {
             connectionRequests: error.connectionRequests,
             apps: error.apps,
           },
-          { status: 400 },
+          { status: 400, headers: CORS_HEADERS },
         )
       default:
         return Response.json(
@@ -636,13 +656,31 @@ export async function POST(req: Request) {
             type: 'INTERNAL_SERVER_ERROR',
             error: 'An error occurred while processing your request. This has been logged and will be investigated. Please try again later.',
           },
-          { status: 500 },
+          { status: 500, headers: CORS_HEADERS },
         )
     }
   }
 }
 
-export const GET = POST
+export const POST = handleRequest
+export const GET = handleRequest
+
+export const OPTIONS = async () => {
+  return Response.json(
+    {
+      success: true,
+      message: 'OK',
+    },
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '86400'
+      }
+    }
+  )
+}
 
 function recordEvent(result: unknown, apiKey: string, user: string) {
   waitUntil(
