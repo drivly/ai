@@ -84,7 +84,6 @@ export interface Config {
     plans: Plan;
     waitlist: Waitlist;
     nouns: Noun;
-    things: Thing;
     verbs: Verb;
     databases: Database;
     resources: Resource;
@@ -153,9 +152,6 @@ export interface Config {
     nouns: {
       resources: 'resources';
     };
-    things: {
-      resources: 'resources';
-    };
     resources: {
       subjectOf: 'relationships';
     };
@@ -183,7 +179,6 @@ export interface Config {
     plans: PlansSelect<false> | PlansSelect<true>;
     waitlist: WaitlistSelect<false> | WaitlistSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
-    things: ThingsSelect<false> | ThingsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
@@ -846,15 +841,7 @@ export interface Resource {
   name?: string | null;
   sqid?: string | null;
   hash?: string | null;
-  type?:
-    | ({
-        relationTo: 'nouns';
-        value: string | Noun;
-      } | null)
-    | ({
-        relationTo: 'things';
-        value: string | Thing;
-      } | null);
+  type?: (string | null) | Noun;
   yaml?: string | null;
   data?:
     | {
@@ -934,61 +921,7 @@ export interface Noun {
    * Admin group for organizing collections
    */
   group?: string | null;
-  type?:
-    | {
-        relationTo: 'things';
-        value: string | Thing;
-      }[]
-    | null;
-  resources?: {
-    docs?: (string | Resource)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Defines semantic types with their various grammatical forms
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things".
- */
-export interface Thing {
-  id: string;
-  name?: string | null;
-  /**
-   * Singular form
-   */
-  singular?: string | null;
-  /**
-   * Plural form
-   */
-  plural?: string | null;
-  /**
-   * Possessive form
-   */
-  possessive?: string | null;
-  /**
-   * Plural possessive form
-   */
-  pluralPossessive?: string | null;
-  /**
-   * Related verb
-   */
-  verb?: string | null;
-  /**
-   * Third person singular present tense
-   */
-  act?: string | null;
-  /**
-   * Gerund
-   */
-  activity?: string | null;
-  /**
-   * Past tense
-   */
-  event?: string | null;
+  type?: (string | Noun)[] | null;
   resources?: {
     docs?: (string | Resource)[];
     hasNextPage?: boolean;
@@ -3111,10 +3044,6 @@ export interface PayloadLockedDocument {
         value: string | Noun;
       } | null)
     | ({
-        relationTo: 'things';
-        value: string | Thing;
-      } | null)
-    | ({
         relationTo: 'verbs';
         value: string | Verb;
       } | null)
@@ -3642,24 +3571,6 @@ export interface NounsSelect<T extends boolean = true> {
   order?: T;
   group?: T;
   type?: T;
-  resources?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things_select".
- */
-export interface ThingsSelect<T extends boolean = true> {
-  name?: T;
-  singular?: T;
-  plural?: T;
-  possessive?: T;
-  pluralPossessive?: T;
-  verb?: T;
-  act?: T;
-  activity?: T;
-  event?: T;
   resources?: T;
   updatedAt?: T;
   createdAt?: T;
