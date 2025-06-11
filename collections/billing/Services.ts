@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { Service } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 
 export const Services: CollectionConfig = {
   slug: 'services',
@@ -62,10 +63,10 @@ export const Services: CollectionConfig = {
           name: 'model',
           type: 'select',
           options: [
-            { label: 'Cost-based', value: 'cost-based' },
-            { label: 'Margin-based', value: 'margin-based' },
-            { label: 'Activity-based', value: 'activity-based' },
-            { label: 'Outcome-based', value: 'outcome-based' },
+            { label: 'Cost-based', value: 'cost_based' },
+            { label: 'Margin-based', value: 'margin_based' },
+            { label: 'Activity-based', value: 'activity_based' },
+            { label: 'Outcome-based', value: 'outcome_based' },
           ],
           required: true,
           admin: {
@@ -77,7 +78,7 @@ export const Services: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => ['cost-based', 'margin-based'].includes(siblingData?.model),
+            condition: ((_data, siblingData) => ['cost-based', 'margin-based'].includes(siblingData?.model || '')) as Condition<Service, Service['pricing']>,
             description: 'Base cost in USD',
           },
         },
@@ -86,7 +87,7 @@ export const Services: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.model === 'cost-based',
+            condition: ((_data, siblingData) => siblingData?.model === 'cost_based') as Condition<Service, Service['pricing']>,
             description: 'Fixed costs in USD',
           },
         },
@@ -95,7 +96,7 @@ export const Services: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.model === 'cost-based',
+            condition: ((_data, siblingData) => siblingData?.model === 'cost_based') as Condition<Service, Service['pricing']>,
             description: 'Variable costs in USD',
           },
         },
@@ -105,7 +106,7 @@ export const Services: CollectionConfig = {
           min: 0,
           max: 100,
           admin: {
-            condition: (data, siblingData) => siblingData?.model === 'margin-based',
+            condition: ((_data, siblingData) => siblingData?.model === 'margin_based') as Condition<Service, Service['pricing']>,
             description: 'Margin percentage (0-100)',
           },
         },
@@ -113,7 +114,7 @@ export const Services: CollectionConfig = {
           name: 'activities',
           type: 'array',
           admin: {
-            condition: (data, siblingData) => siblingData?.model === 'activity-based',
+            condition: ((_data, siblingData) => siblingData?.model === 'activity_based') as Condition<Service, Service['pricing']>,
             description: 'Billable activities with rates',
           },
           fields: [
@@ -126,7 +127,7 @@ export const Services: CollectionConfig = {
           name: 'outcomes',
           type: 'array',
           admin: {
-            condition: (data, siblingData) => siblingData?.model === 'outcome-based',
+            condition: ((_data, siblingData) => siblingData?.model === 'outcome_based') as Condition<Service, Service['pricing']>,
             description: 'Billable outcomes with targets and prices',
           },
           fields: [
@@ -199,7 +200,7 @@ export const Services: CollectionConfig = {
       },
     ],
     afterChange: [
-      async ({ doc, req }) => {
+      async ({ doc, req: _req }) => {
         try {
           return doc
         } catch (error) {

@@ -120,7 +120,7 @@ export interface Config {
     billingPlans: BillingPlan;
     subscriptions: Subscription;
     usage: Usage;
-    config: Config1;
+    config: SyncConfig;
     projects: Project;
     domains: Domain;
     users: User;
@@ -415,7 +415,7 @@ export interface Function {
    */
   examples?: (string | Resource)[] | null;
   /**
-   * Goals this function contributes to
+   * Goals to which this function contributes
    */
   goals?: (string | Goal)[] | null;
   updatedAt: string;
@@ -598,16 +598,14 @@ export interface Prompt {
         contentString?: string | null;
         contentArray?:
           | {
-              type?:
-                | ('text' | 'image' | 'file' | 'tool_call' | 'tool_result' | 'reasoning' | 'redacted_reasoning')
-                | null;
+              type: 'text' | 'image' | 'file' | 'tool_call' | 'tool_result' | 'reasoning' | 'redacted_reasoning';
+              text?: string | null;
               imageString?: string | null;
               imageFile?: (string | null) | File;
               dataString?: string | null;
               dataFile?: (string | null) | File;
               filename?: string | null;
               mimeType?: string | null;
-              text?: string | null;
               signature?: string | null;
               data?: string | null;
               toolCallId?: string | null;
@@ -824,7 +822,7 @@ export interface Agent {
     stripePriceId?: string | null;
   };
   /**
-   * Goals this agent contributes to
+   * Goals to which this agent contributes
    */
   goals?: (string | Goal)[] | null;
   updatedAt: string;
@@ -1242,7 +1240,7 @@ export interface Service {
     /**
      * Pricing model for this service
      */
-    model: 'cost-based' | 'margin-based' | 'activity-based' | 'outcome-based';
+    model: 'cost_based' | 'margin_based' | 'activity_based' | 'outcome_based';
     /**
      * Base cost in USD
      */
@@ -1345,7 +1343,7 @@ export interface Task {
   id: string;
   tenant?: (string | null) | Project;
   title: string;
-  status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
+  status?: ('backlog' | 'todo' | 'in_progress' | 'review' | 'done') | null;
   queue?: (string | null) | Queue;
   assigned?:
     | (
@@ -1465,7 +1463,7 @@ export interface Database {
   tenant?: (string | null) | Project;
   name: string;
   domain: string;
-  type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
+  type: 'Integrated' | 'Dedicated' | 'Self_Hosted';
   schemaEnforcement: 'flexible' | 'enforced';
   databaseType?: ('Mongo' | 'Postgres' | 'Sqlite') | null;
   regions?:
@@ -2628,7 +2626,7 @@ export interface Usage {
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "config".
  */
-export interface Config1 {
+export interface SyncConfig {
   id: string;
   /**
    * Relative path within .ai folder
@@ -3276,7 +3274,7 @@ export interface PayloadLockedDocument {
       } | null)
     | ({
         relationTo: 'config';
-        value: string | Config1;
+        value: string | SyncConfig;
       } | null)
     | ({
         relationTo: 'projects';
@@ -4024,13 +4022,13 @@ export interface PromptsSelect<T extends boolean = true> {
           | T
           | {
               type?: T;
+              text?: T;
               imageString?: T;
               imageFile?: T;
               dataString?: T;
               dataFile?: T;
               filename?: T;
               mimeType?: T;
-              text?: T;
               signature?: T;
               data?: T;
               toolCallId?: T;

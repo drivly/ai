@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { BillingPlan } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 
 export const BillingPlans: CollectionConfig = {
   slug: 'billingPlans',
@@ -65,7 +66,7 @@ export const BillingPlans: CollectionConfig = {
       ],
       defaultValue: 'month',
       admin: {
-        condition: (data) => data?.billingType === 'subscription',
+        condition: ((data) => data?.billingType === 'subscription') as Condition<BillingPlan>,
         description: 'Billing interval for subscriptions',
       },
     },
@@ -73,7 +74,7 @@ export const BillingPlans: CollectionConfig = {
       name: 'credits',
       type: 'number',
       admin: {
-        condition: (data) => data?.billingType === 'prepaid',
+        condition: ((data) => data?.billingType === 'prepaid') as Condition<BillingPlan>,
         description: 'Number of credits included (for pre-paid plans)',
       },
     },

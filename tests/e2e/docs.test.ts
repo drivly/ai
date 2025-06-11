@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
-import { chromium, Browser, Page, Response } from 'playwright'
-import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
+import { expect as chromaticExpect } from '@chromatic-com/playwright'
+import { Browser, chromium, Page, Response } from 'playwright'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('Documentation page', () => {
   let browser: Browser
@@ -71,15 +71,15 @@ describe('Documentation page', () => {
       expect(title).toContain('Documentation')
 
       // Check for navigation elements
-      const navigation = await page.locator('nav')
+      const navigation = page.locator('nav')
       expect(await navigation.count()).toBeGreaterThan(0)
 
       // Check for content
-      const content = await page.locator('main')
+      const content = page.locator('main')
       expect(await content.count()).toBe(1)
 
       // Check for heading
-      const heading = await page.locator('h1')
+      const heading = page.locator('h1')
       expect(await heading.count()).toBeGreaterThan(0)
 
       await chromaticExpect(page).toHaveScreenshot('docs-main-page.png')
