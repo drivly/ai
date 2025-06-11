@@ -1,7 +1,5 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
-import { chromium, Browser, Page, Response } from 'playwright'
-import { collections } from '@/collections'
-import { test as chromaticTest } from '@chromatic-com/playwright'
+import { Browser, chromium, Page } from 'playwright'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { expectWithRetries } from '../utils/chromatic-helpers'
 
 describe('Critical Collections', () => {

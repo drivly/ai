@@ -1,6 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import yaml from 'yaml'
-import { generateFunctionExamplesTask } from '@/tasks/ai/generateFunctionExamples'
+import type { Function } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 import { simplerJSON } from '../../src/utils/json-fields'
 
 export const Functions: CollectionConfig = {
@@ -40,7 +39,7 @@ export const Functions: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Original function this was cloned from',
-        condition: (data) => data?.clonedFrom !== undefined && data?.clonedFrom !== null,
+        condition: ((data) => data?.clonedFrom !== undefined && data?.clonedFrom !== null) as Condition<Function>,
       },
     },
     {
@@ -48,7 +47,7 @@ export const Functions: CollectionConfig = {
       type: 'group',
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.public === true,
+        condition: ((data) => data?.public === true) as Condition<Function>,
         description: 'Monetization settings for this function',
       },
       fields: [
@@ -71,7 +70,7 @@ export const Functions: CollectionConfig = {
           ],
           defaultValue: 'payPerUse',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Function, Function['pricing']>,
             description: 'Billing model for this function',
           },
         },
@@ -94,7 +93,10 @@ export const Functions: CollectionConfig = {
           ],
           defaultValue: 'requests',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel || '')) as Condition<
+              Function,
+              Function['pricing']
+            >,
             description: 'Unit of measurement for consumption',
           },
         },
@@ -103,7 +105,10 @@ export const Functions: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel || '')) as Condition<
+              Function,
+              Function['pricing']
+            >,
             description: 'Price per consumption unit in USD cents',
           },
         },
@@ -112,7 +117,7 @@ export const Functions: CollectionConfig = {
           type: 'relationship',
           relationTo: 'billingPlans',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription',
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription') as Condition<Function, Function['pricing']>,
             description: 'Subscription plan for this function',
           },
         },
@@ -120,7 +125,7 @@ export const Functions: CollectionConfig = {
           name: 'stripeProductId',
           type: 'text',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Function, Function['pricing']>,
             description: 'Stripe Product ID (auto-generated)',
             readOnly: true,
           },
@@ -129,7 +134,7 @@ export const Functions: CollectionConfig = {
           name: 'stripePriceId',
           type: 'text',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Function, Function['pricing']>,
             description: 'Stripe Price ID (auto-generated)',
             readOnly: true,
           },
@@ -146,7 +151,7 @@ export const Functions: CollectionConfig = {
       // required: true,
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.type === 'Generation',
+        condition: ((data) => data?.type === 'Generation') as Condition<Function>,
       },
     },
     // {
@@ -155,15 +160,15 @@ export const Functions: CollectionConfig = {
     //   relationTo: 'types',
     //   admin: {
     //     position: 'sidebar',
-    //     condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
+    //     condition: ((data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || '')) as Condition<Function>,
     //   },
     // },
-    ...(simplerJSON as any)({
+    ...simplerJSON<Function>({
       jsonFieldName: 'shape',
       codeFieldName: 'schemaYaml',
       label: 'Schema',
       defaultFormat: 'yaml',
-      adminCondition: (data: any) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
+      adminCondition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
       editorOptions: { lineNumbers: 'off', padding: { top: 20, bottom: 20 } },
       hideJsonField: true,
     }),
@@ -172,7 +177,7 @@ export const Functions: CollectionConfig = {
       type: 'code',
       admin: {
         language: 'typescript',
-        condition: (data) => data?.type === 'Code',
+        condition: ((data) => data?.type === 'Code') as Condition<Function>,
         editorOptions: { padding: { top: 20, bottom: 20 } },
       },
     },
@@ -182,7 +187,7 @@ export const Functions: CollectionConfig = {
       relationTo: 'prompts',
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.type === 'Generation',
+        condition: ((data) => data?.type === 'Generation') as Condition<Function>,
       },
     },
     {
@@ -190,7 +195,7 @@ export const Functions: CollectionConfig = {
       type: 'text',
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.type === 'Human',
+        condition: ((data) => data?.type === 'Human') as Condition<Function>,
       },
     },
     {
@@ -199,7 +204,7 @@ export const Functions: CollectionConfig = {
       relationTo: 'users',
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.type === 'Human',
+        condition: ((data) => data?.type === 'Human') as Condition<Function>,
       },
     },
     {
@@ -208,7 +213,7 @@ export const Functions: CollectionConfig = {
       relationTo: 'agents',
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.type === 'Agent',
+        condition: ((data) => data?.type === 'Agent') as Condition<Function>,
       },
     },
     // { name: 'executions', type: 'join', collection: 'actions', on: 'functionId' },
@@ -227,7 +232,7 @@ export const Functions: CollectionConfig = {
       relationTo: 'goals',
       hasMany: true,
       admin: {
-        description: 'Goals this function contributes to',
+        description: 'Goals to which this function contributes',
       },
     },
   ],

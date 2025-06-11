@@ -111,7 +111,7 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
         collection: 'tasks',
         id: taskId,
         data: {
-          status: 'in-progress',
+          status: 'in_progress',
         },
       })
     } catch (error) {

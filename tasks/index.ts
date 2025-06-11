@@ -31,7 +31,7 @@ import { createRecordTask } from './data/createRecordTask'
 import { generateEmbeddingTask } from './data/generateEmbeddingTask'
 import { generateResourceEmbedding } from './data/generateResourceEmbedding'
 import { generateThingEmbedding } from './data/generateThingEmbedding'
-import { recordEvent } from './data/recordEvent'
+import { recordUsageEvent } from './data/recordUsageEvent'
 import { hybridSearchResources, searchResources } from './data/searchResources'
 import { hybridSearchThings, searchThings } from './data/searchThings'
 
@@ -154,7 +154,7 @@ export const tasks = [
   discoverServicesTask,
 ]
 
-export const workflows = [handleGithubEvent, handleStripeEvent, recordEvent]
+export const workflows = [handleGithubEvent, handleStripeEvent, recordUsageEvent]
 
 export {
   conjugateVerbsTask,

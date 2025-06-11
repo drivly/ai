@@ -78,7 +78,6 @@ export interface Config {
     plans: Plan;
     waitlist: Waitlist;
     nouns: Noun;
-    things: Thing;
     verbs: Verb;
     databases: Database;
     resources: Resource;
@@ -100,6 +99,7 @@ export interface Config {
     labs: Lab;
     prompts: Prompt;
     settings: Setting;
+    files: File;
     types: Type;
     modules: Module;
     packages: Package;
@@ -119,7 +119,7 @@ export interface Config {
     billingPlans: BillingPlan;
     subscriptions: Subscription;
     usage: Usage;
-    config: Config1;
+    config: SyncConfig;
     projects: Project;
     domains: Domain;
     users: User;
@@ -146,11 +146,20 @@ export interface Config {
     nouns: {
       resources: 'resources';
     };
-    things: {
-      resources: 'resources';
+    resources: {
+      subjectOf: 'relationships';
+    };
+    relationships: {
+      object: 'resources';
+    };
+    generationBatches: {
+      generations: 'generations';
     };
     kpis: {
       goals: 'goals';
+    };
+    projects: {
+      domains: 'domains';
     };
   };
   collectionsSelect: {
@@ -164,7 +173,6 @@ export interface Config {
     plans: PlansSelect<false> | PlansSelect<true>;
     waitlist: WaitlistSelect<false> | WaitlistSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
-    things: ThingsSelect<false> | ThingsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
@@ -186,6 +194,7 @@ export interface Config {
     labs: LabsSelect<false> | LabsSelect<true>;
     prompts: PromptsSelect<false> | PromptsSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
+    files: FilesSelect<false> | FilesSelect<true>;
     types: TypesSelect<false> | TypesSelect<true>;
     modules: ModulesSelect<false> | ModulesSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
@@ -284,7 +293,7 @@ export interface Config {
     workflows: {
       handleGithubEvent: WorkflowHandleGithubEvent;
       handleStripeEvent: WorkflowHandleStripeEvent;
-      recordEvent: WorkflowRecordEvent;
+      recordUsageEvent: WorkflowRecordUsageEvent;
     };
   };
 }
@@ -401,7 +410,7 @@ export interface Function {
    */
   examples?: (string | Resource)[] | null;
   /**
-   * Goals this function contributes to
+   * Goals to which this function contributes
    */
   goals?: (string | Goal)[] | null;
   updatedAt: string;
@@ -417,7 +426,11 @@ export interface Project {
   id: string;
   name?: string | null;
   domain?: string | null;
-  domains?: (string | Domain)[] | null;
+  domains?: {
+    docs?: (string | Domain)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   /**
    * Goals associated with this project
    */
@@ -572,8 +585,129 @@ export interface Prompt {
   id: string;
   tenant?: (string | null) | Project;
   name?: string | null;
+  system?: string | null;
+  modelName?: string | null;
+  messages?:
+    | {
+        role: 'system' | 'user' | 'assistant' | 'tool';
+        contentString?: string | null;
+        contentArray?:
+          | {
+              type: 'text' | 'image' | 'file' | 'tool_call' | 'tool_result' | 'reasoning' | 'redacted_reasoning';
+              text?: string | null;
+              imageString?: string | null;
+              imageFile?: (string | null) | File;
+              dataString?: string | null;
+              dataFile?: (string | null) | File;
+              filename?: string | null;
+              mimeType?: string | null;
+              signature?: string | null;
+              data?: string | null;
+              toolCallId?: string | null;
+              toolName?: string | null;
+              args?:
+                | {
+                    [k: string]: unknown;
+                  }
+                | unknown[]
+                | string
+                | number
+                | boolean
+                | null;
+              result?:
+                | {
+                    [k: string]: unknown;
+                  }
+                | unknown[]
+                | string
+                | number
+                | boolean
+                | null;
+              isError?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  questions?:
+    | {
+        question?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  role?: string | null;
+  instructions?:
+    | {
+        instruction?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  context?: string | null;
+  examples?:
+    | {
+        title?: string | null;
+        example: string;
+        id?: string | null;
+      }[]
+    | null;
+  paramJsonSchema?: string | null;
+  maxSteps?: number | null;
+  jsonSchema?: string | null;
+  tools?:
+    | {
+        tool?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  toolsOnly?: boolean | null;
+  text?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "files".
+ */
+export interface File {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename: string;
+  mimeType: string;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * Manages user accounts and their associated roles
@@ -683,7 +817,7 @@ export interface Agent {
     stripePriceId?: string | null;
   };
   /**
-   * Goals this agent contributes to
+   * Goals to which this agent contributes
    */
   goals?: (string | Goal)[] | null;
   updatedAt: string;
@@ -701,15 +835,7 @@ export interface Resource {
   name?: string | null;
   sqid?: string | null;
   hash?: string | null;
-  type?:
-    | ({
-        relationTo: 'nouns';
-        value: string | Noun;
-      } | null)
-    | ({
-        relationTo: 'things';
-        value: string | Thing;
-      } | null);
+  type?: (string | null) | Noun;
   yaml?: string | null;
   data?:
     | {
@@ -729,7 +855,11 @@ export interface Resource {
     | number
     | boolean
     | null;
-  subjectOf?: (string | Relationship)[] | null;
+  subjectOf?: {
+    docs?: (string | Relationship)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   objectOf?: (string | Relationship)[] | null;
   content?: string | null;
   updatedAt: string;
@@ -785,61 +915,7 @@ export interface Noun {
    * Admin group for organizing collections
    */
   group?: string | null;
-  type?:
-    | {
-        relationTo: 'things';
-        value: string | Thing;
-      }[]
-    | null;
-  resources?: {
-    docs?: (string | Resource)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Defines semantic types with their various grammatical forms
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things".
- */
-export interface Thing {
-  id: string;
-  name?: string | null;
-  /**
-   * Singular form
-   */
-  singular?: string | null;
-  /**
-   * Plural form
-   */
-  plural?: string | null;
-  /**
-   * Possessive form
-   */
-  possessive?: string | null;
-  /**
-   * Plural possessive form
-   */
-  pluralPossessive?: string | null;
-  /**
-   * Related verb
-   */
-  verb?: string | null;
-  /**
-   * Third person singular present tense
-   */
-  act?: string | null;
-  /**
-   * Gerund
-   */
-  activity?: string | null;
-  /**
-   * Past tense
-   */
-  event?: string | null;
+  type?: (string | Noun)[] | null;
   resources?: {
     docs?: (string | Resource)[];
     hasNextPage?: boolean;
@@ -858,7 +934,11 @@ export interface Relationship {
   id: string;
   subject?: (string | null) | Resource;
   verb?: (string | null) | Verb;
-  object?: (string | null) | Resource;
+  object?: {
+    docs?: (string | Resource)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   hash?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -1093,7 +1173,7 @@ export interface Service {
     /**
      * Pricing model for this service
      */
-    model: 'cost-based' | 'margin-based' | 'activity-based' | 'outcome-based';
+    model: 'cost_based' | 'margin_based' | 'activity_based' | 'outcome_based';
     /**
      * Base cost in USD
      */
@@ -1196,7 +1276,7 @@ export interface Task {
   id: string;
   tenant?: (string | null) | Project;
   title: string;
-  status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
+  status?: ('backlog' | 'todo' | 'in_progress' | 'review' | 'done') | null;
   queue?: (string | null) | Queue;
   assigned?:
     | (
@@ -1316,7 +1396,7 @@ export interface Database {
   tenant?: (string | null) | Project;
   name: string;
   domain: string;
-  type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
+  type: 'Integrated' | 'Dedicated' | 'Self_Hosted';
   schemaEnforcement: 'flexible' | 'enforced';
   databaseType?: ('Mongo' | 'Postgres' | 'Sqlite') | null;
   regions?:
@@ -2250,7 +2330,11 @@ export interface GenerationBatch {
    * ID of the batch job in the provider system
    */
   providerBatchId?: string | null;
-  generations?: (string | Generation)[] | null;
+  generations?: {
+    docs?: (string | Generation)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   startedAt?: string | null;
   completedAt?: string | null;
   updatedAt: string;
@@ -2475,7 +2559,7 @@ export interface Usage {
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "config".
  */
-export interface Config1 {
+export interface SyncConfig {
   id: string;
   /**
    * Relative path within .ai folder
@@ -2603,6 +2687,7 @@ export interface Webhook {
 export interface Apikey {
   id: string;
   name: string;
+  type: 'api' | 'llm';
   user?: (string | null) | User;
   organization?: (string | null) | Organization;
   email?: string | null;
@@ -2853,7 +2938,7 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
-  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent' | 'recordEvent') | null;
+  workflowSlug?: ('handleGithubEvent' | 'handleStripeEvent' | 'recordUsageEvent') | null;
   taskSlug?:
     | (
         | 'inline'
@@ -2953,10 +3038,6 @@ export interface PayloadLockedDocument {
         value: string | Noun;
       } | null)
     | ({
-        relationTo: 'things';
-        value: string | Thing;
-      } | null)
-    | ({
         relationTo: 'verbs';
         value: string | Verb;
       } | null)
@@ -3041,6 +3122,10 @@ export interface PayloadLockedDocument {
         value: string | Setting;
       } | null)
     | ({
+        relationTo: 'files';
+        value: string | File;
+      } | null)
+    | ({
         relationTo: 'types';
         value: string | Type;
       } | null)
@@ -3118,7 +3203,7 @@ export interface PayloadLockedDocument {
       } | null)
     | ({
         relationTo: 'config';
-        value: string | Config1;
+        value: string | SyncConfig;
       } | null)
     | ({
         relationTo: 'projects';
@@ -3486,24 +3571,6 @@ export interface NounsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things_select".
- */
-export interface ThingsSelect<T extends boolean = true> {
-  name?: T;
-  singular?: T;
-  plural?: T;
-  possessive?: T;
-  pluralPossessive?: T;
-  verb?: T;
-  act?: T;
-  activity?: T;
-  event?: T;
-  resources?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "verbs_select".
  */
 export interface VerbsSelect<T extends boolean = true> {
@@ -3855,6 +3922,67 @@ export interface LabsSelect<T extends boolean = true> {
 export interface PromptsSelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  system?: T;
+  modelName?: T;
+  messages?:
+    | T
+    | {
+        role?: T;
+        contentString?: T;
+        contentArray?:
+          | T
+          | {
+              type?: T;
+              text?: T;
+              imageString?: T;
+              imageFile?: T;
+              dataString?: T;
+              dataFile?: T;
+              filename?: T;
+              mimeType?: T;
+              signature?: T;
+              data?: T;
+              toolCallId?: T;
+              toolName?: T;
+              args?: T;
+              result?: T;
+              isError?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  questions?:
+    | T
+    | {
+        question?: T;
+        id?: T;
+      };
+  role?: T;
+  instructions?:
+    | T
+    | {
+        instruction?: T;
+        id?: T;
+      };
+  context?: T;
+  examples?:
+    | T
+    | {
+        title?: T;
+        example?: T;
+        id?: T;
+      };
+  paramJsonSchema?: T;
+  maxSteps?: T;
+  jsonSchema?: T;
+  tools?:
+    | T
+    | {
+        tool?: T;
+        id?: T;
+      };
+  toolsOnly?: T;
+  text?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3868,6 +3996,57 @@ export interface SettingsSelect<T extends boolean = true> {
   settings?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "files_select".
+ */
+export interface FilesSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        tablet?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4309,6 +4488,7 @@ export interface WebhooksSelect<T extends boolean = true> {
  */
 export interface ApikeysSelect<T extends boolean = true> {
   name?: T;
+  type?: T;
   user?: T;
   organization?: T;
   email?: T;
@@ -5665,9 +5845,9 @@ export interface WorkflowHandleStripeEvent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "WorkflowRecordEvent".
+ * via the `definition` "WorkflowRecordUsageEvent".
  */
-export interface WorkflowRecordEvent {
+export interface WorkflowRecordUsageEvent {
   input: {
     result:
       | {

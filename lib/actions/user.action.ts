@@ -54,7 +54,7 @@ const UserApikeySchema = z.object({
  * @param user The user object for whom to create the API key.
  * @returns A promise that resolves to the newly created API key string or null if an error occurs.
  */
-export const createUserApikey = async (params: { email: string; name: string; id: string }) => {
+export const createUserApikey = async (params: { email: string; name: string; id: string; type: 'api' | 'llm' }) => {
   try {
     const payload = await getPayloadFn()
     const result = await payload.create({
@@ -63,6 +63,7 @@ export const createUserApikey = async (params: { email: string; name: string; id
         email: params.email,
         name: params.name,
         user: params.id,
+        type: params.type,
       },
     })
 
@@ -85,7 +86,7 @@ export const createUserApikey = async (params: { email: string; name: string; id
  * @param user - The user object for whom to get or create an API key
  * @returns A Promise that resolves to the API key string or null if an error occurs
  */
-export const getOrCreateUserApikey = async (params: { email: string; name: string; id: string }) => {
+export const getOrCreateUserApikey = async (params: { email: string; name: string; id: string; type: 'api' | 'llm' }) => {
   try {
     const payload = await getPayloadFn()
 
@@ -93,6 +94,7 @@ export const getOrCreateUserApikey = async (params: { email: string; name: strin
       collection: 'apikeys',
       where: {
         or: [{ email: { equals: params.email } }, { user: { equals: params.id } }],
+        type: { equals: params.type },
       },
       select: { apiKey: true },
       limit: 1,

@@ -1,5 +1,6 @@
 import { sendSlackAlert } from '@/lib/auth/actions/slack.action'
 import { createKey, getKey } from '@/lib/openrouter'
+import { nanoid } from 'nanoid'
 import type { CollectionConfig, Payload } from 'payload'
 
 export const APIKeys: CollectionConfig = {
@@ -16,6 +17,7 @@ export const APIKeys: CollectionConfig = {
   },
   fields: [
     { name: 'name', type: 'text', required: true },
+    { name: 'type', type: 'select', options: ['api', 'llm'], defaultValue: 'api', required: true },
     { name: 'user', type: 'relationship', relationTo: 'users' },
     { name: 'organization', type: 'relationship', relationTo: 'organizations' },
     { name: 'email', type: 'text' },
@@ -43,11 +45,15 @@ export const APIKeys: CollectionConfig = {
     beforeOperation: [
       async ({ operation, args }) => {
         const data = args.data
-        if (operation === 'create') {
-          const key = await createKey({ name: data.email, limit: 1 })
-          data.apiKey = key.key
-          data.hash = key.hash
-          data.label = key.label
+        if (operation === 'create' && data && !data.apiKey) {
+          if (data.type === 'api') {
+            data.apiKey = `key_${nanoid(32)}`
+          } else if (data.type === 'llm') {
+            const key = await createKey({ name: data.email, limit: 1 })
+            data.apiKey = key.key
+            data.hash = key.hash
+            data.label = key.label
+          }
           data.enableAPIKey = true
         }
         return args
@@ -55,7 +61,7 @@ export const APIKeys: CollectionConfig = {
     ],
     afterOperation: [
       async ({ operation, args }) => {
-        if (operation === 'create') {
+        if (operation === 'create' && args.data.type === 'llm') {
           await sendSlackAlert('signups', {
             Name: args.data.name,
             Email: args.data.email,
@@ -69,7 +75,7 @@ export const APIKeys: CollectionConfig = {
       path: '/credit',
       method: 'get',
       handler: async ({ headers, payload }) => {
-        const apiKey = await getApiKey(headers, payload)
+        const apiKey = await getLLMApiKey(headers, payload)
         if (apiKey instanceof Response) {
           return apiKey
         } else if (!apiKey) {
@@ -82,9 +88,9 @@ export const APIKeys: CollectionConfig = {
   ],
 }
 
-export async function getApiKey(headers: Headers, payload: Payload) {
+export async function getLLMApiKey(headers: Headers, payload: Payload) {
   // Get auth info - require either header API key or NextAuth session
-  const headerApiKey = headers.get('Authorization')?.split(' ')[1]
+  const headerApiKey = headers.get('Authorization')?.split(' ').pop()
 
   if (!headerApiKey) {
     console.log('❌ APIKeys: Unauthorized - No valid authentication source')
@@ -95,16 +101,19 @@ export async function getApiKey(headers: Headers, payload: Payload) {
   let apiKey: string | null = null
   if (headerApiKey?.startsWith('sk-')) {
     apiKey = headerApiKey
-  }
-
-  // If we still don't have an API key, check Payload auth
-  if (!apiKey) {
+  } else {
+    // If we still don't have an API key, check Payload auth
+    if (headerApiKey.startsWith('key_')) {
+      headers.set('Authorization', 'apikeys API-Key ' + headerApiKey)
+    } else {
+      headers.set('Authorization', 'users API-Key ' + headerApiKey)
+    }
     // Get user from payload auth
     const authResult = await payload.auth({ headers })
     const user = authResult.user
 
     // If authenticated payload user has an API key, use it
-    if (user?.collection === 'apikeys' && user.apiKey) {
+    if (user?.collection === 'apikeys' && user.apiKey && user.type === 'llm') {
       apiKey = user.apiKey
     }
     // If authenticated user exists but no API key, get or create one
@@ -113,7 +122,11 @@ export async function getApiKey(headers: Headers, payload: Payload) {
         const existingResult = await payload.find({
           collection: 'apikeys',
           where: {
-            or: [{ email: { equals: user.email } }, { user: { equals: user.id } }],
+            type: { equals: 'llm' },
+            or: [
+              { email: { equals: user.email } },
+              { user: { equals: (user?.collection === 'apikeys' && user.user && (typeof user.user === 'string' ? user.user : user.user.id)) || user.id } },
+            ],
           },
           select: { apiKey: true },
           limit: 1,
@@ -127,6 +140,7 @@ export async function getApiKey(headers: Headers, payload: Payload) {
               email: user.email,
               name: user.name,
               user: user.id,
+              type: 'llm',
             },
           })
           apiKey = result.apiKey || null

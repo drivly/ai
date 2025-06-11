@@ -24,7 +24,7 @@ export const Tasks: CollectionConfig = {
       options: [
         { label: 'Backlog', value: 'backlog' },
         { label: 'To Do', value: 'todo' },
-        { label: 'In Progress', value: 'in-progress' },
+        { label: 'In Progress', value: 'in_progress' },
         { label: 'Review', value: 'review' },
         { label: 'Done', value: 'done' },
       ],

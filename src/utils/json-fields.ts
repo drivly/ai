@@ -3,36 +3,24 @@
  * Replaces functions previously imported from payload-utils
  */
 
-type Field = {
-  name: string
-  type: string
-  label?: string
-  admin?: {
-    language?: string
-    condition?: (data: any) => boolean
-    hidden?: boolean
-    editorOptions?: any
-  }
-  hooks?: {
-    beforeChange?: Array<(args: { value: any; data: any }) => any>
-    afterRead?: Array<(args: { value: any; data: any }) => any>
-  }
-}
+import type { CodeField, Condition, JSONField, TypeWithID } from 'payload'
 
-type SimplerJSONOptions = {
+type SimplerJSONOptions<TData extends TypeWithID = any, TSiblingData extends TypeWithID = any> = {
   jsonFieldName?: string
   codeFieldName?: string
   label?: string
   defaultFormat?: 'yaml' | 'json5'
   hideJsonField?: boolean
-  adminCondition?: (data: any) => boolean
+  adminCondition?: Condition<TData, TSiblingData>
   editorOptions?: {
     lineNumbers?: 'on' | 'off'
     padding?: { top: number; bottom: number }
   }
 }
 
-export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
+export const simplerJSON = <TData extends TypeWithID = any, TSiblingData extends TypeWithID = any>(
+  options: SimplerJSONOptions<TData, TSiblingData> = {},
+): [CodeField, JSONField] => {
   const {
     jsonFieldName = 'shape',
     codeFieldName = 'schemaYaml',
@@ -55,7 +43,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
       },
       hooks: {
         beforeChange: [
-          ({ value, data }: { value: any; data: any }) => {
+          ({ value, data }) => {
             if (!value || !data) return value
             try {
               if (defaultFormat === 'yaml') {
@@ -72,7 +60,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
           },
         ],
         afterRead: [
-          ({ value, data }: { value: any; data: any }) => {
+          ({ value, data }) => {
             if (!data || !data[jsonFieldName]) return value
             try {
               if (defaultFormat === 'yaml') {
@@ -101,7 +89,9 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
   ]
 }
 
-export const json5Field = (options: Omit<SimplerJSONOptions, 'defaultFormat'> = {}): Field[] => {
+export const json5Field = <TData extends TypeWithID = any, TSiblingData extends TypeWithID = any>(
+  options: Omit<SimplerJSONOptions<TData, TSiblingData>, 'defaultFormat'> = {},
+): [CodeField, JSONField] => {
   return simplerJSON({
     jsonFieldName: options.jsonFieldName || 'shape',
     codeFieldName: options.codeFieldName || 'json5Data',

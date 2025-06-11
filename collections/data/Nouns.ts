@@ -20,7 +20,7 @@ export const Nouns: CollectionConfig = {
     { name: 'event', type: 'text', admin: { description: 'Past tense like Used' } },
     { name: 'order', type: 'number', admin: { description: 'Display order in admin interface' } },
     { name: 'group', type: 'text', admin: { description: 'Admin group for organizing collections' } },
-    { name: 'type', type: 'relationship', relationTo: ['things'], hasMany: true },
+    { name: 'type', type: 'relationship', relationTo: 'nouns', hasMany: true },
     { name: 'resources', type: 'join', collection: 'resources', on: 'type' },
   ],
 }

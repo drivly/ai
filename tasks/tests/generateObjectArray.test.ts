@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { generateObjectArray } from './generateObjectArray'
+import { generateObjectArray } from '../ai/generateObjectArray'
 
 const originalFetch = global.fetch
 

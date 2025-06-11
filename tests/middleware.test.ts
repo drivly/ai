@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { middleware } from '../middleware'
+import middleware from '../middleware'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Mock NextResponse
@@ -29,7 +29,7 @@ describe('middleware', () => {
       url: 'https://functions.do/api?param=value',
     } as unknown as NextRequest
 
-    const result = middleware(request)
+    const result = middleware(request, {})
 
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
@@ -58,7 +58,7 @@ describe('middleware', () => {
       url: 'https://functions.do/some/path?param=value',
     } as unknown as NextRequest
 
-    const result = middleware(request)
+    const result = middleware(request, {})
 
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
@@ -87,7 +87,7 @@ describe('middleware', () => {
       url: 'https://functions.do/',
     } as unknown as NextRequest
 
-    const result = middleware(request)
+    const result = middleware(request, {})
 
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
@@ -113,7 +113,7 @@ describe('middleware', () => {
       url: 'https://functions.do/docs?param=value',
     } as unknown as NextRequest
 
-    const result = middleware(request)
+    const result = middleware(request, {})
 
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
@@ -141,8 +141,7 @@ describe('middleware', () => {
       url: 'https://nonexistent.do/docs?param=value',
     } as unknown as NextRequest
 
-    const result = middleware(request)
-
+    const result = middleware(request, {})
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -169,7 +168,7 @@ describe('middleware', () => {
       url: 'https://functions.do/docs/usage?param=value',
     } as unknown as NextRequest
 
-    const result = middleware(request)
+    const result = middleware(request, {})
 
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -196,7 +195,7 @@ describe('middleware', () => {
       url: 'https://llms.do/docs?param=value',
     } as unknown as NextRequest
 
-    const result = middleware(request)
+    const result = middleware(request, {})
 
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
@@ -224,7 +223,7 @@ describe('middleware', () => {
       url: 'https://integrations.do/admin?param=value',
     } as unknown as NextRequest
 
-    const result = middleware(request)
+    const result = middleware(request, {})
 
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(

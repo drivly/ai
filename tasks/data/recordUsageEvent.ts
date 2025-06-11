@@ -1,9 +1,9 @@
 import { type Generation, getGeneration } from '@/lib/openrouter'
 import type { GenerateObjectResult, GenerateTextResult, JSONValue, StepResult, StreamObjectOnFinishCallback, ToolSet } from 'ai'
-import type { Payload, PayloadRequest, RunInlineTaskFunction, RunningJob, WorkflowConfig } from 'payload'
+import type { Payload, WorkflowConfig } from 'payload'
 
-export const recordEvent = {
-  slug: 'recordEvent',
+export const recordUsageEvent = {
+  slug: 'recordUsageEvent',
   label: 'Record LLM Usage Event',
   inputSchema: [
     {
@@ -110,4 +110,4 @@ export const recordEvent = {
       },
     })
   },
-} as WorkflowConfig<'recordEvent'>
+} as WorkflowConfig<'recordUsageEvent'>

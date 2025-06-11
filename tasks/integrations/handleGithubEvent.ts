@@ -77,7 +77,7 @@ async function initiateResearchOnIssue(event: any, payload: any) {
     data: {
       title: `Research: ${issue.title}`,
       description: `Research on GitHub issue #${issue.number} from ${event.repository?.full_name}: ${issue.html_url}`,
-      status: 'in-progress',
+      status: 'in_progress',
       jobId: researchJob.id,
       data: {
         type: 'github-research',

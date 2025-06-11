@@ -70,6 +70,7 @@ export const POST = API(async (request, { db, user }) => {
     cfWorkerDomains,
     apiKey,
     user: user.id,
+    type: 'api',
   })
 
   return {

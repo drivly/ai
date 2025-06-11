@@ -126,7 +126,7 @@ export const initiateComposioConnectionTask = {
           collection: 'tasks',
           id: taskId,
           data: {
-            status: 'in-progress',
+            status: 'in_progress',
           },
         })
       } catch (error) {

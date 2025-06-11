@@ -21,7 +21,6 @@ import { Models } from './experiments/Models'
 import { Providers } from './experiments/Providers'
 import { Labs } from './experiments/Labs'
 import { Nouns } from './data/Nouns'
-import { Things } from './data/Things'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
 import { Relationships } from './data/Relationships'
@@ -60,6 +59,7 @@ import { BillingPlans } from './billing/BillingPlans'
 import { Subscriptions } from './billing/Subscriptions'
 import { Usage } from './billing/Usage'
 import { Actions } from './events/Actions'
+import { Files } from './experiments/Files'
 
 export const collections = [
   // Register AI collections first
@@ -79,7 +79,6 @@ export const collections = [
 
   // Data & definitions
   Nouns,
-  Things,
   Verbs,
   Databases,
   Resources,
@@ -106,6 +105,7 @@ export const collections = [
   Labs,
   Prompts,
   Settings,
+  Files,
 
   Types,
   Modules,

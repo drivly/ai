@@ -7,11 +7,11 @@ import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { openapi } from 'payload-oapi'
 // import workosPlugin from './pkgs/payload-workos'
 import path from 'path'
 import { buildConfig } from 'payload'
 // import { payloadKanbanBoard } from 'payload-kanban-board'
+import { openapi } from 'payload-oapi'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { collections } from './collections'
@@ -66,7 +66,7 @@ export default buildConfig({
       },
     },
   },
-  collections: collections,
+  collections,
   editor: lexicalEditor(),
   email: resendAdapter({
     defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || '',
@@ -226,7 +226,7 @@ export default buildConfig({
 //             value: 'draft',
 //             label: 'Draft',
 //           },
-//           { value: 'in-progress', label: 'In Progress' },
+//           { value: 'in_progress', label: 'In Progress' },
 //           {
 //             value: 'ready-for-review',
 //             label: 'Ready for review',

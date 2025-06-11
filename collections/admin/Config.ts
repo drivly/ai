@@ -1,7 +1,11 @@
-import { CollectionConfig } from 'payload'
+import type { SyncConfig } from '@/payload.types'
+import { CollectionConfig, Condition } from 'payload'
 
 export const Config: CollectionConfig = {
   slug: 'config',
+  typescript: {
+    interface: 'SyncConfig',
+  },
   admin: {
     useAsTitle: 'path',
     description: 'Configuration for .ai folder synchronization',
@@ -123,7 +127,7 @@ export const Config: CollectionConfig = {
           type: 'group',
           admin: {
             description: 'GitHub repository settings',
-            condition: (data) => data?.syncConfig?.syncMode === 'github',
+            condition: ((data) => data?.syncConfig?.syncMode === 'github') as Condition<SyncConfig>,
           },
           fields: [
             {
@@ -154,7 +158,7 @@ export const Config: CollectionConfig = {
               type: 'textarea',
               admin: {
                 description: 'Template for PR descriptions',
-                condition: (data) => data?.syncConfig?.github?.createPRs,
+                condition: ((data) => data?.syncConfig?.github?.createPRs) as Condition<SyncConfig>,
               },
             },
           ],

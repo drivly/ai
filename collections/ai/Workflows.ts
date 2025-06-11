@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { Workflow } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 
 export const Workflows: CollectionConfig = {
   slug: 'workflows',
@@ -48,7 +49,7 @@ export const Workflows: CollectionConfig = {
       type: 'group',
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.public === true,
+        condition: ((data) => data?.public === true) as Condition<Workflow>,
         description: 'Monetization settings for this workflow',
       },
       fields: [
@@ -71,7 +72,7 @@ export const Workflows: CollectionConfig = {
           ],
           defaultValue: 'payPerUse',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Workflow, Workflow['pricing']>,
             description: 'Billing model for this workflow',
           },
         },
@@ -80,7 +81,7 @@ export const Workflows: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'payPerUse',
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'payPerUse') as Condition<Workflow, Workflow['pricing']>,
             description: 'Price per use in USD cents (platform fee is 30% above LLM costs)',
           },
         },
@@ -94,7 +95,10 @@ export const Workflows: CollectionConfig = {
           ],
           defaultValue: 'requests',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel || '')) as Condition<
+              Workflow,
+              Workflow['pricing']
+            >,
             description: 'Unit of measurement for consumption',
           },
         },
@@ -103,7 +107,10 @@ export const Workflows: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel || '')) as Condition<
+              Workflow,
+              Workflow['pricing']
+            >,
             description: 'Price per consumption unit in USD cents',
           },
         },
@@ -112,7 +119,7 @@ export const Workflows: CollectionConfig = {
           type: 'relationship',
           relationTo: 'billingPlans',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription',
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription') as Condition<Workflow, Workflow['pricing']>,
             description: 'Subscription plan for this workflow',
           },
         },
@@ -120,7 +127,7 @@ export const Workflows: CollectionConfig = {
           name: 'stripeProductId',
           type: 'text',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Workflow, Workflow['pricing']>,
             description: 'Stripe Product ID (auto-generated)',
             readOnly: true,
           },
@@ -129,7 +136,7 @@ export const Workflows: CollectionConfig = {
           name: 'stripePriceId',
           type: 'text',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Workflow, Workflow['pricing']>,
             description: 'Stripe Price ID (auto-generated)',
             readOnly: true,
           },

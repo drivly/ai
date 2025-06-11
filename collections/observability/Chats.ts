@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { ChatResource } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 
 export const ChatResources: CollectionConfig = {
   slug: 'chatResources',
@@ -119,7 +120,7 @@ export const ChatResources: CollectionConfig = {
         { label: 'Image', value: 'image' },
       ],
       admin: {
-        condition: (data) => data.resourceType === 'document',
+        condition: ((data) => data.resourceType === 'document') as Condition<ChatResource>,
       },
     },
   ],

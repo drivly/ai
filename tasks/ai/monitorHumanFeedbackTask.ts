@@ -40,7 +40,7 @@ export const monitorHumanFeedbackTask = async ({ input, payload }: any) => {
         taskId,
         response,
       }
-    } else if (task.status === 'in-progress') {
+    } else if (task.status === 'in_progress') {
       const checkInterval = 30000 // 30 seconds
 
       const createdAt = new Date(task.metadata?.createdAt || task.createdAt).getTime()
@@ -56,7 +56,7 @@ export const monitorHumanFeedbackTask = async ({ input, payload }: any) => {
         })
 
         return {
-          status: 'in-progress',
+          status: 'in_progress',
           taskId,
           nextCheck: new Date(now + checkInterval).toISOString(),
         }

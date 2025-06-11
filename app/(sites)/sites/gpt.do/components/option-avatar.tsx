@@ -32,11 +32,10 @@ export const OptionAvatar = <TSize extends number>({ logoUrl, size, direction, i
 
   return (
     <figure
-      className={cn('relative overflow-hidden rounded-[4px] focus-visible:outline-none', `size-${twSize} `, className, {
+      className={cn('relative shrink-0 overflow-hidden rounded-[4px] focus-visible:outline-none', `size-${twSize} `, className, {
         'opacity-50': !logoUrl,
         'dark:invert': isOpenAI,
-      })}
-    >
+      })}>
       <source media='(min-width: 0px)' srcSet={logoUrl} />
       <img
         src={getOptimizedUrl(logoUrl, size)}

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { parseCodeFromResponse, parseTypeScriptAST, generateCode } from './generateCode'
+import { parseCodeFromResponse, parseTypeScriptAST, generateCode } from '../ai/generateCode'
 
 // Mock the functions.do SDK
 vi.mock('../sdks/functions.do', () => ({
@@ -47,7 +47,7 @@ describe('generateCode task', () => {
   describe('generateCode', () => {
     it('should call ai.generateText with the correct system message', async () => {
       // Import the mocked module
-      const { ai } = await import('../sdks/functions.do')
+      const { ai } = await import('../../sdks/functions.do')
 
       // Setup the mock to return a simple response
       vi.mocked(ai.generateText).mockResolvedValue('function test() {}')
@@ -66,7 +66,7 @@ describe('generateCode task', () => {
 
     it('should parse and return the code from the response', async () => {
       // Import the mocked module
-      const { ai } = await import('../sdks/functions.do')
+      const { ai } = await import('../../sdks/functions.do')
 
       // Setup the mock to return a markdown response
       vi.mocked(ai.generateText).mockResolvedValue('```typescript\nfunction add(a: number, b: number): number {\n  return a + b;\n}\n```')
