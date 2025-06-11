@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { Agent } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 
 export const Agents: CollectionConfig = {
   slug: 'agents',
@@ -33,7 +34,7 @@ export const Agents: CollectionConfig = {
       type: 'group',
       admin: {
         position: 'sidebar',
-        condition: (data) => data?.public === true,
+        condition: ((data) => data?.public === true) as Condition<Agent>,
         description: 'Monetization settings for this agent',
       },
       fields: [
@@ -56,7 +57,7 @@ export const Agents: CollectionConfig = {
           ],
           defaultValue: 'payPerUse',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Agent, Agent['pricing']>,
             description: 'Billing model for this agent',
           },
         },
@@ -65,7 +66,7 @@ export const Agents: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'payPerUse',
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'payPerUse') as Condition<Agent, Agent['pricing']>,
             description: 'Price per use in USD cents (platform fee is 30% above LLM costs)',
           },
         },
@@ -79,7 +80,10 @@ export const Agents: CollectionConfig = {
           ],
           defaultValue: 'requests',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel || '')) as Condition<
+              Agent,
+              Agent['pricing']
+            >,
             description: 'Unit of measurement for consumption',
           },
         },
@@ -88,7 +92,10 @@ export const Agents: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel || '')) as Condition<
+              Agent,
+              Agent['pricing']
+            >,
             description: 'Price per consumption unit in USD cents',
           },
         },
@@ -97,7 +104,7 @@ export const Agents: CollectionConfig = {
           type: 'relationship',
           relationTo: 'billingPlans',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription',
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription') as Condition<Agent, Agent['pricing']>,
             description: 'Subscription plan for this agent',
           },
         },
@@ -105,7 +112,7 @@ export const Agents: CollectionConfig = {
           name: 'stripeProductId',
           type: 'text',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Agent, Agent['pricing']>,
             description: 'Stripe Product ID (auto-generated)',
             readOnly: true,
           },
@@ -114,7 +121,7 @@ export const Agents: CollectionConfig = {
           name: 'stripePriceId',
           type: 'text',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: ((_data, siblingData) => siblingData?.isMonetized === true) as Condition<Agent, Agent['pricing']>,
             description: 'Stripe Price ID (auto-generated)',
             readOnly: true,
           },
@@ -127,7 +134,7 @@ export const Agents: CollectionConfig = {
       relationTo: 'goals',
       hasMany: true,
       admin: {
-        description: 'Goals this agent contributes to',
+        description: 'Goals to which this agent contributes',
       },
     },
   ],

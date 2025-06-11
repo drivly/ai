@@ -11,8 +11,8 @@ export const Models: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text', required: true },
     { name: 'id', type: 'text', required: true },
-    { name: 'provider', type: 'relationship', relationTo: 'providers' as any, required: true },
-    { name: 'lab', type: 'relationship', relationTo: 'labs' as any },
+    { name: 'provider', type: 'relationship', relationTo: 'providers', required: true },
+    { name: 'lab', type: 'relationship', relationTo: 'labs' },
     { name: 'description', type: 'textarea' },
     { name: 'context_length', type: 'number' },
     {

@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { Domain } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 
 export const Domains: CollectionConfig = {
   slug: 'domains',
@@ -31,7 +32,7 @@ export const Domains: CollectionConfig = {
     },
     { name: 'vercelId', type: 'text', admin: { hidden: true } },
     { name: 'cloudflareId', type: 'text', admin: { hidden: true } },
-    { name: 'errorMessage', type: 'text', admin: { condition: (data) => data?.status === 'error' } },
+    { name: 'errorMessage', type: 'text', admin: { condition: ((data) => data?.status === 'error') as Condition<Domain> } },
   ],
   hooks: {
     afterChange: [

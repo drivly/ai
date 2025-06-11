@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { Database } from '@/payload.types'
+import type { CollectionConfig, Condition } from 'payload'
 
 export const Databases: CollectionConfig = {
   slug: 'databases',
@@ -13,7 +14,7 @@ export const Databases: CollectionConfig = {
     {
       name: 'type',
       type: 'select',
-      options: ['Integrated', 'Dedicated', 'Self-Hosted'],
+      options: ['Integrated', 'Dedicated', 'Self_Hosted'],
       defaultValue: 'Integrated',
       required: true,
     },
@@ -29,7 +30,7 @@ export const Databases: CollectionConfig = {
       type: 'select',
       options: ['Mongo', 'Postgres', 'Sqlite'],
       admin: {
-        condition: (data) => data?.type === 'Dedicated' || data?.type === 'Self-Hosted',
+        condition: ((data) => data?.type === 'Dedicated' || data?.type === 'Self_Hosted') as Condition<Database>,
       },
     },
     {
@@ -47,7 +48,7 @@ export const Databases: CollectionConfig = {
         'ap-south-1', // Mumbai
       ],
       admin: {
-        condition: (data) => data?.type === 'Dedicated',
+        condition: ((data) => data?.type === 'Dedicated') as Condition<Database>,
       },
     },
     {
