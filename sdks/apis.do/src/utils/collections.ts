@@ -15,7 +15,6 @@ export const COLLECTIONS = [
   'plans',
   'waitlist',
   'nouns',
-  'things',
   'verbs',
   'databases',
   'resources',

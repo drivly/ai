@@ -21,7 +21,6 @@ import { Models } from './experiments/Models'
 import { Providers } from './experiments/Providers'
 import { Labs } from './experiments/Labs'
 import { Nouns } from './data/Nouns'
-import { Things } from './data/Things'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
 import { Relationships } from './data/Relationships'
@@ -80,7 +79,6 @@ export const collections = [
 
   // Data & definitions
   Nouns,
-  Things,
   Verbs,
   Databases,
   Resources,
