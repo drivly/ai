@@ -78,7 +78,7 @@ export const Services: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: ((_data, siblingData) => ['cost-based', 'margin-based'].includes(siblingData?.model || '')) as Condition<Service, Service['pricing']>,
+            condition: ((_data, siblingData) => ['cost_based', 'margin_based'].includes(siblingData?.model || '')) as Condition<Service, Service['pricing']>,
             description: 'Base cost in USD',
           },
         },
