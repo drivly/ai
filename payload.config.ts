@@ -226,7 +226,7 @@ export default buildConfig({
 //             value: 'draft',
 //             label: 'Draft',
 //           },
-//           { value: 'in-progress', label: 'In Progress' },
+//           { value: 'in_progress', label: 'In Progress' },
 //           {
 //             value: 'ready-for-review',
 //             label: 'Ready for review',

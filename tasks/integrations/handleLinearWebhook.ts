@@ -1,4 +1,5 @@
-import { TaskConfig } from 'payload'
+import type { Task } from '@/payload.types'
+import type { TaskConfig } from 'payload'
 
 interface LinearWebhookPayload {
   action: string
@@ -25,11 +26,11 @@ interface LinearWebhookPayload {
   [key: string]: any
 }
 
-const mapLinearStatusToTaskStatus = (linearStatus: string): string => {
-  const statusMap: Record<string, string> = {
+const mapLinearStatusToTaskStatus = (linearStatus: string): Task['status'] => {
+  const statusMap: Record<string, Task['status']> = {
     Backlog: 'backlog',
     Todo: 'todo',
-    'In Progress': 'in-progress',
+    'In Progress': 'in_progress',
     'In Review': 'review',
     Done: 'done',
     Canceled: 'done',
@@ -54,7 +55,7 @@ export const handleLinearWebhook = async ({ job, payload }: any) => {
         },
       })
 
-      const taskData = {
+      const taskData: Partial<Task> = {
         title: data.title,
         description: data.description || '',
         status: data.state ? mapLinearStatusToTaskStatus(data.state.name) : 'backlog',

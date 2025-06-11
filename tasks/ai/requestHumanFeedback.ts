@@ -125,7 +125,7 @@ export const requestHumanFeedback = async ({ input, payload }: { input: HumanFee
     collection: 'tasks',
     id: task.id,
     data: {
-      status: 'in-progress',
+      status: 'in_progress',
       description: description || task.description,
       metadata: {
         type: 'human-feedback',
@@ -159,7 +159,7 @@ export const requestHumanFeedback = async ({ input, payload }: { input: HumanFee
           id: task.id,
         })
 
-        if (currentTask.status === 'in-progress') {
+        if (currentTask.status === 'in_progress') {
           await payload.update({
             collection: 'tasks',
             id: task.id,

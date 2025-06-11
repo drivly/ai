@@ -1,18 +1,16 @@
-import { TaskConfig, TaskHandler } from 'payload'
 import hash from 'object-hash'
+import type { TaskConfig, TaskHandler } from 'payload'
+import { validateWithSchema } from '../language/schemaUtils'
+import { generateMarkdown } from './generateMarkdown'
 import { generateObject } from './generateObject'
 import { generateObjectArray } from './generateObjectArray'
 import { generateText } from './generateText'
-import { validateWithSchema } from '../language/schemaUtils'
-import { generateMarkdown } from './generateMarkdown'
-import { generateCode } from './generateCode'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
-export const executeFunction = async ({ input, req, payload }: any) => {
+export const executeFunction = async ({ input, req }: any) => {
   const headers = req?.headers ? Object.fromEntries(req?.headers) : undefined
-  // const { payload } = req
-  if (!payload) payload = req?.payload
+  const { payload } = req
 
   if (!input) {
     throw new Error('Invalid input: input object is undefined')
@@ -69,23 +67,14 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   try {
     // Lookup function, schema (type), args (thing), and result (action/object)
-    const results = await Promise.all([
-      payload.find({ collection: 'functions', where: { name: { equals: functionName } }, depth: 0 }),
-      schemaHash ? payload.find({ collection: 'types', where: { hash: { equals: schemaHash } }, depth: 0 }) : { docs: [] },
-      argsHash ? payload.find({ collection: 'things', where: { hash: { equals: argsHash } }, depth: 0 }) : { docs: [] },
-      actionHash ? payload.find({ collection: 'actions', where: { hash: { equals: actionHash } }, depth: 1 }) : { docs: [] },
+    ;[functionDoc, schemaDoc, argsDoc, actionDoc] = await Promise.all([
+      payload.find({ collection: 'functions', where: { name: { equals: functionName } }, depth: 0 }).then((res: any) => res.docs[0]),
+      schemaHash ? payload.find({ collection: 'types', where: { hash: { equals: schemaHash } }, depth: 0 }).then((res: any) => res.docs[0]) : undefined,
+      argsHash ? payload.find({ collection: 'things', where: { hash: { equals: argsHash } }, depth: 0 }).then((res: any) => res.docs[0]) : undefined,
+      actionHash ? payload.find({ collection: 'actions', where: { hash: { equals: actionHash } }, depth: 1 }).then((res: any) => res.docs[0]) : undefined,
     ])
-
-    functionDoc = results[0].docs[0]
-    schemaDoc = results[1].docs[0]
-    argsDoc = results[2].docs[0]
-    actionDoc = results[3].docs[0]
   } catch (error) {
     console.error('Error during hash lookups:', error)
-    functionDoc = undefined
-    schemaDoc = undefined
-    argsDoc = undefined
-    actionDoc = undefined
   }
   const lookupLatency = Date.now() - (start + hashLatency)
 
@@ -188,7 +177,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         data: {
           title: `Agent Task: ${functionName}`,
           description: `Executing agent function: ${functionName} with agent: ${agentId}`,
-          status: 'in-progress',
+          status: 'in_progress',
           metadata: {
             type: 'agent-function',
             functionName,
@@ -211,7 +200,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
       object = {
         taskId: task.id,
-        status: 'in-progress',
+        status: 'in_progress',
         message: `Agent function execution queued: ${functionName} with agent: ${agentId}`,
         jobId: agentJobResult.id,
       }
