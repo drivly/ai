@@ -1,5 +1,5 @@
 import { expect as chromaticExpect } from '@chromatic-com/playwright'
-import { Browser, chromium, Page, Response } from 'playwright'
+import { type Browser, chromium, type Page, type Response } from 'playwright'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 describe('Documentation page', () => {

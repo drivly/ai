@@ -161,13 +161,13 @@ describe('tasks.do SDK', () => {
 
     it('should update a task', async () => {
       const task = await tasks.update('task-123', {
-        status: 'in-progress',
+        status: 'in_progress',
         description: 'Updated description',
       })
 
       expect(task).toBeDefined()
       expect(task.id).toBe('task-123')
-      expect(task.status).toBe('in-progress')
+      expect(task.status).toBe('in_progress')
       expect(task.description).toBe('Updated description')
     })
 

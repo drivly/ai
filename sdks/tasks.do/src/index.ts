@@ -4,7 +4,6 @@
  */
 
 import { API } from 'apis.do/src/client'
-import type { QueryParams } from 'apis.do/types'
 import { URLSearchParams } from 'node:url'
 
 /**
@@ -46,7 +45,7 @@ export interface SlackBlock {
 /**
  * Task status options
  */
-export type TaskStatus = 'todo' | 'in-progress' | 'ready-for-review' | 'completed'
+export type TaskStatus = 'todo' | 'in_progress' | 'ready_for_review' | 'completed'
 
 /**
  * Task interface based on the Tasks collection
