@@ -123,7 +123,7 @@ export async function seedDatabase() {
     for (const thing of things) {
       try {
         const exists = await payload.find({
-          collection: 'things',
+          collection: 'nouns',
           where: { name: { equals: thing } },
         })
 
@@ -135,7 +135,7 @@ export async function seedDatabase() {
 
         // Create if it doesn't exist
         await payload.create({
-          collection: 'things',
+          collection: 'nouns',
           data: {
             name: thing,
           },
