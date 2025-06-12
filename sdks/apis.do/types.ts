@@ -1451,7 +1451,7 @@ export interface ChatResource {
         id?: string | null;
       }[]
     | null;
-  parentId?: (string | null) | ChatResource;
+  parent?: (string | null) | ChatResource;
   metadata?:
     | {
         [k: string]: unknown;
@@ -2596,10 +2596,6 @@ export interface SyncConfig {
    */
   lastModifiedGithub?: string | null;
   /**
-   * GitHub repository (owner/repo) if applicable
-   */
-  repository?: string | null;
-  /**
    * Current sync status of the file
    */
   syncStatus: 'synced' | 'conflict' | 'pending';
@@ -3649,7 +3645,7 @@ export interface ChatResourcesSelect<T extends boolean = true> {
         metadata?: T;
         id?: T;
       };
-  parentId?: T;
+  parent?: T;
   metadata?: T;
   visibility?: T;
   votes?:
@@ -4364,7 +4360,6 @@ export interface ConfigSelect<T extends boolean = true> {
   lastModifiedLocally?: T;
   lastModifiedRemotely?: T;
   lastModifiedGithub?: T;
-  repository?: T;
   syncStatus?: T;
   data?: T;
   syncConfig?:
