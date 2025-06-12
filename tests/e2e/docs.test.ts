@@ -107,7 +107,7 @@ describe('Documentation page', () => {
 
       await page.goto(docsUrl)
 
-      const navLinks = await page.locator('nav a')
+      const navLinks = page.locator('nav a')
       const linkCount = await navLinks.count()
 
       expect(linkCount).toBeGreaterThan(0)
@@ -129,7 +129,7 @@ describe('Documentation page', () => {
               expect(response.ok()).toBe(true)
             }
 
-            const content = await page.locator('main')
+            const content = page.locator('main')
             expect(await content.count()).toBe(1)
 
             await chromaticExpect(page).toHaveScreenshot(`docs-navigation-${i}.png`)

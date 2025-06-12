@@ -1,9 +1,8 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
-import { chromium, Browser, Page, Response } from 'playwright'
-import { test as chromaticTest } from '@chromatic-com/playwright'
-import { expectWithRetries } from '../utils/chromatic-helpers'
 import * as fs from 'fs'
 import * as path from 'path'
+import { Browser, chromium, Page, Response } from 'playwright'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { expectWithRetries } from '../utils/chromatic-helpers'
 
 describe('All Documentation Pages', () => {
   let browser: Browser
@@ -107,13 +106,13 @@ describe('All Documentation Pages', () => {
         const title = await page.title()
         expect(title).toContain('Documentation')
 
-        const navigation = await page.locator('nav')
+        const navigation = page.locator('nav')
         expect(await navigation.count()).toBeGreaterThan(0)
 
-        const content = await page.locator('main')
+        const content = page.locator('main')
         expect(await content.count()).toBe(1)
 
-        const heading = await page.locator('h1, h2, h3')
+        const heading = page.locator('h1, h2, h3')
         expect(await heading.count()).toBeGreaterThan(0)
 
         await expectWithRetries(page, `docs-${docsPath.replace(/\//g, '-')}.png`)

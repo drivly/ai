@@ -1,5 +1,7 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach, vi } from 'vitest'
-import { chromium, Browser, Page, Response } from 'playwright'
+import { Browser, chromium, Page, Response } from 'playwright'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { expectWithRetries } from '../utils/chromatic-helpers'
+
 const collections = [
   { slug: 'functions', admin: { group: 'AI' } },
   { slug: 'workflows', admin: { group: 'AI' } },
@@ -15,8 +17,6 @@ const collections = [
   { slug: 'integrations', admin: { group: 'Integrations' } },
   { slug: 'evals', admin: { group: 'Evals' } },
 ]
-import { test as chromaticTest } from '@chromatic-com/playwright'
-import { expectWithRetries } from '../utils/chromatic-helpers'
 
 /**
  * Helper function to log response details
@@ -134,40 +134,29 @@ describe('Admin page', () => {
     }
   })
 
-  it('should show login screen without server errors', async () => {
-    console.log('Skipping browser test in test environment')
-    expect(true).toBe(true) // Pass the test when skipped
-    return
-
+  it.skip('should show login screen without server errors', async () => {
     try {
       const baseUrl = process.env.BASE_URL || process.env.API_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
-
       let response: Response | null = null
-
       response = await page.goto(adminUrl, {
         timeout: 60000, // Increase timeout to 60 seconds
       })
-
       expect(response).not.toBeNull()
       if (response) {
         expect(response.status()).not.toBe(500)
         expect(response.ok()).toBe(true)
       }
-
       // Check for login form elements
-      const emailInput = await page.locator('input[type="email"]')
-      const passwordInput = await page.locator('input[type="password"]')
-      const loginButton = await page.locator('button[type="submit"]')
-
+      const emailInput = page.locator('input[type="email"]')
+      const passwordInput = page.locator('input[type="password"]')
+      const loginButton = page.locator('button[type="submit"]')
       expect(await emailInput.count()).toBe(1)
       expect(await passwordInput.count()).toBe(1)
       expect(await loginButton.count()).toBe(1)
-
       // Check for login page title
       const title = await page.title()
       expect(title).toContain('Login')
-
       await expectWithRetries(page, 'admin-login-screen.png')
     } catch (error) {
       // In test environment, we'll mock the response
@@ -180,11 +169,7 @@ describe('Admin page', () => {
     }
   })
 
-  it('should allow login and navigation without server errors', async () => {
-    console.log('Skipping browser test in test environment')
-    expect(true).toBe(true) // Pass the test when skipped
-    return
-
+  it.skip('should allow login and navigation without server errors', async () => {
     try {
       const baseUrl = process.env.BASE_URL || process.env.API_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
@@ -206,7 +191,7 @@ describe('Admin page', () => {
 
         const currentUrl = page.url()
         if (currentUrl.includes('/admin/dashboard') || currentUrl.includes('/admin/collections')) {
-          const header = await page.locator('header')
+          const header = page.locator('header')
           expect(await header.count()).toBeGreaterThan(0)
 
           await expectWithRetries(page, 'admin-dashboard.png')
@@ -247,11 +232,7 @@ describe('Admin page', () => {
     }
   })
 
-  it('should navigate to all collection types in the admin interface', async () => {
-    console.log('Skipping browser test in test environment')
-    expect(true).toBe(true) // Pass the test when skipped
-    return
-
+  it.skip('should navigate to all collection types in the admin interface', async () => {
     try {
       const baseUrl = process.env.BASE_URL || process.env.API_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
@@ -280,11 +261,11 @@ describe('Admin page', () => {
               expect(response.ok()).toBe(true)
             }
 
-            const heading = await page.locator('h1')
+            const heading = page.locator('h1')
             expect(await heading.count()).toBeGreaterThan(0)
 
-            const table = await page.locator('table')
-            const list = await page.locator('[data-list-view]')
+            const table = page.locator('table')
+            const list = page.locator('[data-list-view]')
             expect((await table.count()) + (await list.count())).toBeGreaterThan(0)
 
             await page.waitForTimeout(500)
@@ -306,11 +287,7 @@ describe('Admin page', () => {
     }
   })
 
-  it('should create and view documents in key collections', async () => {
-    console.log('Skipping browser test in test environment')
-    expect(true).toBe(true) // Pass the test when skipped
-    return
-
+  it.skip('should create and view documents in key collections', async () => {
     try {
       const baseUrl = process.env.BASE_URL || process.env.API_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
@@ -336,24 +313,24 @@ describe('Admin page', () => {
           const collectionUrl = `${collectionsUrl}/${collection.slug}`
           await page.goto(collectionUrl)
 
-          const createButton = await page.locator('a[href*="create"]')
+          const createButton = page.locator('a[href*="create"]')
           await createButton.first().click()
           await page.waitForTimeout(1000)
 
           await page.fill(`input[name="${collection.nameField}"]`, collection.testName)
 
-          const saveButton = await page.locator('button[type="submit"]')
+          const saveButton = page.locator('button[type="submit"]')
           await saveButton.click()
           await page.waitForTimeout(2000)
 
           await page.goto(collectionUrl)
-          const documentLink = await page.locator(`text="${collection.testName}"`)
+          const documentLink = page.locator(`text="${collection.testName}"`)
           expect(await documentLink.count()).toBeGreaterThan(0)
 
           await documentLink.first().click()
           await page.waitForTimeout(1000)
 
-          const heading = await page.locator('h1')
+          const heading = page.locator('h1')
           expect(await heading.count()).toBeGreaterThan(0)
           const headingText = await heading.first().textContent()
           expect(headingText).toContain(collection.testName)
@@ -374,11 +351,7 @@ describe('Admin page', () => {
     }
   })
 
-  it('should test relationships between collections', async () => {
-    console.log('Skipping browser test in test environment')
-    expect(true).toBe(true) // Pass the test when skipped
-    return
-
+  it.skip('should test relationships between collections', async () => {
     try {
       const baseUrl = process.env.BASE_URL || process.env.API_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
@@ -397,7 +370,7 @@ describe('Admin page', () => {
 
       let functionExists = false
       try {
-        const functionLink = await page.locator('tbody tr a').first()
+        const functionLink = page.locator('tbody tr a').first()
         if ((await functionLink.count()) > 0) {
           functionExists = true
           await functionLink.click()
@@ -408,7 +381,7 @@ describe('Admin page', () => {
       }
 
       if (!functionExists) {
-        const createButton = await page.locator('a[href*="create"]')
+        const createButton = page.locator('a[href*="create"]')
         await createButton.first().click()
         await page.waitForTimeout(1000)
 
@@ -416,17 +389,17 @@ describe('Admin page', () => {
 
         await page.selectOption('select[name="type"]', 'Generation')
 
-        const saveButton = await page.locator('button[type="submit"]')
+        const saveButton = page.locator('button[type="submit"]')
         await saveButton.click()
         await page.waitForTimeout(2000)
       }
 
-      const relationshipFields = await page.locator('label:has-text("Prompt")')
+      const relationshipFields = page.locator('label:has-text("Prompt")')
       expect(await relationshipFields.count()).toBeGreaterThan(0)
 
       await page.goto(`${collectionsUrl}/prompts`)
 
-      const heading = await page.locator('h1')
+      const heading = page.locator('h1')
       expect(await heading.count()).toBeGreaterThan(0)
       const headingText = await heading.first().textContent()
       expect(headingText).toContain('Prompt')
@@ -443,11 +416,7 @@ describe('Admin page', () => {
     }
   })
 
-  it('should handle API requests to admin route without server errors', async () => {
-    console.log('Skipping browser test in test environment')
-    expect(true).toBe(true) // Pass the test when skipped
-    return
-
+  it.skip('should handle API requests to admin route without server errors', async () => {
     try {
       const baseUrls = [
         process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000',

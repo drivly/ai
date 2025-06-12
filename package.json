@@ -321,10 +321,14 @@
     "overrides": {
       "apis.do": "workspace:*",
       "prettier": "3.5.3",
-      "@playwright/test": "1.51.1"
+      "@playwright/test": "1.51.1",
+      "playwright": "1.51.1",
+      "playwright-core": "1.51.1"
     },
     "resolutions": {
-      "@playwright/test": "1.51.1"
+      "@playwright/test": "1.51.1",
+      "playwright": "1.51.1",
+      "playwright-core": "1.51.1"
     }
   },
   "prettier": {
