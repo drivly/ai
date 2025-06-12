@@ -74,13 +74,6 @@ export const Config: CollectionConfig = {
       },
     },
     {
-      name: 'repository',
-      type: 'text',
-      admin: {
-        description: 'GitHub repository (owner/repo) if applicable',
-      },
-    },
-    {
       name: 'syncStatus',
       type: 'select',
       options: [
