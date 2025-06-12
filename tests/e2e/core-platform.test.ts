@@ -1,7 +1,5 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
-import { chromium, Browser, Page, Response } from 'playwright'
-import { collections } from '@/collections'
-import { test as chromaticTest } from '@chromatic-com/playwright'
+import { Browser, chromium, Page } from 'playwright'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { expectWithRetries } from '../utils/chromatic-helpers'
 
 describe('Core Platform E2E Tests', () => {
@@ -139,25 +137,25 @@ describe('Core Platform E2E Tests', () => {
     try {
       await navigateToCollection(collectionSlug)
 
-      const createButton = await page.locator('a[href*="create"]')
+      const createButton = page.locator('a[href*="create"]')
       await createButton.first().click()
       await page.waitForTimeout(1000)
 
       for (const [key, value] of Object.entries(data)) {
         if (key === 'code') {
-          const codeEditor = await page.locator('.monaco-editor')
+          const codeEditor = page.locator('.monaco-editor')
           if ((await codeEditor.count()) > 0) {
             await page.click('.monaco-editor')
             await page.keyboard.insertText(value as string)
           }
         } else if (key === 'schema') {
-          const yamlEditor = await page.locator('.monaco-editor')
+          const yamlEditor = page.locator('.monaco-editor')
           if ((await yamlEditor.count()) > 0) {
             await page.click('.monaco-editor')
             await page.keyboard.insertText(value as string)
           }
         } else if (key === 'data') {
-          const dataEditor = await page.locator('.monaco-editor')
+          const dataEditor = page.locator('.monaco-editor')
           if ((await dataEditor.count()) > 0) {
             await page.click('.monaco-editor')
             await page.keyboard.insertText(value as string)
@@ -171,7 +169,7 @@ describe('Core Platform E2E Tests', () => {
         }
       }
 
-      const saveButton = await page.locator('button[type="submit"]')
+      const saveButton = page.locator('button[type="submit"]')
       await saveButton.click()
       await page.waitForTimeout(2000)
 
@@ -192,13 +190,13 @@ describe('Core Platform E2E Tests', () => {
     try {
       await navigateToCollection(collectionSlug)
 
-      const searchInput = await page.locator('input[type="search"]')
+      const searchInput = page.locator('input[type="search"]')
       if ((await searchInput.count()) > 0) {
         await searchInput.fill(name)
         await page.waitForTimeout(1000)
       }
 
-      const documentLink = await page.locator(`text="${name}"`)
+      const documentLink = page.locator(`text="${name}"`)
       if ((await documentLink.count()) > 0) {
         await documentLink.first().click()
         await page.waitForTimeout(1000)
@@ -234,18 +232,18 @@ describe('Core Platform E2E Tests', () => {
       console.log(`Created Code Function with ID: ${functionId}`)
 
       await navigateToCollection('functions')
-      const documentLink = await page.locator(`text="${testData.codeFunction.name}"`)
+      const documentLink = page.locator(`text="${testData.codeFunction.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
       await documentLink.first().click()
       await page.waitForTimeout(1000)
 
-      const heading = await page.locator('h1')
+      const heading = page.locator('h1')
       expect(await heading.count()).toBeGreaterThan(0)
       const headingText = await heading.first().textContent()
       expect(headingText).toContain(testData.codeFunction.name)
 
-      const typeField = await page.locator('select[name="type"]')
+      const typeField = page.locator('select[name="type"]')
       const typeValue = await typeField.inputValue()
       expect(typeValue).toBe(testData.codeFunction.type)
 
@@ -277,22 +275,22 @@ describe('Core Platform E2E Tests', () => {
       console.log(`Created Generation Function with ID: ${functionId}`)
 
       await navigateToCollection('functions')
-      const documentLink = await page.locator(`text="${testData.generationFunction.name}"`)
+      const documentLink = page.locator(`text="${testData.generationFunction.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
       await documentLink.first().click()
       await page.waitForTimeout(1000)
 
-      const heading = await page.locator('h1')
+      const heading = page.locator('h1')
       expect(await heading.count()).toBeGreaterThan(0)
       const headingText = await heading.first().textContent()
       expect(headingText).toContain(testData.generationFunction.name)
 
-      const typeField = await page.locator('select[name="type"]')
+      const typeField = page.locator('select[name="type"]')
       const typeValue = await typeField.inputValue()
       expect(typeValue).toBe(testData.generationFunction.type)
 
-      const formatField = await page.locator('select[name="format"]')
+      const formatField = page.locator('select[name="format"]')
       const formatValue = await formatField.inputValue()
       expect(formatValue).toBe(testData.generationFunction.format)
 
@@ -324,7 +322,7 @@ describe('Core Platform E2E Tests', () => {
       console.log(`Created Noun with ID: ${nounId}`)
 
       await navigateToCollection('nouns')
-      const documentLink = await page.locator(`text="${testData.noun.name}"`)
+      const documentLink = page.locator(`text="${testData.noun.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
       await expectWithRetries(page, 'noun-list.png')
@@ -365,7 +363,7 @@ describe('Core Platform E2E Tests', () => {
       console.log(`Created Thing with ID: ${thingId}`)
 
       await navigateToCollection('things')
-      const documentLink = await page.locator(`text="${testData.thing.name}"`)
+      const documentLink = page.locator(`text="${testData.thing.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
       await expectWithRetries(page, 'thing-list.png')
@@ -396,7 +394,7 @@ describe('Core Platform E2E Tests', () => {
       console.log(`Created Verb with ID: ${verbId}`)
 
       await navigateToCollection('verbs')
-      const documentLink = await page.locator(`text="${testData.verb.name}"`)
+      const documentLink = page.locator(`text="${testData.verb.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
       await expectWithRetries(page, 'verb-list.png')
@@ -456,7 +454,7 @@ describe('Core Platform E2E Tests', () => {
       console.log(`Created Action with ID: ${actionId}`)
 
       await navigateToCollection('actions')
-      const documentLink = await page.locator(`text="${testData.action.name}"`)
+      const documentLink = page.locator(`text="${testData.action.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
       await page.waitForTimeout(5000)
@@ -496,12 +494,12 @@ describe('Core Platform E2E Tests', () => {
         await page.goto(functionUrl)
         await page.waitForTimeout(1000)
 
-        const executionsTab = await page.locator('button:has-text("Executions")')
+        const executionsTab = page.locator('button:has-text("Executions")')
         if ((await executionsTab.count()) > 0) {
           await executionsTab.click()
           await page.waitForTimeout(1000)
 
-          const executionsList = await page.locator('tbody tr')
+          const executionsList = page.locator('tbody tr')
           const count = await executionsList.count()
           console.log(`Found ${count} executions for function`)
         }
@@ -517,12 +515,12 @@ describe('Core Platform E2E Tests', () => {
         await page.goto(thingUrl)
         await page.waitForTimeout(1000)
 
-        const subjectOfTab = await page.locator('button:has-text("Subject Of")')
+        const subjectOfTab = page.locator('button:has-text("Subject Of")')
         if ((await subjectOfTab.count()) > 0) {
           await subjectOfTab.click()
           await page.waitForTimeout(1000)
 
-          const actionsList = await page.locator('tbody tr')
+          const actionsList = page.locator('tbody tr')
           const count = await actionsList.count()
           console.log(`Found ${count} actions where thing is subject`)
 
@@ -552,24 +550,24 @@ describe('Core Platform E2E Tests', () => {
 
       await navigateToCollection('functions')
 
-      const createButton = await page.locator('a[href*="create"]')
+      const createButton = page.locator('a[href*="create"]')
       await createButton.first().click()
       await page.waitForTimeout(1000)
 
       await page.selectOption('select[name="type"]', 'Code')
 
-      const saveButton = await page.locator('button[type="submit"]')
+      const saveButton = page.locator('button[type="submit"]')
       await saveButton.click()
       await page.waitForTimeout(1000)
 
-      const errorMessages = await page.locator('.error-message')
+      const errorMessages = page.locator('.error-message')
 
       await expectWithRetries(page, 'function-validation-errors.png')
 
       await saveButton.click()
       await page.waitForTimeout(1000)
 
-      const errorMessage = await page.locator('text="Please fill out this field"')
+      const errorMessage = page.locator('text="Please fill out this field"')
       expect(await errorMessage.count()).toBeGreaterThan(0)
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {

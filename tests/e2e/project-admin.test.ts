@@ -1,9 +1,8 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach, vi } from 'vitest'
-import { chromium, Browser, Page } from 'playwright'
-import fetch from 'node-fetch'
 import { createDynamicPayloadConfig } from '@/lib/createDynamicPayloadConfig'
 import { modifyDatabaseUri } from '@/lib/modifyDatabaseUri'
-import type { CollectionConfig } from 'payload'
+import fetch from 'node-fetch'
+import { Browser, chromium, Page } from 'playwright'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 describe('Project-specific admin interface', () => {
   let browser: Browser
@@ -156,8 +155,8 @@ describe('Project-specific admin interface', () => {
         expect(response.status()).not.toBe(500)
       }
 
-      const loginForm = await page.locator('input[type="email"]')
-      const adminInterface = await page.locator('header')
+      const loginForm = page.locator('input[type="email"]')
+      const adminInterface = page.locator('header')
 
       const hasLoginForm = (await loginForm.count()) > 0
       const hasAdminInterface = (await adminInterface.count()) > 0

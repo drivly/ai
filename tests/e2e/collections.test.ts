@@ -117,11 +117,11 @@ describe('Critical Collections', () => {
             expect(response.ok()).toBe(true)
           }
 
-          const heading = await page.locator('h1')
+          const heading = page.locator('h1')
           expect(await heading.count()).toBeGreaterThan(0)
 
-          const table = await page.locator('table')
-          const list = await page.locator('[data-list-view]')
+          const table = page.locator('table')
+          const list = page.locator('[data-list-view]')
           expect((await table.count()) + (await list.count())).toBeGreaterThan(0)
 
           await page.waitForTimeout(500)
@@ -168,7 +168,7 @@ describe('Critical Collections', () => {
           const collectionUrl = `${collectionsUrl}/${collection.slug}`
           await page.goto(collectionUrl)
 
-          const createButton = await page.locator('a[href*="create"]')
+          const createButton = page.locator('a[href*="create"]')
           await createButton.first().click()
           await page.waitForTimeout(1000)
 
@@ -178,18 +178,18 @@ describe('Critical Collections', () => {
             await page.selectOption('select[name="type"]', 'Generation')
           }
 
-          const saveButton = await page.locator('button[type="submit"]')
+          const saveButton = page.locator('button[type="submit"]')
           await saveButton.click()
           await page.waitForTimeout(2000)
 
           await page.goto(collectionUrl)
-          const documentLink = await page.locator(`text="${collection.testName}"`)
+          const documentLink = page.locator(`text="${collection.testName}"`)
           expect(await documentLink.count()).toBeGreaterThan(0)
 
           await documentLink.first().click()
           await page.waitForTimeout(1000)
 
-          const heading = await page.locator('h1')
+          const heading = page.locator('h1')
           expect(await heading.count()).toBeGreaterThan(0)
           const headingText = await heading.first().textContent()
           expect(headingText).toContain(collection.testName)
@@ -234,7 +234,7 @@ describe('Critical Collections', () => {
 
       let workflowExists = false
       try {
-        const workflowLink = await page.locator('tbody tr a').first()
+        const workflowLink = page.locator('tbody tr a').first()
         if ((await workflowLink.count()) > 0) {
           workflowExists = true
           await workflowLink.click()
@@ -245,25 +245,25 @@ describe('Critical Collections', () => {
       }
 
       if (!workflowExists) {
-        const createButton = await page.locator('a[href*="create"]')
+        const createButton = page.locator('a[href*="create"]')
         await createButton.first().click()
         await page.waitForTimeout(1000)
 
         await page.fill('input[name="name"]', 'Relationship Test Workflow')
 
-        const saveButton = await page.locator('button[type="submit"]')
+        const saveButton = page.locator('button[type="submit"]')
         await saveButton.click()
         await page.waitForTimeout(2000)
       }
 
-      const relationshipFields = await page.locator('label:has-text("Functions")')
+      const relationshipFields = page.locator('label:has-text("Functions")')
       expect(await relationshipFields.count()).toBeGreaterThan(0)
 
       await page.goto(`${collectionsUrl}/functions`)
 
       let functionExists = false
       try {
-        const functionLink = await page.locator('tbody tr a').first()
+        const functionLink = page.locator('tbody tr a').first()
         if ((await functionLink.count()) > 0) {
           functionExists = true
           await functionLink.click()
@@ -274,19 +274,19 @@ describe('Critical Collections', () => {
       }
 
       if (!functionExists) {
-        const createButton = await page.locator('a[href*="create"]')
+        const createButton = page.locator('a[href*="create"]')
         await createButton.first().click()
         await page.waitForTimeout(1000)
 
         await page.fill('input[name="name"]', 'Relationship Test Function')
         await page.selectOption('select[name="type"]', 'Agent')
 
-        const saveButton = await page.locator('button[type="submit"]')
+        const saveButton = page.locator('button[type="submit"]')
         await saveButton.click()
         await page.waitForTimeout(2000)
       }
 
-      const agentFields = await page.locator('label:has-text("Agent")')
+      const agentFields = page.locator('label:has-text("Agent")')
       expect(await agentFields.count()).toBeGreaterThan(0)
 
       await expectWithRetries(page, 'critical-collections-relationships.png')

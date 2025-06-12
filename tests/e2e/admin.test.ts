@@ -1,7 +1,6 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
-import { chromium, Browser, Page, Response } from 'playwright'
 import { collections } from '@/collections'
-import { test as chromaticTest } from '@chromatic-com/playwright'
+import { Browser, chromium, Page, Response } from 'playwright'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { expectWithRetries } from '../utils/chromatic-helpers'
 
 describe('Admin page', () => {
@@ -85,9 +84,9 @@ describe('Admin page', () => {
       }
 
       // Check for login form elements
-      const emailInput = await page.locator('input[type="email"]')
-      const passwordInput = await page.locator('input[type="password"]')
-      const loginButton = await page.locator('button[type="submit"]')
+      const emailInput = page.locator('input[type="email"]')
+      const passwordInput = page.locator('input[type="password"]')
+      const loginButton = page.locator('button[type="submit"]')
 
       expect(await emailInput.count()).toBe(1)
       expect(await passwordInput.count()).toBe(1)
@@ -137,7 +136,7 @@ describe('Admin page', () => {
 
         const currentUrl = page.url()
         if (currentUrl.includes('/admin/dashboard') || currentUrl.includes('/admin/collections')) {
-          const header = await page.locator('header')
+          const header = page.locator('header')
           expect(await header.count()).toBeGreaterThan(0)
 
           await expectWithRetries(page, 'admin-dashboard.png')
@@ -213,11 +212,11 @@ describe('Admin page', () => {
               expect(response.ok()).toBe(true)
             }
 
-            const heading = await page.locator('h1')
+            const heading = page.locator('h1')
             expect(await heading.count()).toBeGreaterThan(0)
 
-            const table = await page.locator('table')
-            const list = await page.locator('[data-list-view]')
+            const table = page.locator('table')
+            const list = page.locator('[data-list-view]')
             expect((await table.count()) + (await list.count())).toBeGreaterThan(0)
 
             await page.waitForTimeout(500)
@@ -271,24 +270,24 @@ describe('Admin page', () => {
           const collectionUrl = `${collectionsUrl}/${collection.slug}`
           await page.goto(collectionUrl)
 
-          const createButton = await page.locator('a[href*="create"]')
+          const createButton = page.locator('a[href*="create"]')
           await createButton.first().click()
           await page.waitForTimeout(1000)
 
           await page.fill(`input[name="${collection.nameField}"]`, collection.testName)
 
-          const saveButton = await page.locator('button[type="submit"]')
+          const saveButton = page.locator('button[type="submit"]')
           await saveButton.click()
           await page.waitForTimeout(2000)
 
           await page.goto(collectionUrl)
-          const documentLink = await page.locator(`text="${collection.testName}"`)
+          const documentLink = page.locator(`text="${collection.testName}"`)
           expect(await documentLink.count()).toBeGreaterThan(0)
 
           await documentLink.first().click()
           await page.waitForTimeout(1000)
 
-          const heading = await page.locator('h1')
+          const heading = page.locator('h1')
           expect(await heading.count()).toBeGreaterThan(0)
           const headingText = await heading.first().textContent()
           expect(headingText).toContain(collection.testName)
@@ -334,7 +333,7 @@ describe('Admin page', () => {
 
       let functionExists = false
       try {
-        const functionLink = await page.locator('tbody tr a').first()
+        const functionLink = page.locator('tbody tr a').first()
         if ((await functionLink.count()) > 0) {
           functionExists = true
           await functionLink.click()
@@ -345,7 +344,7 @@ describe('Admin page', () => {
       }
 
       if (!functionExists) {
-        const createButton = await page.locator('a[href*="create"]')
+        const createButton = page.locator('a[href*="create"]')
         await createButton.first().click()
         await page.waitForTimeout(1000)
 
@@ -353,17 +352,17 @@ describe('Admin page', () => {
 
         await page.selectOption('select[name="type"]', 'Generation')
 
-        const saveButton = await page.locator('button[type="submit"]')
+        const saveButton = page.locator('button[type="submit"]')
         await saveButton.click()
         await page.waitForTimeout(2000)
       }
 
-      const relationshipFields = await page.locator('label:has-text("Prompt")')
+      const relationshipFields = page.locator('label:has-text("Prompt")')
       expect(await relationshipFields.count()).toBeGreaterThan(0)
 
       await page.goto(`${collectionsUrl}/prompts`)
 
-      const heading = await page.locator('h1')
+      const heading = page.locator('h1')
       expect(await heading.count()).toBeGreaterThan(0)
       const headingText = await heading.first().textContent()
       expect(headingText).toContain('Prompt')
