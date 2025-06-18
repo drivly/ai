@@ -1,15 +1,21 @@
+import { API } from 'apis.do'
+
 export class CLI {
+  private api: API
+
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
+    this.api = new API({ apiKey: options.apiKey, baseUrl: options.baseUrl })
+  }
+
   async listIntegrations() {
-    return []
+    return this.api.get('/integrations')
   }
 
   async connect(integration: string, options: { token?: string } = {}) {
-    console.log(`Connecting to ${integration}...`)
-    return { success: true, integration }
+    return this.api.post(`/integrations/${integration}/connect`, options)
   }
 
   async disconnect(integration: string) {
-    console.log(`Disconnecting from ${integration}...`)
-    return { success: true, integration }
+    return this.api.post(`/integrations/${integration}/disconnect`, {})
   }
 }
