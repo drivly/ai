@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { type NextRequest, NextResponse, after } from 'next/server'
 import { createClickhouseClient } from './index'
 import { AnalyticsService } from './utils'
 
@@ -84,11 +83,13 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
         )
       }
 
-      await Promise.all(promises).catch((error) => {
-        console.error('Error sending analytics data:', error)
-      })
+      after(
+        Promise.all(promises).catch((error) => {
+          console.error('Error sending analytics data:', error)
+        }),
+      )
 
-      await clickhouseClient.close()
+      after(clickhouseClient.close())
     } catch (error) {
       console.error('Error tracking analytics:', error)
     }

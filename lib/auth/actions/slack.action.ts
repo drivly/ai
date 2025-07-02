@@ -84,7 +84,7 @@ interface WebhookConfig {
   defaultTitle?: string
 }
 
-const webhooks: Record<string, WebhookConfig> = {
+const webhooks = {
   careers: {
     url: process.env.CAREERS_DO_SLACK_URL,
     defaultTitle: 'New Job Application',
