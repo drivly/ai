@@ -193,8 +193,8 @@ importers:
         specifier: workspace:*
         version: link:sdks/apis.do
       business-as-code:
-        specifier: 0.0.2
-        version: 0.0.2
+        specifier: 0.1.0
+        version: 0.1.0
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -8366,9 +8366,8 @@ packages:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
     engines: {node: '>=10.16.0'}
 
-  business-as-code@0.0.2:
-    resolution: {integrity: sha512-wAzP/kBZRi5QltcTi7vGZJIQkW34t+Hx0tySCZ1qdxjtd2GiDAN2WxDLG2hEk+Gqglzw7a0QoshKOG1XucQ3vg==}
-    engines: {node: '>=18.0.0'}
+  business-as-code@0.1.0:
+    resolution: {integrity: sha512-PBrSLF4OXIgSvvGkjmgLBrwGsca/jJIbRQyPXxBPC2Iz68VyRd1mvHBvhmqgaO+67MqujgSmJsItogW/f8C0LQ==}
 
   bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -26163,12 +26162,9 @@ snapshots:
     dependencies:
       streamsearch: 1.1.0
 
-  business-as-code@0.0.2:
+  business-as-code@0.1.0:
     dependencies:
-      apis.do: link:sdks/apis.do
-      database.do: 0.0.1
-      functions.do: 0.0.1
-      workflows.do: 0.0.1
+      zod: 3.25.56
 
   bytes@3.1.2: {}
 
