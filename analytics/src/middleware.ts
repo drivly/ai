@@ -30,7 +30,7 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
         forceRecreate: process.env.CLICKHOUSE_FORCE_RECREATE === 'true',
       })
 
-      const analyticsService = new AnalyticsService(clickhouseClient)
+      // const analyticsService = new AnalyticsService(clickhouseClient)
 
       const requestData = {
         method,
@@ -46,28 +46,30 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
         timestamp: Date.now(),
       }
 
-      const promises = [analyticsService.trackRequest(requestData).catch((err) => console.error('Failed to track request:', err))]
+      const promises = [
+        // analyticsService.trackRequest(requestData).catch((err) => console.error('Failed to track request:', err))
+      ]
 
-      const eventData = {
-        type: 'page_view',
-        source: 'web',
-        url: url,
-        headers: Object.fromEntries(headers),
-        query: Object.fromEntries(parsedUrl.searchParams),
-        data: {
-          path: pathname,
-          method,
-          status: response.status,
-        },
-        metadata: {
-          userId,
-          ip,
-          userAgent,
-          referer,
-        },
-      }
+      // const eventData = {
+      //   type: 'page_view',
+      //   source: 'web',
+      //   url: url,
+      //   headers: Object.fromEntries(headers),
+      //   query: Object.fromEntries(parsedUrl.searchParams),
+      //   data: {
+      //     path: pathname,
+      //     method,
+      //     status: response.status,
+      //   },
+      //   metadata: {
+      //     userId,
+      //     ip,
+      //     userAgent,
+      //     referer,
+      //   },
+      // }
 
-      promises.push(analyticsService.trackEvent(eventData).catch((err) => console.error('Failed to track event:', err)))
+      // promises.push(analyticsService.trackEvent(eventData).catch((err) => console.error('Failed to track event:', err)))
 
       if (process.env.PIPELINE_URL) {
         promises.push(
