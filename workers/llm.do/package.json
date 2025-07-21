@@ -22,7 +22,7 @@
     "geolib": "^3.3.4",
     "hono": "^4.7.5",
     "ua-parser-js": "^2.0.3",
-    "zod": "^3.24.3"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/node": "22.14.0",
