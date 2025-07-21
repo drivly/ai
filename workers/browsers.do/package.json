@@ -13,7 +13,7 @@
   "dependencies": {
     "@browserbasehq/sdk": "^1.0.0",
     "@browserbasehq/stagehand": "^1.0.0",
-    "@hono/zod-validator": "^0.1.11",
+    "@hono/zod-validator": "^0.7.2",
     "hono": "^4.7.4",
     "zod": "^3.24.1"
   },
