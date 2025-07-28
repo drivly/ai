@@ -111,7 +111,7 @@
     "@radix-ui/react-tooltip": "^1.2.3",
     "@react-email/components": "0.0.41",
     "@remixicon/react": "^4.6.0",
-    "@scalar/api-reference-react": "^0.7.4",
+    "@scalar/api-reference-react": "^0.7.34",
     "@scalar/nextjs-api-reference": "^0.8.3",
     "@sentry/nextjs": "^9.11.0",
     "@stoplight/elements": "^9.0.1",
