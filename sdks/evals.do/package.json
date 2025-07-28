@@ -46,7 +46,7 @@
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.2.18",
     "eslint-config": "workspace:*",
-    "prettier": "^3.1.1",
+    "prettier": "^3.6.2",
     "tsconfig": "workspace:*",
     "tsup": "^8.0.1",
     "vitest": "^3.0.8"
