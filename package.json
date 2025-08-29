@@ -172,7 +172,7 @@
     "nextra-theme-docs": "^4.2.17",
     "nuqs": "^2.4.3",
     "object-hash": "^3.0.0",
-    "payload": "^3.36.0",
+    "payload": "^3.44.0",
     "payload-hooks-queue": "0.0.1",
     "payload-kanban-board": "^3.0.24",
     "payload-oapi": "^0.2.0",
