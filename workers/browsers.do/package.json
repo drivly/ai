@@ -14,7 +14,7 @@
     "@browserbasehq/sdk": "^1.0.0",
     "@browserbasehq/stagehand": "^1.0.0",
     "@hono/zod-validator": "^0.1.11",
-    "hono": "^4.7.4",
+    "hono": "^4.9.10",
     "zod": "^3.24.1"
   },
   "devDependencies": {

@@ -20,7 +20,7 @@
     "chanfana": "^2.8.0",
     "composio-core": "^0.5.31",
     "geolib": "^3.3.4",
-    "hono": "^4.7.5",
+    "hono": "^4.9.10",
     "ua-parser-js": "^2.0.3",
     "zod": "^3.24.3"
   },
