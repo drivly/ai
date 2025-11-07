@@ -125,7 +125,7 @@
     "@vercel/og": "^0.6.8",
     "@vercel/speed-insights": "^1.2.0",
     "agentic.md": "^0.1.0",
-    "ai": "5.0.0-alpha.7",
+    "ai": "5.0.52",
     "ai-functions": "0.3.0",
     "ai-providers": "0.1.0",
     "ai-workflows": "^1.1.0",

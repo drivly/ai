@@ -25,7 +25,7 @@
     "@ai-sdk/google-vertex": "^2.2.14",
     "@ai-sdk/openai": "2.0.0-alpha.7",
     "@ai-sdk/provider-utils": "3.0.0-alpha.7",
-    "ai": "5.0.0-alpha.7",
+    "ai": "5.0.52",
     "composio-core": "^0.5.31",
     "language-models": "workspace:*"
   },
