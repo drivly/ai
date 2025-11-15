@@ -252,7 +252,7 @@
     "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
     "jiti": "^2",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "jsdom": "^26.0.0",
     "lint-staged": "^15.5.0",
     "mongodb-memory-server": "^10.1.4",
