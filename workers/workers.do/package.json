@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "agents": "latest",
-    "hono": "^4.7.4"
+    "hono": "^4.11.7"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.8.22",

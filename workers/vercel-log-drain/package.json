@@ -9,7 +9,7 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "hono": "^4.7.5",
+    "hono": "^4.11.7",
     "zod": "^3.24.3"
   },
   "devDependencies": {
