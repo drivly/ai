@@ -1,6 +1,8 @@
 import { ERROR_TYPES } from '../constants'
-import { Prettify } from '@/types/helper-types'
 import { ToolAuthorizationMode } from './tools'
+type Prettify<T> = {
+  [K in keyof T]: T[K]
+} & {}
 
 /**
  * Union of all possible error type string literals

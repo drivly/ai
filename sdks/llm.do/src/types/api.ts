@@ -5,7 +5,7 @@
 // Re-export everything from the new structure
 export * from './api'
 
-import type { ParsedModelIdentifier } from '@/pkgs/language-models/src'
+import type { ParsedModelIdentifier } from 'language-models'
 import type { CoreMessage } from 'ai'
 import type { ChatCompletionError } from './errors'
 import { outputFormats, providerPriorities, messageResponseRoles } from '../constants'

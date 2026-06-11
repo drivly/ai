@@ -2,15 +2,55 @@
   "name": "llm.do",
   "version": "0.1.0",
   "description": "llm.do AI SDK Provider",
-  "main": "src/index.ts",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
+    "build": "tsc",
+    "build:packages": "tsc",
     "test:local": "dotenvx run -- vitest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.8.1",
+  "dependencies": {
+    "@ai-sdk/openai": "2.0.0-alpha.4",
+    "@ai-sdk/openai-compatible": "1.0.0-alpha.7",
+    "@ai-sdk/provider": "2.0.0-alpha.7",
+    "@ai-sdk/provider-utils": "2.2.8",
+    "language-models": "workspace:*",
+    "zod": "^3.24.3"
+  },
   "devDependencies": {
-    "@vitest/ui": "3.1.4"
+    "@vitest/ui": "3.1.4",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.7.3"
+  },
+  "keywords": [
+    "ai",
+    "sdk",
+    "llm",
+    "drivly"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/llm.do"
+  },
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

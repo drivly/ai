@@ -19,7 +19,7 @@ import {
 } from '@ai-sdk/openai'
 
 import { FetchFunction, loadApiKey, withoutTrailingSlash } from '@ai-sdk/provider-utils'
-import { ParsedModelIdentifier } from '@/pkgs/language-models/src'
+import { ParsedModelIdentifier } from 'language-models'
 
 import { z } from 'zod'
 
@@ -53,7 +53,7 @@ interface LLMProviderConstructorOptions {
 // TODO: Ask Nathan about the route.
 export const defaultBaseURL = 'https://llm.do/v1'
 
-export const createLLMProvider = (options: LLMProviderOptions) => {
+export const createLLMProvider = (options: LLMProviderOptions): ((modelId: string, settings?: LLMProviderSettings) => LanguageModelV2) => {
   const baseURL = withoutTrailingSlash(options.baseURL ?? defaultBaseURL)
 
   let apiKey: string | null = options.apiKey ?? null

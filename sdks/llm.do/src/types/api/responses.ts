@@ -1,4 +1,4 @@
-import type { ParsedModelIdentifier } from '@/pkgs/language-models/src'
+import type { ParsedModelIdentifier } from 'language-models'
 import { messageResponseRoles } from '../../constants'
 
 /**

@@ -1,0 +1,25 @@
+{
+  "extends": "../../pkgs/tsconfig/src/sdk.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "incremental": true,
+    "composite": true,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "paths": {
+      "language-models": ["../../pkgs/language-models/src/index.ts"]
+    },
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}
